@@ -25,33 +25,10 @@ const Signup = () => {
     gapi.load("client:auth2", start);
   });
 
-  // const toggleForm = () => {
-  //   setShowLogin(!showLogin);
-  //   const formWrapper = document.querySelector(".card-3d-wrap");
-  //   if (!showLogin) {
-  //     console.log("llllllllllllllllll");
-  //     // formWrapper.classList.remove("slide-out");
-  //     // formWrapper.classList.add("slide-in");
-  //     // formWrapper.classList.add("slide-out");
-  //     // setTimeout(formWrapper.classList.remove("slide-in"), 1000);
-  //     formWrapper.classList.remove("slide-in");
-  //     formWrapper.classList.add("slide-out");
-  //     setTimeout(formWrapper.classList.remove("slide-out"), 1000);
-  //     formWrapper.classList.add("slide-in");
-  //   } else {
-  //     console.log("oooooooooooooooooooooo");
-  //     formWrapper.classList.remove("slide-out");
-  //     formWrapper.classList.add("slide-in");
-  //     setTimeout(formWrapper.classList.remove("slide-in"), 1000);
-  //     formWrapper.classList.add("slide-out");
-  //   }
-  // };
-  
-
   const toggleForm = () => {
 
     const currentTime = Date.now();
-    if (currentTime - lastToggleFormTime < 700) return; // اگر 1000 میلی ثانیه از زمان اجرای قبلی گذشته بود، اجرا نکن
+    if (currentTime - lastToggleFormTime < 700) return; 
     lastToggleFormTime = currentTime;
 
     setShowLogin(!showLogin);
