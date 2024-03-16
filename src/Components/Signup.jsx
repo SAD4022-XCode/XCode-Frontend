@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Signup.css";
 import GoogleLogin from "./Login-Register/google";
 import { gapi } from "gapi-script";
+import 'animate.css';
 const clientID ="191069690020-bfq8g99fjkeskb60o0rqjri7cecm6r9l.apps.googleusercontent.com";
 
 let lastToggleFormTime = 0;
@@ -33,18 +34,18 @@ const Signup = () => {
 
     setShowLogin(!showLogin);
     const formWrapper = document.querySelector(".card-3d-wrap");
-    if (formWrapper.classList.contains("slide-out")) {
-      formWrapper.classList.remove("slide-in");
-      formWrapper.classList.add("slide-out");
+    if (formWrapper.classList.contains("animate__animated", "animate__fadeInDown", "animate__faster")) {
+      formWrapper.classList.remove("animate__animated", "animate__fadeInUp", "animate__faster");
+      formWrapper.classList.add("animate__animated", "animate__fadeInDown", "animate__faster");
       setTimeout(() => {
-        formWrapper.classList.remove("slide-out");
-      }, 650);
+        formWrapper.classList.remove("animate__animated", "animate__fadeInDown", "animate__faster");
+      }, 600);
     } else {
-      formWrapper.classList.remove("slide-out");
-      formWrapper.classList.add("slide-in");
+      formWrapper.classList.remove("animate__animated", "animate__fadeInDown", "animate__faster");
+      formWrapper.classList.add("animate__animated", "animate__fadeInUp", "animate__faster");
       setTimeout(() => {
-        formWrapper.classList.remove("slide-in");
-      }, 650);
+        formWrapper.classList.remove("animate__animated", "animate__fadeInUp", "animate__faster");
+      }, 600);
     }
   };
   
