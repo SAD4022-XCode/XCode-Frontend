@@ -8,7 +8,7 @@ function Login(){
     }
 
     const onFailure = (res) =>{
-        console.log("Login Failed! res: ",res);
+        // console.log("Login Failed! res: ",res);
     }
 
     return (
