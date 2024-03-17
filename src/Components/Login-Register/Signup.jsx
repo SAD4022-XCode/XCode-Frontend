@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import "./Signup.css";
 import GoogleLogin from "./google";
 import { gapi } from "gapi-script";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import 'animate.css';
 // import Validation from "./validation";
 
@@ -175,7 +177,8 @@ const Signup = () => {
         setEnteredLoginEmail("");
         setEnteredLoginPassword("");
         //send data to back-end
-        //show snack bar
+        setLoginEmailValidation(false);
+        toast.success("!با موفقیت وارد شدید");
       }
  
     } else {
@@ -192,7 +195,8 @@ const Signup = () => {
         setEnteredName("");
         setEnteredBirthDate("");
         //send data to back-end
-        //show snack bar
+        setRegisterEmailValidation(false);
+        toast.success("!با موفقیت عضو شدید");
       }
       
     }
@@ -390,13 +394,13 @@ const Signup = () => {
 
 
 
-
   const birthDateHandler = (event) => {
     setEnteredBirthDate(event.target.value);
   };
 
   return (
     <form className="signin" onSubmit={submitHandler}>
+       <ToastContainer className="toastify-container"position="top-right" />
       <div className="section">
         <div className="container">
           <div className="row full-height justify-content-center">
