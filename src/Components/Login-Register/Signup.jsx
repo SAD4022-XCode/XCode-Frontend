@@ -8,11 +8,13 @@ import 'animate.css';
 const clientID ="191069690020-bfq8g99fjkeskb60o0rqjri7cecm6r9l.apps.googleusercontent.com";
 
 let lastToggleFormTime = 0;
+
 const Signup = () => {
   
   //form input variables
   const [enteredLoginEmail, setEnteredLoginEmail] = useState("");
   const [enteredRegisterEmail, setEnteredRegisterEmail] = useState("");
+  const [enteredRecoveryEmail,setEnteredRecoveryEmail] = useState("");
   const [enteredLoginPassword, setEnteredLoginPassword] = useState("");
   const [enteredRegisterPassword, setEnteredRegisterPassword] = useState("");
   const [enteredRegisterPassword2, setEnteredRegisterPassword2] = useState("");
@@ -31,6 +33,7 @@ const Signup = () => {
   const [showViolations, setShowViolation] = useState(false);
   const [loginEmailValidation, setLoginEmailValidation] = useState(false);
   const [registerEmailValidation, setRegisterEmailValidation] = useState(false);
+  const [recoveryEmailValidation,setRecoveryEmailValidation] = useState(false);
   const [loginPasswordValidation, setLoginPasswordValidation] = useState(false);
   const [loginPasswordValidationMsg, setLoginPasswordValidationMsg] = useState(false);
 
@@ -41,6 +44,7 @@ const Signup = () => {
   const [nameValidation,setNameValidation] = useState(false)
     
   const [rememberPassword, setRememberPassword] = useState(true);
+  const [switchPages, setSwitchPages] = useState(false);
 
   useEffect(() => {
     function start() {
@@ -82,12 +86,14 @@ const Signup = () => {
     setShowLogin(!showLogin);
     const formWrapper = document.querySelector(".card-3d-wrap");
     if (formWrapper.classList.contains("animate__animated", "animate__fadeInDown", "animate__faster")) {
+      console.log("loooooooooooooooooooooooooooog")
       formWrapper.classList.remove("animate__animated", "animate__fadeInUp", "animate__faster");
       formWrapper.classList.add("animate__animated", "animate__fadeInDown", "animate__faster");
       setTimeout(() => {
         formWrapper.classList.remove("animate__animated", "animate__fadeInDown", "animate__faster");
       }, 600);
     } else {
+      console.log("registeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeer")
       formWrapper.classList.remove("animate__animated", "animate__fadeInDown", "animate__faster");
       formWrapper.classList.add("animate__animated", "animate__fadeInUp", "animate__faster");
       setTimeout(() => {
@@ -97,27 +103,57 @@ const Signup = () => {
   };
   
   const toggleRememberPassword = () => {
-    
-    setRememberPassword(!rememberPassword);
-
-    const currentTime = Date.now();
-    if (currentTime - lastToggleFormTime < 700) return; 
-    lastToggleFormTime = currentTime;
-
-    const formWrapper = document.querySelector(".card-3d-wrap");
-    if (formWrapper.classList.contains("animate__animated", "animate__fadeInDown", "animate__faster")) {
-      formWrapper.classList.remove("animate__animated", "animate__fadeInUp", "animate__faster");
-      formWrapper.classList.add("animate__animated", "animate__fadeInDown", "animate__faster");
-      setTimeout(() => {
-        formWrapper.classList.remove("animate__animated", "animate__fadeInDown", "animate__faster");
-      }, 600);
-    } else {
-      formWrapper.classList.remove("animate__animated", "animate__fadeInDown", "animate__faster");
-      formWrapper.classList.add("animate__animated", "animate__fadeInUp", "animate__faster");
-      setTimeout(() => {
+    if(switchPages===false){
+      setSwitchPages(true);
+      const currentTime = Date.now();
+      if (currentTime - lastToggleFormTime < 700) return; 
+      lastToggleFormTime = currentTime;
+      setRememberPassword(!rememberPassword);
+      setAutoHeight(330);
+      const formWrapper = document.querySelector(".card-3d-wrap");
+      if (formWrapper.classList.contains("animate__animated", "animate__fadeInDown", "animate__faster")) {
         formWrapper.classList.remove("animate__animated", "animate__fadeInUp", "animate__faster");
-      }, 600);
+        formWrapper.classList.add("animate__animated", "animate__fadeInDown", "animate__faster");
+        setTimeout(() => {
+          formWrapper.classList.remove("animate__animated", "animate__fadeInDown", "animate__faster");
+        }, 600);
+      } else {
+        formWrapper.classList.remove("animate__animated", "animate__fadeInDown", "animate__faster");
+        formWrapper.classList.add("animate__animated", "animate__fadeInUp", "animate__faster");
+        setTimeout(() => {
+          formWrapper.classList.remove("animate__animated", "animate__fadeInUp", "animate__faster");
+        }, 600);
+      }
     }
+    else{
+      setShowViolation(true);
+      if(recoveryEmailValidation===true){
+        //send recovery email from here
+
+        setShowViolation(false);
+        setRememberPassword(!rememberPassword);
+        setAutoHeight(400);
+        setSwitchPages(false);
+        const currentTime = Date.now();
+        if (currentTime - lastToggleFormTime < 700) return; 
+        lastToggleFormTime = currentTime;
+
+        const formWrapper = document.querySelector(".card-3d-wrap");
+        if (formWrapper.classList.contains("animate__animated", "animate__fadeInDown", "animate__faster")) {
+          formWrapper.classList.remove("animate__animated", "animate__fadeInUp", "animate__faster");
+          formWrapper.classList.add("animate__animated", "animate__fadeInDown", "animate__faster");
+          setTimeout(() => {
+            formWrapper.classList.remove("animate__animated", "animate__fadeInDown", "animate__faster");
+          }, 600);
+        } else {
+          formWrapper.classList.remove("animate__animated", "animate__fadeInDown", "animate__faster");
+          formWrapper.classList.add("animate__animated", "animate__fadeInUp", "animate__faster");
+          setTimeout(() => {
+            formWrapper.classList.remove("animate__animated", "animate__fadeInUp", "animate__faster");
+          }, 600);
+        }
+      }
+    } 
   };
 
 
@@ -333,6 +369,28 @@ const Signup = () => {
     }
   };
 
+
+  const recoveryEmailHandler = (event) => {
+    setViolationNumber(0);
+    setShowViolation(false)
+    setEnteredRecoveryEmail(event.target.value);
+    if (!String(event.target.value)
+    .toLowerCase()
+    .match(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    )){
+      setRecoveryEmailValidation(false);
+      
+    }
+    else{
+      setRecoveryEmailValidation(true);
+    }
+
+  };
+
+
+
+
   const birthDateHandler = (event) => {
     setEnteredBirthDate(event.target.value);
   };
@@ -350,7 +408,7 @@ const Signup = () => {
                       <div className="center-wrap">
                         <div className="section text-center">
                           <h4 className="mb-4 pb-3">ورود کاربران</h4>
-                          <div className="form-group">
+                          <div className="form-group mt-2">
                             <input
                               type="email"
                               className="form-style"
@@ -407,28 +465,19 @@ const Signup = () => {
                       <div className="center-wrap">
                         <div className="section text-center">
                           <h4 className="mb-4 pb-3">بازیابی رمز عبور</h4>
-                          <div className="form-group">
+                        
+                          <div className="form-group mt-2">
                             <input
-                              type="email"
-                              className="form-style "
-                              placeholder="نام کاربری"
-                              value={enteredLoginEmail}
-                              onChange={loginEmailHandler}
-                            />
-                            <i className="input-icon uil uil-at"></i>
-                          </div>
-
-                          <div className="form-group">
-                            <input
-                              type="email"
-                              className="form-style  mt-2"
+                              type="text"
+                              className="form-style"
                               placeholder="ایمیل"
-                              value={enteredLoginEmail}
-                              onChange={loginEmailHandler}
+                              value={enteredRecoveryEmail}
+                              onChange={recoveryEmailHandler}
                             />
                             <i className="input-icon uil uil-at"></i>
                           </div>
-
+                          {!recoveryEmailValidation && showViolations &&(<p className="mb-0 mt-2 validationMsg">فرمت ایمیل نادرست است</p>)}
+                          <br></br>
                           <button
                             type="submit"
                             className="btn mt-2"
@@ -436,12 +485,10 @@ const Signup = () => {
                           >
                             ارسال ایمیل بازیابی
                           </button>
-                          <div class="container">
-                          </div>
                         </div>
                       </div>
                     </div>
-                  )}   
+                  )}  
 
 
 
