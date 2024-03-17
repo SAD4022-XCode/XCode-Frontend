@@ -171,6 +171,9 @@ h4 {
   background-color: #000000 !important;
   color: #4285F4 !important;
 }
+:root{
+  --toastify-font-family: "iransansweb" !important;
+}
 @media screen and (max-width:450px){
   .link {
     color: #ffeba7;
