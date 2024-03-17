@@ -110,6 +110,7 @@ const Signup = () => {
       if (currentTime - lastToggleFormTime < 700) return; 
       lastToggleFormTime = currentTime;
       setRememberPassword(!rememberPassword);
+      setRecoveryEmailValidation(true);
       setAutoHeight(330);
       const formWrapper = document.querySelector(".card-3d-wrap");
       if (formWrapper.classList.contains("animate__animated", "animate__fadeInDown", "animate__faster")) {
@@ -127,7 +128,7 @@ const Signup = () => {
       }
     }
     else{
-      setShowViolation(true);
+      
       if(recoveryEmailValidation===true){
         //send recovery email from here
 
@@ -153,6 +154,8 @@ const Signup = () => {
             formWrapper.classList.remove("animate__animated", "animate__fadeInUp", "animate__faster");
           }, 600);
         }
+      }else{
+        setShowViolation(true);
       }
     } 
   };
@@ -204,6 +207,7 @@ const Signup = () => {
         setEnteredLoginPassword("");
         //send data to back-end
         setLoginEmailValidation(false);
+        setShowViolation(false);
         toast.success("!با موفقیت وارد شدید");
       }
  
@@ -223,6 +227,7 @@ const Signup = () => {
         setEnteredBirthDate("");
         //send data to back-end
         setRegisterEmailValidation(false);
+        setShowViolation(false);
         toast.success("!با موفقیت عضو شدید");
       }
       
@@ -406,6 +411,7 @@ const Signup = () => {
                           <h4 className="mb-4 pb-3">ورود کاربران</h4>
                           <div className="form-group mt-2">
                             <input
+                              dir="rtl"
                               type="email"
                               className="form-style"
                               placeholder="ایمیل"
@@ -418,6 +424,7 @@ const Signup = () => {
                           <div className="form-group mt-2">
                             <i class={showLoginPassword ? "bi bi-eye":"bi bi-eye-slash"} onClick={toggleLoginPasswordVisibility} style={{ fontSize: "20px", position: "absolute", top: "40%", transform: "translateY(-50%)", paddingLeft: "10px"  }}></i>
                             <input
+                              dir="rtl"
                               type={showLoginPassword ? "text":"password"}
                               className="form-style"
                               placeholder="رمز عبور"
@@ -464,6 +471,7 @@ const Signup = () => {
                         
                           <div className="form-group mt-2">
                             <input
+                              dir="rtl"
                               type="text"
                               className="form-style"
                               placeholder="ایمیل"
@@ -495,6 +503,7 @@ const Signup = () => {
                           <h4 className="mb-3 pb-3">عضویت در ایونتیفای</h4>
                           <div className="form-group">
                             <input
+                              dir="rtl"
                               type="text"
                               className="form-style"
                               placeholder="نام و نام خانوادگی"
@@ -506,6 +515,7 @@ const Signup = () => {
                           {!nameValidation && showViolations &&(<p className="mb-0 mt-2 validationMsg">نام و نام خانوادگی باید بین 5 تا 30 کاراکتر باشد</p>)}
                           <div className="form-group mt-2">
                             <input
+                              dir="rtl"
                               type="email"
                               className="form-style"
                               placeholder="ایمیل"
@@ -518,6 +528,7 @@ const Signup = () => {
                           <div className="form-group mt-2">
                             <i class={showRegisterPassword ? "bi bi-eye":"bi bi-eye-slash"} onClick={toggleRegisterPasswordVisibility} style={{ fontSize: "20px", position: "absolute", top: "40%", transform: "translateY(-50%)", paddingLeft: "10px"  }}></i>
                             <input
+                              dir="rtl"
                               type={showRegisterPassword ? "text":"password"}
                               className="form-style"
                               placeholder="رمز عبور"
@@ -530,6 +541,7 @@ const Signup = () => {
                           <div className="form-group mt-2">
                           <i class={showRegisterPassword2 ? "bi bi-eye":"bi bi-eye-slash"} onClick={toggleRegisterPasswordVisibility2} style={{ fontSize: "20px", position: "absolute", top: "40%", transform: "translateY(-50%)", paddingLeft: "10px"  }}></i>
                             <input
+                              dir="rtl"
                               type={showRegisterPassword2 ? "text":"password"}
                               className="form-style"
                               placeholder="تایید رمز عبور"
@@ -541,6 +553,7 @@ const Signup = () => {
                           {!registerPasswordValidation2 && showViolations &&(<p className="mb-0 mt-2 validationMsg">{registerPasswordValidationMsg2}</p>)}
                           <div className="form-group mt-2">
                             <input
+                              dir="rtl"
                               type="text"
                               className="form-style"
                               placeholder="تاریخ تولد"
