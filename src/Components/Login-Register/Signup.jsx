@@ -12,9 +12,12 @@ const Signup = () => {
   const [enteredRegisterEmail, setEnteredRegisterEmail] = useState("");
   const [enteredLoginPassword, setEnteredLoginPassword] = useState("");
   const [enteredRegisterPassword, setEnteredRegisterPassword] = useState("");
+  const [enteredRegisterPassword2, setEnteredRegisterPassword2] = useState("");
   const [enteredName, setEnteredName] = useState("");
   const [enteredBirthDate, setEnteredBirthDate] = useState("");
   const [showLogin, setShowLogin] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword2, setShowPassword2] = useState(false);
 
   useEffect(() => {
     function start() {
@@ -25,8 +28,19 @@ const Signup = () => {
     }
     gapi.load("client:auth2", start);
   });
+  
+  
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+  const togglePasswordVisibility2 = () => {
+    setShowPassword2(!showPassword2);
+  };
   const toggleForm = () => {
+    
+    setShowPassword(false);
+    setShowPassword2(false);
 
     const currentTime = Date.now();
     if (currentTime - lastToggleFormTime < 700) return; 
@@ -69,6 +83,7 @@ const Signup = () => {
       };
       setEnteredRegisterEmail("");
       setEnteredRegisterPassword("");
+      setEnteredRegisterPassword2("");
       setEnteredName("");
       setEnteredBirthDate("");
     }
@@ -85,6 +100,9 @@ const Signup = () => {
   };
   const registerPasswordHandler = (event) => {
     setEnteredRegisterPassword(event.target.value);
+  };
+  const registerPasswordHandler2 = (event) => {
+    setEnteredRegisterPassword2(event.target.value);
   };
   const nameHandler = (event) => {
     setEnteredName(event.target.value);
@@ -117,14 +135,15 @@ const Signup = () => {
                             <i className="input-icon uil uil-at"></i>
                           </div>
                           <div className="form-group mt-2">
+                            <i class={showPassword ? "bi bi-eye":"bi bi-eye-slash"} onClick={togglePasswordVisibility} style={{ fontSize: "20px", position: "absolute", top: "40%", transform: "translateY(-50%)", paddingLeft: "10px"  }}></i>
                             <input
-                              type="password"
+                              type={showPassword ? "text":"password"}
                               className="form-style"
                               placeholder="رمز عبور"
                               value={enteredLoginPassword}
-                              onChange={loginPasswordHandler}
+                              onChange={loginPasswordHandler} 
                             />
-                            <i className="input-icon uil uil-lock-alt"></i>
+                            <i className="input-icon uil uil-lock-alt" ></i>
                           </div>
                           <p className="mb-0 mt-2">
                             <a className="link" href="">بازیابی رمز عبور</a>
@@ -180,12 +199,24 @@ const Signup = () => {
                             <i className="input-icon uil uil-at"></i>
                           </div>
                           <div className="form-group mt-2">
+                            <i class={showPassword ? "bi bi-eye":"bi bi-eye-slash"} onClick={togglePasswordVisibility} style={{ fontSize: "20px", position: "absolute", top: "40%", transform: "translateY(-50%)", paddingLeft: "10px"  }}></i>
                             <input
-                              type="password"
+                              type={showPassword ? "text":"password"}
                               className="form-style"
-                              placeholder="رمز عبور انتخابی شما"
+                              placeholder="رمز عبور"
                               value={enteredRegisterPassword}
                               onChange={registerPasswordHandler}
+                            />
+                            <i className="input-icon uil uil-lock-alt"></i>
+                          </div>
+                          <div className="form-group mt-2">
+                          <i class={showPassword2 ? "bi bi-eye":"bi bi-eye-slash"} onClick={togglePasswordVisibility2} style={{ fontSize: "20px", position: "absolute", top: "40%", transform: "translateY(-50%)", paddingLeft: "10px"  }}></i>
+                            <input
+                              type={showPassword2 ? "text":"password"}
+                              className="form-style"
+                              placeholder="تایید رمز عبور"
+                              value={enteredRegisterPassword2}
+                              onChange={registerPasswordHandler2}
                             />
                             <i className="input-icon uil uil-lock-alt"></i>
                           </div>
