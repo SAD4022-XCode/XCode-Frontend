@@ -39,7 +39,9 @@ const Signup = () => {
   const [registerPasswordValidation2, setRegisterPasswordValidation2] = useState(false);
   const [registerPasswordValidationMsg2, setRegisterPasswordValidationMsg2] = useState(false);
   const [nameValidation,setNameValidation] = useState(false)
-  
+    
+  const [rememberPassword, setRememberPassword] = useState(true);
+
   useEffect(() => {
     function start() {
       gapi.client.init({
@@ -51,6 +53,7 @@ const Signup = () => {
   });
   
 
+  //change visibility of password
   const toggleLoginPasswordVisibility = () => {
     setShowLoginPassword(!showLoginPassword);
   };
@@ -60,14 +63,14 @@ const Signup = () => {
   const toggleRegisterPasswordVisibility2 = () => {
     setShowRegisterPassword2(!showRegisterPassword2);
   };
+
+  //switch between login & register
   const toggleForm = () => {
     setShowViolation(false)
     
-
     setShowLoginPassword(false);
     setShowRegisterPassword(false);
     setShowRegisterPassword2(false);
-
 
     const currentTime = Date.now();
     if (currentTime - lastToggleFormTime < 700) return; 
@@ -77,17 +80,14 @@ const Signup = () => {
     showLogin === true ? setAutoHeight(500) : setAutoHeight(430);
 
     setShowLogin(!showLogin);
-
     const formWrapper = document.querySelector(".card-3d-wrap");
     if (formWrapper.classList.contains("animate__animated", "animate__fadeInDown", "animate__faster")) {
-      
       formWrapper.classList.remove("animate__animated", "animate__fadeInUp", "animate__faster");
       formWrapper.classList.add("animate__animated", "animate__fadeInDown", "animate__faster");
       setTimeout(() => {
         formWrapper.classList.remove("animate__animated", "animate__fadeInDown", "animate__faster");
       }, 600);
     } else {
-      
       formWrapper.classList.remove("animate__animated", "animate__fadeInDown", "animate__faster");
       formWrapper.classList.add("animate__animated", "animate__fadeInUp", "animate__faster");
       setTimeout(() => {
@@ -96,9 +96,36 @@ const Signup = () => {
     }
   };
   
+  const toggleRememberPassword = () => {
+    
+    setRememberPassword(!rememberPassword);
+
+    const currentTime = Date.now();
+    if (currentTime - lastToggleFormTime < 700) return; 
+    lastToggleFormTime = currentTime;
+
+    const formWrapper = document.querySelector(".card-3d-wrap");
+    if (formWrapper.classList.contains("animate__animated", "animate__fadeInDown", "animate__faster")) {
+      formWrapper.classList.remove("animate__animated", "animate__fadeInUp", "animate__faster");
+      formWrapper.classList.add("animate__animated", "animate__fadeInDown", "animate__faster");
+      setTimeout(() => {
+        formWrapper.classList.remove("animate__animated", "animate__fadeInDown", "animate__faster");
+      }, 600);
+    } else {
+      formWrapper.classList.remove("animate__animated", "animate__fadeInDown", "animate__faster");
+      formWrapper.classList.add("animate__animated", "animate__fadeInUp", "animate__faster");
+      setTimeout(() => {
+        formWrapper.classList.remove("animate__animated", "animate__fadeInUp", "animate__faster");
+      }, 600);
+    }
+  };
+
 
   const submitHandler = (event, action) => {
-    setAutoHeight(autoHeight+violationNumber*7);
+    if(showViolations===false){
+      setAutoHeight(autoHeight+violationNumber*7);
+    }
+    
     setShowViolation(true)
     event.preventDefault();
     let userData = "";
@@ -318,7 +345,7 @@ const Signup = () => {
             <div className="col-12 text-center align-self-center py-5">
               <div className="section pb-5 pt-5 pt-sm-2 text-center">
                 <div className="card-3d-wrap mx-auto " style={{height: autoHeight.toString()+"px"}}>
-                  {showLogin && (
+                  {showLogin && rememberPassword && (
                     <div className="card-front ">
                       <div className="center-wrap">
                         <div className="section text-center">
@@ -347,7 +374,7 @@ const Signup = () => {
                           </div>
                           {!loginPasswordValidation && showViolations &&(<p className="mb-0 mt-2 validationMsg">{loginPasswordValidationMsg}</p>)}
                           <p className="mb-0 mt-2">
-                            <a className="link" href="">بازیابی رمز عبور</a>
+                            <a className="link" href="#" onClick={toggleRememberPassword}>بازیابی رمز عبور</a>
                           </p>
                           <button
                             type="submit"
@@ -375,7 +402,46 @@ const Signup = () => {
                     </div>
                   )}
 
+                   {showLogin && !rememberPassword && (
+                    <div className="card-front ">
+                      <div className="center-wrap">
+                        <div className="section text-center">
+                          <h4 className="mb-4 pb-3">بازیابی رمز عبور</h4>
+                          <div className="form-group">
+                            <input
+                              type="email"
+                              className="form-style "
+                              placeholder="نام کاربری"
+                              value={enteredLoginEmail}
+                              onChange={loginEmailHandler}
+                            />
+                            <i className="input-icon uil uil-at"></i>
+                          </div>
 
+                          <div className="form-group">
+                            <input
+                              type="email"
+                              className="form-style  mt-2"
+                              placeholder="ایمیل"
+                              value={enteredLoginEmail}
+                              onChange={loginEmailHandler}
+                            />
+                            <i className="input-icon uil uil-at"></i>
+                          </div>
+
+                          <button
+                            type="submit"
+                            className="btn mt-2"
+                            onClick={toggleRememberPassword}
+                          >
+                            ارسال ایمیل بازیابی
+                          </button>
+                          <div class="container">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}   
 
 
 
