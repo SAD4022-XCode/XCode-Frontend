@@ -18,6 +18,7 @@ const Signup = () => {
   const [showLogin, setShowLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [showPassword2, setShowPassword2] = useState(false);
+  const [rememberPassword, setRememberPassword] = useState(true);
 
   useEffect(() => {
     function start() {
@@ -63,6 +64,30 @@ const Signup = () => {
     }
   };
   
+  const toggleRememberPassword = () => {
+    
+    setRememberPassword(!rememberPassword);
+
+    const currentTime = Date.now();
+    if (currentTime - lastToggleFormTime < 700) return; 
+    lastToggleFormTime = currentTime;
+
+    const formWrapper = document.querySelector(".card-3d-wrap");
+    if (formWrapper.classList.contains("animate__animated", "animate__fadeInDown", "animate__faster")) {
+      formWrapper.classList.remove("animate__animated", "animate__fadeInUp", "animate__faster");
+      formWrapper.classList.add("animate__animated", "animate__fadeInDown", "animate__faster");
+      setTimeout(() => {
+        formWrapper.classList.remove("animate__animated", "animate__fadeInDown", "animate__faster");
+      }, 600);
+    } else {
+      formWrapper.classList.remove("animate__animated", "animate__fadeInDown", "animate__faster");
+      formWrapper.classList.add("animate__animated", "animate__fadeInUp", "animate__faster");
+      setTimeout(() => {
+        formWrapper.classList.remove("animate__animated", "animate__fadeInUp", "animate__faster");
+      }, 600);
+    }
+  };
+
 
   const submitHandler = (event, action) => {
     event.preventDefault();
@@ -119,7 +144,7 @@ const Signup = () => {
             <div className="col-12 text-center align-self-center py-5">
               <div className="section pb-5 pt-5 pt-sm-2 text-center">
                 <div className="card-3d-wrap mx-auto ">
-                  {showLogin && (
+                  {showLogin && rememberPassword && (
                     <div className="card-front ">
                       <div className="center-wrap">
                         <div className="section text-center">
@@ -146,7 +171,7 @@ const Signup = () => {
                             <i className="input-icon uil uil-lock-alt" ></i>
                           </div>
                           <p className="mb-0 mt-2">
-                            <a className="link" href="">بازیابی رمز عبور</a>
+                            <a className="link" href="#" onClick={toggleRememberPassword}>بازیابی رمز عبور</a>
                           </p>
                           <button
                             type="submit"
@@ -173,6 +198,49 @@ const Signup = () => {
                       </div>
                     </div>
                   )}
+
+                   {showLogin && !rememberPassword && (
+                    <div className="card-front ">
+                      <div className="center-wrap">
+                        <div className="section text-center">
+                          <h4 className="mb-4 pb-3">بازیابی رمز عبور</h4>
+                          <div className="form-group">
+                            <input
+                              type="email"
+                              className="form-style "
+                              placeholder="نام کاربری"
+                              value={enteredLoginEmail}
+                              onChange={loginEmailHandler}
+                            />
+                            <i className="input-icon uil uil-at"></i>
+                          </div>
+
+                          <div className="form-group">
+                            <input
+                              type="email"
+                              className="form-style  mt-2"
+                              placeholder="ایمیل"
+                              value={enteredLoginEmail}
+                              onChange={loginEmailHandler}
+                            />
+                            <i className="input-icon uil uil-at"></i>
+                          </div>
+
+                          <button
+                            type="submit"
+                            className="btn mt-2"
+                            onClick={toggleRememberPassword}
+                          >
+                            ارسال ایمیل بازیابی
+                          </button>
+                          <div class="container">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}   
+
+
                   {!showLogin && (
                     <div className="card-back">
                       <div className="center-wrap">
