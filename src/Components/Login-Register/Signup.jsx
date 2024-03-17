@@ -8,7 +8,7 @@ import 'animate.css';
 const clientID ="191069690020-bfq8g99fjkeskb60o0rqjri7cecm6r9l.apps.googleusercontent.com";
 
 let lastToggleFormTime = 0;
-
+let x=0;
 const Signup = () => {
   
   //form input variables
@@ -24,7 +24,6 @@ const Signup = () => {
 
   //card height variables
   const [autoHeight,setAutoHeight] = useState(450);
-  const [violationNumber,setViolationNumber] = useState(0);
   //show password variables
   const [showLoginPassword, setShowLoginPassword] = useState(false);
   const [showRegisterPassword, setShowRegisterPassword] = useState(false);
@@ -80,8 +79,8 @@ const Signup = () => {
     if (currentTime - lastToggleFormTime < 700) return; 
     lastToggleFormTime = currentTime;
 
-    setViolationNumber(0);
-    showLogin === true ? setAutoHeight(500) : setAutoHeight(430);
+    // setViolationNumber(0);
+    showLogin === true ? setAutoHeight(500) : setAutoHeight(450);
 
     setShowLogin(!showLogin);
     const formWrapper = document.querySelector(".card-3d-wrap");
@@ -132,7 +131,7 @@ const Signup = () => {
 
         setShowViolation(false);
         setRememberPassword(!rememberPassword);
-        setAutoHeight(400);
+        setAutoHeight(450);
         setSwitchPages(false);
         const currentTime = Date.now();
         if (currentTime - lastToggleFormTime < 700) return; 
@@ -158,8 +157,33 @@ const Signup = () => {
 
 
   const submitHandler = (event, action) => {
-    if(showViolations===false){
-      setAutoHeight(autoHeight+violationNumber*7);
+    x=0;
+    if(action=="login"){
+      if(loginEmailValidation===false){
+        x++;
+      }
+      if(loginPasswordValidation===false){
+        x++;
+      }
+    }
+    else{
+      if(registerEmailValidation===false){
+        x++;
+      }
+      
+      if(registerPasswordValidation===false){
+        x++;
+      }
+      if(registerPasswordValidation2===false){
+        x++;
+      }
+      if(nameValidation===false){
+        x++;
+      }
+    }
+    
+    if(showViolations===false && x>0){
+      setAutoHeight(autoHeight+x*15);
     }
     
     setShowViolation(true)
@@ -172,6 +196,8 @@ const Signup = () => {
       };
       
       if(loginEmailValidation && loginPasswordValidation){
+
+        // setAutoHeight(autoHeight-violationNumber*7);
         setEnteredLoginEmail("");
         setEnteredLoginPassword("");
         //send data to back-end
@@ -186,6 +212,7 @@ const Signup = () => {
         birthDate: new Date(enteredBirthDate),
       };
       if(registerEmailValidation && registerPasswordValidation && registerPasswordValidation2 && nameValidation){
+        // setAutoHeight(autoHeight-violationNumber*7);
         setEnteredRegisterEmail("");
         setEnteredRegisterPassword("");
         setEnteredRegisterPassword2("");
@@ -203,9 +230,8 @@ const Signup = () => {
   //--------------------------------------------------------------------------------------------------
   const loginEmailHandler = (event) => {
     if(showViolations===true){
-      setAutoHeight(autoHeight-violationNumber*7);
+      setAutoHeight(autoHeight-15*x);
     }
-    setViolationNumber(0);
     setShowViolation(false)
     setEnteredLoginEmail(event.target.value);
     if (!String(event.target.value)
@@ -218,20 +244,13 @@ const Signup = () => {
     else{
       setLoginEmailValidation(true);
     }
-    if(loginEmailValidation===false){
-      setViolationNumber(violationNumber+1);
-    }
-    else{
-      setViolationNumber(violationNumber);
-    }
 
 
   };
   const loginPasswordHandler = (event) => {
     if(showViolations===true){
-      setAutoHeight(autoHeight-violationNumber*7);
+      setAutoHeight(autoHeight-15*x);
     }
-    setViolationNumber(0);
     setShowViolation(false)
     setEnteredLoginPassword(event.target.value);
     if(event.target.value.length<8){
@@ -247,12 +266,7 @@ const Signup = () => {
       }
       
     }
-    if(loginPasswordValidation===false){
-      setViolationNumber(violationNumber+1);
-    }
-    else{
-      setViolationNumber(violationNumber);
-    }
+
   };
 
 
@@ -260,9 +274,9 @@ const Signup = () => {
   //--------------------------------------------------------------------------------------------------
   const registerEmailHandler = (event) => {
     if(showViolations===true){
-      setAutoHeight(autoHeight-violationNumber*7);
+      setAutoHeight(autoHeight-15*x);
     }
-    setViolationNumber(0);
+    // setViolationNumber(0);
     setShowViolation(false)
     setEnteredRegisterEmail(event.target.value);
     if (!String(event.target.value)
@@ -276,20 +290,15 @@ const Signup = () => {
       setRegisterEmailValidation(true);
     }
 
-    if(registerEmailValidation===false){
-      setViolationNumber(violationNumber+1);
-    }
-    else{
-      setViolationNumber(violationNumber);
-    }
+    
 
   };
 
   const registerPasswordHandler = (event) => {
     if(showViolations===true){
-      setAutoHeight(autoHeight-violationNumber*7);
+      setAutoHeight(autoHeight-15*x);
     }
-    setViolationNumber(0);
+    // setViolationNumber(0);
     setShowViolation(false)
     setEnteredRegisterPassword(event.target.value);
     if(event.target.value.length<8){
@@ -305,18 +314,13 @@ const Signup = () => {
       }
       
     }
-    if(registerPasswordValidation===false){
-      setViolationNumber(violationNumber+1);
-    }
-    else{
-      setViolationNumber(violationNumber);
-    }
+    
   };
   const registerPasswordHandler2 = (event) => {
     if(showViolations===true){
-      setAutoHeight(autoHeight-violationNumber*7);
+      setAutoHeight(autoHeight-15*x);
     }
-    setViolationNumber(0);
+    // setViolationNumber(0);
     setShowViolation(false)
     setEnteredRegisterPassword2(event.target.value);
     if(event.target.value!==enteredRegisterPassword){
@@ -338,21 +342,15 @@ const Signup = () => {
     }
     }
 
-    if(registerPasswordValidation2===false){
-      setViolationNumber(violationNumber+1);
-    }
-    else{
-      setViolationNumber(violationNumber);
-    }
     
   };
 
 
   const nameHandler = (event) => {
     if(showViolations===true){
-      setAutoHeight(autoHeight-violationNumber*7);
+      setAutoHeight(autoHeight-15*x);
     }
-    setViolationNumber(0);
+    // setViolationNumber(0);
     setShowViolation(false)
     setEnteredName(event.target.value);
     if(event.target.value.length<5 || event.target.value.length>30){
@@ -361,17 +359,11 @@ const Signup = () => {
       setNameValidation(true);
     }
 
-    if(nameValidation===false){
-      setViolationNumber(violationNumber+1);
-    }
-    else{
-      setViolationNumber(violationNumber);
-    }
   };
 
 
   const recoveryEmailHandler = (event) => {
-    setViolationNumber(0);
+    // setViolationNumber(0);
     setShowViolation(false)
     setEnteredRecoveryEmail(event.target.value);
     if (!String(event.target.value)
