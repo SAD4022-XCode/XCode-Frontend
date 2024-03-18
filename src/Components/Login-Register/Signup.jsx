@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from "react";
 import "./Signup.css";
-import GoogleLogin from "./google";
-import { gapi } from "gapi-script";
+
 import { ToastContainer, toast } from 'react-toastify';
+import {useNavigate} from 'react-router-dom';
+
 import 'react-toastify/dist/ReactToastify.css';
 import 'animate.css';
 // import Validation from "./validation";
-
+import jwt_decode from "jwt-decode";
+import { useGoogleLogin } from '@react-oauth/google';
 const clientID ="191069690020-bfq8g99fjkeskb60o0rqjri7cecm6r9l.apps.googleusercontent.com";
 
 let lastToggleFormTime = 0;
 let x=0;
 const Signup = () => {
-  
+  const navigator=useNavigate();
+
   //form input variables
   const [enteredLoginEmail, setEnteredLoginEmail] = useState("");
   const [enteredRegisterEmail, setEnteredRegisterEmail] = useState("");
@@ -47,16 +50,23 @@ const Signup = () => {
   const [rememberPassword, setRememberPassword] = useState(true);
   const [switchPages, setSwitchPages] = useState(false);
 
-  useEffect(() => {
-    function start() {
-      gapi.client.init({
-        clientId: clientID,
-        scope: "",
-      });
-    }
-    gapi.load("client:auth2", start);
+  // useEffect(() => {
+    
+  // });
+  const login = useGoogleLogin({
+    onSuccess: tokenResponse => {
+      console.log(tokenResponse);
+      
+      toast.success("!با موفقیت وارد شدید");
+        
+      setTimeout(() => {
+        navigator('/home');
+      }, 6000);
+    },
+    select_account:false,
   });
-  
+
+
 
   //change visibility of password
   const toggleLoginPasswordVisibility = () => {
@@ -202,13 +212,18 @@ const Signup = () => {
       
       if(loginEmailValidation && loginPasswordValidation){
 
-        // setAutoHeight(autoHeight-violationNumber*7);
-        setEnteredLoginEmail("");
-        setEnteredLoginPassword("");
-        //send data to back-end
         setLoginEmailValidation(false);
         setShowViolation(false);
+        setEnteredLoginEmail("");
+        setEnteredLoginPassword("");
+
+        //send data to back-end
+        
         toast.success("!با موفقیت وارد شدید");
+        
+        setTimeout(() => {
+          navigator('/home');
+        }, 6000);
       }
  
     } else {
@@ -219,16 +234,20 @@ const Signup = () => {
         birthDate: new Date(enteredBirthDate),
       };
       if(registerEmailValidation && registerPasswordValidation && registerPasswordValidation2 && nameValidation){
-        // setAutoHeight(autoHeight-violationNumber*7);
+        setRegisterEmailValidation(false);
+        setShowViolation(false);
         setEnteredRegisterEmail("");
         setEnteredRegisterPassword("");
         setEnteredRegisterPassword2("");
         setEnteredName("");
         setEnteredBirthDate("");
+
         //send data to back-end
-        setRegisterEmailValidation(false);
-        setShowViolation(false);
+        
         toast.success("!با موفقیت عضو شدید");
+        setTimeout(() => {
+          navigator('/home');
+        }, 6000);
       }
       
     }
@@ -396,6 +415,9 @@ const Signup = () => {
   };
 
   return (
+
+    
+
     <form className="signin" onSubmit={submitHandler}>
        <ToastContainer className="toastify-container"position="top-right" />
       <div className="section">
@@ -451,17 +473,31 @@ const Signup = () => {
                                 <hr className="custom-hr"/>
                             </div>
                           </div>
-                          <GoogleLogin />
+                          <button class="google-login-button" style={{display: "flex" ,justifyContent: "center" ,alignItems: "center",marginLeft:"120px"}} onClick={() => login()}>
+                              <div class="row">
+                                  <div style={{marginBottom: "5px"}}>
+                                      <img 
+                                          src={require("../../assets/google-logo.png")}
+                                          style={{width: "25px", height: "25px",paddingTop:"1px"}}
+                                          alt="Google Logo"
+                                      />
+                                  </div>
+                                  <h6 style={{paddingLeft:"5px",paddingTop:"5px"}}>ورود با گوگل</h6>
+                              </div> 
+                          </button>
                           <p className="message">
                            حساب کاربری ندارید؟{" "}
                             <a href="#" onClick={toggleForm}>
                               همین حالا عضو شوید
                             </a>
                           </p>
+                          
                         </div>
                       </div>
                     </div>
                   )}
+
+
 
                    {showLogin && !rememberPassword && (
                     <div className="card-front ">
@@ -577,6 +613,7 @@ const Signup = () => {
                               ورود کاربران
                             </a>
                           </p>
+                          
                         </div>
                       </div>
                     </div>

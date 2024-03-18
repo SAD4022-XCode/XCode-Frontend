@@ -1,9 +1,20 @@
 import {GoogleLogin} from 'react-google-login';
+import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
+import {useNavigate} from 'react-router-dom';
 const clientID = "191069690020-bfq8g99fjkeskb60o0rqjri7cecm6r9l.apps.googleusercontent.com";
 
+
 function GoogleButton(){
+    const navigator=useNavigate();
     const onSuccess = (res) =>{
         console.log("Login Success! Current User: ",res.profileObj);
+        
+        toast.success("!با موفقیت وارد شدید");
+        
+        setTimeout(() => {
+          navigator('/home');
+        }, 6000);
     }
 
     const onFailure = (res) =>{
@@ -21,14 +32,15 @@ function GoogleButton(){
                 isSignedIn={true} 
                 className="google-login-button" 
                 icon={false}
-                // redirectUri
             >
                 <div class="container" style={{ height: '25px'}}>
                     <div class="row">
                         <div>
                           <img 
                             src={require("../../assets/google-logo.png")}
-                            style={{ width: '25px', height: '25px',marginBottom:'5px'}}/>
+                            style={{ width: '25px', height: '25px',marginBottom:'5px'}}
+                            alt="Google Logo"
+                            />
                         </div>
                         <h6 style={{ marginTop: '2px',marginInlineStart: '5px'}}>  ورود با گوگل </h6>
                     </div> 

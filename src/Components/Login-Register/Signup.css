@@ -160,11 +160,14 @@ h4 {
 }
 
 .google-login-button {
+  box-shadow: none !important;
   border-radius: 30px !important;
   color: #ffeba7 !important;
   background-color: #252020 !important;
   font-size: 20px !important;
   font-family: "iransansweb" !important;
+  width: 130px; /* تغییر عرض دکمه */
+  height: 45px !important;
 
 }
 .google-login-button:hover {
