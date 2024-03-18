@@ -128,7 +128,7 @@ const Signup = () => {
       if (currentTime - lastToggleFormTime < 700) return; 
       lastToggleFormTime = currentTime;
       setRememberPassword(!rememberPassword);
-      setRecoveryEmailValidation(true);
+      //setRecoveryEmailValidation(true);
       setAutoHeight(330);
       const formWrapper = document.querySelector(".card-3d-wrap");
       if (formWrapper.classList.contains("animate__animated", "animate__fadeInDown", "animate__faster")) {
@@ -149,11 +149,12 @@ const Signup = () => {
       
       if(recoveryEmailValidation===true){
         //send recovery email from here
-
         setShowViolation(false);
         setRememberPassword(!rememberPassword);
         setAutoHeight(450);
         setSwitchPages(false);
+        setEnteredRecoveryEmail("");
+        setRecoveryEmailValidation(false);
         const currentTime = Date.now();
         if (currentTime - lastToggleFormTime < 700) return; 
         lastToggleFormTime = currentTime;
@@ -523,6 +524,9 @@ const Signup = () => {
                             />
                             <i className="input-icon uil uil-at"></i>
                           </div>
+                          <p className="mb-0 mt-2">
+                            <a className="link cancel" href="" >بازگشت</a>
+                          </p>
                           {!recoveryEmailValidation && showViolations &&(<p className="mb-0 mt-2 validationMsg">فرمت ایمیل نادرست است</p>)}
                           <br></br>
                           <button
