@@ -153,7 +153,7 @@ const Signup = () => {
         setRememberPassword(!rememberPassword);
         setAutoHeight(450);
         setSwitchPages(false);
-        setEnteredRecoveryEmail("");
+        // setEnteredRecoveryEmail("");
         setRecoveryEmailValidation(false);
         const currentTime = Date.now();
         if (currentTime - lastToggleFormTime < 700) return; 
@@ -260,6 +260,25 @@ const Signup = () => {
     }
     console.log(userData);
   };
+
+
+  const recoveryEmailHandler = (event) => {
+    setShowViolation(false)
+    setEnteredRecoveryEmail(event.target.value);
+    if (!String(event.target.value)
+    .toLowerCase()
+    .match(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    )){
+      setRecoveryEmailValidation(false);
+      
+    }
+    else{
+      setRecoveryEmailValidation(true);
+    }
+
+  };
+
 
   //Login validation
   //--------------------------------------------------------------------------------------------------
@@ -397,26 +416,6 @@ const Signup = () => {
   };
 
 
-  const recoveryEmailHandler = (event) => {
-    // setViolationNumber(0);
-    setShowViolation(false)
-    setEnteredRecoveryEmail(event.target.value);
-    if (!String(event.target.value)
-    .toLowerCase()
-    .match(
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    )){
-      setRecoveryEmailValidation(false);
-      
-    }
-    else{
-      setRecoveryEmailValidation(true);
-    }
-
-  };
-
-
-
   // const birthDateHandler = (event) => {
   //   setEnteredBirthDate(event.target.value);
   //   console.log(event.target.value);
@@ -513,7 +512,7 @@ const Signup = () => {
                         <div className="section text-center">
                           <h4 className="mb-4 pb-3">بازیابی رمز عبور</h4>
                         
-                          <div className={`form-group mt-2 ${!recoveryEmailValidation && showViolations ? "invalid" : ""}`}>
+                          <div className="form-group mt-2">
                             <input
                               dir="rtl"
                               type="text"
@@ -524,11 +523,11 @@ const Signup = () => {
                             />
                             <i className="input-icon uil uil-at"></i>
                           </div>
+                          
+                          {!recoveryEmailValidation && showViolations &&(<p className="mb-0 mt-2 validationMsg">فرمت ایمیل نادرست است</p>)}
                           <p className="mb-0 mt-2">
                             <a className="link cancel" href="" >بازگشت</a>
                           </p>
-                          {!recoveryEmailValidation && showViolations &&(<p className="mb-0 mt-2 validationMsg">فرمت ایمیل نادرست است</p>)}
-                          <br></br>
                           <button
                             type="submit"
                             className="btn mt-2"
