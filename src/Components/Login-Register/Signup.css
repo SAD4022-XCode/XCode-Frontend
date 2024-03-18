@@ -1,11 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700,800,900');
 
-.validationMsg{
-  font-size: x-small;
-  direction: rtl;
-  text-align: start;
-  color: #dc3545;
-}
+
 
 .signin{
 	font-family:"iransansweb";
@@ -16,6 +11,19 @@
   overflow: hidden;
   height: 100vh;
   background: radial-gradient(ellipse at bottom, #1B2735 0%, #12141d 100%);
+}
+.validationMsg{
+  font-size: x-small;
+  direction: rtl;
+  text-align: start;
+  color: #FFA500;
+  font-weight: 1000;
+  font-family: "iransansweb";
+}
+.invalid{
+  border: solid;
+  border-color: #ff6200 !important;
+  border-radius: 8px;
 }
 a:hover {
 	text-decoration: none;
@@ -171,9 +179,8 @@ h4 {
   background-color: #000000 !important;
   color: #4285F4 !important;
 }
-:root{
-  --toastify-font-family: "iransansweb" !important;
-}
+
+
 @media screen and (max-width:450px){
   .link {
     color: #ffeba7;

@@ -159,8 +159,7 @@ const Signup = () => {
       }
     } 
   };
-
-
+;
   const submitHandler = (event, action) => {
     x=0;
     if(action=="login"){
@@ -190,7 +189,6 @@ const Signup = () => {
     if(showViolations===false && x>0){
       setAutoHeight(autoHeight+x*15);
     }
-    
     setShowViolation(true)
     event.preventDefault();
     let userData = "";
@@ -397,7 +395,7 @@ const Signup = () => {
 
   return (
     <form className="signin" onSubmit={submitHandler}>
-       <ToastContainer className="toastify-container"position="top-right" />
+       <ToastContainer className="toastify-container"position="top-right" toastStyle={{backgroundColor: "#2b2e38", fontFamily: "iransansweb", color: "#ffeba7"}} pauseOnHover={false} />
       <div className="section">
         <div className="container">
           <div className="row full-height justify-content-center">
@@ -409,7 +407,7 @@ const Signup = () => {
                       <div className="center-wrap">
                         <div className="section text-center">
                           <h4 className="mb-4 pb-3">ورود کاربران</h4>
-                          <div className="form-group mt-2">
+                          <div className={`form-group mt-2 ${(!loginEmailValidation && showViolations) ? "invalid" : ""}`}>
                             <input
                               dir="rtl"
                               type="email"
@@ -421,7 +419,7 @@ const Signup = () => {
                             <i className="input-icon uil uil-at"></i>
                           </div>
                           {!loginEmailValidation && showViolations &&(<p className="mb-0 mt-2 validationMsg">فرمت ایمیل نادرست است</p>)}
-                          <div className="form-group mt-2">
+                          <div className={`form-group mt-2 ${!loginPasswordValidation && showViolations ? "invalid" : ""}`}>
                             <i class={showLoginPassword ? "bi bi-eye":"bi bi-eye-slash"} onClick={toggleLoginPasswordVisibility} style={{ fontSize: "20px", position: "absolute", top: "40%", transform: "translateY(-50%)", paddingLeft: "10px"  }}></i>
                             <input
                               dir="rtl"
@@ -469,7 +467,7 @@ const Signup = () => {
                         <div className="section text-center">
                           <h4 className="mb-4 pb-3">بازیابی رمز عبور</h4>
                         
-                          <div className="form-group mt-2">
+                          <div className={`form-group mt-2 ${!recoveryEmailValidation && showViolations ? "invalid" : ""}`}>
                             <input
                               dir="rtl"
                               type="text"
@@ -501,7 +499,7 @@ const Signup = () => {
                       <div className="center-wrap">
                         <div className="section text-center">
                           <h4 className="mb-3 pb-3">عضویت در ایونتیفای</h4>
-                          <div className="form-group">
+                          <div className={`form-group ${!nameValidation && showViolations ? "invalid" : ""}`}>
                             <input
                               dir="rtl"
                               type="text"
@@ -513,7 +511,7 @@ const Signup = () => {
                             <i className="input-icon uil uil-user"></i>
                           </div>
                           {!nameValidation && showViolations &&(<p className="mb-0 mt-2 validationMsg">نام و نام خانوادگی باید بین 5 تا 30 کاراکتر باشد</p>)}
-                          <div className="form-group mt-2">
+                          <div className={`form-group mt-2 ${!registerEmailValidation && showViolations ? "invalid" : ""}`}>
                             <input
                               dir="rtl"
                               type="email"
@@ -525,7 +523,7 @@ const Signup = () => {
                             <i className="input-icon uil uil-at"></i>
                           </div>
                           {!registerEmailValidation && showViolations &&(<p className="mb-0 mt-2 validationMsg">فرمت ایمیل نادرست است</p>)}
-                          <div className="form-group mt-2">
+                          <div className={`form-group mt-2 ${!registerPasswordValidation && showViolations ? "invalid" : ""}`}>
                             <i class={showRegisterPassword ? "bi bi-eye":"bi bi-eye-slash"} onClick={toggleRegisterPasswordVisibility} style={{ fontSize: "20px", position: "absolute", top: "40%", transform: "translateY(-50%)", paddingLeft: "10px"  }}></i>
                             <input
                               dir="rtl"
@@ -538,7 +536,7 @@ const Signup = () => {
                             <i className="input-icon uil uil-lock-alt"></i>
                           </div>
                           {!registerPasswordValidation && showViolations &&(<p className="mb-0 mt-2 validationMsg">{registerPasswordValidationMsg}</p>)}
-                          <div className="form-group mt-2">
+                          <div className={`form-group mt-2 ${!registerPasswordValidation2 && showViolations ? "invalid" : ""}`}>
                           <i class={showRegisterPassword2 ? "bi bi-eye":"bi bi-eye-slash"} onClick={toggleRegisterPasswordVisibility2} style={{ fontSize: "20px", position: "absolute", top: "40%", transform: "translateY(-50%)", paddingLeft: "10px"  }}></i>
                             <input
                               dir="rtl"
