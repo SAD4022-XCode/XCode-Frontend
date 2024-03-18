@@ -17,6 +17,8 @@ const Signup = () => {
   const navigator=useNavigate();
 
   //form input variables
+  const [enteredLoginUserName, setEnteredLoginUserName] = useState("");
+  const [enteredRegisterUserName, setEnteredRegisterUserName] = useState("");
   const [enteredLoginEmail, setEnteredLoginEmail] = useState("");
   const [enteredRegisterEmail, setEnteredRegisterEmail] = useState("");
   const [enteredRecoveryEmail,setEnteredRecoveryEmail] = useState("");
@@ -35,6 +37,8 @@ const Signup = () => {
   const [showRegisterPassword2, setShowRegisterPassword2] = useState(false);
   //validation variables
   const [showViolations, setShowViolation] = useState(false);
+  const [loginUserNameValidation, setLoginUserNameValidation] = useState(false);
+  const [registerUserNameValidation, setRegisterUserNameValidation] = useState(false);
   const [loginEmailValidation, setLoginEmailValidation] = useState(false);
   const [registerEmailValidation, setRegisterEmailValidation] = useState(false);
   const [recoveryEmailValidation,setRecoveryEmailValidation] = useState(false);
@@ -66,7 +70,7 @@ const Signup = () => {
           console.log("hello world!");  
           setTimeout(() => {
             navigator('/home');
-          }, 6000);
+          }, 4000);
         }catch(err){
           console.log(err);
         }
@@ -100,7 +104,7 @@ const Signup = () => {
     lastToggleFormTime = currentTime;
 
     // setViolationNumber(0);
-    showLogin === true ? setAutoHeight(480) : setAutoHeight(450);
+    showLogin === true ? setAutoHeight(510) : setAutoHeight(450);
 
     setShowLogin(!showLogin);
     const formWrapper = document.querySelector(".card-3d-wrap");
@@ -155,6 +159,7 @@ const Signup = () => {
         setSwitchPages(false);
         // setEnteredRecoveryEmail("");
         setRecoveryEmailValidation(false);
+        toast.success("!رمز عبور با موفقیت ارسال شد");
         const currentTime = Date.now();
         if (currentTime - lastToggleFormTime < 700) return; 
         lastToggleFormTime = currentTime;
@@ -182,7 +187,7 @@ const Signup = () => {
   const submitHandler = (event, action) => {
     x=0;
     if(action=="login"){
-      if(loginEmailValidation===false){
+      if(loginUserNameValidation===false){
         x++;
       }
       if(loginPasswordValidation===false){
@@ -190,6 +195,9 @@ const Signup = () => {
       }
     }
     else{
+      if(registerUserNameValidation===false){
+        x++;
+      }
       if(registerEmailValidation===false){
         x++;
       }
@@ -213,15 +221,14 @@ const Signup = () => {
     let userData = "";
     if (action === "login") {
       userData = {
-        email: enteredLoginEmail,
+        username: enteredLoginUserName,
         password: enteredLoginPassword,
       };
       
-      if(loginEmailValidation && loginPasswordValidation){
+      if(loginUserNameValidation && loginPasswordValidation){
 
-        setLoginEmailValidation(false);
         setShowViolation(false);
-        setEnteredLoginEmail("");
+        setEnteredLoginUserName("");
         setEnteredLoginPassword("");
 
         //send data to back-end
@@ -230,31 +237,33 @@ const Signup = () => {
         
         setTimeout(() => {
           navigator('/home');
-        }, 6000);
+        }, 4000);
       }
  
     } else {
       userData = {
+        username:enteredRegisterUserName,
         name: enteredName,
         email: enteredRegisterEmail,
         password: enteredRegisterPassword,
         // birthDate: new Date(enteredBirthDate),
       };
-      if(registerEmailValidation && registerPasswordValidation && registerPasswordValidation2 && nameValidation){
+      if(registerUserNameValidation && registerEmailValidation && registerPasswordValidation && registerPasswordValidation2 && nameValidation){
         setRegisterEmailValidation(false);
         setShowViolation(false);
+        setEnteredRegisterUserName("");
         setEnteredRegisterEmail("");
         setEnteredRegisterPassword("");
         setEnteredRegisterPassword2("");
         setEnteredName("");
-        setEnteredBirthDate("");
+        // setEnteredBirthDate("");
 
         //send data to back-end
         
         toast.success("!با موفقیت عضو شدید");
         setTimeout(() => {
           navigator('/home');
-        }, 6000);
+        }, 4000);
       }
       
     }
@@ -262,26 +271,23 @@ const Signup = () => {
   };
 
 
-  const recoveryEmailHandler = (event) => {
-    setShowViolation(false)
-    setEnteredRecoveryEmail(event.target.value);
-    if (!String(event.target.value)
-    .toLowerCase()
-    .match(
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    )){
-      setRecoveryEmailValidation(false);
-      
-    }
-    else{
-      setRecoveryEmailValidation(true);
-    }
-
-  };
-
-
   //Login validation
   //--------------------------------------------------------------------------------------------------
+  const loginUserNameHandler = (event) => {
+    if(showViolations===true){
+      setAutoHeight(autoHeight-20*x);
+    }
+    setShowViolation(false)
+    setEnteredLoginUserName(event.target.value);
+    if (event.target.value.length<5 || event.target.value.length>30){
+      setLoginUserNameValidation(false);
+    }
+    else{
+      setLoginUserNameValidation(true);
+    }
+  }
+
+
   const loginEmailHandler = (event) => {
     if(showViolations===true){
       setAutoHeight(autoHeight-20*x);
@@ -326,6 +332,21 @@ const Signup = () => {
 
   //Register validation
   //--------------------------------------------------------------------------------------------------
+
+  const registerUserNameHandler = (event) => {
+    if(showViolations===true){
+      setAutoHeight(autoHeight-20*x);
+    }
+    setShowViolation(false)
+    setEnteredRegisterUserName(event.target.value);
+    if (event.target.value.length>30){
+      setRegisterUserNameValidation(false);
+    }
+    else{
+      setRegisterUserNameValidation(true);
+    }
+  }
+
   const registerEmailHandler = (event) => {
     if(showViolations===true){
       setAutoHeight(autoHeight-20*x);
@@ -416,6 +437,25 @@ const Signup = () => {
   };
 
 
+  const recoveryEmailHandler = (event) => {
+    // setViolationNumber(0);
+    setShowViolation(false)
+    setEnteredRecoveryEmail(event.target.value);
+    if (!String(event.target.value)
+    .toLowerCase()
+    .match(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    )){
+      setRecoveryEmailValidation(false);
+      
+    }
+    else{
+      setRecoveryEmailValidation(true);
+    }
+  };
+
+
+
   // const birthDateHandler = (event) => {
   //   setEnteredBirthDate(event.target.value);
   //   console.log(event.target.value);
@@ -426,7 +466,7 @@ const Signup = () => {
     
 
     <form className="signin">
-       <ToastContainer className="toastify-container"position="top-right" toastStyle={{backgroundColor: "#2b2c38", fontFamily: "iransansweb", color: "#ffeba7"}} pauseOnHover={false} />
+       <ToastContainer className="toastify-container"position="top-right" toastStyle={{backgroundColor: "#2b2c38", fontFamily: "iransansweb", color: "#ffeba7"}} pauseOnHover={false} autoClose={3000} />
       <div className="section">
         <div className="container">
           <div className="row full-height justify-content-center">
@@ -438,18 +478,18 @@ const Signup = () => {
                       <div className="center-wrap">
                         <div className="section text-center">
                           <h4 className="mb-4 pb-3">ورود کاربران</h4>
-                          <div className={`form-group mt-2 ${(!loginEmailValidation && showViolations) ? "invalid" : ""}`}>
+                          <div className={`form-group mt-2 ${(!loginUserNameValidation && showViolations) ? "invalid" : ""}`}>
                             <input
                               dir="rtl"
-                              type="email"
+                              type="text"
                               className="form-style"
-                              placeholder="ایمیل"
-                              value={enteredLoginEmail}
-                              onChange={loginEmailHandler}
+                              placeholder="نام کاربری"
+                              value={enteredLoginUserName}
+                              onChange={loginUserNameHandler}
                             />
-                            <i className="input-icon uil uil-at"></i>
+                            <i className="input-icon uil uil-user"></i>
                           </div>
-                          {!loginEmailValidation && showViolations &&(<p className="mb-0 mt-2 validationMsg">فرمت ایمیل نادرست است</p>)}
+                          {!loginUserNameValidation && showViolations &&(<p className="mb-0 mt-2 validationMsg">نام کاربری شامل 1 تا 30 کاراکتر است</p>)}
                           <div className={`form-group mt-2 ${!loginPasswordValidation && showViolations ? "invalid" : ""}`}>
                             <i class={showLoginPassword ? "bi bi-eye":"bi bi-eye-slash"} onClick={toggleLoginPasswordVisibility} style={{ fontSize: "20px", position: "absolute", top: "40%", transform: "translateY(-50%)", paddingLeft: "10px"  }}></i>
                             <input
@@ -523,13 +563,13 @@ const Signup = () => {
                             />
                             <i className="input-icon uil uil-at"></i>
                           </div>
-                          
                           {!recoveryEmailValidation && showViolations &&(<p className="mb-0 mt-2 validationMsg">فرمت ایمیل نادرست است</p>)}
                           <p className="mb-0 mt-2">
                             <a className="link cancel" href="" >بازگشت</a>
                           </p>
+                          <br></br>
                           <button
-                            type="submit"
+                            type="button"
                             className="btn mt-2"
                             onClick={toggleRememberPassword}
                           >
@@ -547,7 +587,20 @@ const Signup = () => {
                       <div className="center-wrap">
                         <div className="section text-center">
                           <h4 className="mb-3 pb-3">عضویت در ایونتیفای</h4>
-                          <div className={`form-group ${!nameValidation && showViolations ? "invalid" : ""}`}>
+                          <div className={`form-group mt-2 ${(!registerUserNameValidation && showViolations) ? "invalid" : ""}`}>
+                            <input
+                              dir="rtl"
+                              type="text"
+                              className="form-style"
+                              placeholder="نام کاربری"
+                              value={enteredRegisterUserName}
+                              onChange={registerUserNameHandler}
+                            />
+                            <i className="input-icon uil uil-user"></i>
+                          </div>
+                          {!registerUserNameValidation && showViolations &&(<p className="mb-0 mt-2 validationMsg">نام کاربری شامل 1 تا 30 کاراکتر است</p>)}
+
+                          <div className={`form-group mt-2 ${!nameValidation && showViolations ? "invalid" : ""}`}>
                             <input
                               dir="rtl"
                               type="text"
