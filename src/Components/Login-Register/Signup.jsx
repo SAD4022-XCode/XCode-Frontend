@@ -155,6 +155,7 @@ const Signup = () => {
         setSwitchPages(false);
         setEnteredRecoveryEmail("");
         setRecoveryEmailValidation(false);
+        toast.success("!رمز عبور با موفقیت ارسال شد");
         const currentTime = Date.now();
         if (currentTime - lastToggleFormTime < 700) return; 
         lastToggleFormTime = currentTime;
@@ -412,7 +413,6 @@ const Signup = () => {
     else{
       setRecoveryEmailValidation(true);
     }
-
   };
 
 
@@ -427,7 +427,7 @@ const Signup = () => {
     
 
     <form className="signin">
-       <ToastContainer className="toastify-container"position="top-right" toastStyle={{backgroundColor: "#2b2c38", fontFamily: "iransansweb", color: "#ffeba7"}} pauseOnHover={false} />
+       <ToastContainer className="toastify-container"position="top-right" toastStyle={{backgroundColor: "#2b2c38", fontFamily: "iransansweb", color: "#ffeba7"}} pauseOnHover={false} autoClose={3000} />
       <div className="section">
         <div className="container">
           <div className="row full-height justify-content-center">
@@ -524,13 +524,13 @@ const Signup = () => {
                             />
                             <i className="input-icon uil uil-at"></i>
                           </div>
+                          {!recoveryEmailValidation && showViolations &&(<p className="mb-0 mt-2 validationMsg">فرمت ایمیل نادرست است</p>)}
                           <p className="mb-0 mt-2">
                             <a className="link cancel" href="" >بازگشت</a>
                           </p>
-                          {!recoveryEmailValidation && showViolations &&(<p className="mb-0 mt-2 validationMsg">فرمت ایمیل نادرست است</p>)}
                           <br></br>
                           <button
-                            type="submit"
+                            type="button"
                             className="btn mt-2"
                             onClick={toggleRememberPassword}
                           >
