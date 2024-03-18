@@ -6,9 +6,9 @@ import {useNavigate} from 'react-router-dom';
 
 import 'react-toastify/dist/ReactToastify.css';
 import 'animate.css';
-// import Validation from "./validation";
-import jwt_decode from "jwt-decode";
+
 import { useGoogleLogin } from '@react-oauth/google';
+import axios from "axios";
 const clientID ="191069690020-bfq8g99fjkeskb60o0rqjri7cecm6r9l.apps.googleusercontent.com";
 
 let lastToggleFormTime = 0;
@@ -39,31 +39,39 @@ const Signup = () => {
   const [registerEmailValidation, setRegisterEmailValidation] = useState(false);
   const [recoveryEmailValidation,setRecoveryEmailValidation] = useState(false);
   const [loginPasswordValidation, setLoginPasswordValidation] = useState(false);
-  const [loginPasswordValidationMsg, setLoginPasswordValidationMsg] = useState(false);
+  const [loginPasswordValidationMsg, setLoginPasswordValidationMsg] = useState("رمزعبور حداقل باید شامل 8 کاراکتر باشد");
 
   const [registerPasswordValidation, setRegisterPasswordValidation] = useState(false);
-  const [registerPasswordValidationMsg, setRegisterPasswordValidationMsg] = useState(false);
+  const [registerPasswordValidationMsg, setRegisterPasswordValidationMsg] = useState("رمزعبور حداقل باید شامل 8 کاراکتر باشد")
+  
   const [registerPasswordValidation2, setRegisterPasswordValidation2] = useState(false);
-  const [registerPasswordValidationMsg2, setRegisterPasswordValidationMsg2] = useState(false);
+  const [registerPasswordValidationMsg2, setRegisterPasswordValidationMsg2] = useState("رمز عبور حداقل باید شامل 8 کاراکتر باشد");
   const [nameValidation,setNameValidation] = useState(false)
     
   const [rememberPassword, setRememberPassword] = useState(true);
   const [switchPages, setSwitchPages] = useState(false);
 
-  // useEffect(() => {
-    
-  // });
-  const login = useGoogleLogin({
-    onSuccess: tokenResponse => {
-      console.log(tokenResponse);
-      
-      toast.success("!با موفقیت وارد شدید");
-        
-      setTimeout(() => {
-        navigator('/home');
-      }, 6000);
+
+  const loginWithGoogle = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+        try{
+          const res = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo",
+            {headers:{
+              Authorization: `Bearer ${tokenResponse.access_token}`,
+            },}
+          );
+          console.log(res);
+          console.log("-----------------------------------------");
+          toast.success("!با موفقیت وارد شدید");
+          console.log("hello world!");  
+          setTimeout(() => {
+            navigator('/home');
+          }, 6000);
+        }catch(err){
+          console.log(err);
+        }
+
     },
-    select_account:false,
   });
 
 
@@ -92,7 +100,7 @@ const Signup = () => {
     lastToggleFormTime = currentTime;
 
     // setViolationNumber(0);
-    showLogin === true ? setAutoHeight(500) : setAutoHeight(450);
+    showLogin === true ? setAutoHeight(480) : setAutoHeight(450);
 
     setShowLogin(!showLogin);
     const formWrapper = document.querySelector(".card-3d-wrap");
@@ -197,7 +205,7 @@ const Signup = () => {
     }
     
     if(showViolations===false && x>0){
-      setAutoHeight(autoHeight+x*15);
+      setAutoHeight(autoHeight+x*20);
     }
     setShowViolation(true)
     event.preventDefault();
@@ -229,7 +237,7 @@ const Signup = () => {
         name: enteredName,
         email: enteredRegisterEmail,
         password: enteredRegisterPassword,
-        birthDate: new Date(enteredBirthDate),
+        // birthDate: new Date(enteredBirthDate),
       };
       if(registerEmailValidation && registerPasswordValidation && registerPasswordValidation2 && nameValidation){
         setRegisterEmailValidation(false);
@@ -256,7 +264,7 @@ const Signup = () => {
   //--------------------------------------------------------------------------------------------------
   const loginEmailHandler = (event) => {
     if(showViolations===true){
-      setAutoHeight(autoHeight-15*x);
+      setAutoHeight(autoHeight-20*x);
     }
     setShowViolation(false)
     setEnteredLoginEmail(event.target.value);
@@ -275,7 +283,7 @@ const Signup = () => {
   };
   const loginPasswordHandler = (event) => {
     if(showViolations===true){
-      setAutoHeight(autoHeight-15*x);
+      setAutoHeight(autoHeight-20*x);
     }
     setShowViolation(false)
     setEnteredLoginPassword(event.target.value);
@@ -300,7 +308,7 @@ const Signup = () => {
   //--------------------------------------------------------------------------------------------------
   const registerEmailHandler = (event) => {
     if(showViolations===true){
-      setAutoHeight(autoHeight-15*x);
+      setAutoHeight(autoHeight-20*x);
     }
     // setViolationNumber(0);
     setShowViolation(false)
@@ -322,7 +330,7 @@ const Signup = () => {
 
   const registerPasswordHandler = (event) => {
     if(showViolations===true){
-      setAutoHeight(autoHeight-15*x);
+      setAutoHeight(autoHeight-20*x);
     }
     // setViolationNumber(0);
     setShowViolation(false)
@@ -344,7 +352,7 @@ const Signup = () => {
   };
   const registerPasswordHandler2 = (event) => {
     if(showViolations===true){
-      setAutoHeight(autoHeight-15*x);
+      setAutoHeight(autoHeight-20*x);
     }
     // setViolationNumber(0);
     setShowViolation(false)
@@ -374,7 +382,7 @@ const Signup = () => {
 
   const nameHandler = (event) => {
     if(showViolations===true){
-      setAutoHeight(autoHeight-15*x);
+      setAutoHeight(autoHeight-20*x);
     }
     // setViolationNumber(0);
     setShowViolation(false)
@@ -408,16 +416,17 @@ const Signup = () => {
 
 
 
-  const birthDateHandler = (event) => {
-    setEnteredBirthDate(event.target.value);
-  };
+  // const birthDateHandler = (event) => {
+  //   setEnteredBirthDate(event.target.value);
+  //   console.log(event.target.value);
+  // };
 
   return (
 
     
 
-    <form className="signin" onSubmit={submitHandler}>
-       <ToastContainer className="toastify-container"position="top-right" toastStyle={{backgroundColor: "#2b2e38", fontFamily: "iransansweb", color: "#ffeba7"}} pauseOnHover={false} />
+    <form className="signin">
+       <ToastContainer className="toastify-container"position="top-right" toastStyle={{backgroundColor: "#2b2c38", fontFamily: "iransansweb", color: "#ffeba7"}} pauseOnHover={false} />
       <div className="section">
         <div className="container">
           <div className="row full-height justify-content-center">
@@ -471,9 +480,9 @@ const Signup = () => {
                                 <hr className="custom-hr"/>
                             </div>
                           </div>
-                          <button class="google-login-button" style={{display: "flex" ,justifyContent: "center" ,alignItems: "center",marginLeft:"120px"}} onClick={() => login()}>
+                          <button class="google-login-button" style={{display: "flex" ,justifyContent: "center" ,alignItems: "center",marginLeft:"120px"}} onClick={() => loginWithGoogle()}>
                               <div class="row">
-                                  <div style={{marginBottom: "5px"}}>
+                                  <div style={{marginTop: "2px"}}>
                                       <img 
                                           src={require("../../assets/google-logo.png")}
                                           style={{width: "25px", height: "25px",paddingTop:"1px"}}
@@ -585,7 +594,7 @@ const Signup = () => {
                             <i className="input-icon uil uil-lock-alt"></i>
                           </div>
                           {!registerPasswordValidation2 && showViolations &&(<p className="mb-0 mt-2 validationMsg">{registerPasswordValidationMsg2}</p>)}
-                          <div className="form-group mt-2">
+                          {/* <div className="form-group mt-2">
                             <input
                               dir="rtl"
                               type="text"
@@ -597,7 +606,7 @@ const Signup = () => {
                               onChange={birthDateHandler}
                             />
                             <i className="input-icon uil uil-calendar-alt"></i>
-                          </div>
+                          </div> */}
                           <button
                             type="submit"
                             className="btn mt-4"
