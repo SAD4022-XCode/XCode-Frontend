@@ -126,6 +126,7 @@ const Signup = () => {
   };
   
   const toggleRememberPassword = () => {
+    setShowViolation(false);
     if(switchPages===false){
       setSwitchPages(true);
       const currentTime = Date.now();
@@ -246,6 +247,7 @@ const Signup = () => {
         name: enteredName,
         email: enteredRegisterEmail,
         password: enteredRegisterPassword,
+        password2:enteredRegisterPassword2,
         // birthDate: new Date(enteredBirthDate),
       };
       if(registerUserNameValidation && registerEmailValidation && registerPasswordValidation && registerPasswordValidation2 && nameValidation){
@@ -279,7 +281,7 @@ const Signup = () => {
     }
     setShowViolation(false)
     setEnteredLoginUserName(event.target.value);
-    if (event.target.value.length<5 || event.target.value.length>30){
+    if (event.target.value.length<1 || event.target.value.length>30){
       setLoginUserNameValidation(false);
     }
     else{
@@ -339,7 +341,7 @@ const Signup = () => {
     }
     setShowViolation(false)
     setEnteredRegisterUserName(event.target.value);
-    if (event.target.value.length>30){
+    if (event.target.value.length<1 ||event.target.value.length>30){
       setRegisterUserNameValidation(false);
     }
     else{
@@ -618,6 +620,7 @@ const Signup = () => {
                               type="email"
                               className="form-style"
                               placeholder="ایمیل"
+                              autoComplete="on"
                               value={enteredRegisterEmail}
                               onChange={registerEmailHandler}
                             />
@@ -631,6 +634,7 @@ const Signup = () => {
                               type={showRegisterPassword ? "text":"password"}
                               className="form-style"
                               placeholder="رمز عبور"
+                              autoComplete="on"
                               value={enteredRegisterPassword}
                               onChange={registerPasswordHandler}
                             />
@@ -644,6 +648,7 @@ const Signup = () => {
                               type={showRegisterPassword2 ? "text":"password"}
                               className="form-style"
                               placeholder="تایید رمز عبور"
+                              autoComplete="on"
                               value={enteredRegisterPassword2}
                               onChange={registerPasswordHandler2}
                             />
