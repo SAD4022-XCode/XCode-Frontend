@@ -125,8 +125,8 @@ const Signup = () => {
     }
   };
   
-  const toggleRememberPassword = () => {
-    setShowViolation(false);
+  const toggleRememberPassword = (event) => {
+    event.preventDefault()
     if(switchPages===false){
       setSwitchPages(true);
       const currentTime = Date.now();
@@ -275,6 +275,7 @@ const Signup = () => {
 
   //Login validation
   //--------------------------------------------------------------------------------------------------
+  const regUserName = /^[a-zA-Z][a-zA-Z0-9]{3,29}$/;;
   const loginUserNameHandler = (event) => {
     if(showViolations===true){
       setAutoHeight(autoHeight-20*x);
@@ -285,8 +286,10 @@ const Signup = () => {
       setLoginUserNameValidation(false);
     }
     else{
+      if (regUserName.test(event.target.value)){
       setLoginUserNameValidation(true);
     }
+  }
   }
 
 
@@ -345,8 +348,10 @@ const Signup = () => {
       setRegisterUserNameValidation(false);
     }
     else{
+      if (regUserName.test(event.target.value)){
       setRegisterUserNameValidation(true);
     }
+  }
   }
 
   const registerEmailHandler = (event) => {
@@ -430,12 +435,15 @@ const Signup = () => {
     // setViolationNumber(0);
     setShowViolation(false)
     setEnteredName(event.target.value);
+    const regNamePersian = /^[\u0600-\u06FF\s]+$/;
+    const regNameEnglish = /^[a-zA-Z\s]+$/;
     if(event.target.value.length<5 || event.target.value.length>30){
       setNameValidation(false);
     }else{
+      if (regNamePersian.test(event.target.value) || regNameEnglish.test(event.target.value)){
       setNameValidation(true);
     }
-
+  }
   };
 
 
@@ -491,7 +499,7 @@ const Signup = () => {
                             />
                             <i className="input-icon uil uil-user"></i>
                           </div>
-                          {!loginUserNameValidation && showViolations &&(<p className="mb-0 mt-2 validationMsg">نام کاربری شامل 1 تا 30 کاراکتر است</p>)}
+                          {!loginUserNameValidation && showViolations &&(<p className="mb-0 mt-2 validationMsg">نام کاربری شامل 1 تا 30 کاراکتر است و باید با حروف انگلیسی شروع شود</p>)}
                           <div className={`form-group mt-2 ${!loginPasswordValidation && showViolations ? "invalid" : ""}`}>
                             <i class={showLoginPassword ? "bi bi-eye":"bi bi-eye-slash"} onClick={toggleLoginPasswordVisibility} style={{ fontSize: "20px", position: "absolute", top: "40%", transform: "translateY(-50%)", paddingLeft: "10px"  }}></i>
                             <input
@@ -571,7 +579,7 @@ const Signup = () => {
                           </p>
                           <br></br>
                           <button
-                            type="button"
+                            type="submit"
                             className="btn mt-2"
                             onClick={toggleRememberPassword}
                           >
@@ -600,7 +608,7 @@ const Signup = () => {
                             />
                             <i className="input-icon uil uil-user"></i>
                           </div>
-                          {!registerUserNameValidation && showViolations &&(<p className="mb-0 mt-2 validationMsg">نام کاربری شامل 1 تا 30 کاراکتر است</p>)}
+                          {!registerUserNameValidation && showViolations &&(<p className="mb-0 mt-2 validationMsg">نام کاربری شامل 1 تا 30 کاراکتر است و باید با حروف انگلیسی شروع شود</p>)}
 
                           <div className={`form-group mt-2 ${!nameValidation && showViolations ? "invalid" : ""}`}>
                             <input
@@ -613,7 +621,7 @@ const Signup = () => {
                             />
                             <i className="input-icon uil uil-user"></i>
                           </div>
-                          {!nameValidation && showViolations &&(<p className="mb-0 mt-2 validationMsg">نام و نام خانوادگی باید بین 5 تا 30 کاراکتر باشد</p>)}
+                          {!nameValidation && showViolations &&(<p className="mb-0 mt-2 validationMsg">نام و نام خانوادگی باید بین 5 تا 30 کاراکتر فارسی و یا انگلیسی باشد</p>)}
                           <div className={`form-group mt-2 ${!registerEmailValidation && showViolations ? "invalid" : ""}`}>
                             <input
                               dir="rtl"
