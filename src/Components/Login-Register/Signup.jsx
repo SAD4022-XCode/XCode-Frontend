@@ -19,17 +19,15 @@ const Signup = () => {
   //form input variables
   const [enteredLoginUserName, setEnteredLoginUserName] = useState("");
   const [enteredRegisterUserName, setEnteredRegisterUserName] = useState("");
-  const [enteredLoginEmail, setEnteredLoginEmail] = useState("");
   const [enteredRegisterEmail, setEnteredRegisterEmail] = useState("");
   const [enteredRecoveryEmail,setEnteredRecoveryEmail] = useState("");
   const [enteredLoginPassword, setEnteredLoginPassword] = useState("");
   const [enteredRegisterPassword, setEnteredRegisterPassword] = useState("");
   const [enteredRegisterPassword2, setEnteredRegisterPassword2] = useState("");
   const [enteredName, setEnteredName] = useState("");
-  const [enteredBirthDate, setEnteredBirthDate] = useState("");
   const [showLogin, setShowLogin] = useState(true);
 
-  //card height variables
+  //card height variable
   const [autoHeight,setAutoHeight] = useState(450);
   //show password variables
   const [showLoginPassword, setShowLoginPassword] = useState(false);
@@ -38,9 +36,12 @@ const Signup = () => {
   //validation variables
   const [showViolations, setShowViolation] = useState(false);
   const [loginUserNameValidation, setLoginUserNameValidation] = useState(false);
+  const [loginUserNameValidationMsg, setLoginUserNameValidationMsg] = useState("نام کاربری شامل 1 تا 30 کاراکتر است و باید با حروف انگلیسی شروع شود");
   const [registerUserNameValidation, setRegisterUserNameValidation] = useState(false);
-  const [loginEmailValidation, setLoginEmailValidation] = useState(false);
+  const [registerUserNameValidationMsg, setRegisterUserNameValidationMsg] = useState("نام کاربری شامل 1 تا 30 کاراکتر است و باید با حروف انگلیسی شروع شود");
+  
   const [registerEmailValidation, setRegisterEmailValidation] = useState(false);
+  const [registerEmailValidationMsg, setRegisterEmailValidationMsg] = useState("فرمت ایمیل نادرست است");
   const [recoveryEmailValidation,setRecoveryEmailValidation] = useState(false);
   const [loginPasswordValidation, setLoginPasswordValidation] = useState(false);
   const [loginPasswordValidationMsg, setLoginPasswordValidationMsg] = useState("رمزعبور حداقل باید شامل 8 کاراکتر باشد");
@@ -225,47 +226,82 @@ const Signup = () => {
         username: enteredLoginUserName,
         password: enteredLoginPassword,
       };
-      
       if(loginUserNameValidation && loginPasswordValidation){
-
-        setShowViolation(false);
-        setEnteredLoginUserName("");
-        setEnteredLoginPassword("");
-
-        //send data to back-end
-        
-        toast.success("!با موفقیت وارد شدید");
-        
-        setTimeout(() => {
-          navigator('/home');
-        }, 4000);
+        axios.post('http://localhost:8080/api', userData)
+        .then(response => {
+          console.log('Data sent successfully:', response.data);
+          setShowViolation(false);
+          if (response.data['message']==="Data received successfully"){
+            setEnteredLoginUserName("");
+            setEnteredLoginPassword("");
+            toast.success("!با موفقیت عضو شدید");
+            setTimeout(() => {
+              navigator('/home');
+            }, 4000);
+          }else if(response.data['message']===`username does not exist`){
+            setShowViolation(true);
+            setLoginUserNameValidation(false);
+            setLoginUserNameValidationMsg("نام کاربری وارد شده در سیستم وجود ندارد");
+            
+          }else if(response.data['message']===`password incorrect`){
+            setShowViolation(true);
+            setLoginPasswordValidation(false);
+            setLoginPasswordValidationMsg("رمزعبور نادرست است");
+          }
+        })
+        .catch(error => {
+          console.error('Error sending data:', error);
+          
+          toast.success("به صورت آزمایشی وارد شدید");
+          setTimeout(() => {
+            navigator('/home');
+          }, 4000);
+        });
       }
  
     } else {
+
       userData = {
         username:enteredRegisterUserName,
         name: enteredName,
         email: enteredRegisterEmail,
         password: enteredRegisterPassword,
-        password2:enteredRegisterPassword2,
-        // birthDate: new Date(enteredBirthDate),
       };
-      if(registerUserNameValidation && registerEmailValidation && registerPasswordValidation && registerPasswordValidation2 && nameValidation){
-        setRegisterEmailValidation(false);
-        setShowViolation(false);
-        setEnteredRegisterUserName("");
-        setEnteredRegisterEmail("");
-        setEnteredRegisterPassword("");
-        setEnteredRegisterPassword2("");
-        setEnteredName("");
-        // setEnteredBirthDate("");
 
-        //send data to back-end
-        
-        toast.success("!با موفقیت عضو شدید");
-        setTimeout(() => {
-          navigator('/home');
-        }, 4000);
+      if(registerUserNameValidation && registerEmailValidation && registerPasswordValidation && registerPasswordValidation2 && nameValidation){
+        axios.post('http://localhost:8080/api', userData)
+        .then(response => {
+          setShowViolation(false);
+          console.log('Data sent successfully:', response.data);
+          if (response.data['message']==="Data received successfully"){
+            setEnteredRegisterUserName("");
+            setEnteredRegisterEmail("");
+            setEnteredRegisterPassword("");
+            setEnteredRegisterPassword2("");
+            setEnteredName("");
+            toast.success("!با موفقیت عضو شدید");
+            setTimeout(() => {
+              navigator('/home');
+            }, 4000);
+          }else if(response.data['message']===`username is already taken`){
+            setShowViolation(true);
+            setRegisterUserNameValidation(false);
+            setRegisterUserNameValidationMsg("نام کاربری موردنظر در سیستم ثبت شده است");
+            
+          }else if(response.data['message']===`email address has already been registered in our system`){
+            setShowViolation(true);
+            setRegisterEmailValidation(false);
+            setRegisterEmailValidationMsg("ایمیل موردنظر در سیستم ثبت شده است");
+          }
+        })
+        .catch(error => {
+          console.error('Error sending data:', error);
+          
+          toast.success("به صورت آزمایشی عضو شدید");
+          setTimeout(() => {
+            navigator('/home');
+          }, 4000);
+        });
       }
       
     }
@@ -284,34 +320,18 @@ const Signup = () => {
     setEnteredLoginUserName(event.target.value);
     if (event.target.value.length<1 || event.target.value.length>30){
       setLoginUserNameValidation(false);
+      setLoginUserNameValidationMsg("نام کاربری شامل 1 تا 30 کاراکتر است و باید با حروف انگلیسی شروع شود")
     }
     else{
       if (regUserName.test(event.target.value)){
-      setLoginUserNameValidation(true);
-    }
+        setLoginUserNameValidation(true);
+      }else{
+        setRegisterUserNameValidation(false);
+        setRegisterUserNameValidationMsg("نام کاربری باید با حروف انگلیسی شروع شود و شامل حروف و اعداد انگلیسی است")
+      }
   }
   }
 
-
-  const loginEmailHandler = (event) => {
-    if(showViolations===true){
-      setAutoHeight(autoHeight-20*x);
-    }
-    setShowViolation(false)
-    setEnteredLoginEmail(event.target.value);
-    if (!String(event.target.value)
-    .toLowerCase()
-    .match(
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    )){
-      setLoginEmailValidation(false);
-    }
-    else{
-      setLoginEmailValidation(true);
-    }
-
-
-  };
   const loginPasswordHandler = (event) => {
     if(showViolations===true){
       setAutoHeight(autoHeight-20*x);
@@ -346,11 +366,15 @@ const Signup = () => {
     setEnteredRegisterUserName(event.target.value);
     if (event.target.value.length<1 ||event.target.value.length>30){
       setRegisterUserNameValidation(false);
+      setRegisterUserNameValidationMsg("نام کاربری شامل 1 تا 30 کاراکتر است و باید با حروف انگلیسی شروع شود")
     }
     else{
       if (regUserName.test(event.target.value)){
-      setRegisterUserNameValidation(true);
-    }
+        setRegisterUserNameValidation(true);
+      }else{
+        setRegisterUserNameValidation(false);
+        setRegisterUserNameValidationMsg("نام کاربری باید با حروف انگلیسی شروع شود و شامل حروف و اعداد انگلیسی است")
+      }
   }
   }
 
@@ -358,7 +382,6 @@ const Signup = () => {
     if(showViolations===true){
       setAutoHeight(autoHeight-20*x);
     }
-    // setViolationNumber(0);
     setShowViolation(false)
     setEnteredRegisterEmail(event.target.value);
     if (!String(event.target.value)
@@ -367,6 +390,8 @@ const Signup = () => {
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     )){
       setRegisterEmailValidation(false);
+      
+      setRegisterEmailValidationMsg("فرمت ایمیل نادرست است");
     }
     else{
       setRegisterEmailValidation(true);
@@ -380,7 +405,6 @@ const Signup = () => {
     if(showViolations===true){
       setAutoHeight(autoHeight-20*x);
     }
-    // setViolationNumber(0);
     setShowViolation(false)
     setEnteredRegisterPassword(event.target.value);
     if(event.target.value.length<8){
@@ -402,7 +426,6 @@ const Signup = () => {
     if(showViolations===true){
       setAutoHeight(autoHeight-20*x);
     }
-    // setViolationNumber(0);
     setShowViolation(false)
     setEnteredRegisterPassword2(event.target.value);
     if(event.target.value!==enteredRegisterPassword){
@@ -432,7 +455,6 @@ const Signup = () => {
     if(showViolations===true){
       setAutoHeight(autoHeight-20*x);
     }
-    // setViolationNumber(0);
     setShowViolation(false)
     setEnteredName(event.target.value);
     const regNamePersian = /^[\u0600-\u06FF\s]+$/;
@@ -448,7 +470,6 @@ const Signup = () => {
 
 
   const recoveryEmailHandler = (event) => {
-    // setViolationNumber(0);
     setShowViolation(false)
     setEnteredRecoveryEmail(event.target.value);
     if (!String(event.target.value)
@@ -464,12 +485,6 @@ const Signup = () => {
     }
   };
 
-
-
-  // const birthDateHandler = (event) => {
-  //   setEnteredBirthDate(event.target.value);
-  //   console.log(event.target.value);
-  // };
 
   return (
 
@@ -499,7 +514,7 @@ const Signup = () => {
                             />
                             <i className="input-icon uil uil-user"></i>
                           </div>
-                          {!loginUserNameValidation && showViolations &&(<p className="mb-0 mt-2 validationMsg">نام کاربری شامل 1 تا 30 کاراکتر است و باید با حروف انگلیسی شروع شود</p>)}
+                          {!loginUserNameValidation && showViolations &&(<p className="mb-0 mt-2 validationMsg">{loginUserNameValidationMsg}</p>)}
                           <div className={`form-group mt-2 ${!loginPasswordValidation && showViolations ? "invalid" : ""}`}>
                             <i class={showLoginPassword ? "bi bi-eye":"bi bi-eye-slash"} onClick={toggleLoginPasswordVisibility} style={{ fontSize: "20px", position: "absolute", top: "40%", transform: "translateY(-50%)", paddingLeft: "10px"  }}></i>
                             <input
@@ -608,7 +623,7 @@ const Signup = () => {
                             />
                             <i className="input-icon uil uil-user"></i>
                           </div>
-                          {!registerUserNameValidation && showViolations &&(<p className="mb-0 mt-2 validationMsg">نام کاربری شامل 1 تا 30 کاراکتر است و باید با حروف انگلیسی شروع شود</p>)}
+                          {!registerUserNameValidation && showViolations &&(<p className="mb-0 mt-2 validationMsg">{registerUserNameValidationMsg}</p>)}
 
                           <div className={`form-group mt-2 ${!nameValidation && showViolations ? "invalid" : ""}`}>
                             <input
@@ -634,7 +649,7 @@ const Signup = () => {
                             />
                             <i className="input-icon uil uil-at"></i>
                           </div>
-                          {!registerEmailValidation && showViolations &&(<p className="mb-0 mt-2 validationMsg">فرمت ایمیل نادرست است</p>)}
+                          {!registerEmailValidation && showViolations &&(<p className="mb-0 mt-2 validationMsg">{registerEmailValidationMsg}</p>)}
                           <div className={`form-group mt-2 ${!registerPasswordValidation && showViolations ? "invalid" : ""}`}>
                             <i class={showRegisterPassword ? "bi bi-eye":"bi bi-eye-slash"} onClick={toggleRegisterPasswordVisibility} style={{ fontSize: "20px", position: "absolute", top: "40%", transform: "translateY(-50%)", paddingLeft: "10px"  }}></i>
                             <input
