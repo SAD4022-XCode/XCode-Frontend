@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import "./login.css";
 
 import { ToastContainer, toast } from 'react-toastify';
@@ -25,12 +25,10 @@ const Login = () => {
     const [loginPasswordValidation, setLoginPasswordValidation] = useState(false);
     const [loginPasswordValidationMsg, setLoginPasswordValidationMsg] = useState("رمزعبور حداقل باید شامل 8 کاراکتر باشد");
 
-    // useEffect(()=>{
-    //     setShowViolation(false)
-    //     setShowLoginPassword(false);
-    //     setAutoHeight(450);
-    // });
 
+    useEffect(() => {
+      document.documentElement.style.overflowY = 'hidden';
+    }, []);
 
     const loginWithGoogle = useGoogleLogin({
         onSuccess: async (tokenResponse) => {
@@ -199,7 +197,7 @@ const Login = () => {
                           </div>
                           {!loginPasswordValidation && showViolations &&(<p className="mb-0 mt-2 validationMsg">{loginPasswordValidationMsg}</p>)}
                           <p className="mb-0 mt-2">
-                            <a className="link" href="http://localhost:3000/passwordrecovery">بازیابی رمز عبور</a>
+                            <a className="link" href="http://localhost:3000/password-recovery">بازیابی رمز عبور</a>
                           </p>
                           <button
                             type="submit"
@@ -243,6 +241,7 @@ const Login = () => {
         </div>
       </div>
     </form>
+    
   );
 
 

@@ -1,4 +1,4 @@
-import React, { useState, } from "react";
+import React, { useState,useEffect } from "react";
 import "./passwordRecovery.css";
 
 import { ToastContainer, toast } from 'react-toastify';
@@ -15,6 +15,9 @@ const PasswordRecovery = () =>{
     const [recoveryEmailValidation,setRecoveryEmailValidation] = useState(false);
     const [recoveryEmailValidationMsg,setRecoveryEmailValidationMsg] = useState("فرمت ایمیل نادرست است");
 
+    useEffect(() => {
+      document.documentElement.style.overflowY = 'hidden';
+    }, []);
 
     const sendPasswordRecovery = (event) =>{
         setShowViolation(true);
@@ -39,7 +42,7 @@ const PasswordRecovery = () =>{
           .catch(error => {
             console.error('Error sending data:', error);
             
-            toast.success("به صورت آزمایشی ایمیل بازیابی ارسال شد");
+            toast.success("ایمیل بازیابی به صورت آزمایشی ارسال شد");
             setTimeout(() => {
               navigator('/login');
             }, 4000);

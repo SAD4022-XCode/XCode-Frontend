@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, { useState,useEffect} from "react";
 import "./register.css";
 
 import { ToastContainer, toast } from 'react-toastify';
@@ -37,11 +37,9 @@ const Register = () =>{
     const [nameValidation,setNameValidation] = useState(false)
     
     
-    // useEffect(()=>{
-    //     setShowViolation(false)
-    //     setShowRegisterPassword(false);
-    //     setAutoHeight(510);
-    // });
+    useEffect(() => {
+      document.documentElement.style.overflowY = 'hidden';
+    }, []);
 
 
     const toggleRegisterPasswordVisibility = () => {
