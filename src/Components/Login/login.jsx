@@ -27,7 +27,11 @@ const Login = () => {
 
 
     useEffect(() => {
+      //disable vertical scrollbar
       document.documentElement.style.overflowY = 'hidden';
+      //change title of html page dynamically
+      document.title = "ورود کاربران";
+
     }, []);
 
     const loginWithGoogle = useGoogleLogin({
