@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 const Home = () => {
     useEffect(() => {
-        //change title of html page dynamically
+        //changing title of html pages dynamically
         document.title = "خانه";
       }, []);
     return (

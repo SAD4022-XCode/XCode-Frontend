@@ -18,7 +18,7 @@ const PasswordRecovery = () =>{
     useEffect(() => {
       //disable vertical scrollbar
       document.documentElement.style.overflowY = 'hidden';
-      //change title of html page dynamically
+      //changing title of html pages dynamically
       document.title = "بازیابی رمزعبور";
     }, []);
 
