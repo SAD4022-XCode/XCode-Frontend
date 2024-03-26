@@ -10,9 +10,9 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/home" element={<Home />}/>
-        <Route exact path="/login" element={<Login />}/>
+        {/* <Route path="/" element={<Home />} /> */}
+        {/* <Route path="/home" element={<Home />}/> */}
+        <Route exact path="/" element={<Login />}/>
         <Route exact path="/register" element={<Register />}/> 
         <Route exact path="/password-recovery" element={<PasswordRecovery />} />
       </Routes>
