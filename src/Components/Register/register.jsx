@@ -39,7 +39,7 @@ const Register = () =>{
     
     useEffect(() => {
       //disable vertical scrollbar
-      // document.documentElement.style.overflowY = 'hidden';
+      document.documentElement.style.overflowY = 'hidden';
       //changing title of html pages dynamically
       document.title = "عضویت در ایونتیفای";
     }, []);
