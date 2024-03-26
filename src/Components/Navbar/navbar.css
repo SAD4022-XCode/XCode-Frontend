@@ -1,0 +1,259 @@
+@import url("https://fonts.googleapis.com/css?family=Poppins:400,500,600,700,800,900");
+
+
+
+.navbar {
+  height: 60px;
+  background: radial-gradient(ellipse at bottom, #1b2735 0%, #12141d 100%);
+  position: relative;
+  font-family: "iransansweb";
+  color: #ffeba7;
+
+  .search-bar {
+    display: flex;
+    direction: rtl;
+    position: relative;
+    width: 400px;
+    height: 40px;
+    font-family: "iransansweb";
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 15px;
+  }
+  
+  
+  .search-input {
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    float: left;
+    background-color: #fef9e5;
+  }
+  
+  .search-button {
+    height: 100%;
+    width: 80px;
+    border: none;
+    outline: none;
+    background-color: #f9d966;
+    color: #fff;
+  }
+  
+  .search-button:hover {
+    background-color: #ffd84b;
+  }
+  
+  .search-icon{
+    padding-bottom: 10px;
+    font-size: large;
+    color:#FFFFFF;
+  }
+  
+  
+  .container {
+    display: flex !important; 
+    flex-direction: row !important;
+    justify-content: space-between !important; 
+    max-width: 1400px;
+    padding: 0 15px;
+    height: 100%;  
+  }
+
+  .logo{
+    height: 60px;
+    width: 210px;
+  } 
+  
+  .menu-icon {
+    display: none;
+  }
+  
+  .nav-elements ul {
+    display: flex;
+    list-style-type: none;
+  }
+  
+  .nav-elements ul li:not(:last-child) {
+    margin-right: 40px;
+  }
+  
+  .nav-elements ul a {
+    font-size: 16px;
+    font-weight: 400;
+    color: #fff7dd;
+    text-decoration: none;
+    
+  }
+  
+  .nav-elements ul a.active {
+    color: #ffeba7;
+    font-weight: 600;
+    position: relative;
+  }
+  
+  .nav-elements ul a.active::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #ffeba7;
+  }
+  
+}
+
+
+
+
+
+@media (max-width: 1220px) {
+  .navbar{
+    .search-bar {
+      width: 300px;
+    }
+    
+    .container {
+      display: flex !important; 
+      justify-content: space-around !important; 
+      padding: 0 15px;
+      align-items: center;
+      height: 100%;
+    }
+    .nav-elements ul li:not(:last-child) {
+      margin-right: 30px;
+    }
+  }
+  
+}
+
+@media (max-width: 1100px) {
+  .navbar{
+    .search-bar {
+      width: 250px;
+    }
+    .logo{
+      height: 50px;
+      width: 175px;
+    } 
+    
+    .container {
+      display: flex !important; 
+      justify-content: center !important; 
+      padding: 0 15px;
+      align-items: center;
+      height: 100%;
+    }
+    .nav-elements ul li:not(:last-child) {
+      margin-right: 25px;
+    }
+  }
+  
+}
+
+
+
+@media (max-width: 1000px) {
+  
+  .navbar{
+    
+    .logo{
+      display: none;
+    }
+    .nav-elements ul li:not(:last-child) {
+      margin-right: 20px;
+    }
+    .container{
+      display: flex !important; 
+      justify-content: space-around !important;  
+      
+    }
+    .nav-elements ul li:not(:last-child) {
+      margin-right: 15px;
+    }
+    .nav-elements ul a {
+      font-size: 14px;
+      font-weight: 400;
+      color: #fff7dd;
+      text-decoration: none;
+      
+    }
+  }
+  
+}
+
+@media (max-width: 700px) {
+
+  .navbar{
+    .nav-elements ul li:not(:last-child) {
+      margin-right: 10px;
+    }
+    .search-bar {
+      width: 200px;
+    }
+  }
+
+}
+
+@media (max-width: 630px) {
+  .navbar{
+    .search-bar{
+      width: 75%;
+      height: 40px;
+      overflow: hidden;
+      margin-bottom: 15px;
+    }
+    
+    .logo{
+      display: none;
+    }
+
+    .container{
+      justify-content: space-between !important;
+      
+    }
+
+    .menu-icon {
+      display:block;
+      cursor: pointer; 
+      margin-left: 15%; 
+      margin-bottom: 15px;
+    }
+
+    .nav-elements {
+      direction: rtl;
+      position: absolute;
+      right: 0;
+      top: 60px;
+      background: radial-gradient(ellipse at bottom, #1b2735 0%, #12141d 100%);
+      width: 0px;
+      height: calc(100vh - 60px);
+      transition: all 0.3s ease-in;
+      overflow: hidden;
+      overflow-y: auto
+      
+    }
+
+    .nav-elements.active {
+      width: 160px;
+    }
+
+    .nav-elements ul {
+      display: flex; 
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: flex-start; 
+    }
+    
+    .nav-elements ul li {
+      margin-top:15px;
+      margin-right: -5px !important;
+      
+    }
+    
+  }
+  
+} 
