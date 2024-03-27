@@ -37,3 +37,22 @@
   color: #ffeba7;
   box-shadow: 0 8px 24px 0 rgba(16, 39, 112, 0.2);
 }
+
+
+@media screen and (max-width: 450px) {
+  .pagenotfound__content h4{
+    font-size: 20px;
+  }
+  .pagenotfound__content p{
+    font-size: 12px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .pagenotfound__content h4{
+    font-size: 16px;
+  }
+  .pagenotfound__content p{
+    font-size: 10.5px;
+  }
+}
