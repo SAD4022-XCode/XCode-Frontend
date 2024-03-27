@@ -7,6 +7,8 @@ import {useNavigate} from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import { useGoogleLogin } from '@react-oauth/google';
 import axios from "axios";
+
+
 let x=0;
 const Login = () => {
     const navigator=useNavigate();
@@ -15,7 +17,6 @@ const Login = () => {
     const [enteredLoginPassword, setEnteredLoginPassword] = useState("");
 
     const [autoHeight,setAutoHeight] = useState(450);
-
     const [showLoginPassword, setShowLoginPassword] = useState(false);
     const [showViolations, setShowViolation] = useState(false);
 
@@ -25,10 +26,11 @@ const Login = () => {
     const [loginPasswordValidation, setLoginPasswordValidation] = useState(false);
     const [loginPasswordValidationMsg, setLoginPasswordValidationMsg] = useState("رمزعبور حداقل باید شامل 8 کاراکتر باشد");
 
-
+    
+  
     useEffect(() => {
       //disable vertical scrollbar
-      // document.documentElement.style.overflowY = 'hidden';
+      document.documentElement.style.overflowY = 'hidden';
       //changing title of html pages dynamically
       document.title = "ورود کاربران";
 
@@ -87,8 +89,11 @@ const Login = () => {
               console.log('Data sent successfully:', response.data);
               setShowViolation(false);
               if (response.data['message']==="Data received successfully"){
+                  
                 setEnteredLoginUserName("");
                 setEnteredLoginPassword("");
+
+
                 toast.success("!با موفقیت عضو شدید");
                 setTimeout(() => {
                   navigator('/home');
@@ -99,14 +104,14 @@ const Login = () => {
                 setLoginUserNameValidationMsg("نام کاربری وارد شده در سیستم وجود ندارد");
                 
               }else if(response.data['message']===`password incorrect`){
+                        
                 setShowViolation(true);
                 setLoginPasswordValidation(false);
                 setLoginPasswordValidationMsg("رمزعبور نادرست است");
               }
+
             })
             .catch(error => {
-              console.error('Error sending data:', error);
-              
               toast.success("به صورت آزمایشی وارد شدید");
               setTimeout(() => {
                 navigator('/home');
