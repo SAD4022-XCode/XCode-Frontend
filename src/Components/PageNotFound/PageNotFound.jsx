@@ -1,13 +1,21 @@
 import React from "react";
 import Navbar from "../Navbar/navbar";
 import "./PageNotFound.css";
+import Lottie from "react-lottie";
+import animationData from "./Animation - 1711566412254.json";
 const PageNotFound = () => {
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    clickToPause: false,
+    animationData: animationData,
+  };
   return (
     <div className="pagenotfound">
       <Navbar />
       <div className="pagenotfound__content">
-        <div className="pagenotfound__title">
-          <h1>خطای 404</h1>
+        <div className="lottie">
+          <Lottie options={defaultOptions} />
         </div>
         <div className="pagenotfound__text">
           <h4>صفحه مورد نظر شما یافت نشد!</h4>
