@@ -1,7 +1,16 @@
 @import url("https://fonts.googleapis.com/css?family=Poppins:400,500,600,700,800,900");
 
 
-
+.auth-link {
+  border: 1px solid ; 
+  display: flex;
+  padding-left: 10px;
+}
+.auth-link-li{
+  margin-right: 10px !important;
+  margin-top: 5px !important;
+  margin-bottom: 5px !important;
+} 
 .navbar {
   height: 60px;
   background: radial-gradient(ellipse at bottom, #1b2735 0%, #12141d 100%);
@@ -78,6 +87,7 @@
   
   .nav-elements ul li:not(:last-child) {
     margin-right: 40px;
+    margin-top: 5px;
   }
   
   .nav-elements ul a {
@@ -185,7 +195,7 @@
   
 }
 
-@media (max-width: 700px) {
+@media (max-width: 715px) {
 
   .navbar{
     .nav-elements ul li:not(:last-child) {
@@ -198,7 +208,7 @@
 
 }
 
-@media (max-width: 630px) {
+@media (max-width: 642px) {
   .navbar{
     .search-bar{
       width: 75%;
@@ -249,11 +259,10 @@
     }
     
     .nav-elements ul li {
-      margin-top:15px;
+      margin-top:12px !important;
       margin-right: -5px !important;
       
     }
-    
   }
   
 } 

@@ -16,7 +16,7 @@ const PasswordRecovery = () =>{
     const [recoveryEmailValidationMsg,setRecoveryEmailValidationMsg] = useState("فرمت ایمیل نادرست است");
 
     useEffect(() => {
-      //disable vertical scrollbar
+      // disable vertical scrollbar
       document.documentElement.style.overflowY = 'hidden';
       //changing title of html pages dynamically
       document.title = "بازیابی رمزعبور";

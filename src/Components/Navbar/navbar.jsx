@@ -8,12 +8,13 @@ const Navbar = () => {
     const [showNavbar, setShowNavbar] = useState(false)
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     const [searchBoxText, setSearchBoxText] = useState("")
-
+    const [showBorder, setShowBorder] = useState(true);
     useEffect(() => {
         
         const handleResize = () => {
             if (window.innerWidth>630){
                 setShowNavbar(false);
+                setShowBorder(true);
             }
         };
         window.addEventListener('resize', handleResize);
@@ -25,7 +26,14 @@ const Navbar = () => {
     }, []);
 
     const handleShowNavbar = () => {
-        setShowNavbar(!showNavbar)
+        
+        setShowNavbar(!showNavbar) ;
+        if(showBorder===false){
+            setTimeout(() => {setShowBorder(!showBorder)}, 300);
+        }else{
+            setShowBorder(!showBorder)
+        }
+        
     }
     const searchBoxTextHandler = () => {
         //get reccomendations from server to show 
@@ -65,7 +73,7 @@ const Navbar = () => {
                 <i class="bi bi-list" style={{ fontSize: '28px' ,paddingBottom : "15px"}}></i>
             </div>
             <div className={`nav-elements  ${showNavbar && 'active'}`}>
-                <ul>
+                <ul> 
                     <li>
                     <NavLink to="/" >خانه </NavLink>
                     </li>
@@ -78,16 +86,28 @@ const Navbar = () => {
                     <li>
                         <NavLink to="/create-event" > ایجاد رویداد </NavLink>
                     </li>
-                    {!isLoggedIn &&(<li>
-                        <NavLink to="/login" > ورود </NavLink>
-                        </li>)}
-                    {!isLoggedIn &&(<li>
-                        <NavLink to="/register" > عضویت </NavLink>
-                        </li>
-                    )}
-                    {isLoggedIn && (<p>عکس پروفایل و نام</p>)
+                    {!showNavbar &&<div className={showBorder && "auth-link"}>
+                        {!isLoggedIn &&(<li className="auth-link-li">
+                            <NavLink to="/login" > ورود </NavLink>
+                            </li>)}
+                        {!isLoggedIn &&(<li className="auth-link-li">
+                            <NavLink to="/register" > عضویت </NavLink>
+                            </li>
+                        )}
+                        {isLoggedIn && (<p>عکس پروفایل و نام</p>)
 
-                    }
+                        }
+                    </div>}
+                    {showNavbar && !isLoggedIn &&(<li className="auth-link-li">
+                            <NavLink to="/login" > ورود </NavLink>
+                            </li>)}
+                    {showNavbar && !isLoggedIn &&(<li className="auth-link-li">
+                            <NavLink to="/register" > عضویت </NavLink>
+                            </li>
+                        )}
+                    {showNavbar && isLoggedIn && (<p>عکس پروفایل و نام</p>)
+                        }
+                    
                 </ul>
             </div>
         </div>
