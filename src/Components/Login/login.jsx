@@ -32,9 +32,6 @@ const Login = () => {
     const regUserName = /^[a-zA-Z][a-zA-Z0-9]{3,29}$/;
     const regPassword = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)" + "(?=.*[-+_!@#$%^&*., ?]).+$");
 
-    // const usernameErrorExtended = false;
-    // const passwordErrorExtended = false;
-
     const [usernameErrorExtended, setUsernameErrorExtended] = useState(false);
     const [passwordErrorExtended, setPasswordErrorExtended] = useState(false);
 
@@ -86,7 +83,7 @@ const Login = () => {
         
         setFirstSubmit(true);
         setShowViolationUsername(true);
-        setShowViolationPassword(true);                            // ------------------------
+        setShowViolationPassword(true);
         
         event.preventDefault();
         
@@ -99,8 +96,8 @@ const Login = () => {
             axios.post('http://localhost:8080/api', userData)
             .then(response => {
               console.log('Data sent successfully:', response.data);
-              setShowViolationUsername(false);                                               // ------------------------
-              setShowViolationPassword(false);                                              // ------------------------
+              setShowViolationUsername(false);
+              setShowViolationPassword(false);
               if (response.data['message']==="Data received successfully"){
                 setEnteredLoginUserName("");
                 setEnteredLoginPassword("");
@@ -109,14 +106,14 @@ const Login = () => {
                   navigator('/home');
                 }, 4000);
               }else if(response.data['message']===`username does not exist`){
-                setShowViolationUsername(true);                                                        // ------------------------
-                setShowViolationPassword(true);                                                         // ------------------------
+                setShowViolationUsername(true);
+                setShowViolationPassword(true);
                 setLoginUserNameValidation(false);
                 setLoginUserNameValidationMsg("نام کاربری وارد شده در سیستم وجود ندارد");
                 
               }else if(response.data['message']===`password incorrect`){
-                setShowViolationUsername(true);                                                  // ------------------------    
-                setShowViolationPassword(true);                                                 // ------------------------
+                setShowViolationUsername(true);   
+                setShowViolationPassword(true);
                 setLoginPasswordValidation(false);
                 setLoginPasswordValidationMsg("رمزعبور نادرست است");
               }
@@ -154,7 +151,7 @@ const Login = () => {
                 setLoginUserNameValidation(true);
                 setShowViolationUsername(false);  
                 if (showViolationsUsername){
-                    setAutoHeight(autoHeight-20);                                                 // ------------------------
+                    setAutoHeight(autoHeight-20);
                 }
             }
             else{
