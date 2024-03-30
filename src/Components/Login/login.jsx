@@ -7,7 +7,7 @@ import {useNavigate} from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import { useGoogleLogin } from '@react-oauth/google';
 import axios from "axios";
-let x=0;
+// let x=0;
 
 const Login = () => {
     const navigator=useNavigate();
@@ -135,56 +135,69 @@ const Login = () => {
 
     const loginUserNameHandler = (event) => {
         setEnteredLoginUserName(event.target.value);
-        
-        if (!loginUserNameValidation && !usernameErrorExtended){
-            setAutoHeight(autoHeight+20);
-            usernameErrorExtended = true;
-        }
-        
-        if (event.target.value.length<1 || event.target.value.length>30){
-            setLoginUserNameValidation(false);
-            setLoginUserNameValidationMsg("نام کاربری شامل 4 تا 30 کاراکتر است")
-
-        }
-        else{
-            if (regUserName.test(event.target.value)){
-                setLoginUserNameValidation(true);
-                setShowViolationUsername(false);  
-                if (showViolationsUsername){
-                    setAutoHeight(autoHeight-20);
+        if (firstSubmit){
+            
+            if (event.target.value.length<4 || event.target.value.length>30){
+                setLoginUserNameValidation(false);
+                setShowViolationUsername(true);
+                setLoginUserNameValidationMsg("نام کاربری شامل 4 تا 30 کاراکتر است")
+                if (!usernameErrorExtended){
+                    setAutoHeight(autoHeight+20);
+                    setUsernameErrorExtended(true);
                 }
             }
             else{
-                setLoginUserNameValidation(false);
-                setLoginUserNameValidationMsg("نام کاربری باید با حروف انگلیسی شروع شود و شامل حروف و اعداد انگلیسی است")
-            }
-                
+                if (regUserName.test(event.target.value)){
+                    setLoginUserNameValidation(true);
+                    setShowViolationUsername(false);  
+                    if (showViolationsUsername){
+                        setAutoHeight(autoHeight-20);
+                        setUsernameErrorExtended(false);
+                    }
+                }
+                else{
+                    setLoginUserNameValidationMsg("نام کاربری باید با حروف انگلیسی شروع شود و شامل حروف و اعداد انگلیسی است")
+                    setLoginUserNameValidation(false);
+                    setShowViolationUsername(true);
+                    if (!usernameErrorExtended){
+                        setAutoHeight(autoHeight+20);
+                        setUsernameErrorExtended(true);
+                    }
+                }
+            }  
         }
     }
 
     const loginPasswordHandler = (event) => {
         setEnteredLoginPassword(event.target.value);
-   
-        if (!loginPasswordValidation && !passwordErrorExtended){
-            setAutoHeight(autoHeight+20);
-            passwordErrorExtended = true;
-        }
+        if (firstSubmit){
 
-        if(event.target.value.length<8){
-            setLoginPasswordValidationMsg("رمزعبور حداقل باید شامل 8 کاراکتر باشد")
-            setLoginPasswordValidation(false);
-        }else{
-            if(!regPassword.test(event.target.value)){
-                setLoginPasswordValidationMsg("رمزعبور باید شامل حروف کوچک و بزرگ انگلیسی،اعداد و نشانه های خاص باشد")
+            if(event.target.value.length<8){
+                setLoginPasswordValidationMsg("رمزعبور حداقل باید شامل 8 کاراکتر باشد")
                 setLoginPasswordValidation(false);
-            }else{
-                setLoginPasswordValidation(true);
-                setShowViolationPassword(false); 
-                if (showViolationsPassword){
-                    setAutoHeight(autoHeight-20);
+                setShowViolationPassword(true);
+                if (!passwordErrorExtended){
+                    setAutoHeight(autoHeight+20);
+                    setPasswordErrorExtended(true);
                 }
+            }else{
+                if(!regPassword.test(event.target.value)){
+                    setLoginPasswordValidationMsg("رمزعبور باید شامل حروف کوچک و بزرگ انگلیسی،اعداد و نشانه های خاص باشد")
+                    setLoginPasswordValidation(false);
+                    setShowViolationPassword(true);
+                    if (!passwordErrorExtended){
+                        setAutoHeight(autoHeight+20);
+                        setPasswordErrorExtended(true);
+                    }
+                }else{
+                    setLoginPasswordValidation(true);
+                    setShowViolationPassword(false); 
+                    if (showViolationsPassword){
+                        setAutoHeight(autoHeight-20);
+                        setPasswordErrorExtended(false);
+                    }
+                };
             };
-      
     };
     };
 
