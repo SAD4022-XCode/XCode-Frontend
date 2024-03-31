@@ -1,0 +1,70 @@
+.pagenotfound {
+  height: 10800px;
+  width: 1920x;
+  overflow: hidden;
+  background: radial-gradient(ellipse at bottom, #1b2735 0%, #12141d 100%);
+  color: #ffeba7;
+}
+.pagenotfound__content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-family: "iransansweb";
+  text-align: center;
+  direction: rtl;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.pagenotfound__content button {
+  justify-content: center;
+  justify-self: center;
+  align-self: center;
+  align-items: center;
+  display: flex;
+  border-radius: 4px;
+  height: 44px;
+  font-size: 15px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  display: inline-flex;
+  align-items: center;
+  background-color: #ffeba7;
+  color: #000000;
+}
+.pagenotfound__content button:hover {
+  background-color: #000000;
+  color: #ffeba7;
+  box-shadow: 0 8px 24px 0 rgba(16, 39, 112, 0.2);
+}
+
+.pagenotfound__content .lottie{
+  height: 250px;
+  width: 437.5px;
+}
+
+@media screen and (max-width: 450px) {
+  .pagenotfound__content h4{
+    font-size: 20px;
+  }
+  .pagenotfound__content p{
+    font-size: 12px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .pagenotfound__content h4{
+    font-size: 16px;
+  }
+  .pagenotfound__content p{
+    font-size: 10.5px;
+  }
+  .pagenotfound__content .lottie{
+    height: 200px;
+    width: 350px;
+  }
+}
