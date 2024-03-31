@@ -4,7 +4,7 @@ import Home from './Components/Home/Home';
 import Login from './Components/Login/login';
 import Register from './Components/Register/register';
 import PasswordRecovery from './Components/PasswordRecovery/passwordRecovery';
-
+import CreateEvent from './Components/CreateEvent/createEvents';
 function App() {
   return (
     <Router>
@@ -14,6 +14,7 @@ function App() {
         <Route exact path="/login" element={<Login />}/>
         <Route exact path="/register" element={<Register />}/> 
         <Route exact path="/password-recovery" element={<PasswordRecovery />} />
+        <Route exact path="/create-event" element={<CreateEvent />} />
       </Routes>
     </Router>
   );

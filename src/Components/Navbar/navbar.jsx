@@ -78,10 +78,10 @@ const Navbar = () => {
                     <NavLink to="/" >خانه </NavLink>
                     </li>
                     <li>
-                    <NavLink to="/events"> بلاگ ها</NavLink>
+                    <NavLink to="/blogs"> بلاگ ها</NavLink>
                     </li>
                     <li>
-                    <NavLink to="/blogs">رویدادها</NavLink>
+                    <NavLink to="/events">رویدادها</NavLink>
                     </li>
                     <li>
                         <NavLink to="/create-event" > ایجاد رویداد </NavLink>
@@ -106,7 +106,8 @@ const Navbar = () => {
                             </li>
                         )}
                     {showNavbar && isLoggedIn && (<p>عکس پروفایل و نام</p>)
-                        }
+                        
+                    }
                     
                 </ul>
             </div>

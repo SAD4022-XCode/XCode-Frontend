@@ -10,7 +10,7 @@ import axios from "axios";
 let x=0;
 const Register = () =>{
     const navigator=useNavigate();
-
+    
     const [enteredRegisterUserName, setEnteredRegisterUserName] = useState("");
     const [enteredRegisterEmail, setEnteredRegisterEmail] = useState("");
 
@@ -38,8 +38,6 @@ const Register = () =>{
     
     
     useEffect(() => {
-      //disable vertical scrollbar
-      document.documentElement.style.overflowY = 'hidden';
       //changing title of html pages dynamically
       document.title = "عضویت در ایونتیفای";
     }, []);
