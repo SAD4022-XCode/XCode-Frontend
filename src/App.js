@@ -4,6 +4,8 @@ import Home from './Components/Home/Home';
 import Login from './Components/Login/login';
 import Register from './Components/Register/register';
 import PasswordRecovery from './Components/PasswordRecovery/passwordRecovery';
+import Navbar from './Components/Navbar/navbar';
+import ProfileSidebar from './Components/ProfileSidebar/profileSidebar';
 
 function App() {
   return (
@@ -14,6 +16,10 @@ function App() {
         <Route exact path="/login" element={<Login />}/>
         <Route exact path="/register" element={<Register />}/> 
         <Route exact path="/password-recovery" element={<PasswordRecovery />} />
+        <Route exact path="/profile" element={<> 
+                                                <Navbar/> 
+                                                <ProfileSidebar />
+                                                </> }/>
       </Routes>
     </Router>
   );
