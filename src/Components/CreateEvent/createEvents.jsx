@@ -4,6 +4,13 @@ import {useNavigate} from 'react-router-dom';
 import './createEvents.css'
 import defaultImage from '../../assets/events.jpg'
 import CityList from "./cityList";
+
+import DatePicker from "react-multi-date-picker"
+import persian from "react-date-object/calendars/persian"
+import persian_fa from "react-date-object/locales/persian_fa"
+import "react-multi-date-picker/styles/colors/yellow.css"
+import TimePicker from "react-multi-date-picker/plugins/time_picker";
+import moment from 'moment-jalaali';
 const CreateEvent = () => {
     const navigator = useNavigate();
     const [eventPhoto, setEventPhoto] = useState(defaultImage);
@@ -13,9 +20,31 @@ const CreateEvent = () => {
     const [isFree, setIsFree] = useState(false);
     const [ticketPrice, setTicketPrice] = useState();
     const [ticketCount, setTicketCount] = useState();
+    const [ticketCardHeight, setTicketCardHeight] = useState(window.innerWidth > 575 ? 180 : 320)
+    const [datetimeCardHeight, setDatetimeCardHeight] = useState(window.innerWidth > 770 ? 400 : 500)
+
+    const [dateInput, setDateInput] = useState('');
+    const [timeInput, setTimeInput] = useState('');
+    const [selectedDate, setSelectedDate] = useState(null);
+    const [todayJalaliDate, setTodayJalaliDate] = useState('');
     useEffect(() => {
         document.documentElement.style.overflowY = 'hidden';
         document.title = "ایجاد رویداد";
+        const todayGregorianDate = moment().locale('en').format('YYYY-MM-DD');
+        const todayJalali = moment(todayGregorianDate, 'YYYY-MM-DD').format('jYYYY/jMM/jDD');
+        setTodayJalaliDate(todayJalali);
+
+        const handleResize = () => {
+            setTicketCardHeight(window.innerWidth > 575 ? 180 : 320);
+            setDatetimeCardHeight(window.innerWidth > 770 ? 400 : 450)
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+
       }, []);
 
     const handleEventPhoto = (event) => {
@@ -52,6 +81,12 @@ const CreateEvent = () => {
         }else{
             setTicketPrice(event.target.value)
         }
+    }
+
+    const handleDate = (event) => {
+        // if(){
+
+        // }
     }
 
     return (
@@ -95,7 +130,7 @@ const CreateEvent = () => {
                                 <div style={{ position: "relative" }}>
                                     {eventPhoto && <img
                                         src={eventPhoto}
-                                        style={{ paddingBottom: "15px", paddingTop: "20px", height: "250px", width: "500px" }}
+                                        style={{ paddingBottom: "15px", paddingTop: "20px", height: "250px", width: "auto" }}
                                         alt="تصویر رویداد"
                                     />}
                                     <div style={{ position: "absolute", bottom: "5%", left: "50%", transform: "translateX(-50%)" }}>
@@ -129,12 +164,12 @@ const CreateEvent = () => {
             <div className="container">
                 <div className="row">
                     <div className="section">
-                        <div className="card-3d-wrap-ce" style={{height:`${eventType==="online"? "300px" : "400px"}`}}>
+                        <div className="card-3d-wrap-ce" style={{height:`${eventType==="online"? datetimeCardHeight.toString()+"px" : (datetimeCardHeight+100).toString()+"px"}`}}>
                             <div className="card-back ">
                             <div className="center-wrap">
                                 <div className="section">
-                                <h4 className="mb-4 pb-3">اطلاعات مربوط به برگزاری رویداد</h4>
-                                <div className="text-right">نوع برگزاری رویداد</div>
+                                <h4 className="mb-4 pb-3">اطلاعات برگزاری رویداد</h4>
+                                <div className="text-right pb-2">نوع برگزاری </div>
                                 <div class="radio-inputs">
                                     <label class="radio">
                                         <input type="radio" name="radio" value="online" checked={eventType==="online"} onChange={handleEventType}/>
@@ -148,7 +183,7 @@ const CreateEvent = () => {
                                 </div>
                                 {eventType==="online" && 
                                     <div>
-                                        <p className="mb-2 mt-2 text-right" style={{fontSize:"16px"}}>لینک برگزاری رویداد</p>
+                                        <div className="mb-2 mt-2 text-right" style={{fontSize:"16px"}}>لینک برگزاری </div>
                                         <div className={`form-group mb-1`}>
                                             <input
                                             dir="ltr"
@@ -181,7 +216,84 @@ const CreateEvent = () => {
                                         </div>
                                     </div>
                                 }
+                                <div className="row">
+                                    <div className="col-xl-6 col-md-6 col-sm-12 form-group text-right pr-3 pl-3">
+                                        
+                                        <p className="mt-2 mb-2">تاریخ و ساعت شروع </p>
+                                        <div className="row">    
+                                            <div className="col-8">
+                                                <DatePicker portal
+                                            inputClass="form-style-ce"
+                                            calendar={persian}
+                                            locale={persian_fa}
+                                            calendarPosition="bottom-right"
+                                            digits={[0,1,2,3,4,5,6,7,8,9]}
+                                            weekDays={["ش","ی","د","س","چ","پ","ج"]}
+                                            monthYearSeparator={" "}
+                                            onChange={handleDate}
+                                            value={selectedDate}
+                                            formattingIgnoreList={["a"]}
+                                            minDate={todayJalaliDate}
+                                            placeholder={todayJalaliDate}
+                                            />
+                                            </div>
+                                            <div className="col-4">
+                                                <DatePicker portal
+                                                    inputClass="form-style-ce"
+                                                    disableDayPicker
+                                                    format="HH:mm"
+                                                    placeholder="18:00"
+                                                    plugins={[
+                                                    <TimePicker hideSeconds />
+                                                    ]} 
+                                                />
+                                            </div>
+                                            
+                                            
+                                        </div>
+                                    </div>
+
+                                    <div className="col-xl-6 col-md-6 form-group text-right pl-3 pr-3">
+                                        
+                                        <p className="mt-2 mb-2">تاریخ و ساعت پایان </p>
+                                        <div className="row">    
+                                            <div className="col-8">
+                                                <DatePicker portal
+                                            inputClass="form-style-ce"
+                                            calendar={persian}
+                                            locale={persian_fa}
+                                            calendarPosition="bottom-right"
+                                            digits={[0,1,2,3,4,5,6,7,8,9]}
+                                            weekDays={["ش","ی","د","س","چ","پ","ج"]}
+                                            monthYearSeparator={" "}
+                                            onChange={handleDate}
+                                            value={selectedDate}
+                                            formattingIgnoreList={["a"]}
+                                            minDate={todayJalaliDate}
+                                            placeholder={todayJalaliDate}
+                                            />
+                                            </div>
+                                            <div className="col-4">
+                                                <DatePicker portal
+                                                    inputClass="form-style-ce"
+                                                    disableDayPicker
+                                                    format="HH:mm"
+                                                    placeholder="18:00"
+                                                    plugins={[
+                                                    <TimePicker hideSeconds />
+                                                    ]} 
+                                                />
+                                            </div>
+                                            
+                                            
+                                        </div>
+                                    </div>
+                                    
+                                    
                                 </div>
+                                
+                                </div>
+                                
                             </div>
                             </div>
                         </div>
@@ -191,19 +303,18 @@ const CreateEvent = () => {
 
 
 
-
-            <div className="container pb-5">
+            <div className="container">
                 <div className="row">
-                    <div className="section pb-5">
-                        <div className="card-3d-wrap-ce" style={{height:"200px"}}>
+                    <div className="section">
+                        <div className="card-3d-wrap-ce" style={{height:ticketCardHeight.toString()+"px"}}>
                             <div className="card-back ">
                             <div className="center-wrap">
                                 <div className="section">
-                                <h4 className=" pb-3"> بلیت </h4>
+                                <h4 className=" pb-2"> بلیت </h4>
                                     
                                     <div className="row">
-                                        <div className="col-2">
-                                            <p className="mb-0 text-right">نوع بلیت</p>
+                                        <div className="col-lg-2 col-md-3 col-sm-4 ">
+                                            <p className="mb-0 pb-1 text-right">نوع بلیت</p>
                                             <div className="row pt-0 mt-0 align-items-center">
                                                 <input 
                                                     type="checkbox" 
@@ -214,7 +325,7 @@ const CreateEvent = () => {
                                                 <p className="pt-3">رایگان</p>
                                             </div>
                                         </div>
-                                        <div className="col-5 text-right">
+                                        <div className="col-lg-5 col-md-4 col-sm-4  text-right">
                                             <p className="mb-1">تعداد</p>
                                             <div className={`form-group mt-1`}>
                                                 <input
@@ -223,9 +334,10 @@ const CreateEvent = () => {
                                                     className="form-style-ce"
                                                     value={ticketCount}
                                                     placeholder="100" />
-                                            </div>
-                                        </div><div className="col-5 text-right">
-                                                <p className="mb-1">قیمت</p>
+                                            </div> 
+                                        </div>
+                                        <div className="col-lg-5 col-md-5 col-sm-4  text-right">
+                                                <p className="mb-1">قیمت</p> 
                                                 <div className={`form-group mb-1`}>
                                                     <input
                                                         dir="rtl"
@@ -236,8 +348,9 @@ const CreateEvent = () => {
                                                         placeholder={isFree===true ?"رایگان" : "50000"} />
                                                 </div>
                                         </div>
+                                        
+                                    
                                     </div>
-                                
                                 </div>
                             </div>
                             </div>
@@ -245,6 +358,59 @@ const CreateEvent = () => {
                     </div>
                     </div>
             </div>
+
+            
+
+            
+            <div className="container pb-5">
+                <div className="row">
+                    <div className="section pb-5">
+                        <div className="card-3d-wrap-ce" style={{height:(ticketCardHeight+60).toString()+"px"}}>
+                            <div className="card-back ">
+                            <div className="center-wrap">
+                                <div className="section">
+                                <h4 className=" pb-3"> مشخصات برگزارکننده </h4>
+                                    
+                                    <div className="row">
+                                        <div className="col-lg-6 col-md-6 col-sm-6  pt-2 text-right">
+                                            <p className="mb-1">شماره تلفن</p>
+                                            <div className={`form-group mt-1`}>
+                                                <input
+                                                    dir="rtl"
+                                                    type="number"
+                                                    className="form-style-ce"
+                                                    value={ticketCount}
+                                                    placeholder="09123456789" />
+                                            </div>
+                                        </div><div className="col-lg-6 col-md-6 col-sm-6 pt-2 text-right">
+                                                <p className="mb-1">کدملی</p>
+                                                <div className={`form-group mb-1`}>
+                                                    <input
+                                                        dir="rtl"
+                                                        type="number"
+                                                        className="form-style-ce"
+                                                        placeholder="0123456789"/>
+                                                </div>
+                                        </div>
+                                        
+                                    
+                                    </div>
+                                <button
+                                        type="submit"
+                                        className="btn mt-4"
+                                        // style={{paddingLeft:"40%",paddingRight:"40%"}}
+                                        // onClick={(e) => registerHandler(e, "register")}
+                                        >
+                                            ایجاد رویداد
+                                        </button>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+            </div>
+
             </form>
         </center>
     )

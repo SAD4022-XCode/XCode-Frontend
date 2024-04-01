@@ -80,7 +80,7 @@ h4 {
 .section {
   position: relative;
   width: 100%;
-  display: block;
+  /* display: block; */
 }
 .full-height {
   min-height: 100vh;
@@ -118,7 +118,7 @@ h4 {
   direction: rtl;
   position: relative;
   width:850px;
-  max-width: 100%;
+  max-width: 90%;
   -webkit-transform-style: preserve-3d;
   transform-style: preserve-3d;
   perspective: 800px;
@@ -179,6 +179,7 @@ input[type=number]{
 }
 
 .form-style-ce {
+  
   text-align: right;
   padding: 13px 20px;
   padding-right: 20px;
@@ -313,6 +314,17 @@ select {
   background-color: #000000;
   color: #4285f4;
 }
+
+@media (max-width: 1000px){
+  .switchButton{
+    --s: 20px !important; 
+    
+  }
+  p{
+    font-size: 12px !important;
+  }
+}
+
 
 @media screen and (max-width: 450px) {
   .link {

@@ -323,8 +323,8 @@ const Register = () =>{
                               placeholder="تاریخ تولد"
                               onFocus={(e) => (e.target.type = "date")}
                               onBlur={(e) => (e.target.type = "text")}
-                              value={enteredBirthDate}
-                              onChange={birthDateHandler}
+                              // value={enteredBirthDate}
+                              // onChange={birthDateHandler}
                             />
                             <i className="input-icon uil uil-calendar-alt"></i>
                           </div> */}

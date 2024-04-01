@@ -214,6 +214,7 @@
 
 @media (max-width: 642px) {
   .navbar{
+    z-index: 1;
     .search-bar{
       width: 75%;
       height: 40px;
