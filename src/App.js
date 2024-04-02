@@ -7,6 +7,7 @@ import PasswordRecovery from "./Components/PasswordRecovery/passwordRecovery";
 // import UserInfo from "./Components/User Info/UserInfo";
 import PageNotFound from "./Components/PageNotFound/PageNotFound";
 import CreateEvent from './Components/CreateEvent/createEvents';
+import UserInfo from "./Components/User Info/UserInfo";
 import "jalaali-react-date-picker/lib/styles/index.css";
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
         <Route exact path="/register" element={<Register />} />
         <Route exact path="/password-recovery" element={<PasswordRecovery />} />
         <Route exact path="/create-event" element={<CreateEvent />}/>
+        <Route exact path="/user-info" element={<UserInfo />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </Router>
