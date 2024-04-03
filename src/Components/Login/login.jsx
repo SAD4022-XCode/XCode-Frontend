@@ -21,7 +21,7 @@ const Login = () => {
     const [showViolations, setShowViolation] = useState(false);
 
     const [loginUserNameValidation, setLoginUserNameValidation] = useState(false);
-    const [loginUserNameValidationMsg, setLoginUserNameValidationMsg] = useState("نام کاربری شامل 1 تا 30 کاراکتر است و باید با حروف انگلیسی شروع شود");
+    const [loginUserNameValidationMsg, setLoginUserNameValidationMsg] = useState("نام کاربری شامل 3 تا 30 کاراکتر است و باید با حروف انگلیسی شروع شود");
     
     const [loginPasswordValidation, setLoginPasswordValidation] = useState(false);
     const [loginPasswordValidationMsg, setLoginPasswordValidationMsg] = useState("رمزعبور حداقل باید شامل 8 کاراکتر باشد");
@@ -84,9 +84,11 @@ const Login = () => {
         };
 
         if(loginUserNameValidation && loginPasswordValidation){
-            axios.post('http://localhost:8080/api', userData)
+            axios.post('http://127.0.0.1:8000/auth/jwt/create', userData)
+            
             .then(response => {
               console.log('Data sent successfully:', response.data);
+              console.log('Token recieved successfully:', response.data.access);
               setShowViolation(false);
               if (response.data['message']==="Data received successfully"){
                   
@@ -123,16 +125,16 @@ const Login = () => {
 
    //Login validations
   //--------------------------------------------------------------------------------------------------
-    const regUserName = /^[a-zA-Z][a-zA-Z0-9]{3,29}$/;;
+    const regUserName = /^[a-zA-Z][a-zA-Z0-9]{2,29}$/;
     const loginUserNameHandler = (event) => {
         if(showViolations===true){
         setAutoHeight(autoHeight-20*x);
         }
         setShowViolation(false)
         setEnteredLoginUserName(event.target.value);
-        if (event.target.value.length<1 || event.target.value.length>30){
+        if (event.target.value.length<3 || event.target.value.length>30){
         setLoginUserNameValidation(false);
-        setLoginUserNameValidationMsg("نام کاربری شامل 1 تا 30 کاراکتر است و باید با حروف انگلیسی شروع شود")
+        setLoginUserNameValidationMsg("نام کاربری شامل 3 تا 30 کاراکتر است و باید با حروف انگلیسی شروع شود")
         }
         else{
             if (regUserName.test(event.target.value)){
