@@ -7,10 +7,11 @@ import {useNavigate} from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import { useGoogleLogin } from '@react-oauth/google';
 import axios from "axios";
-
+import { useAuth } from "../Authentication/authProvider";
 
 let x=0;
 const Login = () => {
+    const auth = useAuth();
     const navigator=useNavigate();
 
     const [enteredLoginUserName, setEnteredLoginUserName] = useState("");
@@ -63,7 +64,7 @@ const Login = () => {
     };
 
  
-    const loginHandler = (event, action) => {
+    const loginHandler = async (event, action) => {
         x=0;
         if(loginUserNameValidation===false){
         x++;
@@ -84,41 +85,32 @@ const Login = () => {
         };
 
         if(loginUserNameValidation && loginPasswordValidation){
-            axios.post('http://127.0.0.1:8000/auth/jwt/create', userData)
-            
-            .then(response => {
-              console.log('Data sent successfully:', response.data);
-              console.log('Token recieved successfully:', response.data.access);
-              setShowViolation(false);
-              if (response.data['message']==="Data received successfully"){
-                  
-                setEnteredLoginUserName("");
-                setEnteredLoginPassword("");
-
-
-                toast.success("!با موفقیت عضو شدید");
-                setTimeout(() => {
-                  navigator('/home');
-                }, 4000);
-              }else if(response.data['message']===`username does not exist`){
-                setShowViolation(true);
-                setLoginUserNameValidation(false);
-                setLoginUserNameValidationMsg("نام کاربری وارد شده در سیستم وجود ندارد");
-                
-              }else if(response.data['message']===`password incorrect`){
-                        
-                setShowViolation(true);
-                setLoginPasswordValidation(false);
-                setLoginPasswordValidationMsg("رمزعبور نادرست است");
-              }
-
-            })
-            .catch(error => {
+            setShowViolation(false);
+            let result = await auth.loginAction(userData);
+            if (result ==="Data received successfully"){
+              setEnteredLoginUserName("");
+              setEnteredLoginPassword("");
+              toast.success("!با موفقیت وارد شدید");
+              setTimeout(() => {
+                navigator('/home');
+              }, 4000);
+            }else if(result==="username does not exist"){
+              setShowViolation(true);
+              setLoginUserNameValidation(false);
+              setLoginUserNameValidationMsg("نام کاربری وارد شده در سیستم وجود ندارد");
+              
+            }else if(result==="password incorrect"){
+              setShowViolation(true);
+              setLoginPasswordValidation(false);
+              setLoginPasswordValidationMsg("رمزعبور نادرست است");
+              
+            }
+            else{
               toast.success("به صورت آزمایشی وارد شدید");
               setTimeout(() => {
                 navigator('/home');
               }, 4000);
-            });
+            }
           }
     };
 

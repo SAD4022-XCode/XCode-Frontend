@@ -2,16 +2,23 @@ import React, { useState, useEffect} from "react";
 import { NavLink } from 'react-router-dom'
 import './navbar.css'
 import {useNavigate} from 'react-router-dom';
-
+import { useAuth } from "../Authentication/authProvider";
 const Navbar = () => {
+    const auth = useAuth();
     const navigator=useNavigate();
-
     const [showNavbar, setShowNavbar] = useState(false)
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     const [searchBoxText, setSearchBoxText] = useState("")
     const [showBorder, setShowBorder] = useState(true);
     useEffect(() => {
-        
+        console.log("my acces token",auth.token)
+        if(auth.token !==""){
+            setIsLoggedIn(true)
+            console.log(auth.token !== "")
+        }else{
+            setIsLoggedIn(false)
+            console.log("setIsLoggedIn(false)")
+        }
         const handleResize = () => {
             if (window.innerWidth>630){
                 setShowNavbar(false);
@@ -24,7 +31,7 @@ const Navbar = () => {
         window.removeEventListener('resize', handleResize);
         };
 
-    }, []);
+    }, [isLoggedIn]);
 
     const handleShowNavbar = () => {
         
@@ -101,7 +108,7 @@ const Navbar = () => {
                         {!showNavbar && isLoggedIn && 
                         <div className="dropdown-container" onMouseEnter={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
                         <div className="row" >
-                          <p className="pt-2 px-2 ellipsis">رضا حسینی</p>
+                          <p className="pt-2 px-2 ellipsis">نام کاربر</p>
                           <img src={require("../../assets/profile.png")} style={{height:"35px"}} alt="profile"/>
                         </div>
                         {isOpen && (
@@ -112,7 +119,7 @@ const Navbar = () => {
                                 </div>
                                 <div className="row pr-2 pb-2 dropdown-item2" >
                                        <i className=" pl-2  bi bi-box-arrow-right"></i>
-                                         <p className="pt-2 mb-0">خروج </p>
+                                         <p className="pt-2 mb-0" onClick={() => auth.logOut()}>خروج </p>
 
                                 </div>
                         </div>
@@ -134,7 +141,10 @@ const Navbar = () => {
                         )
                     }
                     {showNavbar && isLoggedIn && (<li className="auth-link-li pb-1">
-                            <p onClick={() => console.log("log out")}>خروج </p>
+                            <p onClick={() => {
+                                auth.logOut()
+                                setIsLoggedIn(false)
+                            }}>خروج </p>
                             </li>
                         )
                     }
