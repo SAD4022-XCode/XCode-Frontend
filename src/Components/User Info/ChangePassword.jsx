@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import { changePasswordValidation } from "./UserInfoValidation";
+import axios from "axios";
+import AxiosInstance from "./Axios";
 const ChangePassword = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showPassword2, setShowPassword2] = useState(false);
@@ -31,19 +33,25 @@ const ChangePassword = () => {
     initialValues: InitialValues,
     validationSchema: changePasswordValidation,
     onSubmit: (values) => {
+      AxiosInstance.post(`http://127.0.0.1:8000/auth/users/set_password/`,{
+      new_password: values.newPassword,
+      current_password: values.password,
+    })
       console.log(values);
     },
   });
   return (
     <form className="change-password" onSubmit={handleSubmit}>
-      <div className="container">
+      <div className="container pb-5">
         <div className="row">
-          <div className="section">
+          <div className="section pb-5">
             <div className="card-3d-wrap-ce" style={{ height: "650px" }}>
               <div className="card-back ">
                 <div className="center-wrap">
                   <div className="section">
+                    <div className="change-password__title">
                     <h2 className="mb-4 pb-3"> تغییر رمز عبور</h2>
+                    </div>
                     <div className="change-password__content">
                       <div className="change-password__content-current">
                         <div className="col-6 text-right">
@@ -66,8 +74,8 @@ const ChangePassword = () => {
                               style={{
                                 fontSize: "20px",
                                 position: "absolute",
-                                top: "30%",
-                                left: "8%",
+                                top: "40%",
+                                left: "0%",
                                 transform: "translateY(-50%)",
                                 marginLeft: "20px",
                               }}
@@ -102,8 +110,8 @@ const ChangePassword = () => {
                               style={{
                                 fontSize: "20px",
                                 position: "absolute",
-                                top: "30%",
-                                left: "8%",
+                                top: "40%",
+                                left: "0%",
                                 transform: "translateY(-50%)",
                                 marginLeft: "20px",
                               }}
@@ -138,8 +146,8 @@ const ChangePassword = () => {
                               style={{
                                 fontSize: "20px",
                                 position: "absolute",
-                                top: "30%",
-                                left: "8%",
+                                top: "40%",
+                                left: "0%",
                                 transform: "translateY(-50%)",
                                 marginLeft: "20px",
                               }}
@@ -151,10 +159,11 @@ const ChangePassword = () => {
                           </div>
                         </div>
                       </div>
-                      <button disabled={isSubmitting} type="submit">
+                      
+                    </div>
+                    <button disabled={isSubmitting} type="submit">
                         تغییر رمز عبور
                       </button>
-                    </div>
                   </div>
                 </div>
               </div>

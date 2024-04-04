@@ -10,9 +10,13 @@ import { Controller, useForm } from "react-hook-form";
 import { useFormik } from "formik";
 import { userInfoValidation } from "./UserInfoValidation";
 import ChangePassword from "./ChangePassword";
+import AxiosInstance from "./Axios";
 const weekDays = ["ش", "ی", "د", "س", "چ", "پ", "ج"];
 const UserInfo = () => {
   const digits = persian_fa.digits;
+  const persianNumbers = [/۰/g, /۱/g, /۲/g, /۳/g, /۴/g, /۵/g, /۶/g, /۷/g, /۸/g, /۹/g];
+  const arabicNumbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+
   const [dateValue, setValue] = useState();
   const { control } = useForm();
   const [selectedProvince, setSelectedProvince] = useState("");
@@ -28,8 +32,14 @@ const UserInfo = () => {
     date,
     { input, isTyping }
   ) => {
-    if (!isTyping)
-      return setValue(date); // user selects the date from the calendar and no needs for validation.
+    if (!isTyping){
+    if (date != null){
+    for(let i=0; i<persianNumbers.length; i++){
+      date = date.toString().replace(persianNumbers[i], arabicNumbers[i]);
+  }
+
+  date = date.replace(/\//g, '-')};
+      return setValue(date); }// user selects the date from the calendar and no needs for validation.
 
     let value = input.value;
 
@@ -68,7 +78,12 @@ const UserInfo = () => {
       )
     )
       return false;
-
+      if (date != null){
+        for(let i=0; i<persianNumbers.length; i++){
+          date = date.toString().replace(persianNumbers[i], arabicNumbers[i]);
+      }
+    
+      date = date.replace(/\//g, '-')};
     setValue(date);
   }
   const {
@@ -83,13 +98,42 @@ const UserInfo = () => {
     initialValues: initialValues,
     validationSchema: userInfoValidation,
     onSubmit: (values) => {
-      console.log(values);
-      console.log(dateValue);
-      console.log(selectedGender);
-      console.log(selectedProvince);
-      console.log(selectedCity);
-    },
-  });
+      //let form_data = new FormData();
+      //form_data.append("{user", `:{'username': ${values.username}}}`)
+      //form_data.append("gender", selectedGender);
+      //form_data.append("city", selectedCity);
+      //form_data.append("province", selectedProvince);
+      //form_data.append("birth_date", dateValue);
+      //form_data.append("profile_picture", file);  
+      AxiosInstance.patch(`http://127.0.0.1:8000/account/me/`,{
+    //form_data
+    user: {
+      username: values.username
+      },
+
+     } )
+
+     AxiosInstance.patch(`http://127.0.0.1:8000/account/me/`,{
+      gender: selectedGender,
+      city: selectedCity,
+      province: selectedProvince,
+      birth_date: dateValue,
+
+      profile_picture: file,}, {headers:{
+        'Content-Type': 'multipart/form-data',
+      }
+     } )
+
+    //console.log(form_data);
+      //console.log(values);
+      //console.log(dateValue);
+      //console.log(selectedGender);
+      //console.log(selectedProvince);
+      //console.log(selectedCity);
+      //console.log({file});
+      //console.log(imagePreviewUrl);
+    //console.log(form_data["gender"])
+  }});
 
   const ImgUpload = ({ onChange, src }) => (
     <label htmlFor="photo-upload" className="custom-file-upload fas">
@@ -124,11 +168,13 @@ const UserInfo = () => {
                   <div className="card-back ">
                     <div className="center-wrap">
                       <div className="section">
+                        <div className="userinfo__title">
                         <h2 className="mb-4 pb-3">مشخصات فردی</h2>
                         <h4>
                           در این قسمت می‌توانید مشخصات فردی خود را مشاهده و
                           تغییر دهید
                         </h4>
+                        </div>
                         <div className="userinfo__content">
                           <div className="row gutter-normal mode-float">
                             <div className="column   column-md-20">
@@ -163,8 +209,9 @@ const UserInfo = () => {
                                       <option selected>
                                         انتخاب کنید
                                       </option>
-                                      <option value="male">مرد</option>
-                                      <option value="female">زن</option>  
+                                      <option value="M">مرد</option>
+                                      <option value="F">زن</option>  
+                                      <option value="X">مایل نیستم بگویم</option>  
                                     </select>
                                   </div>
                                 </div>
