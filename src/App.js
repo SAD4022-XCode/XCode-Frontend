@@ -5,7 +5,8 @@ import Login from './Components/Login/login';
 import Register from './Components/Register/register';
 import PasswordRecovery from './Components/PasswordRecovery/passwordRecovery';
 import Navbar from './Components/Navbar/navbar';
-import ProfileSidebar from './Components/ProfileSidebar/profileSidebar';
+import ProfileSidebar from './Components/Profile/ProfileSidebar/profileSidebar';
+import MyEvents from './Components/Profile/MyEvents/myEvents';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route exact path="/profile" element={<> 
                                                 <Navbar/> 
                                                 <ProfileSidebar />
+                                                <MyEvents />
                                                 </> }/>
       </Routes>
     </Router>

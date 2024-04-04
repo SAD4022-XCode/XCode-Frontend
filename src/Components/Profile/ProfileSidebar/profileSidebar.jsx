@@ -1,6 +1,6 @@
 import './profileSidebar.css'
 import React, { useState,useEffect } from "react";
-
+// import { NavLink } from 'react-router-dom'
 import 'react-toastify/dist/ReactToastify.css';
 
 
@@ -22,7 +22,7 @@ const ProfileSidebar = () => {
 
             <div class="sidebar">
                 <div class="logo-details">
-                    <img class='bx bxl-c-plus-plus'></img>
+                    {/* <img class='bx bxl-c-plus-plus'></img> */}
                     <span class="logo_name">پروفایل</span>
                 </div>
                 <ul class="nav-links">

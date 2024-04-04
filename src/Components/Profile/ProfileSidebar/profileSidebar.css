@@ -190,6 +190,11 @@
 /* .sidebar .profile-details .job{
   font-size: 12px;
 } */
+
+.sidebar .bx {
+    color:red;
+}
+
 .home-section{
   position: relative;
   background: #E4E9F7;
