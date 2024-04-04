@@ -4,8 +4,8 @@ import axios from "axios";
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [token, setToken] = useState(localStorage.getItem("site") || "");
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("userData")) || "");
+  const [token, setToken] = useState(localStorage.getItem("token") || "");
   const navigate = useNavigate();
 
   const loginAction = async (data) => {
@@ -13,9 +13,10 @@ const AuthProvider = ({ children }) => {
         const response = await axios.post('http://127.0.0.1:8000/auth/jwt/create', data);
         console.log(response.data);
         if (response.data) {
-            setUser(response.data.user);
+            setUser(data);
+            localStorage.setItem("userData",JSON.stringify(data));
             setToken(response.data.access);
-            localStorage.setItem("site", response.data.access);
+            localStorage.setItem("token", response.data.access);
             return "Data received successfully";
         } else if (response.data.message === 'username does not exist') {
             return "username does not exist";
@@ -30,13 +31,14 @@ const AuthProvider = ({ children }) => {
 
   const logOut = () => {
     setUser(null);
+    localStorage.removeItem("userData");
     setToken("");
-    localStorage.removeItem("site");
+    localStorage.removeItem("token");
     navigate("/home");
   };
 
   return (
-    <AuthContext.Provider value={{ token, user, loginAction, logOut }}>
+    <AuthContext.Provider value={{ token, user,loginAction, logOut }}>
       {children}
     </AuthContext.Provider>
   );

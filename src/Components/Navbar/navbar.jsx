@@ -10,14 +10,12 @@ const Navbar = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     const [searchBoxText, setSearchBoxText] = useState("")
     const [showBorder, setShowBorder] = useState(true);
+
     useEffect(() => {
-        console.log("my acces token",auth.token)
         if(auth.token !==""){
             setIsLoggedIn(true)
-            console.log(auth.token !== "")
         }else{
             setIsLoggedIn(false)
-            console.log("setIsLoggedIn(false)")
         }
         const handleResize = () => {
             if (window.innerWidth>630){
@@ -108,7 +106,7 @@ const Navbar = () => {
                         {!showNavbar && isLoggedIn && 
                         <div className="dropdown-container" onMouseEnter={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
                         <div className="row" >
-                          <p className="pt-2 px-2 ellipsis">نام کاربر</p>
+                          <p className="pt-2 px-2 ellipsis"> {auth.user.username}</p>
                           <img src={require("../../assets/profile.png")} style={{height:"35px"}} alt="profile"/>
                         </div>
                         {isOpen && (
@@ -119,7 +117,10 @@ const Navbar = () => {
                                 </div>
                                 <div className="row pr-2 pb-2 dropdown-item2" >
                                        <i className=" pl-2  bi bi-box-arrow-right"></i>
-                                         <p className="pt-2 mb-0" onClick={() => auth.logOut()}>خروج </p>
+                                         <p className="pt-2 mb-0" onClick={() => {
+                                auth.logOut()
+                                setIsLoggedIn(false)
+                            }}>خروج </p>
 
                                 </div>
                         </div>
