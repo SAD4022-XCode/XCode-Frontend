@@ -1,8 +1,9 @@
 @import url("https://fonts.googleapis.com/css?family=Poppins:400,500,600,700,800,900");
+
 body{
   overflow: hidden;
 }
-.user-info {
+.user-info{
   font-family: "iransansweb";
   font-weight: 300;
   line-height: 1.3;
@@ -14,6 +15,7 @@ body{
   background: radial-gradient(ellipse at bottom, #1b2735 0%, #12141d 100%);
   overflow-y: auto;
 }
+.user-info{
 
 .userinfo__content__birthdate, .userinfo__content__gender, .userinfo__content__username{
   margin-left: 200px;
@@ -32,12 +34,12 @@ body{
   padding-bottom: 25px;
 
 }
-.user-info input {
+ input {
   text-align: right;
   padding: 13px 20px;
   padding-right: 55px;
   height: 48px;
-  width: 90%;
+  width: 100%;
   font-weight: 500;
   border-radius: 4px;
   font-size: 14px;
@@ -57,7 +59,7 @@ body{
 }
 
 
-.user-info button {
+ button {
   border-radius: 4px;
   height: 44px;
   font-size: 15px;
@@ -72,7 +74,7 @@ body{
   color: #000000;
 }
 
-.user-info button:hover {
+ button:hover {
   background-color: #000000;
   color: #ffeba7;
   box-shadow: 0 8px 24px 0 rgba(16, 39, 112, 0.2);
@@ -81,11 +83,11 @@ body{
 .cancel {
   padding-right: 310px;
 }
-.user-info h2{
+ h2{
   font-weight: 600;
   font-size: 33px;
 }
-.user-info h4 {
+ h4 {
   font-weight: 300;
   font-size: 20px;
   padding-bottom: 20px;
@@ -94,8 +96,12 @@ body{
   min-height: 100vh;
 }
 
-
-
+.userinfo__title{
+  margin-bottom: 70px;
+}
+.change-password__title{
+  margin-bottom: 50px;
+}
 
 .custom-file-upload {
   display: flex;
@@ -212,6 +218,9 @@ select {
   outline: none;
   box-shadow: 0 4px 8px 0 rgba(21, 21, 21, 0.2);
 }
+.change-password__content{
+  margin-right: 10px;
+}
 
 .change-password__content-current,.change-password__content-new,.change-password__content-confirm {
   padding: 5px 10px 10px 20px;
@@ -223,13 +232,13 @@ input.input-error,
 select.input-error{
   border-color: #fc8181;
 }
-.user-info .error{
+ .error{
   color: #fc8181;
   font-size: 12px;
   padding-top: 5px;
   padding-right: 20px;
 }
-.user-info button:disabled{
+ button:disabled{
   opacity: 0.35;
 }
 
@@ -287,6 +296,7 @@ select.input-error{
 img {
   width: auto;
   height: 100%;
+}
 }
 @media screen and (max-width: 450px) {
   .link {
