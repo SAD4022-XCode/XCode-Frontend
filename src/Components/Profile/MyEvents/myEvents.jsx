@@ -49,7 +49,7 @@ const MyEvents = () => {
                                 <div style={{ position: "relative" }}>
                                     {<img
                                         // src={eventPhoto}
-                                        src="https://picsum.photos/16/9"
+                                        src="https://picsum.photos/320/180"
                                         style={{ 
                                             paddingBottom: "20px", 
                                             paddingTop: "0px", 
