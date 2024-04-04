@@ -7,10 +7,11 @@ import {useNavigate} from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import { useGoogleLogin } from '@react-oauth/google';
 import axios from "axios";
-
+import { useAuth } from "../Authentication/authProvider";
 
 let x=0;
 const Login = () => {
+    const auth = useAuth();
     const navigator=useNavigate();
 
     const [enteredLoginUserName, setEnteredLoginUserName] = useState("");
@@ -21,7 +22,7 @@ const Login = () => {
     const [showViolations, setShowViolation] = useState(false);
 
     const [loginUserNameValidation, setLoginUserNameValidation] = useState(false);
-    const [loginUserNameValidationMsg, setLoginUserNameValidationMsg] = useState("نام کاربری شامل 1 تا 30 کاراکتر است و باید با حروف انگلیسی شروع شود");
+    const [loginUserNameValidationMsg, setLoginUserNameValidationMsg] = useState("نام کاربری شامل 3 تا 30 کاراکتر است و باید با حروف انگلیسی شروع شود");
     
     const [loginPasswordValidation, setLoginPasswordValidation] = useState(false);
     const [loginPasswordValidationMsg, setLoginPasswordValidationMsg] = useState("رمزعبور حداقل باید شامل 8 کاراکتر باشد");
@@ -30,7 +31,7 @@ const Login = () => {
   
     useEffect(() => {
       //disable vertical scrollbar
-      document.documentElement.style.overflowY = 'hidden';
+      // document.documentElement.style.overflowY = 'hidden';
       //changing title of html pages dynamically
       document.title = "ورود کاربران";
 
@@ -63,7 +64,7 @@ const Login = () => {
     };
 
  
-    const loginHandler = (event, action) => {
+    const loginHandler = async (event, action) => {
         x=0;
         if(loginUserNameValidation===false){
         x++;
@@ -84,55 +85,48 @@ const Login = () => {
         };
 
         if(loginUserNameValidation && loginPasswordValidation){
-            axios.post('http://localhost:8080/api', userData)
-            .then(response => {
-              console.log('Data sent successfully:', response.data);
-              setShowViolation(false);
-              if (response.data['message']==="Data received successfully"){
-                  
-                setEnteredLoginUserName("");
-                setEnteredLoginPassword("");
-
-
-                toast.success("!با موفقیت عضو شدید");
-                setTimeout(() => {
-                  navigator('/home');
-                }, 4000);
-              }else if(response.data['message']===`username does not exist`){
-                setShowViolation(true);
-                setLoginUserNameValidation(false);
-                setLoginUserNameValidationMsg("نام کاربری وارد شده در سیستم وجود ندارد");
-                
-              }else if(response.data['message']===`password incorrect`){
-                        
-                setShowViolation(true);
-                setLoginPasswordValidation(false);
-                setLoginPasswordValidationMsg("رمزعبور نادرست است");
-              }
-
-            })
-            .catch(error => {
+            setShowViolation(false);
+            let result = await auth.loginAction(userData);
+            if (result ==="Data received successfully"){
+              setEnteredLoginUserName("");
+              setEnteredLoginPassword("");
+              toast.success("!با موفقیت وارد شدید");
+              setTimeout(() => {
+                navigator('/home');
+              }, 4000);
+            }else if(result==="username does not exist"){
+              setShowViolation(true);
+              setLoginUserNameValidation(false);
+              setLoginUserNameValidationMsg("نام کاربری وارد شده در سیستم وجود ندارد");
+              
+            }else if(result==="password incorrect"){
+              setShowViolation(true);
+              setLoginPasswordValidation(false);
+              setLoginPasswordValidationMsg("رمزعبور نادرست است");
+              
+            }
+            else{
               toast.success("به صورت آزمایشی وارد شدید");
               setTimeout(() => {
                 navigator('/home');
               }, 4000);
-            });
+            }
           }
     };
 
 
    //Login validations
   //--------------------------------------------------------------------------------------------------
-    const regUserName = /^[a-zA-Z][a-zA-Z0-9]{3,29}$/;;
+    const regUserName = /^[a-zA-Z][a-zA-Z0-9]{2,29}$/;
     const loginUserNameHandler = (event) => {
         if(showViolations===true){
         setAutoHeight(autoHeight-20*x);
         }
         setShowViolation(false)
         setEnteredLoginUserName(event.target.value);
-        if (event.target.value.length<1 || event.target.value.length>30){
+        if (event.target.value.length<3 || event.target.value.length>30){
         setLoginUserNameValidation(false);
-        setLoginUserNameValidationMsg("نام کاربری شامل 1 تا 30 کاراکتر است و باید با حروف انگلیسی شروع شود")
+        setLoginUserNameValidationMsg("نام کاربری شامل 3 تا 30 کاراکتر است و باید با حروف انگلیسی شروع شود")
         }
         else{
             if (regUserName.test(event.target.value)){

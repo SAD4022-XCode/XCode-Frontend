@@ -1,5 +1,47 @@
 @import url("https://fonts.googleapis.com/css?family=Poppins:400,500,600,700,800,900");
 
+.dropdown-container {
+  position: relative;
+  cursor: pointer;
+}
+
+.dropdown-content {
+  display: flex;
+  position: absolute;
+  direction: rtl;
+  top: 100%; 
+  right: 0;
+  background-color: #f9d966;
+  background: local;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  padding: 0px;
+  z-index: 999;
+}
+
+.dropdown-item1{
+  border-radius: 4px 4px 0px 0px;
+  color:#ffeba7;
+  background-color: #2B2E38;
+  cursor: pointer;
+}
+.dropdown-item2{
+  border-radius:0px 0px 4px 4px ;
+  color:#ffeba7;
+  background-color: #2B2E38;
+  cursor: pointer;
+}
+
+
+
+.ellipsis {
+  direction: rtl;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100px;
+}
+
 
 .auth-link {
   border: 1px solid ; 
@@ -13,8 +55,12 @@
 } 
 .navbar {
   height: 60px;
-  background: radial-gradient(ellipse at bottom, #1b2735 0%, #12141d 100%);
+  width: 100%;
   position: relative;
+  background: radial-gradient(ellipse at bottom, #1b2735 0%, #12141d 100%);
+  /* position: fixed;
+  top: 0;
+  overflow: hidden; */
   font-family: "iransansweb";
   color: #ffeba7;
 
@@ -125,6 +171,13 @@
     .search-bar {
       width: 300px;
     }
+    .ellipsis {
+      direction: rtl;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 90px;
+    }
     
     .container {
       display: flex !important; 
@@ -142,6 +195,13 @@
 
 @media (max-width: 1100px) {
   .navbar{
+    .ellipsis {
+      direction: rtl;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 80px;
+    }
     .search-bar {
       width: 250px;
     }
@@ -204,12 +264,18 @@
     .search-bar {
       width: 200px;
     }
+    li p {
+      font-size: 14px !important;
+      color: #fff7dd; 
+      cursor: pointer;
+    }
   }
 
 }
 
 @media (max-width: 642px) {
   .navbar{
+    z-index: 1;
     .search-bar{
       width: 75%;
       height: 40px;

@@ -10,7 +10,7 @@ import axios from "axios";
 let x=0;
 const Register = () =>{
     const navigator=useNavigate();
-
+    
     const [enteredRegisterUserName, setEnteredRegisterUserName] = useState("");
     const [enteredRegisterEmail, setEnteredRegisterEmail] = useState("");
 
@@ -25,7 +25,7 @@ const Register = () =>{
     
     const [showViolations, setShowViolation] = useState(false);
     const [registerUserNameValidation, setRegisterUserNameValidation] = useState(false);
-    const [registerUserNameValidationMsg, setRegisterUserNameValidationMsg] = useState("نام کاربری شامل 1 تا 30 کاراکتر است و باید با حروف انگلیسی شروع شود");
+    const [registerUserNameValidationMsg, setRegisterUserNameValidationMsg] = useState("نام کاربری شامل 3 تا 30 کاراکتر است و باید با حروف انگلیسی شروع شود");
     const [registerEmailValidation, setRegisterEmailValidation] = useState(false);
     const [registerEmailValidationMsg, setRegisterEmailValidationMsg] = useState("فرمت ایمیل نادرست است");
     
@@ -38,8 +38,6 @@ const Register = () =>{
     
     
     useEffect(() => {
-      //disable vertical scrollbar
-      document.documentElement.style.overflowY = 'hidden';
       //changing title of html pages dynamically
       document.title = "عضویت در ایونتیفای";
     }, []);
@@ -83,9 +81,8 @@ const Register = () =>{
             email: enteredRegisterEmail,
             password: enteredRegisterPassword,
         };
-
         if(registerUserNameValidation && registerEmailValidation && registerPasswordValidation && registerPasswordValidation2 && nameValidation){
-            axios.post('http://localhost:8080/api', userData)
+            axios.post('http://127.0.0.1:8000/auth/users/', userData)
             .then(response => {
                 setShowViolation(false);
                 console.log('Data sent successfully:', response.data);
@@ -114,9 +111,9 @@ const Register = () =>{
                 console.error('Error sending data:', error);
                 
                 toast.success("به صورت آزمایشی عضو شدید");
-                setTimeout(() => {
-                navigator('/home');
-                }, 4000);
+                // setTimeout(() => {
+                // navigator('/home');
+                // }, 4000);
             });
         }
 
@@ -126,16 +123,16 @@ const Register = () =>{
 
     //Register validation
     //--------------------------------------------------------------------------------------------------
-    const regUserName = /^[a-zA-Z][a-zA-Z0-9]{3,29}$/;
+    const regUserName = /^[a-zA-Z][a-zA-Z0-9]{2,29}$/;
     const registerUserNameHandler = (event) => {
         if(showViolations===true){
             setAutoHeight(autoHeight-20*x);
         }
         setShowViolation(false)
         setEnteredRegisterUserName(event.target.value);
-        if (event.target.value.length<1 ||event.target.value.length>30){
+        if (event.target.value.length<3 ||event.target.value.length>30){
             setRegisterUserNameValidation(false);
-            setRegisterUserNameValidationMsg("نام کاربری شامل 1 تا 30 کاراکتر است و باید با حروف انگلیسی شروع شود")
+            setRegisterUserNameValidationMsg("نام کاربری شامل3 تا 30 کاراکتر است و باید با حروف انگلیسی شروع شود")
         }
         else{
         if (regUserName.test(event.target.value)){
@@ -325,8 +322,8 @@ const Register = () =>{
                               placeholder="تاریخ تولد"
                               onFocus={(e) => (e.target.type = "date")}
                               onBlur={(e) => (e.target.type = "text")}
-                              value={enteredBirthDate}
-                              onChange={birthDateHandler}
+                              // value={enteredBirthDate}
+                              // onChange={birthDateHandler}
                             />
                             <i className="input-icon uil uil-calendar-alt"></i>
                           </div> */}
