@@ -98,17 +98,33 @@ const UserInfo = () => {
     initialValues: initialValues,
     validationSchema: userInfoValidation,
     onSubmit: (values) => {
+      //let form_data = new FormData();
+      //form_data.append("{user", `:{'username': ${values.username}}}`)
+      //form_data.append("gender", selectedGender);
+      //form_data.append("city", selectedCity);
+      //form_data.append("province", selectedProvince);
+      //form_data.append("birth_date", dateValue);
+      //form_data.append("profile_picture", file);  
       AxiosInstance.patch(`http://127.0.0.1:8000/account/me/`,{
-      user: {
+    //form_data
+    user: {
       username: values.username
       },
+
+     } )
+
+     AxiosInstance.patch(`http://127.0.0.1:8000/account/me/`,{
       gender: selectedGender,
       city: selectedCity,
       province: selectedProvince,
       birth_date: dateValue,
-      
-      profile_picture: {file},
-    })
+
+      profile_picture: file,}, {headers:{
+        'Content-Type': 'multipart/form-data',
+      }
+     } )
+
+    //console.log(form_data);
       //console.log(values);
       //console.log(dateValue);
       //console.log(selectedGender);
@@ -116,8 +132,8 @@ const UserInfo = () => {
       //console.log(selectedCity);
       //console.log({file});
       //console.log(imagePreviewUrl);
-    },
-  });
+    //console.log(form_data["gender"])
+  }});
 
   const ImgUpload = ({ onChange, src }) => (
     <label htmlFor="photo-upload" className="custom-file-upload fas">
