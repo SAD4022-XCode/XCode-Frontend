@@ -45,10 +45,7 @@ const Login = () => {
                   Authorization: `Bearer ${tokenResponse.access_token}`,
                 },}
               );
-              console.log(res);
-              console.log("-----------------------------------------");
               toast.success("!با موفقیت وارد شدید");
-              console.log("hello world!");  
               setTimeout(() => {
                 navigator('/home');
               }, 4000);

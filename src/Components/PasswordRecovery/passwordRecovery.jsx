@@ -28,7 +28,6 @@ const PasswordRecovery = () =>{
         if(recoveryEmailValidation===true){
           axios.post('http://localhost:8080/api', {email:enteredRecoveryEmail})
           .then(response => {
-            console.log('Data sent successfully:', response.data);
             setShowViolation(false);
             if (response.data['message']==="Email sent successfully"){
               setEnteredRecoveryEmail("");
