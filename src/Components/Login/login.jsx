@@ -10,13 +10,13 @@ import axios from "axios";
 // let x=0;
 
 const Login = () => {
-    const auth = useAuth();
     const navigator=useNavigate();
 
     const [enteredLoginUserName, setEnteredLoginUserName] = useState("");
     const [enteredLoginPassword, setEnteredLoginPassword] = useState("");
 
     const [autoHeight,setAutoHeight] = useState(450);
+
     const [showLoginPassword, setShowLoginPassword] = useState(false);
     const [showViolationsUsername, setShowViolationUsername] = useState(false);
     const [showViolationsPassword, setShowViolationPassword] = useState(false);
@@ -37,8 +37,8 @@ const Login = () => {
 
     useEffect(() => {
       //disable vertical scrollbar
-      // document.documentElement.style.overflowY = 'hidden';
-      //changing title of html pages dynamically
+      document.documentElement.style.overflowY = 'hidden';
+      //change title of html page dynamically
       document.title = "ورود کاربران";
 
     }, []);
@@ -121,13 +121,11 @@ const Login = () => {
             .catch(error => {
               console.error('Error sending data:', error);
               
-            }
-            else{
               toast.success("به صورت آزمایشی وارد شدید");
               setTimeout(() => {
                 navigator('/home');
               }, 4000);
-            }
+            });
           }
     };
 
