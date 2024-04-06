@@ -1,3 +1,14 @@
-.full-height-map {
-  height: 100vh;
+.map-component__map {
+  height: 100%;
+  width: 100%;
 }
+
+.map-component{
+  position: absolute;
+  height: 400px;
+  width: 600px;
+  bottom: 30%;
+  left: 30%;
+}
+
+
