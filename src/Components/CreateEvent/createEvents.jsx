@@ -11,6 +11,7 @@ import persian_fa from "react-date-object/locales/persian_fa"
 import "react-multi-date-picker/styles/colors/yellow.css"
 import TimePicker from "react-multi-date-picker/plugins/time_picker";
 import moment from 'moment-jalaali';
+import MapComponent from "../MapComponent/MapComponent";
 const CreateEvent = () => {
     const navigator = useNavigate();
     const [eventPhoto, setEventPhoto] = useState(defaultImage);
@@ -164,7 +165,7 @@ const CreateEvent = () => {
             <div className="container">
                 <div className="row">
                     <div className="section">
-                        <div className="card-3d-wrap-ce" style={{height:`${eventType==="online"? datetimeCardHeight.toString()+"px" : (datetimeCardHeight+100).toString()+"px"}`}}>
+                        <div className="card-3d-wrap-ce" style={{height:`${eventType==="online"? datetimeCardHeight.toString()+"px" : (datetimeCardHeight+700).toString()+"px"}`}}>
                             <div className="card-back ">
                             <div className="center-wrap">
                                 <div className="section">
@@ -214,6 +215,7 @@ const CreateEvent = () => {
                                             style={{textAlign:"right"}}
                                             />
                                         </div>
+                                        <MapComponent/>
                                     </div>
                                 }
                                 <div className="row">

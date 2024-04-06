@@ -4,11 +4,11 @@
 }
 
 .map-component{
-  position: absolute;
+  position: relative;
   height: 400px;
   width: 600px;
-  bottom: 30%;
-  left: 30%;
+  margin-top: 60px;
+  margin-bottom: 60px;
 }
 
 
