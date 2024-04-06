@@ -6,6 +6,7 @@ import {
   Marker,
   Popup,
   useMapEvents,
+  Tooltip,
   useMap,
 } from "react-leaflet";
 import { Icon } from "leaflet";
@@ -41,7 +42,7 @@ function LocationMarker(params) {
 
   return position === null ? null : (
     <Marker position={position} icon={redIcon}>
-      <Popup>شما</Popup>
+      <Popup>محل فعلی شما</Popup>
     </Marker>
   );
 }
