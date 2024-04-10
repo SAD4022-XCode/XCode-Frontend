@@ -1,3 +1,7 @@
+.home-page{
+  overflow-y: scroll;
+  height: 100vh;
+}
 /* Dropdown Button */
 .dropbtn {
     background-color: #3498db;
