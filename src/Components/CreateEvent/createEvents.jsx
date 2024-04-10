@@ -14,26 +14,17 @@ import moment from 'moment-jalaali';
 import { useFormik } from "formik";
 import { createEventValidationSchema } from "./validation";
 import MultiSelectTag from "./multiSelectTag";
+import SelectCategory from "./selectCategory";
+
 const CreateEvent = () => {
     
-    const [selected, setSelected] = useState([]);
-  
-    const [selectedOptions, setSelectedOptions] = useState([]);
-
-    // const data = [
-    //     {key:'1', value:'Mobiles', disabled:true},
-    //     {key:'2', value:'Appliances'},
-    //     {key:'3', value:'Cameras'},
-    //     {key:'4', value:'Computers', disabled:true},
-    //     {key:'5', value:'Vegetables'},
-    //     {key:'6', value:'Diary Products'},
-    //     {key:'7', value:'Drinks'},
-    // ]
+    const [selectedTags, setSelectedTags] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState(
+        { value: 'entrepreneurship', label: 'کارآفرینی', color: '#5243AA' });
 
     const {values, errors, touched, handleBlur,handleChange} = useFormik({
             initialValues :{
                 eventName:"",
-                eventSubject:"",
                 eventDescription:"",
                 phoneNumber:"",
                 ssn:"",
@@ -41,7 +32,13 @@ const CreateEvent = () => {
             validationSchema: createEventValidationSchema,
         }
     );
-    console.log(errors)
+    // console.log(errors)
+    const createEventHandler =(event)=>{
+        event.preventDefault()
+        console.log("event created by you:")
+        console.log("Category:",selectedCategory)
+        console.log("Tags:",selectedTags)
+    }
 
     const navigator = useNavigate();
     const [eventPhoto, setEventPhoto] = useState(defaultImage);
@@ -90,6 +87,7 @@ const CreateEvent = () => {
     }
 
     const handleEventType = (event) => {
+        console.log("change event type")
         if (eventType==="in-person"){
             setEventType("online");
         }
@@ -127,7 +125,7 @@ const CreateEvent = () => {
     return (
         <center>
             <Navbar/>
-            <form className="create-event" type="submit">
+            <form className="create-event">
                 <div className="container">
                 <div className="row">
                     <div className="section">
@@ -135,7 +133,7 @@ const CreateEvent = () => {
                             <div className="card-back ">
                             <div className="center-wrap">
                                 <div className="section">
-                                <h4 className="mb-4 pb-3">مشخصات رویداد</h4>
+                                <h4 className="mb-3 pb-2">مشخصات رویداد</h4>
 
                                 <div className="row">
                                     <div className="col-6 text-right">
@@ -156,32 +154,38 @@ const CreateEvent = () => {
                                     </div>
                                     <div className="col-6 text-right">
                                         <p className="mb-1">دسته بندی</p>
-                                        <div className={`form-group mt-2 ${errors.eventSubject && touched.eventSubject  ? "invalid" : ""}`}>
-                                            <input
-                                            value={values.eventSubject}
+                                        
+                                        <div className={`form-group mt-2 ${errors.eventCategory && touched.eventCategory  ? "invalid" : ""}`}>
+                                            <SelectCategory
+                                                selectedCategory={selectedCategory}
+                                                setSelectedCategory={setSelectedCategory}
+                                            />
+                                            {/* <input
+                                            value={values.eventCategory}
                                             onChange={handleChange}
                                             onBlur={handleBlur}
-                                            id="eventSubject"
+                                            id="eventCategory"
                                             dir="rtl"
                                             type="text"
                                             className="form-style-ce"
                                             placeholder="دسته بندی"
-                                            />
+                                            /> */}
                                         </div>
-                                        {errors.eventSubject && touched.eventSubject  && (<p className="mb-0 mt-2 validationMsg">{errors.eventSubject}</p>)}
+                                        {errors.eventCategory && touched.eventCategory  && (<p className="mb-0 mt-2 validationMsg">{errors.eventCategory}</p>)}
                                     </div>
                                 </div>
-                                <div>
+                                <div className="text-right">
+                                    <p className="mb-1 mt-2">تگ های رویداد</p>
                                     <MultiSelectTag
-                                        selectedOptions={selectedOptions} 
-                                        setSelectedOptions={setSelectedOptions}
+                                        selectedTags={selectedTags} 
+                                        setSelectedTags={setSelectedTags}
                                     />
                                 </div>
-
+                                
                                 <div style={{ position: "relative" }}>
                                     {eventPhoto && <img
                                         src={eventPhoto}
-                                        style={{ paddingBottom: "15px", paddingTop: "20px", height: "250px", width: "auto" }}
+                                        style={{ paddingBottom: "15px", paddingTop: "20px", height: "250px", width: "auto",maxWidth:"350px" }}
                                         alt="تصویر رویداد"
                                     />}
                                     <div style={{ position: "absolute", bottom: "5%", left: "50%", transform: "translateX(-50%)" }}>
@@ -472,12 +476,14 @@ const CreateEvent = () => {
                                         
                                     
                                     </div>
-                                <button
-                                        type="submit"
+                                    <button
+                                        // type="submit"
                                         className="btn mt-4"
-                                        >
-                                            ایجاد رویداد
-                                        </button>
+                                        onClick={(e) => createEventHandler(e)}
+                                    >
+                                        ایجاد رویداد
+                                    </button>
+
                                 </div>
                             </div>
                             </div>
