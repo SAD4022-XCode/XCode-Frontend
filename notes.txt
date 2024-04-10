@@ -1,0 +1,2 @@
+push:
+    git push origin HEAD:fb-login-register

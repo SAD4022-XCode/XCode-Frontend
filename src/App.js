@@ -7,9 +7,13 @@ import PasswordRecovery from "./Components/PasswordRecovery/passwordRecovery";
 import UserInfo from "./Components/User Info/UserInfo";
 import PageNotFound from "./Components/PageNotFound/PageNotFound";
 import CreateEvent from './Components/CreateEvent/createEvents';
-import "jalaali-react-date-picker/lib/styles/index.css";
+// import "jalaali-react-date-picker/lib/styles/index.css";
+import ProfileSidebar from "./Components/Profile/ProfileSidebar/profileSidebar";
+import MyEvents from "./Components/Profile/MyEvents/myEvents";
 import AuthProvider from "./Components/Authentication/authProvider";
 import PrivateRoute from "./Components/Authentication/privateRoute";
+import Navbar from "./Components/Navbar/navbar";
+
 function App() {
   return (
     <Router>
@@ -19,11 +23,16 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/register" element={<Register />} />
+          <Route exact path="/profile" element={<> 
+                                                <Navbar/> 
+                                                <ProfileSidebar />
+                                                <MyEvents />
+                                                </>}        />
           <Route exact path="/password-recovery" element={<PasswordRecovery />} />
-          <Route element={<PrivateRoute />}>
+          {/* <Route element={<PrivateRoute />}> */}
             <Route exact path="/create-event" element={<CreateEvent />}/>
             <Route exact path="/user-info" element={<UserInfo />} />
-          </Route>
+          {/* </Route> */}
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </AuthProvider>

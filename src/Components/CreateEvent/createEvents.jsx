@@ -11,7 +11,38 @@ import persian_fa from "react-date-object/locales/persian_fa"
 import "react-multi-date-picker/styles/colors/yellow.css"
 import TimePicker from "react-multi-date-picker/plugins/time_picker";
 import moment from 'moment-jalaali';
+import { useFormik } from "formik";
+import { createEventValidationSchema } from "./validation";
+import MultiSelectTag from "./multiSelectTag";
 const CreateEvent = () => {
+    
+    const [selected, setSelected] = useState([]);
+  
+    const [selectedOptions, setSelectedOptions] = useState([]);
+
+    // const data = [
+    //     {key:'1', value:'Mobiles', disabled:true},
+    //     {key:'2', value:'Appliances'},
+    //     {key:'3', value:'Cameras'},
+    //     {key:'4', value:'Computers', disabled:true},
+    //     {key:'5', value:'Vegetables'},
+    //     {key:'6', value:'Diary Products'},
+    //     {key:'7', value:'Drinks'},
+    // ]
+
+    const {values, errors, touched, handleBlur,handleChange} = useFormik({
+            initialValues :{
+                eventName:"",
+                eventSubject:"",
+                eventDescription:"",
+                phoneNumber:"",
+                ssn:"",
+            },
+            validationSchema: createEventValidationSchema,
+        }
+    );
+    console.log(errors)
+
     const navigator = useNavigate();
     const [eventPhoto, setEventPhoto] = useState(defaultImage);
     const [eventType, setEventType] = useState("online");
@@ -70,8 +101,12 @@ const CreateEvent = () => {
     const handleIsFree = (event) => {
         if(!isFree){
             setTicketPrice("رایگان");
+            document.getElementById("ticketPrice").disabled = true;
+        }else{
+            document.getElementById("ticketPrice").disabled = false;
         }
         setIsFree(!isFree);
+        
         
     }
 
@@ -92,12 +127,11 @@ const CreateEvent = () => {
     return (
         <center>
             <Navbar/>
-            <form className="create-event">
-            
+            <form className="create-event" type="submit">
                 <div className="container">
                 <div className="row">
                     <div className="section">
-                        <div className="card-3d-wrap-ce" style={{height:"450px"}}>
+                        <div className="card-3d-wrap-ce" style={{height:"780px"}}>
                             <div className="card-back ">
                             <div className="center-wrap">
                                 <div className="section">
@@ -106,27 +140,44 @@ const CreateEvent = () => {
                                 <div className="row">
                                     <div className="col-6 text-right">
                                         <p className="mb-1">نام رویداد</p>
-                                        <div className={`form-group mt-1`}>
+                                        <div className={`form-group mt-2 ${errors.eventName && touched.eventName ? "invalid" : ""}`}>
                                             <input
+                                            value={values.eventName}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            id="eventName"
                                             dir="rtl"
                                             type="text"
                                             className="form-style-ce"
                                             placeholder="نام رویداد"
                                             />
                                         </div>
+                                        {errors.eventName && touched.eventName && (<p className="mb-0 mt-2 validationMsg">{errors.eventName}</p>)}
                                     </div>
                                     <div className="col-6 text-right">
-                                        <p className="mb-1">موضوع رویداد</p>
-                                        <div className={`form-group mb-1`}>
+                                        <p className="mb-1">دسته بندی</p>
+                                        <div className={`form-group mt-2 ${errors.eventSubject && touched.eventSubject  ? "invalid" : ""}`}>
                                             <input
+                                            value={values.eventSubject}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            id="eventSubject"
                                             dir="rtl"
                                             type="text"
                                             className="form-style-ce"
-                                            placeholder="موضوع رویداد"
+                                            placeholder="دسته بندی"
                                             />
                                         </div>
+                                        {errors.eventSubject && touched.eventSubject  && (<p className="mb-0 mt-2 validationMsg">{errors.eventSubject}</p>)}
                                     </div>
                                 </div>
+                                <div>
+                                    <MultiSelectTag
+                                        selectedOptions={selectedOptions} 
+                                        setSelectedOptions={setSelectedOptions}
+                                    />
+                                </div>
+
                                 <div style={{ position: "relative" }}>
                                     {eventPhoto && <img
                                         src={eventPhoto}
@@ -145,6 +196,20 @@ const CreateEvent = () => {
                                             onChange={handleEventPhoto}
                                         />
                                     </div>
+                                </div>
+                                <div className="col">
+                                    <p className="mb-1 mt-1 text-right"> توضیحات</p>
+                                    <div className={`form-group mt-2 ${errors.eventDescription && touched.eventDescription ? "invalid" : ""}`}>
+                                        <textarea 
+                                            id="eventDescription"
+                                            value={values.eventDescription}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                        rows="5" cols="80" className="form-style-ce-area" dir="rtl" placeholder="توضیحات برگزاری رویداد">
+                                        </textarea>
+                                    </div>
+                                    {errors.eventDescription && touched.eventDescription && (<p className="mb-0 mt-2 validationMsg">{errors.eventDescription}</p>)}
+
                                 </div>
                                 
                                 </div>
@@ -340,6 +405,7 @@ const CreateEvent = () => {
                                                 <p className="mb-1">قیمت</p> 
                                                 <div className={`form-group mb-1`}>
                                                     <input
+                                                        id="ticketPrice"
                                                         dir="rtl"
                                                         type={isFree===true ?"text" : "number"}
                                                         className="form-style-ce "
@@ -365,7 +431,7 @@ const CreateEvent = () => {
             <div className="container pb-5">
                 <div className="row">
                     <div className="section pb-5">
-                        <div className="card-3d-wrap-ce" style={{height:(ticketCardHeight+60).toString()+"px"}}>
+                        <div className="card-3d-wrap-ce" style={{height:(ticketCardHeight+90).toString()+"px"}}>
                             <div className="card-back ">
                             <div className="center-wrap">
                                 <div className="section">
@@ -374,23 +440,34 @@ const CreateEvent = () => {
                                     <div className="row">
                                         <div className="col-lg-6 col-md-6 col-sm-6  pt-2 text-right">
                                             <p className="mb-1">شماره تلفن</p>
-                                            <div className={`form-group mt-1`}>
+                                            <div className={`form-group mt-2 ${errors.phoneNumber && touched.phoneNumber ? "invalid" : ""}`}>
                                                 <input
+                                                    id="phoneNumber"
+                                                    value={values.phoneNumber}
+                                                    onChange={handleChange}
+                                                    onBlur={handleBlur}
                                                     dir="rtl"
                                                     type="number"
                                                     className="form-style-ce"
-                                                    value={ticketCount}
                                                     placeholder="09123456789" />
                                             </div>
+                                            {errors.phoneNumber  && touched.phoneNumber && (<p className="mb-0 mt-2 validationMsg">{errors.phoneNumber}</p>)}
                                         </div><div className="col-lg-6 col-md-6 col-sm-6 pt-2 text-right">
                                                 <p className="mb-1">کدملی</p>
-                                                <div className={`form-group mb-1`}>
+                                                <div className={`form-group mt-2 ${errors.ssn  && touched.ssn ? "invalid" : ""}`}>
                                                     <input
+                                                        id="ssn"
+                                                        value={values.ssn}
+                                                        onChange={handleChange}
+                                                        onBlur={handleBlur}
                                                         dir="rtl"
                                                         type="number"
                                                         className="form-style-ce"
-                                                        placeholder="0123456789"/>
+                                                        placeholder="0123456789"
+                                                        maxLength="10"
+                                                        />
                                                 </div>
+                                                {errors.ssn  && touched.ssn && (<p className="mb-0 mt-2 validationMsg">{errors.ssn}</p>)}
                                         </div>
                                         
                                     
@@ -398,8 +475,6 @@ const CreateEvent = () => {
                                 <button
                                         type="submit"
                                         className="btn mt-4"
-                                        // style={{paddingLeft:"40%",paddingRight:"40%"}}
-                                        // onClick={(e) => registerHandler(e, "register")}
                                         >
                                             ایجاد رویداد
                                         </button>
