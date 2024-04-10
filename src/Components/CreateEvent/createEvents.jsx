@@ -14,6 +14,7 @@ import moment from 'moment-jalaali';
 import { useFormik } from "formik";
 import { createEventValidationSchema } from "./validation";
 import MultiSelectTag from "./multiSelectTag";
+import MapComponent from "../MapComponent/MapComponent";
 const CreateEvent = () => {
     
     const [selected, setSelected] = useState([]);
@@ -229,7 +230,7 @@ const CreateEvent = () => {
             <div className="container">
                 <div className="row">
                     <div className="section">
-                        <div className="card-3d-wrap-ce" style={{height:`${eventType==="online"? datetimeCardHeight.toString()+"px" : (datetimeCardHeight+100).toString()+"px"}`}}>
+                        <div className="card-3d-wrap-ce" style={{height:`${eventType==="online"? datetimeCardHeight.toString()+"px" : (datetimeCardHeight+700).toString()+"px"}`}}>
                             <div className="card-back ">
                             <div className="center-wrap">
                                 <div className="section">
@@ -279,6 +280,7 @@ const CreateEvent = () => {
                                             style={{textAlign:"right"}}
                                             />
                                         </div>
+                                        <MapComponent/>
                                     </div>
                                 }
                                 <div className="row">

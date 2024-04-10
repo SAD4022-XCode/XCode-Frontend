@@ -13,7 +13,7 @@ import MyEvents from "./Components/Profile/MyEvents/myEvents";
 import AuthProvider from "./Components/Authentication/authProvider";
 import PrivateRoute from "./Components/Authentication/privateRoute";
 import Navbar from "./Components/Navbar/navbar";
-
+import MapComponent from "./Components/MapComponent/MapComponent";
 function App() {
   return (
     <Router>
@@ -33,6 +33,7 @@ function App() {
             <Route exact path="/create-event" element={<CreateEvent />}/>
             <Route exact path="/user-info" element={<UserInfo />} />
           {/* </Route> */}
+          <Route exact path="/map" element={<MapComponent />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </AuthProvider>
