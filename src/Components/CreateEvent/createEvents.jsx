@@ -56,7 +56,10 @@ const CreateEvent = () => {
     const [ticketCardHeight, setTicketCardHeight] = useState(window.innerWidth > 575 ? 180 : 320)
     const [datetimeCardHeight, setDatetimeCardHeight] = useState(window.innerWidth > 770 ? 400 : 500)
     const [todayJalaliDate, setTodayJalaliDate] = useState('');
-
+    const [mapData, setMapData] = useState("");
+    const handleMapData = (data) =>{
+        setMapData(data);
+    }
     useEffect(() => {
         document.documentElement.style.overflowY = 'hidden';
         document.title = "ایجاد رویداد";
@@ -285,7 +288,7 @@ const CreateEvent = () => {
                                             style={{textAlign:"right"}}
                                             />
                                         </div>
-                                        <MapComponent/>
+                                        <MapComponent sendDataToParent={handleMapData}/>
                                     </div>
                                 }
                                 <div className="row">
