@@ -28,6 +28,10 @@ const CreateEvent = () => {
     const [timeInput, setTimeInput] = useState('');
     const [selectedDate, setSelectedDate] = useState(null);
     const [todayJalaliDate, setTodayJalaliDate] = useState('');
+    const [mapData, setMapData] = useState("");
+    const handleMapData = (data) =>{
+        setMapData(data);
+    }
     useEffect(() => {
         document.documentElement.style.overflowY = 'hidden';
         document.title = "ایجاد رویداد";
@@ -215,7 +219,7 @@ const CreateEvent = () => {
                                             style={{textAlign:"right"}}
                                             />
                                         </div>
-                                        <MapComponent/>
+                                        <MapComponent sendDataToParent={handleMapData}/>
                                     </div>
                                 }
                                 <div className="row">

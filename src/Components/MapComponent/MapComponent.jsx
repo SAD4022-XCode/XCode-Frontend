@@ -46,7 +46,7 @@ function LocationMarker(params) {
     </Marker>
   );
 }
-const MapComponent = () => {
+const MapComponent = ({ sendDataToParent }) => {
   const [marker, setMarker] = useState([
     {
       geocode: [35.6997, 51.338],
@@ -68,7 +68,8 @@ const MapComponent = () => {
     setMarker([
       { ...marker, geocode: [lat, lng], popUp: "محل برگزاری رویداد" },
     ]);
-    console.log(lat, lng);
+    sendDataToParent({lat, lng})
+    //console.log(lat, lng);
   };
   return (
     <div className="map-component">
