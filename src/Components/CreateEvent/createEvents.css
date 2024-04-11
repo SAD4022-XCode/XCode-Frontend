@@ -193,7 +193,11 @@ input::-webkit-inner-spin-button{
 input[type=number]{
   -moz-appearance: textfield;
 }
-
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+}
 .form-style-ce {
   
   text-align: right;

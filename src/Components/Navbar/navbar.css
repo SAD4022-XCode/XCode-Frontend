@@ -64,6 +64,9 @@
   font-family: "iransansweb";
   color: #ffeba7;
 
+  .asdsa{
+    
+  }
   .search-bar {
     display: flex;
     direction: rtl;
@@ -168,6 +171,9 @@
 
 @media (max-width: 1220px) {
   .navbar{
+    .asdsa{
+
+    }
     .search-bar {
       width: 300px;
     }
@@ -195,6 +201,14 @@
 
 @media (max-width: 1100px) {
   .navbar{
+    .asdsa{
+      
+    }
+    .search-icon{
+      padding-bottom: 10px;
+      font-size: large !important;
+      color:#FFFFFF;
+    }
     .ellipsis {
       direction: rtl;
       white-space: nowrap;
@@ -229,7 +243,14 @@
 @media (max-width: 1000px) {
   
   .navbar{
-    
+    .asdsa{
+      
+    }
+    .search-icon{
+      padding-bottom: 10px;
+      font-size: large !important;
+      color:#FFFFFF;
+    }
     .logo{
       display: none;
     }
@@ -258,6 +279,14 @@
 @media (max-width: 715px) {
 
   .navbar{
+    .asdsa{
+      
+    }
+    .search-icon{
+      padding-bottom: 10px;
+      font-size: large !important;
+      color:#FFFFFF;
+    }
     .nav-elements ul li:not(:last-child) {
       margin-right: 10px;
     }
@@ -274,8 +303,17 @@
 }
 
 @media (max-width: 642px) {
-  .navbar{
+  .navbar {
     z-index: 1;
+    .asdsa{
+      
+    }
+    .search-icon{
+      padding-bottom: 10px;
+      font-size: large !important;
+      color:#FFFFFF;
+    }
+
     .search-bar{
       width: 75%;
       height: 40px;

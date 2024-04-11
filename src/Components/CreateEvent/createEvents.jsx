@@ -4,7 +4,6 @@ import {useNavigate} from 'react-router-dom';
 import './createEvents.css'
 import defaultImage from '../../assets/events.jpg'
 import CityList from "./cityList";
-
 import DatePicker from "react-multi-date-picker"
 import persian from "react-date-object/calendars/persian"
 import persian_fa from "react-date-object/locales/persian_fa"
@@ -14,58 +13,56 @@ import moment from 'moment-jalaali';
 import { useFormik } from "formik";
 import { createEventValidationSchema } from "./validation";
 import MultiSelectTag from "./multiSelectTag";
+import SelectCategory from "./selectCategory";
 import MapComponent from "../MapComponent/MapComponent";
 const CreateEvent = () => {
-    
-    const [selected, setSelected] = useState([]);
-  
-    const [selectedOptions, setSelectedOptions] = useState([]);
 
-    // const data = [
-    //     {key:'1', value:'Mobiles', disabled:true},
-    //     {key:'2', value:'Appliances'},
-    //     {key:'3', value:'Cameras'},
-    //     {key:'4', value:'Computers', disabled:true},
-    //     {key:'5', value:'Vegetables'},
-    //     {key:'6', value:'Diary Products'},
-    //     {key:'7', value:'Drinks'},
-    // ]
+    const [selectedTags, setSelectedTags] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState(
+        { value: 'entrepreneurship', label: 'کارآفرینی', color: '#5243AA' });
 
     const {values, errors, touched, handleBlur,handleChange} = useFormik({
             initialValues :{
                 eventName:"",
-                eventSubject:"",
                 eventDescription:"",
                 phoneNumber:"",
                 ssn:"",
+                ticketCount:'',
+                startDate:'',
+                endDate:'',
+                startTime:'',
+                endTime:'',
             },
             validationSchema: createEventValidationSchema,
+            validateOnBlur:false
         }
     );
-    console.log(errors)
+    // console.log(errors)
+    const createEventHandler =(event)=>{
+        event.preventDefault()
+        console.log("event created by you:")
+        console.log("Category:",selectedCategory)
+        console.log("Tags:",selectedTags)
+    }
 
     const navigator = useNavigate();
+    // const [showViolations, setShowViolations] = useState(true)
     const [eventPhoto, setEventPhoto] = useState(defaultImage);
     const [eventType, setEventType] = useState("online");
     const [selectedProvince, setSelectedProvince] = useState("");
     const [selectedCity, setSelectedCity] = useState("");
     const [isFree, setIsFree] = useState(false);
     const [ticketPrice, setTicketPrice] = useState();
-    const [ticketCount, setTicketCount] = useState();
     const [ticketCardHeight, setTicketCardHeight] = useState(window.innerWidth > 575 ? 180 : 320)
     const [datetimeCardHeight, setDatetimeCardHeight] = useState(window.innerWidth > 770 ? 400 : 500)
-
-    const [dateInput, setDateInput] = useState('');
-    const [timeInput, setTimeInput] = useState('');
-    const [selectedDate, setSelectedDate] = useState(null);
     const [todayJalaliDate, setTodayJalaliDate] = useState('');
+
     useEffect(() => {
         document.documentElement.style.overflowY = 'hidden';
         document.title = "ایجاد رویداد";
         const todayGregorianDate = moment().locale('en').format('YYYY-MM-DD');
         const todayJalali = moment(todayGregorianDate, 'YYYY-MM-DD').format('jYYYY/jMM/jDD');
         setTodayJalaliDate(todayJalali);
-
         const handleResize = () => {
             setTicketCardHeight(window.innerWidth > 575 ? 180 : 320);
             setDatetimeCardHeight(window.innerWidth > 770 ? 400 : 450)
@@ -91,6 +88,7 @@ const CreateEvent = () => {
     }
 
     const handleEventType = (event) => {
+        console.log("change event type")
         if (eventType==="in-person"){
             setEventType("online");
         }
@@ -128,7 +126,7 @@ const CreateEvent = () => {
     return (
         <center>
             <Navbar/>
-            <form className="create-event" type="submit">
+            <form className="create-event">
                 <div className="container">
                 <div className="row">
                     <div className="section">
@@ -136,7 +134,7 @@ const CreateEvent = () => {
                             <div className="card-back ">
                             <div className="center-wrap">
                                 <div className="section">
-                                <h4 className="mb-4 pb-3">مشخصات رویداد</h4>
+                                <h4 className="mb-3 pb-2">مشخصات رویداد</h4>
 
                                 <div className="row">
                                     <div className="col-6 text-right">
@@ -157,34 +155,41 @@ const CreateEvent = () => {
                                     </div>
                                     <div className="col-6 text-right">
                                         <p className="mb-1">دسته بندی</p>
-                                        <div className={`form-group mt-2 ${errors.eventSubject && touched.eventSubject  ? "invalid" : ""}`}>
-                                            <input
-                                            value={values.eventSubject}
+                                        
+                                        <div className={`form-group mt-2 ${errors.eventCategory && touched.eventCategory  ? "invalid" : ""}`}>
+                                            <SelectCategory
+                                                selectedCategory={selectedCategory}
+                                                setSelectedCategory={setSelectedCategory}
+                                            />
+                                            {/* <input
+                                            value={values.eventCategory}
                                             onChange={handleChange}
                                             onBlur={handleBlur}
-                                            id="eventSubject"
+                                            id="eventCategory"
                                             dir="rtl"
                                             type="text"
                                             className="form-style-ce"
                                             placeholder="دسته بندی"
-                                            />
+                                            /> */}
                                         </div>
-                                        {errors.eventSubject && touched.eventSubject  && (<p className="mb-0 mt-2 validationMsg">{errors.eventSubject}</p>)}
                                     </div>
                                 </div>
-                                <div>
+                                <div className="text-right">
+                                    <p className="mb-1 mt-2">تگ های رویداد</p>
                                     <MultiSelectTag
-                                        selectedOptions={selectedOptions} 
-                                        setSelectedOptions={setSelectedOptions}
+                                        selectedTags={selectedTags} 
+                                        setSelectedTags={setSelectedTags}
                                     />
                                 </div>
-
+                                
                                 <div style={{ position: "relative" }}>
-                                    {eventPhoto && <img
+                                    {eventPhoto && 
+                                    <img
                                         src={eventPhoto}
-                                        style={{ paddingBottom: "15px", paddingTop: "20px", height: "250px", width: "auto" }}
+                                        style={{ paddingBottom: "15px", paddingTop: "20px", height: "250px", width: "auto",maxWidth:"350px" }}
                                         alt="تصویر رویداد"
-                                    />}
+                                    />
+                                    }
                                     <div style={{ position: "absolute", bottom: "5%", left: "50%", transform: "translateX(-50%)" }}>
                                         <label for="file-upload" class="custom-file-upload">
                                             <div className="row align-items-center">
@@ -285,27 +290,33 @@ const CreateEvent = () => {
                                 }
                                 <div className="row">
                                     <div className="col-xl-6 col-md-6 col-sm-12 form-group text-right pr-3 pl-3">
-                                        
                                         <p className="mt-2 mb-2">تاریخ و ساعت شروع </p>
                                         <div className="row">    
                                             <div className="col-8">
                                                 <DatePicker portal
-                                            inputClass="form-style-ce"
-                                            calendar={persian}
-                                            locale={persian_fa}
-                                            calendarPosition="bottom-right"
-                                            digits={[0,1,2,3,4,5,6,7,8,9]}
-                                            weekDays={["ش","ی","د","س","چ","پ","ج"]}
-                                            monthYearSeparator={" "}
-                                            onChange={handleDate}
-                                            value={selectedDate}
-                                            formattingIgnoreList={["a"]}
-                                            minDate={todayJalaliDate}
-                                            placeholder={todayJalaliDate}
-                                            />
+                                                    inputClass="form-style-ce"
+                                                    calendar={persian}
+                                                    locale={persian_fa}
+                                                    calendarPosition="bottom-right"
+                                                    digits={[0,1,2,3,4,5,6,7,8,9]}
+                                                    weekDays={["ش","ی","د","س","چ","پ","ج"]}
+                                                    monthYearSeparator={" "}
+                                                    id="startDate"
+                                                    value={values.startDate}
+                                                    onChange={handleChange}
+                                                    onBlur={handleBlur}
+                                                    // formattingIgnoreList={["a"]}
+                                                    minDate={todayJalaliDate}
+                                                    placeholder={todayJalaliDate}
+                                                />
+                                                {errors.startDate && touched.startDate && (<p className="mb-0 mt-2 validationMsg">{errors.startDate}</p>)}
                                             </div>
                                             <div className="col-4">
                                                 <DatePicker portal
+                                                    id="startTime"
+                                                    value={values.startTime}
+                                                    onChange={handleChange}
+                                                    onBlur={handleBlur}
                                                     inputClass="form-style-ce"
                                                     disableDayPicker
                                                     format="HH:mm"
@@ -326,36 +337,42 @@ const CreateEvent = () => {
                                         <div className="row">    
                                             <div className="col-8">
                                                 <DatePicker portal
-                                            inputClass="form-style-ce"
-                                            calendar={persian}
-                                            locale={persian_fa}
-                                            calendarPosition="bottom-right"
-                                            digits={[0,1,2,3,4,5,6,7,8,9]}
-                                            weekDays={["ش","ی","د","س","چ","پ","ج"]}
-                                            monthYearSeparator={" "}
-                                            onChange={handleDate}
-                                            value={selectedDate}
-                                            formattingIgnoreList={["a"]}
-                                            minDate={todayJalaliDate}
-                                            placeholder={todayJalaliDate}
-                                            />
+                                                    inputClass="form-style-ce"
+                                                    calendar={persian}
+                                                    locale={persian_fa}
+                                                    calendarPosition="bottom-right"
+                                                    digits={[0,1,2,3,4,5,6,7,8,9]}
+                                                    weekDays={["ش","ی","د","س","چ","پ","ج"]}
+                                                    monthYearSeparator={" "}
+                                                    id="endDate"
+                                                    value={values.endDate}
+                                                    onChange={handleChange}
+                                                    onBlur={handleBlur}
+                                                    formattingIgnoreList={["a"]}
+                                                    minDate={todayJalaliDate}
+                                                    placeholder={todayJalaliDate}
+                                                />
                                             </div>
                                             <div className="col-4">
                                                 <DatePicker portal
+                                                    id="endTime"
+                                                    value={values.endTime}
+                                                    onChange={handleChange}
+                                                    onBlur={handleBlur}
                                                     inputClass="form-style-ce"
                                                     disableDayPicker
                                                     format="HH:mm"
-                                                    placeholder="18:00"
+                                                    placeholder="19:00"
                                                     plugins={[
                                                     <TimePicker hideSeconds />
                                                     ]} 
+                                                    
                                                 />
                                             </div>
                                             
                                             
                                         </div>
                                     </div>
-                                    
                                     
                                 </div>
                                 
@@ -394,27 +411,38 @@ const CreateEvent = () => {
                                         </div>
                                         <div className="col-lg-5 col-md-4 col-sm-4  text-right">
                                             <p className="mb-1">تعداد</p>
-                                            <div className={`form-group mt-1`}>
+                                            <div className={`form-group mb-1 ${errors.ticketCount && touched.ticketCount ? "invalid" : ""}`}>
                                                 <input
+                                                    id="ticketCount"
+                                                    value={values.ticketCount}
+                                                    onChange={handleChange}
+                                                    onBlur={handleBlur}
                                                     dir="rtl"
                                                     type="number"
                                                     className="form-style-ce"
-                                                    value={ticketCount}
+                                                    // value={ticketCount}
                                                     placeholder="100" />
                                             </div> 
+                                            {errors.ticketCount && touched.ticketCount && (<p className="mb-0 mt-2 validationMsg">{errors.ticketCount}</p>)}
+
                                         </div>
                                         <div className="col-lg-5 col-md-5 col-sm-4  text-right">
                                                 <p className="mb-1">قیمت</p> 
-                                                <div className={`form-group mb-1`}>
+                                                <div className={`form-group mb-1 ${errors.ticketPrice && touched.ticketPrice && !isFree  ? "invalid" : ""}`}>
                                                     <input
                                                         id="ticketPrice"
+                                                        value={isFree===true ?"رایگان" :values.ticketPrice}
+                                                        onChange={handleChange}
+                                                        onBlur={handleBlur}
                                                         dir="rtl"
                                                         type={isFree===true ?"text" : "number"}
                                                         className="form-style-ce "
-                                                        value={ticketPrice}
-                                                        onChange={ticketPriceHandler}
+                                                        // value={ticketPrice}
+                                                        // onChange={ticketPriceHandler}
+
                                                         placeholder={isFree===true ?"رایگان" : "50000"} />
                                                 </div>
+                                                {errors.ticketPrice && touched.ticketPrice && !isFree &&(<p className="mb-0 mt-2 validationMsg">{errors.ticketPrice}</p>)}
                                         </div>
                                         
                                     
@@ -445,12 +473,12 @@ const CreateEvent = () => {
                                             <div className={`form-group mt-2 ${errors.phoneNumber && touched.phoneNumber ? "invalid" : ""}`}>
                                                 <input
                                                     id="phoneNumber"
-                                                    value={values.phoneNumber}
-                                                    onChange={handleChange}
-                                                    onBlur={handleBlur}
-                                                    dir="rtl"
-                                                    type="number"
-                                                    className="form-style-ce"
+                                                    value={values.phoneNumber} 
+                                                    onChange={handleChange} 
+                                                    onBlur={handleBlur} 
+                                                    dir="rtl" 
+                                                    type="number" 
+                                                    className="form-style-ce" 
                                                     placeholder="09123456789" />
                                             </div>
                                             {errors.phoneNumber  && touched.phoneNumber && (<p className="mb-0 mt-2 validationMsg">{errors.phoneNumber}</p>)}
@@ -471,15 +499,15 @@ const CreateEvent = () => {
                                                 </div>
                                                 {errors.ssn  && touched.ssn && (<p className="mb-0 mt-2 validationMsg">{errors.ssn}</p>)}
                                         </div>
-                                        
-                                    
                                     </div>
-                                <button
-                                        type="submit"
+                                    <button
+                                        // type="submit"
                                         className="btn mt-4"
-                                        >
-                                            ایجاد رویداد
-                                        </button>
+                                        onClick={(e) => createEventHandler(e)}
+                                    >
+                                        ایجاد رویداد
+                                    </button>
+
                                 </div>
                             </div>
                             </div>
