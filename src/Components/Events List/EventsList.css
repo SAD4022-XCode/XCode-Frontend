@@ -3,25 +3,52 @@
 }
 
 .item {
-  height: 30em;
+  height: 25em;
   width: 20em;
   font-family: "iransansweb";
   overflow: hidden;
   display: flex;
+  justify-content: center;
+  align-items: center;
+  justify-self: center;
+  align-self: center;
+  align-content: center;
   flex-direction: column;
   margin: 0.5em;
   padding: 1em;
-  background-color: white;
-  transition: transform 300ms bounce;
   direction: rtl;
+  cursor: pointer;
+  background-color: #4b4b4b;
 }
 
 .items {
+  font-family: "iransansweb";
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  width: 100vw;
+  background: radial-gradient(ellipse at bottom, #1b2735 0%, #12141d 100%);
+  background-color: #1f2029;
+  height: 150vh;
+  overflow: hidden;
+  position: relative;
+}
+
+.item:hover {
+  transform: scale(1.05);
+}
+
+.item:hover .event-img img {
+  transform: scale(1.05);
+}
+
+.item:hover .event-details {
+  transform: scale(1.05);
+}
+
+.item:hover .event-price {
+  transform: scale(1.05);
+  
 }
 
 .items-title {
@@ -32,51 +59,43 @@ a {
   color: black;
 }
 
-img {
+.event-img img{
   flex: 1;
-  height: 20em;
+  height: 12em;
   width: auto;
   object-fit: cover;
 }
 
-#event-name {
-  border-top: 1px solid lightgrey;
-  padding: 1em 0 0;
-  font-size: 1.5em;
-  margin: 0.5em 0;
-}
-
-#event-address {
-  font-size: 1em;
-  color: grey;
-  font-weight: lighter;
-  margin: 0;
-}
-
-#event-price {
-  font-size: 1em;
-}
-
-.price-add {
+.event-details {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  flex: 1;
 }
 
-i {
-  color: lightgrey;
-  transition: 0.5s;
+.item h1 {
+  color: #ffeba7;
+  font-size: 30px;
+  flex: 1;
+  margin: 0 1rem;
 }
 
-i:hover {
-  color: grey;
-  transition: 0.5s;
-  cursor: pointer;
+.item h4 {
+  color: #ffeba7;
+  font-size: 16px;
+  font-weight: 300;
+  flex: 1;
+  margin: 0 1rem;
 }
 
-.items-title {
-  margin: 3em 0;
-  font-family: "Lato", sans-serif;
-  font-weight: lighter;
-  color: rgba(0, 0, 0, 0.8);
-  text-transform: uppercase;
+.event-price {
+  margin-top: 8px;
+  font-size: 1rem;
+  font-weight: 400;
+  color: white;
+  background-color: #1f2029;
+  border: 1px solid white;
+  padding: 0.5rem;
+  border-radius: 12px;
 }
