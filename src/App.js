@@ -18,8 +18,8 @@ function App() {
         <Route exact path="/register" element={<Register />}/> 
         <Route exact path="/password-recovery" element={<PasswordRecovery />} />
         <Route exact path="/profile" element={<> 
-                                                <Navbar/> 
-                                                <ProfileSidebar />
+                                                {/* <Navbar/>  */}
+                                                {/* <ProfileSidebar /> */}
                                                 <MyEvents />
                                                 </> }/>
       </Routes>
