@@ -15,38 +15,19 @@ import { createEventValidationSchema } from "./validation";
 import MultiSelectTag from "./multiSelectTag";
 import SelectCategory from "./selectCategory";
 import MapComponent from "../MapComponent/MapComponent";
+import axios from 'axios'
+
+import { ToastContainer, toast } from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css';
+
 const CreateEvent = () => {
 
     const [selectedTags, setSelectedTags] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(
         { value: 'entrepreneurship', label: 'کارآفرینی', color: '#5243AA' });
-
-    const {values, errors, touched, handleBlur,handleChange} = useFormik({
-            initialValues :{
-                eventName:"",
-                eventDescription:"",
-                phoneNumber:"",
-                ssn:"",
-                ticketCount:'',
-                startDate:'',
-                endDate:'',
-                startTime:'',
-                endTime:'',
-            },
-            validationSchema: createEventValidationSchema,
-            validateOnBlur:false
-        }
-    );
-    // console.log(errors)
-    const createEventHandler =(event)=>{
-        event.preventDefault()
-        console.log("event created by you:")
-        console.log("Category:",selectedCategory)
-        console.log("Tags:",selectedTags)
-    }
-
     const navigator = useNavigate();
-    // const [showViolations, setShowViolations] = useState(true)
+    const [showViolations, setShowViolations] = useState(false)
     const [eventPhoto, setEventPhoto] = useState(defaultImage);
     const [eventType, setEventType] = useState("online");
     const [selectedProvince, setSelectedProvince] = useState("");
@@ -57,6 +38,96 @@ const CreateEvent = () => {
     const [datetimeCardHeight, setDatetimeCardHeight] = useState(window.innerWidth > 770 ? 400 : 500)
     const [todayJalaliDate, setTodayJalaliDate] = useState('');
     const [mapData, setMapData] = useState("");
+    const [startDate, setStartDate] = useState("");
+    const [endDate, setEndDate] = useState("");
+    const [startTime, setStartTime] = useState("");
+    const [endTime, setEndTime] = useState("");
+    const [address,setAddress] = useState("")
+    const {values, errors, touched, handleBlur,handleChange} = useFormik({
+            initialValues :{
+                eventName:"",
+                eventDescription:"",
+                phoneNumber:"",
+                ssn:"",
+                ticketCount:'',
+                ticketPrice:'',
+                eventLink:'',
+            },
+            validationSchema: createEventValidationSchema,
+            validateOnBlur:false
+        }
+    );
+  
+    // console.log(errors)
+    const createEventHandler =(event)=>{
+        event.preventDefault()
+        let canSubmit = false;
+        setShowViolations(true)
+        console.log("create event errors")
+        console.log(errors)
+        console.log("create event errors")
+        console.log(Object.keys(errors).length)
+        if (values.eventName &&
+            values.eventDescription &&
+            values.phoneNumber &&
+            values.ssn &&
+            values.ticketCount &&
+            values.ticketPrice &&
+            values.eventLink && Object.keys(errors).length===0){
+                if (eventType==="online" && values.eventLink){
+                   canSubmit = true 
+                }
+                if (eventType==="in-person" && address!=""){
+                    canSubmit = true 
+                }
+            console.log("empty string")
+        }
+        if (canSubmit){
+            let createEventData = {
+                name:values.eventName,
+                category:selectedCategory.value,
+                tags:selectedTags,
+                photo:eventPhoto,
+                description:values.eventDescription,
+                type:eventType,
+                link:values.eventLink,
+                province:selectedProvince,
+                city:selectedCity,
+                address:address,
+                latlang:mapData,
+                startDate:[startDate.year,startDate.month.name,startDate.day],
+                endDate:[endDate.year,endDate.month.name,endDate.day],
+                startTime:[startTime.hour,startTime.minute],
+                endTime:[endTime.hour,endTime.minute],
+                ticketCount:values.ticketCount,
+                ticketPrice:values.ticketPrice,
+                phoneNumber:values.phoneNumber,
+                ssn:values.ssn,
+            }
+            console.log("const  onSubmit = (values) => {")
+            console.log(createEventData)
+            axios.post('http://127.0.0.1:8000/create-event/', createEventData,
+                {headers:{
+                    "Content-Type": "application/json",
+                    accept: "application/json"
+                }})
+                .then(response => {
+                    console.log('Data sent successfully:', response.data);
+                    toast.success("رویداد ایجاد شد")
+                    navigator('/home')
+                })
+                .catch(error => {
+                    console.error('Error sending data:', error);
+                    toast.error("مشکل در ایجاد رویداد")
+
+                });
+        }else{
+            console.log("don't sent anything")
+        }
+        
+    }
+
+    
     const handleMapData = (data) =>{
         setMapData(data);
     }
@@ -103,6 +174,7 @@ const CreateEvent = () => {
     const handleIsFree = (event) => {
         if(!isFree){
             setTicketPrice("رایگان");
+            values.ticketPrice=0;
             document.getElementById("ticketPrice").disabled = true;
         }else{
             document.getElementById("ticketPrice").disabled = false;
@@ -112,23 +184,13 @@ const CreateEvent = () => {
         
     }
 
-    const ticketPriceHandler = (event) => {
-        if (isFree){
-            setTicketPrice("رایگان")
-        }else{
-            setTicketPrice(event.target.value)
-        }
-    }
 
-    const handleDate = (event) => {
-        // if(){
-
-        // }
-    }
+    
 
     return (
         <center>
             <Navbar/>
+            <ToastContainer className="toastify-container"position="top-right" toastStyle={{backgroundColor: "#2b2c38", fontFamily: "iransansweb", color: "#ffeba7",marginTop:"60px"}} pauseOnHover={false} autoClose={3000} />
             <form className="create-event">
                 <div className="container">
                 <div className="row">
@@ -164,16 +226,6 @@ const CreateEvent = () => {
                                                 selectedCategory={selectedCategory}
                                                 setSelectedCategory={setSelectedCategory}
                                             />
-                                            {/* <input
-                                            value={values.eventCategory}
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
-                                            id="eventCategory"
-                                            dir="rtl"
-                                            type="text"
-                                            className="form-style-ce"
-                                            placeholder="دسته بندی"
-                                            /> */}
                                         </div>
                                     </div>
                                 </div>
@@ -257,16 +309,21 @@ const CreateEvent = () => {
                                 </div>
                                 {eventType==="online" && 
                                     <div>
-                                        <div className="mb-2 mt-2 text-right" style={{fontSize:"16px"}}>لینک برگزاری </div>
-                                        <div className={`form-group mb-1`}>
+                                        <div className={`mb-2 mt-2 text-right`} style={{fontSize:"16px"}}>لینک برگزاری </div>
+                                        <div className={`form-group mb-1 ${errors.eventLink && touched.eventLink ? "invalid" : ""}`}>
                                             <input
                                             dir="ltr"
                                             type="text"
                                             className="form-style-ce"
                                             placeholder="https://"
+                                            id="eventLink"
+                                            value={values.eventLink}
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
                                             style={{textAlign:"left"}}
                                             />
                                         </div>
+                                        {errors.eventLink && touched.eventLink && (<p className="mb-0 mt-2 validationMsg">{errors.eventLink}</p>)}
                                     </div>
                                 }
                                 {eventType==="in-person" && 
@@ -279,15 +336,19 @@ const CreateEvent = () => {
                                         setSelectedCity={setSelectedCity}
                                      />
                                      <div className="text-right mt-2">آدرس</div>
-                                     <div className={`form-group mb-1 mt-1`}>
+                                     <div className={`form-group mb-1 mt-1 ${(address==="" || address.length>100)&&showViolations ? "invalid" : ""}`}>
                                             <input
                                             dir="rtl"
                                             type="text"
                                             className="form-style-ce"
                                             placeholder="آدرس"
+                                            value = {address}
+                                            onChange={(e) => setAddress(e.target.value)}
                                             style={{textAlign:"right"}}
                                             />
                                         </div>
+                                        {address==="" && showViolations && (<p className="mb-0 mt-2 validationMsg">آدرس را وارد کنید</p>)}
+                                        {address.length>100 && showViolations &&(<p className="mb-0 mt-2 validationMsg">طول آدرس کمتر از 100 کاراکتر باید باشد</p>)}
                                         <MapComponent sendDataToParent={handleMapData}/>
                                     </div>
                                 }
@@ -304,11 +365,8 @@ const CreateEvent = () => {
                                                     digits={[0,1,2,3,4,5,6,7,8,9]}
                                                     weekDays={["ش","ی","د","س","چ","پ","ج"]}
                                                     monthYearSeparator={" "}
-                                                    id="startDate"
-                                                    value={values.startDate}
-                                                    onChange={handleChange}
-                                                    onBlur={handleBlur}
-                                                    // formattingIgnoreList={["a"]}
+                                                    value={startDate}
+                                                    onChange={setStartDate}
                                                     minDate={todayJalaliDate}
                                                     placeholder={todayJalaliDate}
                                                 />
@@ -316,10 +374,8 @@ const CreateEvent = () => {
                                             </div>
                                             <div className="col-4">
                                                 <DatePicker portal
-                                                    id="startTime"
-                                                    value={values.startTime}
-                                                    onChange={handleChange}
-                                                    onBlur={handleBlur}
+                                                    value={startTime}
+                                                    onChange={setStartTime}
                                                     inputClass="form-style-ce"
                                                     disableDayPicker
                                                     format="HH:mm"
@@ -347,10 +403,8 @@ const CreateEvent = () => {
                                                     digits={[0,1,2,3,4,5,6,7,8,9]}
                                                     weekDays={["ش","ی","د","س","چ","پ","ج"]}
                                                     monthYearSeparator={" "}
-                                                    id="endDate"
-                                                    value={values.endDate}
-                                                    onChange={handleChange}
-                                                    onBlur={handleBlur}
+                                                    value={endDate}
+                                                    onChange={setEndDate}
                                                     formattingIgnoreList={["a"]}
                                                     minDate={todayJalaliDate}
                                                     placeholder={todayJalaliDate}
@@ -358,10 +412,8 @@ const CreateEvent = () => {
                                             </div>
                                             <div className="col-4">
                                                 <DatePicker portal
-                                                    id="endTime"
-                                                    value={values.endTime}
-                                                    onChange={handleChange}
-                                                    onBlur={handleBlur}
+                                                    value={endTime}
+                                                    onChange={setEndTime}
                                                     inputClass="form-style-ce"
                                                     disableDayPicker
                                                     format="HH:mm"
@@ -480,7 +532,7 @@ const CreateEvent = () => {
                                                     onChange={handleChange} 
                                                     onBlur={handleBlur} 
                                                     dir="rtl" 
-                                                    type="number" 
+                                                    type="text"
                                                     className="form-style-ce" 
                                                     placeholder="09123456789" />
                                             </div>
@@ -494,7 +546,7 @@ const CreateEvent = () => {
                                                         onChange={handleChange}
                                                         onBlur={handleBlur}
                                                         dir="rtl"
-                                                        type="number"
+                                                        type="text"
                                                         className="form-style-ce"
                                                         placeholder="0123456789"
                                                         maxLength="10"
