@@ -6,7 +6,7 @@ const Events = () => {
     <Card className="events">
       <div className="items-wrapper">
         <div className="items-title">
-          <h4>All Items</h4>
+          <h2>همه رویدادها</h2>
         </div>
         <EventsList />
       </div>

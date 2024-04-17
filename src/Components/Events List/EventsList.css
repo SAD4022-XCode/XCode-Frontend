@@ -1,5 +1,17 @@
 .items-wrapper {
   border-top: 4px solid black;
+  background: radial-gradient(ellipse at bottom, #303131 0%, #12141d 100%);
+}
+.items-title{
+  font-family: "iransansweb";
+  font-size: 30px;
+  color: #ffeba7;
+  margin: 1rem;
+  padding: 1rem;
+  border-bottom: 4px solid black;
+  background: radial-gradient(ellipse at bottom, #303131 0%, #12141d 100%);
+  background-color: #1f2029;
+  border-radius: 12px;
 }
 
 .item {
@@ -27,7 +39,7 @@
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  background: radial-gradient(ellipse at bottom, #1b2735 0%, #12141d 100%);
+  background: radial-gradient(ellipse at bottom, #303131 0%, #12141d 100%);
   background-color: #1f2029;
   height: 150vh;
   overflow: hidden;
@@ -93,9 +105,5 @@ a {
   margin-top: 8px;
   font-size: 1rem;
   font-weight: 400;
-  color: white;
-  background-color: #1f2029;
-  border: 1px solid white;
-  padding: 0.5rem;
-  border-radius: 12px;
+  color:  #ffeba7;
 }
