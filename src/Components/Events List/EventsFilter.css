@@ -105,4 +105,36 @@
 }
 
 @media screen and (max-width: 1330px) {
+  .event-filter {
+    .row {
+      margin: 20px 300px 20px 0;
+    }
+    .event-filter__category{
+      width: 50%;
+    }
+    .event-filter__type{
+      width: 50%;
+    }
+    .event-filter__price{
+      width: 50%;
+    }
+    .event-filter__date-start{
+      width: 50%;
+    }
+    .event-filter__date-end{
+      width: 50%;
+    }
+    .event-filter__date-end i {
+      top: 50%;
+    }
+    .event-filter__date-start i {
+      top: 50%;
+    }
+    .event-filter__date-end input {
+      border: 1px solid #ffeba7 !important;
+    }
+    .event-filter__category select {
+    
+  }
+}
 }
