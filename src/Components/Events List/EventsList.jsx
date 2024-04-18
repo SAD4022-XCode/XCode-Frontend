@@ -5,7 +5,6 @@ import photo2 from "../../assets/logo.png";
 import photo3 from "../../assets/profile.png";
 import photo4 from "../../assets/red pin.png";
 import photo5 from "../../assets/blue pin.png";
-import EventDate from "./EventDate";
 import Card from "./Card";
 import "./EventsList.css";
 import EventsFilter from "./EventsFilter";
@@ -17,6 +16,7 @@ let EVENTS = [
     address: "تهران",
     price: "50 هزار تومن",
     photo: photo1,
+    category: "تکنولوژی",
   },
   {
     id: 2,
@@ -25,6 +25,7 @@ let EVENTS = [
     address: "تهران",
     price: "90 هزار تومن",
     photo: photo1,
+    category: "تکنولوژی",
   },
   {
     id: 3,
@@ -33,6 +34,7 @@ let EVENTS = [
     address: "اهواز",
     price: "10 هزار تومن",
     photo: photo1,
+    category: "تکنولوژی",
   },
   {
     id: 4,
@@ -41,6 +43,7 @@ let EVENTS = [
     address: "مشهد",
     price: "70 هزار تومن",
     photo: photo1,
+    category: "تکنولوژی",
   },
   {
     id: 5,
@@ -49,6 +52,7 @@ let EVENTS = [
     address: "گیلان",
     price: "70 هزار تومن",
     photo: photo1,
+    category: "تکنولوژی",
   },
 ];
 function replaceMonthNames(dateString) {
@@ -105,31 +109,46 @@ const EventsList = () => {
   return (
     <Card className="events-list">
       <EventsFilter />
-      <div className="items">
-        {console.log(EVENTS)}
-        {EVENTS.map((event) => (
-          <div className="col-3 text-right ">
-            <div key={event.id} className="item">
-              <div className="event-img">
-                <img alt={event.title} src={event.photo} />
-              </div>
-              <div class="container">
-                <div class="row">
-                  <hr className="custom-hr" />
-                  <hr className="custom-hr" />
+      <div className="container-fluid pb-5">
+        <div className="items">
+          {console.log(EVENTS)}
+          {EVENTS.map((event) => (
+            <div className="col-3 text-right ">
+              <div key={event.id} className="item">
+                <div className="event-img">
+                  <img alt={event.title} src={event.photo} />
+                </div>
+                <div class="container">
+                  <div class="row">
+                    <hr className="custom-hr" />
+                    <hr className="custom-hr" />
+                  </div>
+                </div>
+                <div className="event-details">
+                  <div className="event-details__title">
+                    <h1 id="event-title">{event.title}</h1>
+                  </div>
+                  <div className="event-details__date">
+                    <h4 id="event-date">تاریخ: {event.date}</h4>
+                    <i className="input-icon uil uil-calendar-alt"></i>
+                  </div>
+                  <div className="event-details__address">
+                    <h4 id="event-address">{event.address}</h4>
+                    <i className="input-icon uil uil-location-point"></i>
+                  </div>
+                  <div className="event-details__category">
+                    <h4 id="event-category">{event.category}</h4>
+                    <i className="input-icon uil uil-apps"></i>
+                  </div>
+                  <div className="event-details__price">
+                    <h5 id="event-price">{event.price}</h5>
+                    <i className="input-icon uil uil-label-alt"></i>
+                  </div>
                 </div>
               </div>
-              <div className="event-details">
-                <h1 id="event-title">{event.title}</h1>
-                <h4 id="event-date">تاریخ: {event.date}</h4>
-                <h4 id="event-address">{event.address}</h4>
-              </div>
-              <div className="event-price">
-                <h5 id="event-price">{event.price}</h5>
-              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </Card>
   );
