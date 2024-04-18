@@ -2,20 +2,9 @@
   border-top: 4px solid black;
   background: radial-gradient(ellipse at bottom, #303131 0%, #12141d 100%);
 }
-.items-title{
-  font-family: "iransansweb";
-  font-size: 30px;
-  color: #ffeba7;
-  margin: 1rem;
-  padding: 1rem;
-  border-bottom: 4px solid black;
-  background: radial-gradient(ellipse at bottom, #303131 0%, #12141d 100%);
-  background-color: #1f2029;
-  border-radius: 12px;
-}
 
 .item {
-  height: 25em;
+  height: 28em;
   width: 20em;
   font-family: "iransansweb";
   overflow: hidden;
@@ -31,6 +20,17 @@
   direction: rtl;
   cursor: pointer;
   background-color: #4b4b4b;
+  border-radius: 5px;
+  border: 1px solid #ffeba7;
+}
+.items-title{
+  color:#ffeba7;
+  font-family: "iransansweb";
+  margin: 1px;
+  padding: 3px;
+  border-bottom: 2px solid black;
+  background: radial-gradient(ellipse at bottom, #303131 0%, #24262f9b 100%);
+  border-radius: 10px;
 }
 
 .items {
@@ -58,20 +58,11 @@
   transform: scale(1.05);
 }
 
-.item:hover .event-price {
-  transform: scale(1.05);
-  
-}
-
-.items-title {
-  text-align: center;
-}
-
 a {
   color: black;
 }
 
-.event-img img{
+.event-img img {
   flex: 1;
   height: 12em;
   width: auto;
@@ -83,27 +74,73 @@ a {
   flex-direction: column;
   gap: 1rem;
   align-items: center;
-  flex: 1;
 }
 
 .item h1 {
   color: #ffeba7;
   font-size: 30px;
-  flex: 1;
   margin: 0 1rem;
 }
 
 .item h4 {
   color: #ffeba7;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 300;
-  flex: 1;
+  margin: 0 1rem;
+}
+.item h5 {
+  color: #ffeba7;
+  font-size: 15px;
+  font-weight: 300;
   margin: 0 1rem;
 }
 
-.event-price {
-  margin-top: 8px;
+.event-details {
+  align-items: start;
+  margin-left: 50px;
+}
+.event-details__price {
   font-size: 1rem;
   font-weight: 400;
-  color:  #ffeba7;
+  color: #ffeba7;
+}
+.event-details__title {
+  margin: 1px;
+  margin-right: 65px;
+  padding: 3px;
+  border-bottom: 2px solid black;
+  background: radial-gradient(ellipse at bottom, #303131 0%, #0e0e1254 100%);
+  border-radius: 10px;
+}
+.items {
+  i {
+    height: 1px;
+  }
+  .input-icon {
+    color: #ffeba7;
+    position: relative !important;
+    display: flex !important;
+  }
+  .event-details__date {
+    display: flex;
+    flex-direction: row-reverse;
+  }
+  .event-details__address {
+    display: flex;
+    flex-direction: row-reverse;
+  }
+  .event-details__category {
+    display: flex;
+    flex-direction: row-reverse;
+  }
+  .event-details__price {
+    display: flex;
+    flex-direction: row-reverse;
+  }
+}
+
+@media screen and (max-width: 1300px) {
+  .item {
+    width: 80%;
+  }
 }
