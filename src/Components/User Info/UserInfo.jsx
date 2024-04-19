@@ -98,7 +98,7 @@ const UserInfo = () => {
       //form_data.append("province", selectedProvince);
       //form_data.append("birth_date", dateValue);
       //form_data.append("profile_picture", file);  
-      AxiosInstance.patch(`http://127.0.0.1:8000/account/me/`,{
+      AxiosInstance.patch(`https://eventify.liara.run/account/me/`,{
     //form_data
     user: {
       username: values.username
@@ -106,7 +106,7 @@ const UserInfo = () => {
 
      } )
 
-     AxiosInstance.patch(`http://127.0.0.1:8000/account/me/`,{
+     AxiosInstance.patch(`https://eventify.liara.run/account/me/`,{
       gender: selectedGender,
       city: selectedCity,
       province: selectedProvince,
