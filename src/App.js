@@ -24,8 +24,8 @@ function App() {
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/register" element={<Register />} />
           <Route exact path="/profile" element={<> 
-                                                <Navbar/> 
-                                                <ProfileSidebar />
+                                                {/* <Navbar/>  */}
+                                                {/* <ProfileSidebar /> */}
                                                 <MyEvents />
                                                 </>}        />
           <Route exact path="/password-recovery" element={<PasswordRecovery />} />

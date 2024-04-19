@@ -29,20 +29,21 @@ const ProfileSidebar = () => {
 
                 <li>
                     <a href="#">
-                        <span class="link_name">رویداد های من</span>
-                        <i class='bx bx-grid-alt' ></i>
-                    </a>
-                </li>
-                
-                <li>
-                    <a href="#">
-                        <span class="link_name">بلیت های من</span>
+                        <span class="link_name">رویداد های ثبت نام شده</span>
                         <i class='bx bx-purchase-tag' ></i>
                     </a>
                     {/* <ul class="sub-menu blank">
                         <li><a class="link_name" href="#">اعتبار من</a></li>
                     </ul> */}
                 </li>
+                
+                <li>
+                    <a href="#">
+                        <span class="link_name">رویداد های ساخته شده</span>
+                        <i class='bx bx-grid-alt' ></i>
+                    </a>
+                </li>
+                
 
                 <li>
                     <div class="icon-link">
