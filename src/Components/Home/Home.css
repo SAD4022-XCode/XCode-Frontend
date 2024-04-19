@@ -1,3 +1,6 @@
+body{
+  overflow-y: scroll;
+}
 .home-page{
   overflow-y: scroll;
   height: 100vh;
