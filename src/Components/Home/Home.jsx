@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Navbar  from "../Navbar/navbar";
 import {useNavigate} from 'react-router-dom';
+import UpcomingEvents from "./UpcomingEvents/upcomingEvents";
 import './Home.css'
 const Home = () => {
     const navigator=useNavigate();
@@ -12,7 +13,8 @@ const Home = () => {
     return (
         <center>
             <Navbar />
-            <h1 style={{paddingTop: "250px"}}>Home Page</h1>
+            <UpcomingEvents/>
+            {/* <h1 style={{paddingTop: "250px"}}>Home Page</h1> */}
             
         </center>
     )
