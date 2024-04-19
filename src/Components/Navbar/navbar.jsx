@@ -3,6 +3,8 @@ import { NavLink } from 'react-router-dom'
 import './navbar.css'
 import {useNavigate} from 'react-router-dom';
 import { useAuth } from "../Authentication/authProvider";
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify';
 const Navbar = () => {
     const auth = useAuth();
     const navigator=useNavigate();
@@ -51,6 +53,8 @@ const Navbar = () => {
  
     return (
     <nav className="navbar">
+        <ToastContainer className="toastify-container"position="bottom-right" toastStyle={{backgroundColor: "#2b2c38", fontFamily: "iransansweb", color: "#ffeba7",marginBottom:"60px"}} pauseOnHover={false} autoClose={3000} />
+
         <div className="container">
             <div >
                 <img className="logo"
@@ -107,7 +111,7 @@ const Navbar = () => {
                         <div className="dropdown-container" onMouseEnter={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
                         <div className="row" >
                           <p className="pt-2 px-2 ellipsis"> {auth.user.username}</p>
-                          <img src={require("../../assets/profile.png")} style={{height:"35px"}} alt="profile"/>
+                          <img src={require("../../assets/profile.png")} style={{height:"35px",borderRadius: "50%"  }} alt="profile"/>
                         </div>
                         {isOpen && (
                           <div className="col dropdown-content">

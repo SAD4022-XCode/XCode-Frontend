@@ -14,7 +14,6 @@ const Home = () => {
     <center>
       <Navbar />
       <div className="home-page">
-        <h1 style={{ paddingTop: "250px" }}>Home Page</h1>
         <Events />
       </div>
     </center>

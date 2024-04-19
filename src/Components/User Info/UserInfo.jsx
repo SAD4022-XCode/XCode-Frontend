@@ -123,16 +123,6 @@ const UserInfo = () => {
         'Content-Type': 'multipart/form-data',
       }
      } )
-
-    //console.log(form_data);
-      //console.log(values);
-      //console.log(dateValue);
-      //console.log(selectedGender);
-      //console.log(selectedProvince);
-      //console.log(selectedCity);
-      //console.log({file});
-      //console.log(imagePreviewUrl);
-    //console.log(form_data["gender"])
   }});
 
   const ImgUpload = ({ onChange, src }) => (
