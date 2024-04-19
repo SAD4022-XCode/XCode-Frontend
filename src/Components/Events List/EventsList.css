@@ -23,8 +23,8 @@
   border-radius: 5px;
   border: 1px solid #ffeba7;
 }
-.items-title{
-  color:#ffeba7;
+.items-title {
+  color: #ffeba7;
   font-family: "iransansweb";
   margin: 1px;
   padding: 3px;
@@ -106,11 +106,12 @@ a {
 }
 .event-details__title {
   margin: 1px;
-  margin-right: 65px;
+  margin-right: 45px;
   padding: 3px;
   border-bottom: 2px solid black;
   background: radial-gradient(ellipse at bottom, #303131 0%, #0e0e1254 100%);
   border-radius: 10px;
+  width: 80%;
 }
 .items {
   i {
@@ -140,7 +141,87 @@ a {
 }
 
 @media screen and (max-width: 1300px) {
-  .item {
-    width: 80%;
+  .items-wrapper {
+    .item {
+      width: 90%;
+    }
+    .item h1 {
+      color: #ffeba7;
+      font-size: 20px;
+      margin: 0 1rem;
+    }
+    .item h4 {
+      color: #ffeba7;
+      font-size: 10px;
+      font-weight: 300;
+      margin: 0 1rem;
+    }
+    .item h5 {
+      color: #ffeba7;
+      font-size: 11px;
+      font-weight: 300;
+      margin: 0 1rem;
+    }
+    .event-details__title {
+      margin: 1px;
+      margin-right: 45px;
+      padding: 2px;
+      border-bottom: 1px solid black;
+      background: radial-gradient(
+        ellipse at bottom,
+        #303131 0%,
+        #0e0e1254 100%
+      );
+      border-radius: 10px;
+      width: 80%;
+    }
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .items-wrapper {
+    .item {
+      width: 90%;
+    }
+    .item h1 {
+      color: #ffeba7;
+      font-size: 20px;
+      margin: 0 1rem;
+    }
+    .item h4 {
+      color: #ffeba7;
+      font-size: 10px;
+      font-weight: 300;
+      margin: 0 1rem;
+    }
+    .item h5 {
+      color: #ffeba7;
+      font-size: 11px;
+      font-weight: 300;
+      margin: 0 1rem;
+    }
+    .items {
+      display: flex;
+      flex-direction: row;
+      flex: 3 auto;
+    }
+    .event-details__title {
+      margin: 1px;
+      margin-right: 45px;
+      padding: 2px;
+      border-bottom: 1px solid black;
+      background: radial-gradient(
+        ellipse at bottom,
+        #303131 0%,
+        #0e0e1254 100%
+      );
+      border-radius: 10px;
+      width: 80%;
+    }
+    .event-img img {
+      height: 9em;
+      width: auto;
+      object-fit: cover;
+    }
   }
 }

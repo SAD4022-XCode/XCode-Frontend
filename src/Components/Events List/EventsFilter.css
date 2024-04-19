@@ -27,7 +27,7 @@
     display: flex !important;
   }
   .row {
-    margin: 25px 350px 25px 0;
+    margin: 25px 00px 25px 0;
   }
   .event-filter__date-end i {
     top: 50%;
@@ -41,22 +41,42 @@
   .event-filter__category select {
     border: 1px solid #ffeba7 !important;
   }
+  .event-filter__date-start {
+    position: relative;
+    width: 45%;
+    margin-left: 260px;
+    right: 7%;
+  }
+  .event-filter__date-end {
+    position: relative;
+    width: 45%;
+    margin-left: 260px;
+    left: 50%;
+  }
   .event-filter__category {
     display: flex;
     flex-direction: column;
   }
   .event-filter__type {
+    position: relative;
     display: flex;
     flex-direction: column;
+    width: 45%;
+    margin-right: 280px;
+    right: 20%;
   }
   .event-filter__price {
+    position: relative;
     display: flex;
     flex-direction: column;
+    width: 45%;
+    right: 20%;
   }
   select {
     color: #ffeba7;
     background-color: #1f2029;
     border: 1px solid #ffeba7;
+    height: 50px;
   }
   button {
     border-radius: 4px;
@@ -104,5 +124,183 @@
   }
 }
 
-@media screen and (max-width: 1330px) {
+@media screen and (max-width: 1450px) {
+  .event-filter {
+    height: 600px;
+    .row {
+      margin: 20px 300px 20px 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin-right: 0;
+    }
+    label {
+      font-size: 12px;
+      font-weight: 200;
+    }
+    .event-filter__category {
+      width: 50%;
+      margin: 0;
+      left: 0%;
+      right: 0%;
+    }
+    .event-filter__type {
+      width: 70%;
+      margin: 0;
+      left: 0%;
+      right: 0%;
+    }
+    .event-filter__price {
+      width: 70%;
+      margin: 0;
+      margin-top: 10px;
+      left: 0%;
+      right: 0%;
+    }
+    .event-filter__date-start {
+      width: 70%;
+      margin: 0;
+      margin-top: 10px;
+      left: 0%;
+      right: 0%;
+    }
+    .event-filter__date-end {
+      width: 70%;
+      margin: 0;
+      margin-top: 10px;
+      left: 0%;
+      right: 0%;
+    }
+  }
 }
+
+@media screen and (max-width: 900px) {
+  .event-filter {
+    height: 600px;
+    .row {
+      margin: 20px 300px 20px 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin-right: 0;
+    }
+    label {
+      font-size: 12px;
+      font-weight: 200;
+    }
+    .event-filter__category {
+      width: 80%;
+    }
+    .event-filter__type {
+      width: 80%;
+
+    }
+    .event-filter__price {
+      width: 80%;
+    }
+    .event-filter__date-start {
+      width: 80%;
+    }
+    .event-filter__date-end {
+      width: 80%;
+      margin: 0;
+      margin-top: 10px;
+      left: 0%;
+      right: 0%;
+    }
+    button{
+      width: 30%;
+    }
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .event-filter {
+    height: 600px;
+    .row {
+      margin: 20px 300px 20px 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin-right: 0;
+      margin-left: 55px;
+    }
+    label {
+      font-size: 12px;
+      font-weight: 200;
+    }
+    .event-filter__category {
+      width: 100%;
+    }
+    .event-filter__type {
+      width: 150%;
+
+    }
+    .event-filter__price {
+      width: 150%;
+    }
+    .event-filter__date-start {
+      width: 150%;
+    }
+    .event-filter__date-end {
+      width: 150%;
+      margin: 0;
+      margin-top: 10px;
+      left: 0%;
+      right: 0%;
+    }
+
+  }
+  
+}
+
+@media screen and (max-width: 650px) {
+  .event-filter {
+    height: 600px;
+    .row {
+      margin: 20px 300px 20px 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin-right: 0;
+      margin-left: 110px;
+    }
+    label {
+      font-size: 12px;
+      font-weight: 200;
+    }
+    .input-icon{
+      transform: scale(0.8);
+      left: 100%;
+    }
+    .event-filter__category {
+      position: relative;
+      width: 125%;
+      margin-left: 100px;
+    }
+    .event-filter__type {
+      width: 250%;
+
+    }
+    .event-filter__price {
+      width: 250%;
+    }
+    .event-filter__date-start {
+      width:250%;
+    }
+    .event-filter__date-end {
+      width: 250%;
+      margin: 0;
+      margin-top: 10px;
+      left: 0%;
+      right: 0%;
+    }
+
+  }
+  
+}
+

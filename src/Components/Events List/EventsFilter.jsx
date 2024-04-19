@@ -67,7 +67,7 @@ const EventsFilter = () => {
             </div>
           </div>
           <div className="row">
-            <div className="col-2">
+            <div className="col-3">
               <div className="event-filter__type">
                 <label>نوع رویداد</label>
                 <select onChange={handleEventType}>
@@ -77,7 +77,7 @@ const EventsFilter = () => {
                 </select>
               </div>
             </div>
-            <div className="col-2">
+            <div className="col-3">
               <div className="event-filter__price">
                 <label>قیمت</label>
                 <select onChange={handleEventPrice}>
@@ -87,14 +87,14 @@ const EventsFilter = () => {
                 </select>
               </div>
             </div>
-            <div className="col-2">
+            <div className="col-3">
               <div className="event-filter__date-start">
                 <label>تاریخ شروع رویداد</label>
                 <Calendar sendDataToParent1={handleEventStartDate} />
                 <i className="input-icon uil uil-calendar-alt"></i>
               </div>
             </div>
-            <div className="col-2">
+            <div className="col-3">
               <div className="event-filter__date-end">
                 <label>تاریخ پایان رویداد</label>
                 <Calendar sendDataToParent2={handleEventEndDate} />
