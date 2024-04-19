@@ -11,11 +11,24 @@ import { useFormik } from "formik";
 import { userInfoValidation } from "./UserInfoValidation";
 import ChangePassword from "./ChangePassword";
 import AxiosInstance from "./Axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const weekDays = ["ش", "ی", "د", "س", "چ", "پ", "ج"];
 const UserInfo = () => {
   const digits = persian_fa.digits;
-  const persianNumbers = [/۰/g, /۱/g, /۲/g, /۳/g, /۴/g, /۵/g, /۶/g, /۷/g, /۸/g, /۹/g];
-  const arabicNumbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+  const persianNumbers = [
+    /۰/g,
+    /۱/g,
+    /۲/g,
+    /۳/g,
+    /۴/g,
+    /۵/g,
+    /۶/g,
+    /۷/g,
+    /۸/g,
+    /۹/g,
+  ];
+  const arabicNumbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
   const [dateValue, setValue] = useState();
   const { control } = useForm();
@@ -24,68 +37,48 @@ const UserInfo = () => {
   const [selectedGender, setSelectedGender] = useState("");
   const handleSelectedGender = (e) => {
     setSelectedGender(e.target.value);
-  }
+  };
   const initialValues = {
     username: "",
   };
-  const dateHandler = (
-    date,
-    { input, isTyping }
-  ) => {
-    if (!isTyping){
-    if (date != null){
-    for(let i=0; i<persianNumbers.length; i++){
-      date = date.toString().replace(persianNumbers[i], arabicNumbers[i]);
-  }
+  const dateHandler = (date, { input, isTyping }) => {
+    if (!isTyping) {
+      if (date != null) {
+        for (let i = 0; i < persianNumbers.length; i++) {
+          date = date.toString().replace(persianNumbers[i], arabicNumbers[i]);
+        }
 
-  date = date.replace(/\//g, '-')};
-      return setValue(date); }// user selects the date from the calendar and no needs for validation.
+        date = date.replace(/\//g, "-");
+      }
+      return setValue(date);
+    } // user selects the date from the calendar and no needs for validation.
 
     let value = input.value;
 
     for (let digit of digits) {
-      value = value.replace(
-        new RegExp(digit, "g"),
-        digits.indexOf(digit)
-      );
+      value = value.replace(new RegExp(digit, "g"), digits.indexOf(digit));
     }
 
     const strings = value.split("/");
-    const numbers =
-      strings.map(Number);
-    const [year, month, day] =
-      numbers;
+    const numbers = strings.map(Number);
+    const [year, month, day] = numbers;
 
-    if (
-      input.value &&
-      numbers.some((number) =>
-        isNaN(number)
-      )
-    ) {
+    if (input.value && numbers.some((number) => isNaN(number))) {
       return false; //in case user enter something other than digits
     }
 
-    if (month > 12 || month < 0)
-      return false; //month < 0 in case user want to type 01
-    if (
-      day < 0 ||
-      (date && day > date.day)
-    )
-      return false;
-    if (
-      strings.some((val) =>
-        val.startsWith("00")
-      )
-    )
-      return false;
-      if (date != null){
-        for(let i=0; i<persianNumbers.length; i++){
-          date = date.toString().replace(persianNumbers[i], arabicNumbers[i]);
+    if (month > 12 || month < 0) return false; //month < 0 in case user want to type 01
+    if (day < 0 || (date && day > date.day)) return false;
+    if (strings.some((val) => val.startsWith("00"))) return false;
+    if (date != null) {
+      for (let i = 0; i < persianNumbers.length; i++) {
+        date = date.toString().replace(persianNumbers[i], arabicNumbers[i]);
       }
-    
-      date = date.replace(/\//g, '-')};
+
+      date = date.replace(/\//g, "-");
+    }
     setValue(date);
-  }
+  };
   const {
     values,
     errors,
@@ -119,11 +112,27 @@ const UserInfo = () => {
       province: selectedProvince,
       birth_date: dateValue,
 
-      profile_picture: file,}, {headers:{
-        'Content-Type': 'multipart/form-data',
-      }
-     } )
-  }});
+          profile_picture: file,
+        },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      //console.log(form_data);
+      //console.log(values);
+      //console.log(dateValue);
+      //console.log(selectedGender);
+      //console.log(selectedProvince);
+      //console.log(selectedCity);
+      //console.log({file});
+      //console.log(imagePreviewUrl);
+      //console.log(form_data["gender"])
+      toast.success("اطلاعات شما با موفقیت تغییر یافت");
+    },
+  });
 
   const ImgUpload = ({ onChange, src }) => (
     <label htmlFor="photo-upload" className="custom-file-upload fas">
@@ -134,7 +143,9 @@ const UserInfo = () => {
     </label>
   );
   const [file, setFile] = useState("");
-  const [imagePreviewUrl, setImagePreviewUrl] = useState("https://github.com/OlgaKoplik/CodePen/blob/master/profile.jpg?raw=true");
+  const [imagePreviewUrl, setImagePreviewUrl] = useState(
+    "https://github.com/OlgaKoplik/CodePen/blob/master/profile.jpg?raw=true"
+  );
 
   const photoUpload = (e) => {
     e.preventDefault();
@@ -150,6 +161,17 @@ const UserInfo = () => {
     <center>
       <Navbar />
       <div className="user-info">
+        <ToastContainer
+          className="toastify-container"
+          position="top-right"
+          toastStyle={{
+            backgroundColor: "#2b2c38",
+            fontFamily: "iransansweb",
+            color: "#ffeba7",
+          }}
+          pauseOnHover={false}
+          autoClose={3000}
+        />
         <form className="userinfo" onSubmit={handleSubmit}>
           <div className="container">
             <div className="row">
@@ -159,11 +181,11 @@ const UserInfo = () => {
                     <div className="center-wrap">
                       <div className="section">
                         <div className="userinfo__title">
-                        <h2 className="mb-4 pb-3">مشخصات فردی</h2>
-                        <h4>
-                          در این قسمت می‌توانید مشخصات فردی خود را مشاهده و
-                          تغییر دهید
-                        </h4>
+                          <h2 className="mb-4 pb-3">مشخصات فردی</h2>
+                          <h4>
+                            در این قسمت می‌توانید مشخصات فردی خود را مشاهده و
+                            تغییر دهید
+                          </h4>
                         </div>
                         <div className="userinfo__content">
                           <div className="row gutter-normal mode-float">
@@ -195,13 +217,16 @@ const UserInfo = () => {
                                 <div className="col-10 text-right">
                                   <label>جنسیت</label>
                                   <div className={`form-group mt-1`}>
-                                    <select value={selectedGender} onChange={handleSelectedGender}>
-                                      <option selected>
-                                        انتخاب کنید
-                                      </option>
+                                    <select
+                                      value={selectedGender}
+                                      onChange={handleSelectedGender}
+                                    >
+                                      <option selected>انتخاب کنید</option>
                                       <option value="M">مرد</option>
-                                      <option value="F">زن</option>  
-                                      <option value="X">مایل نیستم بگویم</option>  
+                                      <option value="F">زن</option>
+                                      <option value="X">
+                                        مایل نیستم بگویم
+                                      </option>
                                     </select>
                                   </div>
                                 </div>
@@ -242,7 +267,9 @@ const UserInfo = () => {
                                             errors[name].type ===
                                               "required" && (
                                               //if you want to show an error message
-                                              <span>تاریخ وارد شده مشکل دارد</span>
+                                              <span>
+                                                تاریخ وارد شده مشکل دارد
+                                              </span>
                                             )}
                                         </>
                                       )}
@@ -254,8 +281,13 @@ const UserInfo = () => {
                             </div>
                             <div className="column   column-md-4 pull-left">
                               <div className="userinfo__content__profile">
-                              <div >
-                              {<ImgUpload onChange={photoUpload} src={imagePreviewUrl} />}
+                                <div>
+                                  {
+                                    <ImgUpload
+                                      onChange={photoUpload}
+                                      src={imagePreviewUrl}
+                                    />
+                                  }
                                 </div>
                               </div>
                             </div>
