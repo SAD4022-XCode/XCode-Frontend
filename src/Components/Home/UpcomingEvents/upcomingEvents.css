@@ -1,5 +1,6 @@
-
 .UpcomingEvents{
+    position: relative;
+    /* margin-top: 60px; */
     .image-slider {
         position: relative;
         height: 70vh;
