@@ -192,29 +192,16 @@
     }
     .event-filter__category {
       width: 80%;
-      margin: 0;
-      left: 0%;
-      right: 0%;
     }
     .event-filter__type {
       width: 80%;
-      margin: 0;
-      left: 0%;
-      right: 0%;
+
     }
     .event-filter__price {
       width: 80%;
-      margin: 0;
-      margin-top: 10px;
-      left: 0%;
-      right: 0%;
     }
     .event-filter__date-start {
       width: 80%;
-      margin: 0;
-      margin-top: 10px;
-      left: 0%;
-      right: 0%;
     }
     .event-filter__date-end {
       width: 80%;
@@ -223,5 +210,97 @@
       left: 0%;
       right: 0%;
     }
+    button{
+      width: 30%;
+    }
   }
 }
+
+@media screen and (max-width: 800px) {
+  .event-filter {
+    height: 600px;
+    .row {
+      margin: 20px 300px 20px 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin-right: 0;
+      margin-left: 55px;
+    }
+    label {
+      font-size: 12px;
+      font-weight: 200;
+    }
+    .event-filter__category {
+      width: 100%;
+    }
+    .event-filter__type {
+      width: 150%;
+
+    }
+    .event-filter__price {
+      width: 150%;
+    }
+    .event-filter__date-start {
+      width: 150%;
+    }
+    .event-filter__date-end {
+      width: 150%;
+      margin: 0;
+      margin-top: 10px;
+      left: 0%;
+      right: 0%;
+    }
+
+  }
+  
+}
+
+@media screen and (max-width: 650px) {
+  .event-filter {
+    height: 600px;
+    .row {
+      margin: 20px 300px 20px 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin-right: 0;
+      margin-left: 110px;
+    }
+    label {
+      font-size: 12px;
+      font-weight: 200;
+    }
+    .input-icon{
+      transform: scale(0.8);
+      left: 100%;
+    }
+    .event-filter__category {
+      position: relative;
+      width: 125%;
+      margin-left: 100px;
+    }
+    .event-filter__type {
+      width: 250%;
+
+    }
+    .event-filter__price {
+      width: 250%;
+    }
+    .event-filter__date-start {
+      width:250%;
+    }
+    .event-filter__date-end {
+      width: 250%;
+      margin: 0;
+      margin-top: 10px;
+      left: 0%;
+      right: 0%;
+    }
+
+  }
+  
+}
+
