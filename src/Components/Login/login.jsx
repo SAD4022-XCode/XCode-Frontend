@@ -51,10 +51,7 @@ const Login = () => {
                   Authorization: `Bearer ${tokenResponse.access_token}`,
                 },}
               );
-              console.log(res);
-              console.log("-----------------------------------------");
               toast.success("!با موفقیت وارد شدید");
-              console.log("hello world!");  
               setTimeout(() => {
                 navigator('/home');
               }, 4000);
@@ -137,7 +134,7 @@ const Login = () => {
         setEnteredLoginUserName(event.target.value);
         if (firstSubmit){
             
-            if (event.target.value.length<4 || event.target.value.length>30){
+            if (event.target.value.length<3 || event.target.value.length>30){
                 setLoginUserNameValidation(false);
                 setShowViolationUsername(true);
                 setLoginUserNameValidationMsg("نام کاربری شامل 4 تا 30 کاراکتر است")

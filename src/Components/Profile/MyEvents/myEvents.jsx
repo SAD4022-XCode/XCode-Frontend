@@ -37,7 +37,7 @@ const MyEvents = () => {
 
     return(
         <center>
-            <section className="create-event">
+            <section className="sidebar">
                 <div className="container">
                 <div className="row">
                     <div className="section">

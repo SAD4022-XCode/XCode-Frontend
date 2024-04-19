@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css?family=Poppins:400,500,600,700,800,900");
 
-.create-event {
+.sidebar {
   font-family: "iransansweb";
   font-weight: 300;
   line-height: 1.3;
@@ -50,12 +50,8 @@
     background-color: #f9d966;
     font-weight: 600;
   }
-}
 
-
-
-
-
+  
 a:hover {
   text-decoration: none;
 }
@@ -333,3 +329,8 @@ select {
 .section .img{
     border-radius: 50%;
 }
+}
+
+
+
+
