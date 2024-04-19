@@ -1,13 +1,13 @@
-import axios from 'axios'
+import axios from "axios";
 
-const baseUrl = "http://127.0.0.1:8000/"
+const baseUrl = "http://eventify.liara.run/";
 const AxiosInstance = axios.create({
-    baseUrl: baseUrl,
-    timeout: 5000,
-    headers: {
-        "Content-Type": "application/json",
-        accept: "application/json"
-    }
-})
+  baseUrl: baseUrl,
+  timeout: 5000,
+  headers: {
+    "Content-Type": "application/json",
+    accept: "application/json",
+  },
+});
 
-export default AxiosInstance
+export default AxiosInstance;
