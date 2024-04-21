@@ -186,7 +186,7 @@ const CreateEvent = () => {
             <Navbar/>
             <ToastContainer className="toastify-container"position="top-right" toastStyle={{backgroundColor: "#2b2c38", fontFamily: "iransansweb", color: "#ffeba7",marginTop:"60px"}} pauseOnHover={false} autoClose={3000} />
             <form className="create-event">
-                <div className="container">
+                <div className="container pt-5">
                 <div className="row">
                     <div className="section">
                         <div className="card-3d-wrap-ce" style={{height:"780px"}}>
@@ -509,7 +509,7 @@ const CreateEvent = () => {
             
             <div className="container pb-5">
                 <div className="row">
-                    <div className="section pb-5">
+                    <div className="section">
                         <div className="card-3d-wrap-ce" style={{height:(ticketCardHeight+90).toString()+"px"}}>
                             <div className="card-back ">
                             <div className="center-wrap">
