@@ -18,6 +18,7 @@ const EventDetails = () => {
 
     const navigator=useNavigate();
     let { id } = useParams();
+
     const [eventDetails, setEventDetails] = useState({
         startDay:"پنج شنبه",
         startDate:[1403,"فروردین",30],
@@ -54,7 +55,7 @@ const EventDetails = () => {
         
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://localhost:3000/event-details/'+id);
+                const response = await axios.get('/event-details/'+id);
                 setEventDetails(response.data);
             } catch (error) {
                 setError(error);

@@ -235,7 +235,7 @@ const CreateEvent = () => {
                                     {eventPhoto && 
                                     <img
                                         src={eventPhoto}
-                                        style={{ paddingBottom: "15px", paddingTop: "20px", height: "250px", width: "auto",maxWidth:"350px" }}
+                                        style={{ paddingBottom: "15px", paddingTop: "20px", height: "250px", width: "auto",maxWidth:"300px" }}
                                         alt="تصویر رویداد"
                                     />
                                     }

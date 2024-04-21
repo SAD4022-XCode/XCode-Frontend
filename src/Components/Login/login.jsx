@@ -238,7 +238,7 @@ const Login = () => {
                           </div>
                           {!loginPasswordValidation && showViolationsPassword && firstSubmit &&(<p className="mb-0 mt-2 validationMsg">{loginPasswordValidationMsg}</p>)}   
                           <p className="mb-0 mt-2">
-                            <a className="link" href="http://localhost:3000/password-recovery">بازیابی رمز عبور</a>
+                            <a className="link" href="/password-recovery">بازیابی رمز عبور</a>
                           </p>
                           <button
                             type="submit"
@@ -268,7 +268,7 @@ const Login = () => {
                           </button>
                           <p className="message">
                            حساب کاربری ندارید؟{" "}
-                            <a href="http://localhost:3000/register">
+                            <a href="/register">
                               همین حالا عضو شوید
                             </a>
                           </p>
