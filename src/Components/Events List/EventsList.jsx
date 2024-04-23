@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Icon } from "react-materialize";
+import { Link } from "react-router-dom";
 import photo1 from "../../assets/events.jpg";
 import photo2 from "../../assets/logo.png";
 import photo3 from "../../assets/profile.png";
 import photo4 from "../../assets/red pin.png";
 import photo5 from "../../assets/blue pin.png";
+import EventDetails from "../EventDetails/eventdetails";
 import Card from "./Card";
 import "./EventsList.css";
 import EventsFilter from "./EventsFilter";
@@ -115,36 +116,38 @@ const EventsList = () => {
           {EVENTS.map((event) => (
             <div className="col-3 text-right ">
               <div key={event.id} className="item">
-                <div className="event-img">
-                  <img alt={event.title} src={event.photo} />
-                </div>
-                <div class="container">
-                  <div class="row">
-                    <hr className="custom-hr" />
-                    <hr className="custom-hr" />
+                <Link to={`/event-details/${event.id}`}>
+                  <div className="event-img">
+                    <img alt={event.title} src={event.photo} />
                   </div>
-                </div>
-                <div className="event-details">
-                  <div className="event-details__title">
-                    <h1 id="event-title">{event.title}</h1>
+                  <div class="container">
+                    <div class="row">
+                      <hr className="custom-hr" />
+                      <hr className="custom-hr" />
+                    </div>
                   </div>
-                  <div className="event-details__date">
-                    <h4 id="event-date">تاریخ: {event.date}</h4>
-                    <i className="input-icon uil uil-calendar-alt"></i>
+                  <div className="event-details">
+                    <div className="event-details__title">
+                      <h1 id="event-title">{event.title}</h1>
+                    </div>
+                    <div className="event-details__date">
+                      <h4 id="event-date">تاریخ: {event.date}</h4>
+                      <i className="input-icon uil uil-calendar-alt"></i>
+                    </div>
+                    <div className="event-details__address">
+                      <h4 id="event-address">{event.address}</h4>
+                      <i className="input-icon uil uil-location-point"></i>
+                    </div>
+                    <div className="event-details__category">
+                      <h4 id="event-category">{event.category}</h4>
+                      <i className="input-icon uil uil-apps"></i>
+                    </div>
+                    <div className="event-details__price">
+                      <h5 id="event-price">{event.price}</h5>
+                      <i className="input-icon uil uil-label-alt"></i>
+                    </div>
                   </div>
-                  <div className="event-details__address">
-                    <h4 id="event-address">{event.address}</h4>
-                    <i className="input-icon uil uil-location-point"></i>
-                  </div>
-                  <div className="event-details__category">
-                    <h4 id="event-category">{event.category}</h4>
-                    <i className="input-icon uil uil-apps"></i>
-                  </div>
-                  <div className="event-details__price">
-                    <h5 id="event-price">{event.price}</h5>
-                    <i className="input-icon uil uil-label-alt"></i>
-                  </div>
-                </div>
+                </Link>
               </div>
             </div>
           ))}

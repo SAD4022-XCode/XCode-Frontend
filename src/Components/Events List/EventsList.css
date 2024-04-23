@@ -47,15 +47,15 @@
 }
 
 .item:hover {
-  transform: scale(1.05);
+  transform: scale(1.01);
 }
 
 .item:hover .event-img img {
-  transform: scale(1.05);
+  transform: scale(1.01);
 }
 
 .item:hover .event-details {
-  transform: scale(1.05);
+  transform: scale(1.01);
 }
 
 a {
