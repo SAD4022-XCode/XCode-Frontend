@@ -58,15 +58,10 @@ const CreateEvent = () => {
         }
     );
   
-    // console.log(errors)
     const createEventHandler =(event)=>{
         event.preventDefault()
         let canSubmit = false;
         setShowViolations(true)
-        console.log("create event errors")
-        console.log(errors)
-        console.log("create event errors")
-        console.log(Object.keys(errors).length)
         if (values.eventName &&
             values.eventDescription &&
             values.phoneNumber &&
@@ -80,7 +75,6 @@ const CreateEvent = () => {
                 if (eventType==="in-person" && address!=""){
                     canSubmit = true 
                 }
-            console.log("empty string")
         }
         if (canSubmit){
             let createEventData = {
@@ -95,6 +89,8 @@ const CreateEvent = () => {
                 city:selectedCity,
                 address:address,
                 latlang:mapData,
+                startDay:startDate.weekDay.name,
+                endDay:endDate.weekDay.name,
                 startDate:[startDate.year,startDate.month.name,startDate.day],
                 endDate:[endDate.year,endDate.month.name,endDate.day],
                 startTime:[startTime.hour,startTime.minute],
@@ -104,7 +100,6 @@ const CreateEvent = () => {
                 phoneNumber:values.phoneNumber,
                 ssn:values.ssn,
             }
-            console.log("const  onSubmit = (values) => {")
             console.log(createEventData)
             axios.post('http://127.0.0.1:8000/create-event/', createEventData,
                 {headers:{
@@ -122,7 +117,6 @@ const CreateEvent = () => {
 
                 });
         }else{
-            console.log("don't sent anything")
         }
         
     }
@@ -192,7 +186,7 @@ const CreateEvent = () => {
             <Navbar/>
             <ToastContainer className="toastify-container"position="top-right" toastStyle={{backgroundColor: "#2b2c38", fontFamily: "iransansweb", color: "#ffeba7",marginTop:"60px"}} pauseOnHover={false} autoClose={3000} />
             <form className="create-event">
-                <div className="container">
+                <div className="container pt-5">
                 <div className="row">
                     <div className="section">
                         <div className="card-3d-wrap-ce" style={{height:"780px"}}>
@@ -241,7 +235,7 @@ const CreateEvent = () => {
                                     {eventPhoto && 
                                     <img
                                         src={eventPhoto}
-                                        style={{ paddingBottom: "15px", paddingTop: "20px", height: "250px", width: "auto",maxWidth:"350px" }}
+                                        style={{ paddingBottom: "15px", paddingTop: "20px", height: "250px", width: "auto",maxWidth:"300px" }}
                                         alt="تصویر رویداد"
                                     />
                                     }
@@ -515,7 +509,7 @@ const CreateEvent = () => {
             
             <div className="container pb-5">
                 <div className="row">
-                    <div className="section pb-5">
+                    <div className="section">
                         <div className="card-3d-wrap-ce" style={{height:(ticketCardHeight+90).toString()+"px"}}>
                             <div className="card-back ">
                             <div className="center-wrap">

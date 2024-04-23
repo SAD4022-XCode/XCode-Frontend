@@ -109,7 +109,7 @@ const EventsList = () => {
   return (
     <Card className="events-list">
       <EventsFilter />
-      <div className="container-fluid pb-5">
+      <div className="container-fluid">
         <div className="items">
           {console.log(EVENTS)}
           {EVENTS.map((event) => (

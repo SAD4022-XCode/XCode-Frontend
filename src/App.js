@@ -14,6 +14,7 @@ import AuthProvider from "./Components/Authentication/authProvider";
 import PrivateRoute from "./Components/Authentication/privateRoute";
 import Navbar from "./Components/Navbar/navbar";
 import MapComponent from "./Components/MapComponent/MapComponent";
+import EventDetails from "./Components/EventDetails/eventdetails";
 function App() {
   return (
     <Router>
@@ -34,6 +35,7 @@ function App() {
             <Route exact path="/user-info" element={<UserInfo />} />
           {/* </Route> */}
           <Route exact path="/map" element={<MapComponent />} />
+          <Route path="event-details/:id" element={<EventDetails />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </AuthProvider>

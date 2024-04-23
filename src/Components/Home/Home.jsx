@@ -8,16 +8,17 @@ const Home = () => {
     const navigator=useNavigate();
    
     useEffect(() => {
+        document.documentElement.style.overflowY = 'hidden';
         //changing title of html pages dynamically
         document.title = "ایونتیفای";
       }, []);
     return (
         <center>
             <Navbar />
-            <UpcomingEvents/>
-            <Events />
-            {/* <h1 style={{paddingTop: "250px"}}>Home Page</h1> */}
-            
+            <div className="home-page">
+                <UpcomingEvents/>
+                <Events />
+            </div>            
         </center>
     )
 
