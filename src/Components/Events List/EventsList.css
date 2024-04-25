@@ -41,7 +41,6 @@
   align-items: center;
   background: radial-gradient(ellipse at bottom, #303131 0%, #12141d 100%);
   background-color: #1f2029;
-  height: 150vh;
   overflow: hidden;
   position: relative;
 }
@@ -54,7 +53,7 @@
   transform: scale(1.01);
 }
 
-.item:hover .event-details {
+.item:hover .event-info {
   transform: scale(1.01);
 }
 
@@ -69,7 +68,7 @@ a {
   object-fit: cover;
 }
 
-.event-details {
+.event-info {
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -95,16 +94,16 @@ a {
   margin: 0 1rem;
 }
 
-.event-details {
+.event-info {
   align-items: start;
   margin-left: 50px;
 }
-.event-details__price {
+.event-info__price {
   font-size: 1rem;
   font-weight: 400;
   color: #ffeba7;
 }
-.event-details__title {
+.event-info__title {
   margin: 1px;
   margin-right: 45px;
   padding: 3px;
@@ -122,47 +121,36 @@ a {
     position: relative !important;
     display: flex !important;
   }
-  .event-details__date {
+  .event-info__date {
     display: flex;
     flex-direction: row-reverse;
   }
-  .event-details__address {
+  .event-info__address {
     display: flex;
     flex-direction: row-reverse;
   }
-  .event-details__category {
+  .event-info__category {
     display: flex;
     flex-direction: row-reverse;
   }
-  .event-details__price {
+  .event-info__price {
     display: flex;
     flex-direction: row-reverse;
+  }
+}
+
+@media screen and (min-width: 300px) {
+  .items {
+    height: 680vh;
   }
 }
 
 @media screen and (max-width: 1300px) {
   .items-wrapper {
     .item {
-      width: 90%;
+      width: 95%;
     }
-    .item h1 {
-      color: #ffeba7;
-      font-size: 20px;
-      margin: 0 1rem;
-    }
-    .item h4 {
-      color: #ffeba7;
-      font-size: 10px;
-      font-weight: 300;
-      margin: 0 1rem;
-    }
-    .item h5 {
-      color: #ffeba7;
-      font-size: 11px;
-      font-weight: 300;
-      margin: 0 1rem;
-    }
-    .event-details__title {
+    .event-info__title {
       margin: 1px;
       margin-right: 45px;
       padding: 2px;
@@ -177,7 +165,7 @@ a {
     }
   }
 }
-
+/*
 @media screen and (max-width: 1000px) {
   .items-wrapper {
     .item {
@@ -205,7 +193,7 @@ a {
       flex-direction: row;
       flex: 3 auto;
     }
-    .event-details__title {
+    .event-info__title {
       margin: 1px;
       margin-right: 45px;
       padding: 2px;
@@ -224,4 +212,4 @@ a {
       object-fit: cover;
     }
   }
-}
+} */

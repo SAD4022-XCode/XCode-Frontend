@@ -5,7 +5,7 @@ import persian_fa from "react-date-object/locales/persian_fa";
 import transition from "react-element-popper/animations/transition";
 import { Controller, useForm } from "react-hook-form";
 const weekDays = ["ش", "ی", "د", "س", "چ", "پ", "ج"];
-const Calendar = ({sendDataToParent}) => {
+const Calendar = ({ sendDataToParent }) => {
   const digits = persian_fa.digits;
   const persianNumbers = [
     /۰/g,
@@ -82,7 +82,7 @@ const Calendar = ({sendDataToParent}) => {
               }),
             ]}
             minDate="1300/01/01"
-            maxDate="1403/01/30"
+            maxDate="1403/02/15"
             value={dateValue || ""}
             onChange={dateHandler}
             calendar={persian}

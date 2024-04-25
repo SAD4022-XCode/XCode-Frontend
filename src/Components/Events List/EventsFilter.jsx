@@ -1,7 +1,7 @@
 import React, { useState } from "react";
+import { useMediaQuery } from "react-responsive";
 import "./EventsFilter.css";
 import Calendar from "./Calendar";
-import axios from "axios";
 import AxiosInstance from "./Axios";
 import MultiSelectTag from "../CreateEvent/multiSelectTag";
 const EventsFilter = () => {
@@ -11,6 +11,19 @@ const EventsFilter = () => {
   const [eventStartDate, setEventStartDate] = useState("");
   const [eventEndDate, setEventEndDate] = useState("");
   const [selectedTags, setSelectedTags] = useState([]);
+  const isMobileDevice = useMediaQuery({
+    query: "(min-device-width: 300px)",
+  });
+
+  const isTabletDevice = useMediaQuery({
+    query: "(min-device-width: 730px)",
+  });
+  const isMiddleDevice1 = useMediaQuery({
+    query: "(min-device-width: 1100px)",
+  });
+  const isLaptopOrDesktop = useMediaQuery({
+    query: "(min-device-width: 1350px)",
+  });
 
   const handleEventStartDate = (e) => {
     setEventStartDate(e);
@@ -109,7 +122,6 @@ const EventsFilter = () => {
             </div>
           </div>
         </div>
-        <button type="submit">اعمال فیلتر</button>
       </form>
     </center>
   );
