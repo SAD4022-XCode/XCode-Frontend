@@ -22,10 +22,10 @@ const Home = () => {
         <center>
             <Navbar />
             <div className="home-page">
-                <button onClick={showModal} style={{marginTop:"70px",marginBottom:"10px"}}>
+{/*                 <button onClick={showModal} style={{marginTop:"70px",marginBottom:"10px"}}>
                     show wallet
-                </button>
-                {openModal && <Wallet openModel={openModal} setOpenModel={setOpenModal} />}
+                </button> */}
+{/*                 {openModal && <Wallet openModel={openModal} setOpenModel={setOpenModal} />} */}
                 <UpcomingEvents/>
                 <Events />
             </div>            
