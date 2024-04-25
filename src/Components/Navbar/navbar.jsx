@@ -34,8 +34,9 @@ const Navbar = () => {
     }, [isLoggedIn]);
 
     const handleShowNavbar = () => {
-        
+        console.log("show navbar",showNavbar)
         setShowNavbar(!showNavbar) ;
+        console.log("show navbar",showNavbar)
         if(showBorder===false){
             setTimeout(() => {setShowBorder(!showBorder)}, 300);
         }else{
@@ -53,7 +54,7 @@ const Navbar = () => {
  
     return (
     <nav className="navbar">
-        <ToastContainer className="toastify-container"position="bottom-right" toastStyle={{backgroundColor: "#2b2c38", fontFamily: "iransansweb", color: "#ffeba7",marginBottom:"60px"}} pauseOnHover={false} autoClose={3000} />
+        <ToastContainer className="toastify-container" position="bottom-right" toastStyle={{backgroundColor: "#2b2c38", fontFamily: "iransansweb", color: "#ffeba7",marginBottom:"60px"}} pauseOnHover={false} autoClose={3000} />
 
         <div className="container">
             <div >
@@ -105,7 +106,8 @@ const Navbar = () => {
                         {!isLoggedIn &&(<li className="auth-link-li">
                             <NavLink to="/register" > عضویت </NavLink>
                             </li>
-                        )}</div>}
+                        )}</div>
+                    }
 
                         {!showNavbar && isLoggedIn && 
                         <div className="dropdown-container" onMouseEnter={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>

@@ -124,6 +124,7 @@ const CreateEvent = () => {
     
     const handleMapData = (data) =>{
         setMapData(data);
+        console.log(mapData)
     }
     useEffect(() => {
         document.documentElement.style.overflowY = 'hidden';
@@ -235,7 +236,7 @@ const CreateEvent = () => {
                                     {eventPhoto && 
                                     <img
                                         src={eventPhoto}
-                                        style={{ paddingBottom: "15px", paddingTop: "20px", height: "250px", width: "auto",maxWidth:"300px" }}
+                                        style={{ paddingBottom: "15px", paddingTop: "20px", maxHeight:"200px",width:"auto",maxWidth:"400px" }}
                                         alt="تصویر رویداد"
                                     />
                                     }

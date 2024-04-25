@@ -64,10 +64,10 @@
   font-family: "iransansweb";
   color: #ffeba7;
 
-    overflow: hidden;
+    /* overflow: hidden;
     position: fixed;
     width: 100%;
-    z-index: 1100;
+    z-index: 1100; */
 
   .asdsa{
     
@@ -308,7 +308,7 @@
 
 @media (max-width: 642px) {
   .navbar {
-    z-index: 1;
+    z-index: 999;
     .asdsa{
       
     }

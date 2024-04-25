@@ -15,6 +15,7 @@ import PrivateRoute from "./Components/Authentication/privateRoute";
 import Navbar from "./Components/Navbar/navbar";
 import MapComponent from "./Components/MapComponent/MapComponent";
 import EventDetails from "./Components/EventDetails/eventdetails";
+import { useEffect } from "react";
 function App() {
   return (
     <Router>
