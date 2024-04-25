@@ -8,7 +8,7 @@ const OrganizerInfoModal = ({show,handleClose,email,phone}) => {
         <Modal.Header >
           <Modal.Title>اطلاعات تماس با برگزارکننده</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body >
             <div className="row text-right">
                 <div className="col">
                     تلفن: {phone}
@@ -18,7 +18,7 @@ const OrganizerInfoModal = ({show,handleClose,email,phone}) => {
                 </div>
             </div>
         </Modal.Body>
-        <Modal.Footer>
+        <Modal.Footer >
           <Button variant="secondary" onClick={handleClose}>
             بستن
           </Button>
