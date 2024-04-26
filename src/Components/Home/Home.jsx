@@ -7,12 +7,6 @@ import './Home.css'
 import Wallet from "../Wallet/wallet";
 const Home = () => {
     const navigator=useNavigate();
-    const [openModal, setOpenModal] = useState(false)
-    const showModal = () => {
-        setOpenModal(!openModal)
-        console.log("show modal")
-    }
-
     useEffect(() => {
         document.documentElement.style.overflowY = 'hidden';
         //changing title of html pages dynamically
@@ -22,10 +16,6 @@ const Home = () => {
         <center>
             <Navbar />
             <div className="home-page">
-{/*                 <button onClick={showModal} style={{marginTop:"70px",marginBottom:"10px"}}>
-                    show wallet
-                </button> */}
-{/*                 {openModal && <Wallet openModel={openModal} setOpenModel={setOpenModal} />} */}
                 <UpcomingEvents/>
                 <Events />
             </div>            
