@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,800;1,600&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap");
 
+.myEventsAll .myEvent{
 @media (max-width: 800px) {
   #header {
     text-align: center;
@@ -67,7 +68,6 @@
     }
   }
 
-.myEventsAll .myEvent{
     /* height: 10%; */
 /* :root {
   font-size: 10px;
