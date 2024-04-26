@@ -15,6 +15,7 @@ import PrivateRoute from "./Components/Authentication/privateRoute";
 import Navbar from "./Components/Navbar/navbar";
 import MapComponent from "./Components/MapComponent/MapComponent";
 import EventDetails from "./Components/EventDetails/eventdetails";
+import RegisterEvent from "./Components/RegisterEvent/registerEvent";
 function App() {
   return (
     <Router>
@@ -24,11 +25,8 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/register" element={<Register />} />
-          <Route exact path="/profile" element={<> 
-                                                {/* <Navbar/>  */}
-                                                {/* <ProfileSidebar /> */}
-                                                <MyEvents />
-                                                </>}        />
+          <Route exact path="/profile" element={<MyEvents />}/>
+          <Route exact path="/register-event" element={<RegisterEvent />}/>
           <Route exact path="/password-recovery" element={<PasswordRecovery />} />
           {/* <Route element={<PrivateRoute />}> */}
             <Route exact path="/create-event" element={<CreateEvent />}/>
