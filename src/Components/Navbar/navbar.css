@@ -25,6 +25,12 @@
   background-color: #2B2E38;
   cursor: pointer;
 }
+.dropdown-item3{
+  border-radius: 0px 0px 0px 0px;
+  color:#ffeba7;
+  background-color: #2B2E38;
+  cursor: pointer;
+}
 .dropdown-item2{
   border-radius:0px 0px 4px 4px ;
   color:#ffeba7;

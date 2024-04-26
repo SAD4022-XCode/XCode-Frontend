@@ -5,6 +5,7 @@ import {useNavigate} from 'react-router-dom';
 import { useAuth } from "../Authentication/authProvider";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
+import Wallet from "../Wallet/wallet";
 const Navbar = () => {
     const auth = useAuth();
     const navigator=useNavigate();
@@ -121,9 +122,14 @@ const Navbar = () => {
                                         <i class="pl-1 ml-0  uil uil-user"></i>
                                         <p className="pt-0 mb-0">حساب کاربری</p>
                                 </div>
-                                <div className="row pr-2 pb-2 dropdown-item2" >
-                                       <i className=" pl-2  bi bi-box-arrow-right"></i>
-                                         <p className="pt-2 mb-0" onClick={() => {
+                                <div className="row pr-2 pb-0 mb-0   dropdown-item3">
+                                        <i class="pl-1 ml-0 pr-1 mt-0 pb-0 bi bi-wallet2"></i>
+                                        <p className="pt-1 mb-0 mt-1"><Wallet/> </p>
+                                    
+                                </div>
+                                <div className="row pr-2 pb-2  dropdown-item2" >
+                                       <i className=" pl-2 pr-1 mt-1 bi bi-box-arrow-right"></i>
+                                         <p className="pt-2 mb-0 mt-1" onClick={() => {
                                 auth.logOut()
                                 setIsLoggedIn(false)
                             }}>خروج </p>
@@ -145,6 +151,13 @@ const Navbar = () => {
                     {showNavbar && isLoggedIn && (<li className="auth-link-li">
                             <NavLink to="/userinfo" > حساب کاربری </NavLink>
                             </li>
+                        )
+                    }
+                    {showNavbar && isLoggedIn && (
+                        <li className="auth-link-li pb-1">
+                            <Wallet />
+                        </li>
+                        
                         )
                     }
                     {showNavbar && isLoggedIn && (<li className="auth-link-li pb-1">
