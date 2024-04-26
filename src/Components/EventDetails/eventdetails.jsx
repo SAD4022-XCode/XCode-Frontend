@@ -55,7 +55,10 @@ const EventDetails = () => {
         
         const fetchData = async () => {
             try {
-                const response = await axios.get('/event-details/'+id);
+                const response = await axios.get('/event-details/'+id,{headers: {
+                    "Content-Type": "application/json",
+                    accept: "application/json",
+                  }},);
                 setEventDetails(response.data);
             } catch (error) {
                 setError(error);
