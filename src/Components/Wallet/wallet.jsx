@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import {useNavigate} from 'react-router-dom';
 import './wallet.css'
 import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
+// import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
@@ -12,8 +12,7 @@ import IconButton from '@mui/material/IconButton';
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
-import Backdrop from '@mui/material/Backdrop';
-
+import {Modal} from 'react-bootstrap'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
@@ -23,17 +22,18 @@ const style = {
   top: '40%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  borderRadius: 50,
+  // border: "none",
+  borderRadius: "10px",
+  overflow: "hidden",
+  borderRdius: "10px",
   // opacity: 0.4,
-  // pt: 2,
-  // px: 4,
-  // pb: 3,
+  pt: 2,
+  px: 4,
+  pb: 3,
   // direction:"rtl"
 };
 
-export default function Wallet() {
+const Wallet = () =>  {
   const [open, setOpen] = useState(false);
   const [money, setMoney] = useState(2500000);
   const [chargeValue, setChargeValue] = useState(null);
@@ -68,7 +68,7 @@ export default function Wallet() {
   }
   const chargeWallet = (event) => {
     // toast.success("موجودی حساب شما با موفقیت افزایش پیدا کرد")
-
+    console.log("send request to backend")
     axios.post('http://127.0.0.1:8000/chargeWallet/', chargeValue,
       {headers:{
           "Content-Type": "application/json",
@@ -87,27 +87,49 @@ export default function Wallet() {
   }
 
   return (
-    <div>
-      <ToastContainer className="toastify-container" position="top-right" toastStyle={{backgroundColor: "#2b2c38", fontFamily: "iransansweb", color: "#ffeba7",marginTop:"100px"}} pauseOnHover={false} autoClose={3000} />
+    <>
+      <ToastContainer className="toastify-container" position="top-right" toastStyle={{backgroundColor: "#2b2c38", fontFamily: "iransansweb", color: "#ffeba7",marginTop:"100px", zIndex:2000}} pauseOnHover={false} autoClose={3000} />
 
-      <Button onClick={handleOpen}>Open modal</Button>
-      <Modal
+      <p onClick={handleOpen} style={{marginBottom:"0px"}} >کیف پول </p>
+      
+      {/* <Modal
+      style={{...style, width: 400,height:380}}
         open={open}
         onClose={handleClose}
-        aria-labelledby="parent-modal-title"
-        aria-describedby="parent-modal-description"
-        style={{ backdropFilter: 'blur(0.5px)' }}
-      >
-        <Box sx={{ ...style, width: 400,height:350 }}>
-          
-          <div className='walletmodal'>
+        // aria-labelledby="parent-modal-title"
+        // aria-describedby="parent-modal-description"
+        // style={{ backdropFilter: 'blur(0.5px)'}}
+        // sx={{ ...style, width: 400,height:350}}
+      > */}
+     
+      <Modal 
+      show={open}
+      onHide={handleClose}
+      centered
+      animation={true}
+      animationTime={500}
+      style={{
 
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        borderRadius:"20px",
+        maxWidth:"440px",
+        minHeight:"480px",
+        maxHeight:"auto",
+        // animation:open?"fadeIn 0.5s ease-out":null,
+        animation:"fadeIn 0.5s ease-out"
+        
+      }}
+      >
+           <div className='walletmodal'>
             <div className="section">
               <div className="container">
                 <div className="row  justify-content-center">
                   <div className="col-12 text-center align-self-center px-0">
                     <div className="section  text-center">
-                      <div className="card-3d-wrap mx-auto " style={{height:"360px"}}>
+                      <div className="card-3d-wrap mx-auto " style={{maxHeight:"auto",minHeight:"400px"}}>
                           <div className="card-front">
                             <div className="center-wrap">
                               <div className="section text-center">
@@ -177,7 +199,12 @@ export default function Wallet() {
                                     <AddIcon />
                                   </IconButton>
                                 </div> 
-                                <p className='message text-center' style={{fontSize:"10px",marginTop:"0px",marginBottom:"5px"}}>مبلغ وارد شده باید بین از 10,000 تا 1,000,000 باشد</p>
+                                <p className='message text-center' style={{fontSize:"10px",marginTop:"0px",marginBottom:"5px"}}>مبلغ وارد شده باید بین 10,000 تا 1,000,000 باشد</p>
+                                <div className="row text-right justify-content-between px-3">
+                                  <p className="mb-1 mt-2"> {money.toLocaleString()}</p>
+                                  <p className="mb-1 mt-2">:موجودی</p>
+                                </div>
+
                               </div>
                                 <button
                                   type="submit"
@@ -197,10 +224,10 @@ export default function Wallet() {
               </div>
             </div>
           </div>
-        </Box>
       </Modal>
-    </div>
+    </>
   );
 }
 
 
+export default Wallet;

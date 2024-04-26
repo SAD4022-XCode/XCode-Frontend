@@ -16,7 +16,6 @@ const Home = () => {
         <center>
             <Navbar />
             <div className="home-page">
-                <Wallet/>
                 <UpcomingEvents/>
                 <Events />
             </div>            
