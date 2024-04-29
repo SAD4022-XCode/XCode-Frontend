@@ -16,6 +16,7 @@ import Navbar from "./Components/Navbar/navbar";
 import MapComponent from "./Components/MapComponent/MapComponent";
 import EventDetails from "./Components/EventDetails/eventdetails";
 import RegisterEvent from "./Components/RegisterEvent/registerEvent";
+import Landing from "./Components/Landing/Landing";
 function App() {
   return (
     <Router>
