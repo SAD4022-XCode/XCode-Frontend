@@ -1,8 +1,7 @@
-import React, { useState } from "react";
-import { useMediaQuery } from "react-responsive";
+import React, { useEffect, useState } from "react";
 import "./EventsFilter.css";
 import Calendar from "./Calendar";
-import AxiosInstance from "./Axios";
+import axios from "axios";
 import MultiSelectTag from "../CreateEvent/multiSelectTag";
 const EventsFilter = () => {
   const [eventCategory, setEventCategory] = useState("A");
@@ -11,19 +10,8 @@ const EventsFilter = () => {
   const [eventStartDate, setEventStartDate] = useState("");
   const [eventEndDate, setEventEndDate] = useState("");
   const [selectedTags, setSelectedTags] = useState([]);
-  const isMobileDevice = useMediaQuery({
-    query: "(min-device-width: 300px)",
-  });
-
-  const isTabletDevice = useMediaQuery({
-    query: "(min-device-width: 730px)",
-  });
-  const isMiddleDevice1 = useMediaQuery({
-    query: "(min-device-width: 1100px)",
-  });
-  const isLaptopOrDesktop = useMediaQuery({
-    query: "(min-device-width: 1350px)",
-  });
+  const [filteredPosts, setFilteredPosts] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const handleEventStartDate = (e) => {
     setEventStartDate(e);
@@ -40,19 +28,24 @@ const EventsFilter = () => {
   const handleEventPrice = (e) => {
     setEventPrice(e.target.value);
   };
-  const submitHandler = (e) => {
-    e.preventDefault();
-    AxiosInstance.patch(`http://127.0.0.1:8000/account/me/`, {
-      eventCategory: eventCategory,
-      eventType: eventType,
-      eventPrice: eventPrice,
-      eventStartDate: eventStartDate,
-      eventEndDate: eventEndDate,
-    });
-  };
+  axios.defaults.headers.common["X-Jsio-Token"] =
+    "69b3f5f4d98b76f3d1337f262baeefbf";
+  useEffect(() => {
+    const fetchEvents = async () => {
+      setLoading(true);
+      try {
+        const response = await axios.get(`https://api.jsonserver.io/events`);
+        setFilteredPosts(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchEvents();
+  }, []);
   return (
     <center>
-      <form className="event-filter" onSubmit={submitHandler}>
+      <div className="event-filter">
         <div className="column">
           <div className="col-7">
             <div className="event-filter__category">
@@ -122,7 +115,7 @@ const EventsFilter = () => {
             </div>
           </div>
         </div>
-      </form>
+      </div>
     </center>
   );
 };
