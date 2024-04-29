@@ -268,12 +268,12 @@ const EventsList = () => {
   return (
     <Card className="events-list">
       <EventsFilter />
-      <div className="container-fluid justify-content-center align-content-center pb-3">
+      <div className="container-fluid justify-content-center align-content-center pb-5 mb-5">
         {/* {isLaptopOrDesktop && ( */}
-        <div className="items pb-3 pt-3 rounded-5">
+        <div className="items pb-5 mb-5 pt-5">
           {currentEvents.map((event) => (
             <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 justify-content-center align-items-center">
-              <div key={event.id} className="item rounded-5 mb-4">
+              <div key={event.id} className="item mb-4">
                 <Link to={`/event-details/${event.id}`}>
                   <div className="event-img">
                     <img alt={event.title} src={event.photo} />
