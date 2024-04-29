@@ -16,13 +16,12 @@ import Navbar from "./Components/Navbar/navbar";
 import MapComponent from "./Components/MapComponent/MapComponent";
 import EventDetails from "./Components/EventDetails/eventdetails";
 import RegisterEvent from "./Components/RegisterEvent/registerEvent";
-import { useEffect } from "react";
 function App() {
   return (
     <Router>
       <AuthProvider>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Landing />} />
           <Route path="/home" element={<Home />} />
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/register" element={<Register />} />
