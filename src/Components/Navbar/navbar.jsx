@@ -130,8 +130,11 @@ const Navbar = () => {
                                 <div className="row pr-2 pb-2  dropdown-item2" >
                                        <i className=" pl-2 pr-1 mt-1 bi bi-box-arrow-right"></i>
                                          <p className="pt-2 mb-0 mt-1" onClick={() => {
-                                auth.logOut()
-                                setIsLoggedIn(false)
+                                toast.error("از حساب کاربری خارج شدید")
+                                setTimeout(() => {
+                                    auth.logOut()
+                                    setIsLoggedIn(false)
+                                  }, 4000);
                             }}>خروج </p>
 
                                 </div>
@@ -162,8 +165,12 @@ const Navbar = () => {
                     }
                     {showNavbar && isLoggedIn && (<li className="auth-link-li pb-1">
                             <p onClick={() => {
-                                auth.logOut()
-                                setIsLoggedIn(false)
+                                toast.error("از حساب کاربری خارج شدید")
+                                setTimeout(() => {
+                                    auth.logOut()
+                                    setIsLoggedIn(false)
+                                  }, 4000);
+
                             }}>خروج </p>
                             </li>
                         )

@@ -10,13 +10,19 @@ const AuthProvider = ({ children }) => {
 
   const loginAction = async (data) => {
     try {
-        const response = await axios.post('http://127.0.0.1:8000/auth/jwt/create', data);
+        const response = await axios.post('https://eventify.liara.run/auth/jwt/create', data);
         
         if (response.data) {
             setUser(data);
             localStorage.setItem("userData",JSON.stringify(data));
             setToken(response.data.access);
             localStorage.setItem("token", response.data.access);
+            // const response2 = await axios.get('https://eventify.liara.run/account/me',{headers: {
+            //   "Content-Type": "application/json",
+            //   accept: "application/json",
+            //   Authorization:`Bearer ${response.data.access}`
+            // }});
+            // console.log(response2);
             return "Data received successfully";
         } else if (response.data.message === 'username does not exist') {
             return "username does not exist";
