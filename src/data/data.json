@@ -4,7 +4,7 @@
     "paragraph": "پلتفرم برگزاری رویدادهای آنلاین و حضوری"
   },
   "About": {
-    "paragraph": "ایونتیفای یک پلتفرم برگزاری رویداد است که در آن به راحتی می توان رویداد برگزار کرد و یا د رویدادها شرکت کرد.",
+    "paragraph": "ایونتیفای یک پلتفرم برگزاری رویداد است که در آن به راحتی می توان رویداد برگزار کرد و یا در رویدادها شرکت کرد.",
     "Why": [
       "امکان برگزاری رویداد آنلاین",
       "امکان برگزاری رویداد حضوری",
@@ -12,10 +12,8 @@
       "مدیریت رویدادها"
     ],
     "Why2": [
-      "Aliquip ex ea commodo",
-      "Lorem ipsum dolor",
-      "Exercitation ullamco",
-      "Lorem ipsum dolor"
+        "برگزاری رویدادهای آنلاین با بیش ار 100 نفر شرکت کننده",
+        "امکان ذخیره کردن رویدادهای مورد علاقه"
     ]
   },
   "Gallery": [
@@ -100,32 +98,32 @@
   "Testimonials": [
     {
       "img": "img/testimonials/01.jpg",
-      "text": "\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed dapibus leo nec ornare diam sedasd commodo nibh ante facilisis bibendum dolor feugiat at.\"",
+      "text": "\"رویداد خوبی بود.\"",
       "name": "John Doe"
     },
     {
       "img": "img/testimonials/02.jpg",
-      "text": "\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed dapibus leo nec ornare diam sedasd commodo nibh ante facilisis bibendum dolor feugiat at.\"",
+      "text": "\"بسیار با جزئیات توضیح داده شد.\"",
       "name": "Johnathan Doe"
     },
     {
       "img": "img/testimonials/03.jpg",
-      "text": "\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed dapibus leo nec ornare diam sedasd commodo nibh ante facilisis bibendum dolor feugiat at.\"",
+      "text": "\"رزرو رویداد بسیار آسان است.\"",
       "name": "John Doe"
     },
     {
       "img": "img/testimonials/04.jpg",
-      "text": "\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed dapibus leo nec ornare diam sedasd commodo nibh ante facilisis bibendum dolor feugiat at.\"",
+      "text": "\" \"",
       "name": "Johnathan Doe"
     },
     {
       "img": "img/testimonials/05.jpg",
-      "text": "\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed dapibus leo nec ornare diam sedasd commodo nibh ante facilisis bibendum dolor feugiat at.\"",
+      "text": "\" \"",
       "name": "John Doe"
     },
     {
       "img": "img/testimonials/06.jpg",
-      "text": "\"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed dapibus leo nec ornare diam sedasd commodo nibh ante facilisis bibendum dolor feugiat at.\"",
+      "text": "\" \"",
       "name": "Johnathan Doe"
     }
   ],
@@ -152,12 +150,8 @@
     }
   ],
   "Contact": {
-    "address": "4321 California St, San Francisco, CA 12345 ",
-    "phone": "+1 123 456 1234",
-    "email": "info@company.com",
-    "facebook": "fb.com",
-    "twitter": "twitter.com",
-    "youtube": "youtube.com"
+    "phone": "+98 912 345 6789",
+    "email": "info@eventify.com"
   },
   "Features": [
     {
