@@ -3,7 +3,7 @@ import "./EventsFilter.css";
 import Calendar from "./Calendar";
 import axios from "axios";
 import MultiSelectTag from "../CreateEvent/multiSelectTag";
-const EventsFilter = () => {
+const EventsFilter = ({sendFilteredPosts}) => {
   const [eventCategory, setEventCategory] = useState("A");
   const [eventType, setEventType] = useState("A");
   const [eventPrice, setEventPrice] = useState("A");
@@ -37,6 +37,7 @@ const EventsFilter = () => {
         const response = await axios.get(`https://api.jsonserver.io/events`);
         setFilteredPosts(response.data);
         setLoading(false);
+        sendFilteredPosts(filteredPosts);
       } catch (error) {
         console.log(error);
       }
