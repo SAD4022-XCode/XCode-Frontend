@@ -20,7 +20,7 @@
   direction: rtl;
   cursor: pointer;
   background-color: #4b4b4b;
-  border-radius: 5px;
+  border-radius: 30px;
   border: 1px solid #ffeba7;
 }
 .items-title {
@@ -43,6 +43,7 @@
   background-color: #1f2029;
   overflow: hidden;
   position: relative;
+  border-radius: 30px;
 }
 
 .item:hover {
@@ -139,11 +140,11 @@ a {
   }
 }
 
-@media screen and (min-width: 300px) {
+/* @media screen and (max-width: 700px) {
   .items {
     height: 680vh;
   }
-}
+} */
 
 
 /*
