@@ -10,17 +10,12 @@ const AuthProvider = ({ children }) => {
 
   const loginAction = async (data) => {
     try {
-      console.log("response-1 start")
-        const response = await axios.post('https://eventify.liara.run/auth/jwt/create', data);
-        console.log("response0 start")
+        const response = await axios.post('https://eventify.liara.run/auth/jwt/create', data,);
         if (response.data) {
-            console.log("response1 start")
             setUser(data);
             localStorage.setItem("userData",JSON.stringify(data));
             setToken(response.data.access);
             localStorage.setItem("token", response.data.access);
-            console.log("response2 start")
-            
             return "Data received successfully";
         } else if (response.data.message === 'username does not exist') {
             return "username does not exist";
@@ -28,7 +23,7 @@ const AuthProvider = ({ children }) => {
             return "password incorrect";
         }
     } catch (error) {
-        console.error("An error occurred:", error);
+        console.log("An error occurred:",error)
         return false;
     }
   };

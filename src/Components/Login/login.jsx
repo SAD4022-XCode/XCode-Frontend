@@ -113,7 +113,7 @@ const Login = () => {
               
             }
             else{
-              toast.success("به صورت آزمایشی وارد شدید");
+              toast.warning("به صورت آزمایشی وارد شدید");
               setTimeout(() => {
                 navigator('/home');
               }, 4000);
