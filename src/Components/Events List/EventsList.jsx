@@ -244,6 +244,9 @@ const EventsList = () => {
   const isLaptopOrDesktop = useMediaQuery(
     "only screen and (min-width: 1350px) and (max-width: 1800px)"
   );
+  const handleFilteredPosts = (data) => {
+    setPosts(data);
+  }
   axios.defaults.headers.common["X-Jsio-Token"] =
     "69b3f5f4d98b76f3d1337f262baeefbf";
   useEffect(() => {
@@ -267,10 +270,11 @@ const EventsList = () => {
   };
   return (
     <Card className="events-list">
-      <EventsFilter />
+      <EventsFilter sendFilteredPosts={handleFilteredPosts}/>
       <div className="container-fluid justify-content-center align-content-center pb-5 mb-5">
         {/* {isLaptopOrDesktop && ( */}
         <div className="items pb-5 mb-5 pt-5">
+          {posts.length == 0 && <h2>Loading...</h2>}
           {currentEvents.map((event) => (
             <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 justify-content-center align-items-center">
               <div key={event.id} className="item mb-4">
