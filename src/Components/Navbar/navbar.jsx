@@ -88,7 +88,7 @@ const Navbar = () => {
             <div className={`nav-elements  ${showNavbar && 'active'}`}>
                 <ul> 
                     <li>
-                    <NavLink to="/" >خانه </NavLink>
+                    <NavLink to="/home" >خانه </NavLink>
                     </li>
                     <li>
                     <NavLink to="/blogs"> بلاگ ها</NavLink>

@@ -87,6 +87,13 @@ const Login = () => {
         if(loginUserNameValidation && loginPasswordValidation){
             setShowViolation(false);
             let result = await auth.loginAction(userData);
+            console.log("my token:",auth.token);
+            // const response2 = await axios.get('https://eventify.liara.run/account/me',{headers: {
+            //   "Content-Type": "application/json",
+            //   accept: "application/json",
+            //   Authorization:`Bearer ${auth.token}`,
+            // }});
+            console.log("my token2:",auth.token);
             if (result ==="Data received successfully"){
               setEnteredLoginUserName("");
               setEnteredLoginPassword("");
@@ -117,7 +124,8 @@ const Login = () => {
 
    //Login validations
   //--------------------------------------------------------------------------------------------------
-    const regUserName = /^[a-zA-Z][a-zA-Z0-9]{2,29}$/;
+    const regUserName = /^[a-zA-Z][a-zA-Z0-9._]{2,29}$/;
+
     const loginUserNameHandler = (event) => {
         if(showViolations===true){
         setAutoHeight(autoHeight-20*x);
