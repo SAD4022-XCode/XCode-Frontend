@@ -7,9 +7,8 @@ import {useNavigate} from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import { useGoogleLogin } from '@react-oauth/google';
 import axios from "axios";
+// let x=0;
 
-
-let x=0;
 const Login = () => {
     const navigator=useNavigate();
 
@@ -17,21 +16,29 @@ const Login = () => {
     const [enteredLoginPassword, setEnteredLoginPassword] = useState("");
 
     const [autoHeight,setAutoHeight] = useState(450);
+
     const [showLoginPassword, setShowLoginPassword] = useState(false);
-    const [showViolations, setShowViolation] = useState(false);
+    const [showViolationsUsername, setShowViolationUsername] = useState(false);
+    const [showViolationsPassword, setShowViolationPassword] = useState(false);
 
     const [loginUserNameValidation, setLoginUserNameValidation] = useState(false);
-    const [loginUserNameValidationMsg, setLoginUserNameValidationMsg] = useState("نام کاربری شامل 1 تا 30 کاراکتر است و باید با حروف انگلیسی شروع شود");
+    const [loginUserNameValidationMsg, setLoginUserNameValidationMsg] = useState("نام کاربری شامل 4 تا 30 کاراکتر است و باید با حروف انگلیسی شروع شود");
     
     const [loginPasswordValidation, setLoginPasswordValidation] = useState(false);
     const [loginPasswordValidationMsg, setLoginPasswordValidationMsg] = useState("رمزعبور حداقل باید شامل 8 کاراکتر باشد");
 
-    
-  
+    const [firstSubmit, setFirstSubmit] = useState(false);
+
+    const regUserName = /^[a-zA-Z][a-zA-Z0-9]{3,29}$/;
+    const regPassword = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)" + "(?=.*[-+_!@#$%^&*., ?]).+$");
+
+    const [usernameErrorExtended, setUsernameErrorExtended] = useState(false);
+    const [passwordErrorExtended, setPasswordErrorExtended] = useState(false);
+
     useEffect(() => {
       //disable vertical scrollbar
       document.documentElement.style.overflowY = 'hidden';
-      //changing title of html pages dynamically
+      //change title of html page dynamically
       document.title = "ورود کاربران";
 
     }, []);
@@ -44,10 +51,7 @@ const Login = () => {
                   Authorization: `Bearer ${tokenResponse.access_token}`,
                 },}
               );
-              console.log(res);
-              console.log("-----------------------------------------");
               toast.success("!با موفقیت وارد شدید");
-              console.log("hello world!");  
               setTimeout(() => {
                 navigator('/home');
               }, 4000);
@@ -64,18 +68,20 @@ const Login = () => {
 
  
     const loginHandler = (event, action) => {
-        x=0;
-        if(loginUserNameValidation===false){
-        x++;
-        }
-        if(loginPasswordValidation===false){
-        x++;
+        if (!loginUserNameValidation && !usernameErrorExtended){
+            setAutoHeight(autoHeight+20);
+            setUsernameErrorExtended(true);
         }
 
-        if(showViolations===false && x>0){
-            setAutoHeight(autoHeight+x*20);
-          }
-        setShowViolation(true)
+        if (!loginPasswordValidation && !passwordErrorExtended){
+            setAutoHeight(autoHeight+20);
+            setPasswordErrorExtended(true);
+        }
+        
+        setFirstSubmit(true);
+        setShowViolationUsername(true);
+        setShowViolationPassword(true);
+        
         event.preventDefault();
         
         let userData = {
@@ -87,31 +93,31 @@ const Login = () => {
             axios.post('http://localhost:8080/api', userData)
             .then(response => {
               console.log('Data sent successfully:', response.data);
-              setShowViolation(false);
+              setShowViolationUsername(false);
+              setShowViolationPassword(false);
               if (response.data['message']==="Data received successfully"){
-                  
                 setEnteredLoginUserName("");
                 setEnteredLoginPassword("");
-
-
                 toast.success("!با موفقیت عضو شدید");
                 setTimeout(() => {
                   navigator('/home');
                 }, 4000);
               }else if(response.data['message']===`username does not exist`){
-                setShowViolation(true);
+                setShowViolationUsername(true);
+                setShowViolationPassword(true);
                 setLoginUserNameValidation(false);
                 setLoginUserNameValidationMsg("نام کاربری وارد شده در سیستم وجود ندارد");
                 
               }else if(response.data['message']===`password incorrect`){
-                        
-                setShowViolation(true);
+                setShowViolationUsername(true);   
+                setShowViolationPassword(true);
                 setLoginPasswordValidation(false);
                 setLoginPasswordValidationMsg("رمزعبور نادرست است");
               }
-
             })
             .catch(error => {
+              console.error('Error sending data:', error);
+              
               toast.success("به صورت آزمایشی وارد شدید");
               setTimeout(() => {
                 navigator('/home');
@@ -123,47 +129,73 @@ const Login = () => {
 
    //Login validations
   //--------------------------------------------------------------------------------------------------
-    const regUserName = /^[a-zA-Z][a-zA-Z0-9]{3,29}$/;;
+
     const loginUserNameHandler = (event) => {
-        if(showViolations===true){
-        setAutoHeight(autoHeight-20*x);
-        }
-        setShowViolation(false)
         setEnteredLoginUserName(event.target.value);
-        if (event.target.value.length<1 || event.target.value.length>30){
-        setLoginUserNameValidation(false);
-        setLoginUserNameValidationMsg("نام کاربری شامل 1 تا 30 کاراکتر است و باید با حروف انگلیسی شروع شود")
-        }
-        else{
-            if (regUserName.test(event.target.value)){
-                setLoginUserNameValidation(true);
-            }else{
+        if (firstSubmit){
+            
+            if (event.target.value.length<3 || event.target.value.length>30){
                 setLoginUserNameValidation(false);
-                setLoginUserNameValidationMsg("نام کاربری باید با حروف انگلیسی شروع شود و شامل حروف و اعداد انگلیسی است")
+                setShowViolationUsername(true);
+                setLoginUserNameValidationMsg("نام کاربری شامل 4 تا 30 کاراکتر است")
+                if (!usernameErrorExtended){
+                    setAutoHeight(autoHeight+20);
+                    setUsernameErrorExtended(true);
+                }
             }
+            else{
+                if (regUserName.test(event.target.value)){
+                    setLoginUserNameValidation(true);
+                    setShowViolationUsername(false);  
+                    if (showViolationsUsername){
+                        setAutoHeight(autoHeight-20);
+                        setUsernameErrorExtended(false);
+                    }
+                }
+                else{
+                    setLoginUserNameValidationMsg("نام کاربری باید با حروف انگلیسی شروع شود و شامل حروف و اعداد انگلیسی است")
+                    setLoginUserNameValidation(false);
+                    setShowViolationUsername(true);
+                    if (!usernameErrorExtended){
+                        setAutoHeight(autoHeight+20);
+                        setUsernameErrorExtended(true);
+                    }
+                }
+            }  
         }
     }
 
     const loginPasswordHandler = (event) => {
-        if(showViolations===true){
-        setAutoHeight(autoHeight-20*x);
-        }
-        setShowViolation(false)
         setEnteredLoginPassword(event.target.value);
-        if(event.target.value.length<8){
-        setLoginPasswordValidation(false);
-        setLoginPasswordValidationMsg("رمزعبور حداقل باید شامل 8 کاراکتر باشد")
-        }else{
-        let pattern=new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)" + "(?=.*[-+_!@#$%^&*., ?]).+$")
-        if(!pattern.test(event.target.value)){
-            setLoginPasswordValidationMsg("رمزعبور باید شامل حروف کوچک و بزرگ انگلیسی،اعداد و نشانه های خاص باشد")
-            setLoginPasswordValidation(false);
-        }else{
-            setLoginPasswordValidation(true);
-        }
-        
-        }
+        if (firstSubmit){
 
+            if(event.target.value.length<8){
+                setLoginPasswordValidationMsg("رمزعبور حداقل باید شامل 8 کاراکتر باشد")
+                setLoginPasswordValidation(false);
+                setShowViolationPassword(true);
+                if (!passwordErrorExtended){
+                    setAutoHeight(autoHeight+20);
+                    setPasswordErrorExtended(true);
+                }
+            }else{
+                if(!regPassword.test(event.target.value)){
+                    setLoginPasswordValidationMsg("رمزعبور باید شامل حروف کوچک و بزرگ انگلیسی،اعداد و نشانه های خاص باشد")
+                    setLoginPasswordValidation(false);
+                    setShowViolationPassword(true);
+                    if (!passwordErrorExtended){
+                        setAutoHeight(autoHeight+20);
+                        setPasswordErrorExtended(true);
+                    }
+                }else{
+                    setLoginPasswordValidation(true);
+                    setShowViolationPassword(false); 
+                    if (showViolationsPassword){
+                        setAutoHeight(autoHeight-20);
+                        setPasswordErrorExtended(false);
+                    }
+                };
+            };
+    };
     };
 
 
@@ -180,7 +212,7 @@ const Login = () => {
                       <div className="center-wrap">
                         <div className="section text-center">
                           <h4 className="mb-4 pb-3">ورود کاربران</h4>
-                          <div className={`form-group mt-2 ${(!loginUserNameValidation && showViolations) ? "invalid" : ""}`}>
+                          <div className={`form-group mt-2 ${(!loginUserNameValidation && showViolationsUsername && firstSubmit) ? "invalid" : ""}`}>   
                             <input
                               dir="rtl"
                               type="text"
@@ -191,8 +223,8 @@ const Login = () => {
                             />
                             <i className="input-icon uil uil-user"></i>
                           </div>
-                          {!loginUserNameValidation && showViolations &&(<p className="mb-0 mt-2 validationMsg">{loginUserNameValidationMsg}</p>)}
-                          <div className={`form-group mt-2 ${!loginPasswordValidation && showViolations ? "invalid" : ""}`}>
+                          {!loginUserNameValidation && showViolationsUsername && firstSubmit &&(<p className="mb-0 mt-2 validationMsg">{loginUserNameValidationMsg}</p>)}   
+                          <div className={`form-group mt-2 ${!loginPasswordValidation && showViolationsPassword && firstSubmit ? "invalid" : ""}`}>          
                             <i class={showLoginPassword ? "bi bi-eye":"bi bi-eye-slash"} onClick={toggleLoginPasswordVisibility} style={{ fontSize: "20px", position: "absolute", top: "40%", transform: "translateY(-50%)", paddingLeft: "10px"  }}></i>
                             <input
                               dir="rtl"
@@ -204,9 +236,9 @@ const Login = () => {
                             />
                             <i className="input-icon uil uil-lock-alt" ></i>
                           </div>
-                          {!loginPasswordValidation && showViolations &&(<p className="mb-0 mt-2 validationMsg">{loginPasswordValidationMsg}</p>)}
+                          {!loginPasswordValidation && showViolationsPassword && firstSubmit &&(<p className="mb-0 mt-2 validationMsg">{loginPasswordValidationMsg}</p>)}   
                           <p className="mb-0 mt-2">
-                            <a className="link" href="http://localhost:3000/password-recovery">بازیابی رمز عبور</a>
+                            <a className="link" href="/password-recovery">بازیابی رمز عبور</a>
                           </p>
                           <button
                             type="submit"
@@ -236,7 +268,7 @@ const Login = () => {
                           </button>
                           <p className="message">
                            حساب کاربری ندارید؟{" "}
-                            <a href="http://localhost:3000/register">
+                            <a href="/register">
                               همین حالا عضو شوید
                             </a>
                           </p>

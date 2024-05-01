@@ -17,7 +17,7 @@ const PasswordRecovery = () =>{
 
     useEffect(() => {
       // disable vertical scrollbar
-      document.documentElement.style.overflowY = 'hidden';
+      // document.documentElement.style.overflowY = 'hidden';
       //changing title of html pages dynamically
       document.title = "بازیابی رمزعبور";
     }, []);
@@ -28,7 +28,6 @@ const PasswordRecovery = () =>{
         if(recoveryEmailValidation===true){
           axios.post('http://localhost:8080/api', {email:enteredRecoveryEmail})
           .then(response => {
-            console.log('Data sent successfully:', response.data);
             setShowViolation(false);
             if (response.data['message']==="Email sent successfully"){
               setEnteredRecoveryEmail("");
@@ -98,7 +97,7 @@ const PasswordRecovery = () =>{
                           </div>
                           {!recoveryEmailValidation && showViolations &&(<p className="mb-0 mt-2 validationMsg">{recoveryEmailValidationMsg}</p>)}
                           <p className="mb-0 mt-2">
-                            <a className="link cancel" href="http://localhost:3000/login">بازگشت</a>
+                            <a className="link cancel" href="/login">بازگشت</a>
                           </p>
                           <br></br>
                           <button
