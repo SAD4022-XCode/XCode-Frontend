@@ -274,6 +274,7 @@ const EventsList = () => {
       <div className="container-fluid justify-content-center align-content-center pb-5 mb-5">
         {/* {isLaptopOrDesktop && ( */}
         <div className="items pb-5 mb-5 pt-5">
+          {posts.length == 0 && <h2>Loading...</h2>}
           {currentEvents.map((event) => (
             <div className="col-xl-3 col-lg-4 col-md-6 col-sm-12 justify-content-center align-items-center">
               <div key={event.id} className="item mb-4">
