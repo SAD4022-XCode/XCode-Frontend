@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
+import { debounce } from "lodash";
 import "./EventsFilter.css";
 import Calendar from "./Calendar";
 import axios from "axios";
 import MultiSelectTag from "../CreateEvent/multiSelectTag";
-const EventsFilter = () => {
+const EventsFilter = ({ sendFilteredPosts }) => {
   const [eventCategory, setEventCategory] = useState("A");
   const [eventType, setEventType] = useState("A");
   const [eventPrice, setEventPrice] = useState("A");
@@ -15,31 +16,60 @@ const EventsFilter = () => {
 
   const handleEventStartDate = (e) => {
     setEventStartDate(e);
+    debouncedSendData({ startDate: e.target.value });
   };
   const handleEventEndDate = (e) => {
     setEventEndDate(e);
+    debouncedSendData({ endDate: e.target.value });
   };
   const handleEventCategory = (e) => {
-    setEventCategory(e.target.value);
+    setEventCategory(selectedTags);
+    debouncedSendData({ category: selectedTags });
   };
+
   const handleEventType = (e) => {
     setEventType(e.target.value);
+    debouncedSendData({ type: e.target.value });
   };
+
   const handleEventPrice = (e) => {
     setEventPrice(e.target.value);
+    debouncedSendData({ price: e.target.value });
   };
+
+  const debouncedSendData = useCallback(
+    debounce((data) => {
+      axios
+        .post("https://api.yourbackend.com/events", data)
+        .then((response) => {
+          console.log("Data sent successfully:", response.data);
+        })
+        .catch((error) => {
+          console.error("Failed to send data:", error);
+        });
+    }, 500),
+    []
+  ); // 500ms delay; // 500ms delay
+  // axios.defaults.headers.common["X-Jsio-Token"] =
+  //   "69b3f5f4d98b76f3d1337f262baeefbf";
+  // useEffect(() => {
+  //   const fetchEvents = async () => {
+  //     setLoading(true);
+  //     try {
+  //       const response = await axios.post(`https://api.jsonserver.io/events`);
+  //       setFilteredPosts(response.data);
+  //       setLoading(false);
+  //       sendFilteredPosts(filteredPosts);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   fetchEvents();
+  // }, []);
   useEffect(() => {
-    const fetchEvents = async () => {
-      setLoading(true);
-      try {
-        const response = await axios.get(`https://api.jsonserver.io/events`);
-        setFilteredPosts(response.data);
-        setLoading(false);
-      } catch (error) {
-        console.log(error);
-      }
+    return () => {
+      debouncedSendData.cancel();
     };
-    fetchEvents();
   }, []);
   return (
     <center>
@@ -51,6 +81,7 @@ const EventsFilter = () => {
               <MultiSelectTag
                 selectedTags={selectedTags}
                 setSelectedTags={setSelectedTags}
+                onChange={handleEventCategory}
               />
               {/* <select onChange={handleEventCategory}>
                 <option value="A">همه دسته بندی ها</option>

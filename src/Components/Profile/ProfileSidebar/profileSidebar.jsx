@@ -71,7 +71,7 @@ const ProfileSidebar = () => {
                 </li>
      
                 <li>
-                    <a href="#">
+                    <a href="/user-info">
                         <span class="link_name">تغییر مشخصات کاربری</span>
                         <i class='bx bx-cog' ></i>
                     </a>

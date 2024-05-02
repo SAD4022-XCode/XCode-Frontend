@@ -13,6 +13,7 @@ import ChangePassword from "./ChangePassword";
 import AxiosInstance from "./Axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useAuth } from "../Authentication/authProvider";
 const weekDays = ["ش", "ی", "د", "س", "چ", "پ", "ج"];
 const UserInfo = () => {
   const digits = persian_fa.digits;
@@ -29,7 +30,7 @@ const UserInfo = () => {
     /۹/g,
   ];
   const arabicNumbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
-
+  const auth = useAuth();
   const [dateValue, setValue] = useState();
   const { control } = useForm();
   const [selectedProvince, setSelectedProvince] = useState("");
@@ -91,35 +92,37 @@ const UserInfo = () => {
     initialValues: initialValues,
     validationSchema: userInfoValidation,
     onSubmit: (values) => {
-      //let form_data = new FormData();
-      //form_data.append("{user", `:{'username': ${values.username}}}`)
-      //form_data.append("gender", selectedGender);
-      //form_data.append("city", selectedCity);
-      //form_data.append("province", selectedProvince);
-      //form_data.append("birth_date", dateValue);
-      //form_data.append("profile_picture", file);  
-      AxiosInstance.patch(`https://eventify.liara.run/account/me/`,{
-    //form_data
-    user: {
-      username: values.username
-      },
+      let formData = new FormData();
+      let formData1 = new FormData();
+      formData1.append("user[username]", values.username);
+      formData.append("gender", selectedGender);
+      formData.append("city", selectedCity);
+      formData.append("province", selectedProvince);
+      formData.append("birth_date", dateValue);
+      formData.append("profile_picture", file);
+      AxiosInstance.patch(
+        `https://eventify.liara.run/account/me/`,
+        //form_data
+        // user: {
+        //   username: values.username
+        //   },
+        formData1,
 
-     } )
-
-     AxiosInstance.patch(`https://eventify.liara.run/account/me/`,{
-      gender: selectedGender,
-      city: selectedCity,
-      province: selectedProvince,
-      birth_date: dateValue,
-
-          profile_picture: file,
-        },
         {
           headers: {
-            "Content-Type": "multipart/form-data",
+            "Content-Type": "application/json",
+            accept: "application/json",
+            Authorization: `JWT ${auth.token}`,
           },
         }
       );
+
+      AxiosInstance.patch(`https://eventify.liara.run/account/me/`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `JWT ${auth.token}`,
+        },
+      });
 
       //console.log(form_data);
       //console.log(values);

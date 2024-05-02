@@ -118,7 +118,7 @@ const Navbar = () => {
                         </div>
                         {isOpen && (
                           <div className="col dropdown-content">
-                                <div className="row pr-2 pt-2  dropdown-item1" onClick={() =>navigator('/user-info')}>
+                                <div className="row pr-2 pt-2  dropdown-item1" onClick={() =>navigator('/profile')}>
                                         <i class="pl-1 ml-0  uil uil-user"></i>
                                         <p className="pt-0 mb-0">حساب کاربری</p>
                                 </div>
@@ -152,7 +152,7 @@ const Navbar = () => {
                             </li>
                         )}
                     {showNavbar && isLoggedIn && (<li className="auth-link-li">
-                            <NavLink to="/userinfo" > حساب کاربری </NavLink>
+                            <NavLink to="/profile" > حساب کاربری </NavLink>
                             </li>
                         )
                     }

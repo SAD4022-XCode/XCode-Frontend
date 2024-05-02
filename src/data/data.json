@@ -156,23 +156,23 @@
   "Features": [
     {
       "icon": "fa fa-comments-o",
-      "title": "Lorem ipsum",
-      "text": "Lorem ipsum dolor sit amet placerat facilisis felis mi in tempus eleifend pellentesque natoque etiam."
+      "title": "امکان نظر دادن",
+      "text": "پس از پایان هر رویداد، کاربران می توانند درباره آن رویداد نظر دهند"
     },
     {
       "icon": "fa fa-bullhorn",
-      "title": "Lorem ipsum",
-      "text": "Lorem ipsum dolor sit amet placerat facilisis felis mi in tempus eleifend pellentesque natoque etiam."
+      "title": "اطلاع رسانی",
+      "text": "قبل از برگزاری رویداد، زمان و لینک برگزاری آن جهت یادآوری برای شما ارسال می شود"
     },
     {
       "icon": "fa fa-group",
-      "title": "Lorem ipsum",
-      "text": "Lorem ipsum dolor sit amet placerat facilisis felis mi in tempus eleifend pellentesque natoque etiam."
+      "title": "ظرفیت بالا",
+      "text": "هر رویداد بسته به محدودیت برگزارکننده، می تواند بیش از 100 نفر شرکت کننده داشته باشد"
     },
     {
-      "icon": "fa fa-magic",
-      "title": "Lorem ipsum",
-      "text": "Lorem ipsum dolor sit amet placerat facilisis felis mi in tempus eleifend pellentesque natoque etiam."
+      "icon": "fa fa-map-marker",
+      "title": "امکان برگزاری رویدادهای آنلاین و حضوری",
+      "text": "در این پلتفرم می توانید  رویدادهای خود را به صورت حضوری یا آنلاین برگزار کنید"
     }
   ]
 }
