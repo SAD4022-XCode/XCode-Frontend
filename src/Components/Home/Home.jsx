@@ -19,10 +19,9 @@ const Home = () => {
       }, []);
     const printUserDate =async()=>{
         console.log("my token:",auth.token);
-        const response2 = await axios.get('https://eventify.liara.run/account/me/',{headers: {
+        const response2 = await axios.get(`https://eventify.liara.run/account/me/`,{headers: {
             "Content-Type": "application/json",
-            accept: "application/json",
-            Authorization:`Bearer ${auth.token}`,
+            Authorization:`JWT ${auth.token}`,
         }});
         console.log("my token2:",auth.token);
     }

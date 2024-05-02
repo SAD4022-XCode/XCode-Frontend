@@ -28,8 +28,6 @@ const EventsFilter = () => {
   const handleEventPrice = (e) => {
     setEventPrice(e.target.value);
   };
-  axios.defaults.headers.common["X-Jsio-Token"] =
-    "69b3f5f4d98b76f3d1337f262baeefbf";
   useEffect(() => {
     const fetchEvents = async () => {
       setLoading(true);
