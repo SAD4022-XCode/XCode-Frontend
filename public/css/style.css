@@ -3,6 +3,7 @@
   .landing-container{
     overflow-y: scroll !important;
     height: 100vh;
+    overflow-x: hidden;
   }
   h2 {
     text-transform: uppercase;

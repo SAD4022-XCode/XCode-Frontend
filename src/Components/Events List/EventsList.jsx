@@ -50,6 +50,13 @@ const EventsList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage, setPostsPerPage] = useState(12);
   const [totalPages, setTotalPages] = useState(1);
+  const [data, setData] = useState({
+    eventPrice: "",
+    eventType: "",
+    eventStartDate: "",
+    eventEndDate: "",
+    selectedTags: "",
+  });
   const isMobileDevice = useMediaQuery(
     "only screen and (min-width: 300px) and (max-width: 730px)"
   );
@@ -63,30 +70,60 @@ const EventsList = () => {
   const isLaptopOrDesktop = useMediaQuery(
     "only screen and (min-width: 1350px) and (max-width: 1800px)"
   );
-  const handleFilteredPosts = (data) => {
-    setPosts(data);
+  const handleFilteredPosts = (response) => {
+    setData(response);
   };
   useEffect(() => {
     const fetchEvents = async () => {
       setLoading(true);
-      try {
-        const response = await axios.get(
-          `https://eventify.liara.run/events/?page=${currentPage}`
-        );
-        console.log(response.data);
-        // setPosts(response.data);
-        setTotalPages(response.data.count);
-        setPosts(response.data.results);
-        setLoading(false);
-      } catch (error) {
-        console.log(error);
-      }
+      // if (
+      //   data ==
+      //   {
+      //     eventPrice: "",
+      //     eventType: "",
+      //     eventStartDate: "",
+      //     eventEndDate: "",
+      //     selectedTags: "",
+      //   }
+      // ) {
+      //   const response = await axios.get(
+      //     `https://eventify.liara.run/events/?page=${currentPage}`
+      //   );
+      //   console.log(response.data);
+      //   // setPosts(response.data);
+      //   setTotalPages(response.data.count);
+      //   setPosts(response.data.results);
+      //   setLoading(false);
+      // } else {
+      const baseUrl = "https://eventify.liara.run/filter";
+      let queryParams = [];
+      console.log(data);
+      if (data.eventType !== "")
+        queryParams.push(`attendance=${data.eventType}`);
+      if (data.eventPrice !== "")
+        queryParams.push(`is_paid=${data.eventPrice}`);
+      if (data.eventStartDate !== "")
+        queryParams.push(`starts=${data.eventStartDate}T00%3A00%3A00Z`);
+      if (data.eventEndDate !== "")
+        queryParams.push(`ends=${data.eventEndDate}T00%3A00%3A00Z`);
+
+      queryParams.push(`page=${currentPage}`);
+      const fullUrl = `${baseUrl}?${queryParams.join("&")}`;
+      console.log(fullUrl);
+      const response = await axios.get(fullUrl);
+      // .then((response) => {
+      // console.log("Data sent successfully:", response.data);
+      setTotalPages(response.data.count);
+      setPosts(response.data.results);
+      console.log(response);
+      setLoading(false);
+      // })
+      // .catch((error) => {
+      //   console.error("Failed to send data:", error);
+      // });
     };
     fetchEvents();
-  }, [currentPage]);
-  const indexOfLastPost = currentPage * postsPerPage;
-  const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const currentEvents = posts.slice(indexOfFirstPost, indexOfLastPost);
+  }, [currentPage, data]);
   const handleChangePage = (event, value) => {
     setCurrentPage(value);
     setLoading(true);
