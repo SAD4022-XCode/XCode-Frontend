@@ -26,13 +26,12 @@ const EventDetails = () => {
         endDay:"جمعه",
         endDate:[1403,"فروردین",31],
         endTime:[22,30],
-        eventName:"دوره جامع هوش‌مصنوعی پروژه-محور سمپو نوروساینس",
+        eventName:"دوره جامع هوش‌مصنوعی پروژه-محور سمپوزیوم نوروساینس",
         price:1500000,
         type:"i",
         province:"تهران",
-        city:"شهریار",
+        city:"دماوند",
         category:"تکنولوژی",
-        tags:["پایتون","سرور","شبکه","دیتا ماینینگ","هوش مصنوعی"],
         organizerPhoto:"../../assets/sample-organizer.webp",
         organizerName:"پژوهشکده علوم شناختی دانش های بنیادی (IPM)",
         organizerPhone:"09123456789",
@@ -79,12 +78,6 @@ const EventDetails = () => {
 
     }, []);
 
-
-    const searchTagHandler = (tag) =>{
-        console.log(`selected tag: #${tag}`)
-    }
-    const eventTags = eventDetails.tags.map(tag => <div className="container" onClick={() =>searchTagHandler(tag)} style={{cursor:"pointer",borderRadius:"5px",margin:"5px",paddingTop:"3px",paddingBottom:"2px",paddingLeft:"4px",paddingRight:"4px",background:"#808080",width:"fit-content",fontSize:"12px",height:"20px"}}>#{tag}</div>);
-    
     
     const copyToClipboard = () => {
         copy(currentUrl)
@@ -96,13 +89,17 @@ const EventDetails = () => {
         });
     };
 
+    const searchTagHandler = (tag) =>{
+        console.log(`selected tag: #${tag}`)
+    }
+    const eventTags = eventDetails.tags.map(tag => <div className="container" onClick={() =>searchTagHandler(tag)} style={{cursor:"pointer",borderRadius:"5px",margin:"5px",paddingTop:"3px",paddingBottom:"2px",paddingLeft:"4px",paddingRight:"4px",background:"#808080",width:"fit-content",fontSize:"12px",height:"20px"}}>#{tag}</div>);
     // if (loading) return <center>Loading...</center>;
     // if (error) return <PageNotFound />;
     // if (!eventDetails) return <div>No data available</div>;
 
 
     return (
-        <center>
+        <>
             <Navbar/>
             <ToastContainer className="toastify-container"position="top-right" toastStyle={{backgroundColor: "#2b2c38", fontFamily: "iransansweb", color: "#ffeba7",marginTop:"60px"}} pauseOnHover={false} autoClose={3000} />
             
@@ -128,18 +125,16 @@ const EventDetails = () => {
             </div>  */}
             
 
-
-
-
-             <div className="event-details"> 
-                    <div className="row flex-row flex-md-column justify-content-center mt-5">
-                        <div className="card-3d-wrap-ce col-xl-3 col-lg-4 col-md-5">
-                            <div className="card-back text-right px-3  pt-4">
+            <div className="event-details"> 
+                <div className="section pb-0">
+                    <div className="row justify-content-center" style={{marginTop:"30px"}}>
+                        <div className="card-3d-wrap-ce" style={{height:"400px", width:"350px"}}>
+                            <div className="card-back text-right px-3 py-4">
                                 <p className="pb-3 message">{eventDetails.day} {eventDetails.startDate[2]} {eventDetails.startDate[1]} {eventDetails.startDate[0]} ساعت {eventDetails.startTime[0]}:{eventDetails.startTime[1]}</p>
                                 <h4 className=" pb-3"> {eventDetails.eventName} </h4>
                                 <div className="row px-3">
                                     <i class="bi bi-tag-fill icons-style"></i>
-                                    <p id="message">{eventDetails.price.toLocaleString()} تومان</p>
+                                    <p className="message">{eventDetails.price.toLocaleString()} تومان</p>
                                 </div>
                                 {eventDetails.type==="o" && (<div className="row px-3">
                                     <i class="bi bi-geo-alt-fill icons-style"></i>
@@ -152,15 +147,15 @@ const EventDetails = () => {
                                 </div>)}
                                 <div className="row px-3 pb-3">
                                     <p class="bi bi-grid icons-style"></p>
-                                    <p id="message">{eventDetails.category}</p>
+                                    <p className="message">{eventDetails.category}</p>
                                 </div>
-                                <div className="row px-3 pt-2" >
+                                <div className="row px-3 pt-4" >
                                     <img className="mt-1" src={require("../../assets/sample-organizer.webp")} style={{height:"45px",borderRadius: "50%" }} alt="profile"/>
-                                    <div className="col d-flex align-items-center">
-                                        <p className="pt-2 px-0 mb-0"> {eventDetails.organizerName}</p>
+                                    <div className="col">
+                                        <p className="pt-2 px-0"> {eventDetails.organizerName}</p>
                                     </div>
                                 </div>
-                                <div className="row px-3 pt-1">
+                                <div className="row px-3">
                                     <button
                                         className="btn  mt-1 mx-1"
                                         >
@@ -176,39 +171,39 @@ const EventDetails = () => {
                             </div>
                             
                         </div>
-                        <div className="col-xl-8 col-lg-7 col-md-6  px-0" style={{height:"480px",background:"blue"}}>
-                            <center>Hello World</center>
+
+                        <div>
+                            <img
+                                src={require("../../assets/sample-event.webp")}
+                                alt="Your Image"
+                                style={{ width: "770px", height: "400px" }}
+                            />
                         </div>
-                        {/* <img className="col-xl-8 col-lg-7 col-md-6 col-sm-6 px-0"
-                            src={require("../../assets/sample-event.webp")}
-                            alt="Your Image"
-                            style={{height:"400px"}}
-                        /> */}
                     </div>
-                
+                </div>
 
 
 
 
-                {/* <div className="container pb-5 mb-5">
+                <div className="section pb-0" style={{marginLeft:"40px"}}>
                     <div className="row justify-content-center">
-                        <div className="card-3d-wrap-ce" style={{height:"260px", width:"350px" , marginTop:"15px"}}>
+                        <div className="card-3d-wrap-ce" style={{height:"260px", width:"335px" , marginTop:"15px"}}>
                             <div className="card-back text-right px-3 py-4">
                                 <div className="row px-3">
                                     <i class="bi bi-clock  icons-style"></i>
-                                    <p className="pb-1 message"id="message">شروع: {eventDetails.startDay} {eventDetails.startDate[2]} {eventDetails.startDate[1]} {eventDetails.startDate[0]} ساعت {eventDetails.startTime[0]}:{eventDetails.startTime[1]}</p>
+                                    <p className="pb-1 message">شروع: {eventDetails.startDay} {eventDetails.startDate[2]} {eventDetails.startDate[1]} {eventDetails.startDate[0]} ساعت {eventDetails.startTime[0]}:{eventDetails.startTime[1]}</p>
 
                                 </div>
                                 <div className="row px-3">
                                     <i class="bi bi-clock  icons-style"></i>
-                                    <p className="pb-3 message" id="message">پایان: {eventDetails.endDay} {eventDetails.endDate[2]} {eventDetails.endDate[1]} {eventDetails.endDate[0]} ساعت {eventDetails.endTime[0]}:{eventDetails.endTime[1]}</p>
+                                    <p className="pb-3 message">پایان: {eventDetails.endDay} {eventDetails.endDate[2]} {eventDetails.endDate[1]} {eventDetails.endDate[0]} ساعت {eventDetails.endTime[0]}:{eventDetails.endTime[1]}</p>
 
                                 </div>
                                 <div className="row px-3 pt-1" >
                                     <div className="col">
                                         <p className="pt-2 px-0"> اشتراک گذاری رویداد</p>
                                         <div className="row">
-                                            <p className="message ellipsis" id="message" style={{fontSize:"12px"}}>{window.location.href}</p>
+                                            <p className="message ellipsis" style={{fontSize:"12px"}}>{window.location.href}</p>
                                             <button className="btn  mt-1 mx-1" onClick={copyToClipboard}>
                                                 کپی لینک  
                                             </button>
@@ -228,62 +223,41 @@ const EventDetails = () => {
                                         </div>
                                     </button>
                                 </center>
-                                 
+                                    
                             </div>
-                            
+                        </div>
 
-                        </div> */}
-
-
-                        {/* <div className="card-3d-wrap-description pb-5 mb-5 mx-0 px-0">
-                            <div className="card-back text-right px-3 pt-4  pb-1 mb-1" style={{maxWidth: "770px",width:"auto",maxHeight:"400px"}}>
-                                <h4 className="pb-3">توضیحات</h4>
-                                <p className="message" style={{whiteSpace:"pre-line"}}>{eventDetails.description}</p>
-                                <center>
-                                    <button
-                                        className="btn  mt-1 mx-1"
-                                        onClick={(e) => navigator('/payment')}
-                                        >
-                                        ثبت نام  
-                                    </button>
-                                </center>
-                                <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap',marginTop:"20px"}}>{eventTags}</div>  
-
-                            </div>
-                        </div> */}
-
-
-                        
-                            {/* <div className="card-3d-wrap-description pb-5 mb-5 mx-0 px-0">
-                                <div className="card-back text-right px-3 pt-4 pb-1 mb-1">
-                                <h4 className="pb-3">توضیحات</h4>
-                                <p id="message" style={{ whiteSpace: "pre-line" }}>{eventDetails.description}</p>
-                                <center>
-                                    <button className="btn mt-1 mx-1" onClick={(e) => navigator('/payment')}>
-                                    ثبت نام
-                                    </button>
-                                </center>
-                                <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginTop: "20px" }}>
-                                    {eventTags}
-                                </div>
+                        <div>
+                        <div className="section py-1 mr-0 ml-2 px-0 mb-2 pb-5">
+                                <div className="card-3d-wrap-description pb-5 mb-5 mx-0 px-0" style={{height:"455px"}} >
+                                    <div className="card-back text-right px-3 pt-4  pb-1 mb-1" >
+                                    <h4 className="pb-3">توضیحات</h4>
+                                    <p className="message" style={{whiteSpace:"pre-line"}}>{eventDetails.description}</p>
+                                    <center>
+                                        <button
+                                            className="btn  mt-1 mx-1"
+                                            onClick={(e) => navigator('/register-event')}
+                                            >
+                                            ثبت نام  
+                                        </button>
+                                    </center>
+                                    <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginTop: "20px" }}>
+                                        {eventTags}
+                                    </div>
+                                    </div>
                                 </div>
                             </div>
-
-
-
-
-
+                        </div>
                     </div>
-                </div> */}
-            </div>  
+                </div>
+            </div> 
+            
             <OrganizerInfoModal show = {show} handleClose={handleClose} email={eventDetails.organizerEmail} phone={eventDetails.organizerPhone}/>
             
         
-            <div className="container" style={{height:"200px",width:"200px",color:"red"}}></div>
-
-        </center>
+        
+        </>
     );
 }
 
 export default EventDetails;
-
