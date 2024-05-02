@@ -38,7 +38,7 @@ export const Contact = (props) => {
   return (
     <div>
       <div id="contact">
-        <div className="container text-right">
+        <div className="container text-right mr-2">
           <div className="row">
           <div className="col-md-8">
             <div className="row w-100">
@@ -64,7 +64,7 @@ export const Contact = (props) => {
                       <p className="help-block text-danger"></p>
                     </div>
                   </div>
-                  <div className="col-md-6 col-xl-6">
+                  <div className="col-md-6 col-xl-6 email-form">
                     <div className="form-group">
                       <input
                         type="email"
