@@ -10,8 +10,7 @@ const AuthProvider = ({ children }) => {
 
   const loginAction = async (data) => {
     try {
-        const response = await axios.post('http://127.0.0.1:8000/auth/jwt/create', data);
-        
+        const response = await axios.post('https://eventify.liara.run/auth/jwt/create', data,);
         if (response.data) {
             setUser(data);
             localStorage.setItem("userData",JSON.stringify(data));
@@ -24,7 +23,7 @@ const AuthProvider = ({ children }) => {
             return "password incorrect";
         }
     } catch (error) {
-        console.error("An error occurred:", error);
+        console.log("An error occurred:",error)
         return false;
     }
   };
