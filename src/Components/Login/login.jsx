@@ -132,7 +132,7 @@ const Login = () => {
 
     const loginUserNameHandler = (event) => {
         setEnteredLoginUserName(event.target.value);
-        if (firstSubmit){
+        // if (firstSubmit){
             
             if (event.target.value.length<3 || event.target.value.length>30){
                 setLoginUserNameValidation(false);
@@ -162,7 +162,7 @@ const Login = () => {
                     }
                 }
             }  
-        }
+        // }
     }
 
     const loginPasswordHandler = (event) => {

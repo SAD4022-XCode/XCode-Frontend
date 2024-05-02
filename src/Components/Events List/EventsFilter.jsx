@@ -1,58 +1,79 @@
-import React, { useState } from "react";
-import { useMediaQuery } from "react-responsive";
+import React, { useEffect, useState, useCallback } from "react";
+import { debounce } from "lodash";
 import "./EventsFilter.css";
 import Calendar from "./Calendar";
-import AxiosInstance from "./Axios";
+import axios from "axios";
 import MultiSelectTag from "../CreateEvent/multiSelectTag";
-const EventsFilter = () => {
+const EventsFilter = ({ sendFilteredPosts }) => {
   const [eventCategory, setEventCategory] = useState("A");
   const [eventType, setEventType] = useState("A");
   const [eventPrice, setEventPrice] = useState("A");
   const [eventStartDate, setEventStartDate] = useState("");
   const [eventEndDate, setEventEndDate] = useState("");
   const [selectedTags, setSelectedTags] = useState([]);
-  const isMobileDevice = useMediaQuery({
-    query: "(min-device-width: 300px)",
-  });
-
-  const isTabletDevice = useMediaQuery({
-    query: "(min-device-width: 730px)",
-  });
-  const isMiddleDevice1 = useMediaQuery({
-    query: "(min-device-width: 1100px)",
-  });
-  const isLaptopOrDesktop = useMediaQuery({
-    query: "(min-device-width: 1350px)",
-  });
+  const [filteredPosts, setFilteredPosts] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const handleEventStartDate = (e) => {
     setEventStartDate(e);
+    debouncedSendData({ startDate: e.target.value });
   };
   const handleEventEndDate = (e) => {
     setEventEndDate(e);
+    debouncedSendData({ endDate: e.target.value });
   };
   const handleEventCategory = (e) => {
-    setEventCategory(e.target.value);
+    setEventCategory(selectedTags);
+    debouncedSendData({ category: selectedTags });
   };
+
   const handleEventType = (e) => {
     setEventType(e.target.value);
+    debouncedSendData({ type: e.target.value });
   };
+
   const handleEventPrice = (e) => {
     setEventPrice(e.target.value);
+    debouncedSendData({ price: e.target.value });
   };
-  const submitHandler = (e) => {
-    e.preventDefault();
-    AxiosInstance.patch(`http://127.0.0.1:8000/account/me/`, {
-      eventCategory: eventCategory,
-      eventType: eventType,
-      eventPrice: eventPrice,
-      eventStartDate: eventStartDate,
-      eventEndDate: eventEndDate,
-    });
-  };
+
+  const debouncedSendData = useCallback(
+    debounce((data) => {
+      axios
+        .post("https://api.yourbackend.com/events", data)
+        .then((response) => {
+          console.log("Data sent successfully:", response.data);
+        })
+        .catch((error) => {
+          console.error("Failed to send data:", error);
+        });
+    }, 500),
+    []
+  ); // 500ms delay; // 500ms delay
+  // axios.defaults.headers.common["X-Jsio-Token"] =
+  //   "69b3f5f4d98b76f3d1337f262baeefbf";
+  // useEffect(() => {
+  //   const fetchEvents = async () => {
+  //     setLoading(true);
+  //     try {
+  //       const response = await axios.post(`https://api.jsonserver.io/events`);
+  //       setFilteredPosts(response.data);
+  //       setLoading(false);
+  //       sendFilteredPosts(filteredPosts);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   fetchEvents();
+  // }, []);
+  useEffect(() => {
+    return () => {
+      debouncedSendData.cancel();
+    };
+  }, []);
   return (
     <center>
-      <form className="event-filter" onSubmit={submitHandler}>
+      <div className="event-filter">
         <div className="column">
           <div className="col-7">
             <div className="event-filter__category">
@@ -60,6 +81,7 @@ const EventsFilter = () => {
               <MultiSelectTag
                 selectedTags={selectedTags}
                 setSelectedTags={setSelectedTags}
+                onChange={handleEventCategory}
               />
               {/* <select onChange={handleEventCategory}>
                 <option value="A">همه دسته بندی ها</option>
@@ -122,7 +144,7 @@ const EventsFilter = () => {
             </div>
           </div>
         </div>
-      </form>
+      </div>
     </center>
   );
 };

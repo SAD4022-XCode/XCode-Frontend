@@ -99,7 +99,7 @@ const Navbar = () => {
                     <li>
                         <NavLink to="/create-event" > ایجاد رویداد </NavLink>
                     </li>
-                    {showNavbar &&
+                    {!showNavbar &&
                         <div className={!isLoggedIn && showBorder && "auth-link"}>
                         {!isLoggedIn &&(<li className="auth-link-li">
                             <NavLink to="/login" > ورود </NavLink>
@@ -110,7 +110,7 @@ const Navbar = () => {
                         )}</div>
                     }
 
-                        {!showNavbar && !isLoggedIn && 
+                        {!showNavbar && isLoggedIn && 
                         <div className="dropdown-container" onMouseEnter={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
                         <div className="row" >
                           <p className="pt-2 px-2 ellipsis"> {auth.user.username}</p>
