@@ -19,29 +19,19 @@ const Home = () => {
       }, []);
     const printUserDate =async()=>{
         console.log("my token:",auth.token);
-        try{
-        //    const response2 = await axios.get('http://eventify.liara.run/account/me/',{headers: {
-        //     "Content-Type": "application/json",
-        //     accept: "application/json",
-        //     Authorization:`JWT ${auth.token}`,
-        // }});
-        const respone= await fetch('http://eventify.liara.run/account/me/',{ 
-            method :"GET",
-            headers :{'Content-Type':'application/json','Authorization': `JWT ${auth.token}`}
-        })
-        console.log("my token2:",auth.token); 
-        }catch(error){
-            console.log("account me errors:",error);
-        }
-        
+        const response2 = await axios.get(`https://eventify.liara.run/account/me/`,{headers: {
+            "Content-Type": "application/json",
+            Authorization:`JWT ${auth.token}`,
+        }});
+        console.log("my token2:",auth.token);
     }
     return (
         <center>
             <Navbar />
             <div className="home-page">
-                <button onClick={printUserDate}>
+                {/* <button onClick={printUserDate}>
                     نمایش اطلاعات کاربر
-                </button>
+                </button> */}
                 <UpcomingEvents/>
                 <Events />
             </div>            

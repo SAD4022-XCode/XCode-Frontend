@@ -87,17 +87,17 @@ const Login = () => {
         if(loginUserNameValidation && loginPasswordValidation){
             setShowViolation(false);
             let result = await auth.loginAction(userData);
-            console.log("my token:",auth.token);
-            // const response2 = await axios.get('https://eventify.liara.run/account/me',{headers: {
-            //   "Content-Type": "application/json",
-            //   accept: "application/json",
-            //   Authorization:`Bearer ${auth.token}`,
-            // }});
-            console.log("my token2:",auth.token);
             if (result ==="Data received successfully"){
               setEnteredLoginUserName("");
               setEnteredLoginPassword("");
               toast.success("!با موفقیت وارد شدید");
+              
+            // console.log("start fetching user data");            
+            // const response2 = await axios.get(`https://eventify.liara.run/account/me/`,{headers: {
+            //     "Content-Type": "application/json",
+            //     Authorization:`JWT ${response.data.access}`,
+            // }});
+            // console.log(response2.data)
               setTimeout(() => {
                 navigator('/home');
               }, 4000);
