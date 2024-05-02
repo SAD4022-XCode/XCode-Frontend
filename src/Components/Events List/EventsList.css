@@ -2,7 +2,17 @@
   border-top: 4px solid black;
   background: radial-gradient(ellipse at bottom, #303131 0%, #12141d 100%);
 }
-
+.items{
+  font-family: "iransansweb";
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(ellipse at bottom, #303131 0%, #12141d 100%);
+  background-color: #1f2029;
+  overflow: hidden;
+  position: relative;
+  border-radius: 30px;
 .item {
   height: 28em;
   width: 20em;
@@ -33,18 +43,6 @@
   border-radius: 10px;
 }
 
-.items {
-  font-family: "iransansweb";
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  background: radial-gradient(ellipse at bottom, #303131 0%, #12141d 100%);
-  background-color: #1f2029;
-  overflow: hidden;
-  position: relative;
-  border-radius: 30px;
-}
 
 .item:hover {
   transform: scale(1.01);
@@ -115,7 +113,6 @@ a {
   border-radius: 10px;
   width: 80%;
 }
-.items {
   i {
     height: 1px;
   }
@@ -140,8 +137,13 @@ a {
     display: flex;
     flex-direction: row-reverse;
   }
-}
 
+  .loading{
+    display: flex;
+    flex-direction: column;
+    margin: 20px 0 0 30px;
+  }
+}
 /* @media screen and (max-width: 700px) {
   .items {
     height: 680vh;
