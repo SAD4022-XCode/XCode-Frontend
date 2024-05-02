@@ -24,6 +24,7 @@ const Landing = () => {
   return (
     <div className="landing">
       <Navbar />
+      <div className="landing-container">
       <Header data={landingPageData.Header} />
       <Features data={landingPageData.Features} />
       <About data={landingPageData.About} />
@@ -32,6 +33,7 @@ const Landing = () => {
       <Testimonials data={landingPageData.Testimonials} />
       {/* <Team data={landingPageData.Team} /> */}
       <Contact data={landingPageData.Contact} />
+      </div>
     </div>
   );
 };
