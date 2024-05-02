@@ -17,21 +17,18 @@ const Home = () => {
         //changing title of html pages dynamically
         document.title = "ایونتیفای";
       }, []);
-    const printUserDate =async()=>{
+    const printUserData =async()=>{
         console.log("my token:",auth.token);
-        const response2 = await axios.get(`https://eventify.liara.run/account/me/`,{headers: {
+        const response = await axios.get(`https://eventify.liara.run/account/me/`,{headers: {
             "Content-Type": "application/json",
             Authorization:`JWT ${auth.token}`,
         }});
-        console.log("my token2:",auth.token);
+        console.log("respone:",response.data);
     }
     return (
         <center>
             <Navbar />
             <div className="home-page">
-                <button onClick={printUserDate}>
-                    نمایش اطلاعات کاربر
-                </button>
                 <UpcomingEvents/>
                 <Events />
             </div>            
