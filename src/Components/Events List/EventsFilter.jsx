@@ -112,8 +112,8 @@ const EventsFilter = ({ sendFilteredPosts }) => {
               <div className="event-filter__type">
                 <label>نوع رویداد</label>
                 <select onChange={handleEventType}>
-                  <option value="A">همه رویدادها</option>
-                  <option value="H">حضوری</option>
+                  <option value="">همه رویدادها</option>
+                  <option value="I">حضوری</option>
                   <option value="O">آنلاین</option>
                 </select>
               </div>
@@ -122,7 +122,7 @@ const EventsFilter = ({ sendFilteredPosts }) => {
               <div className="event-filter__price">
                 <label>قیمت</label>
                 <select onChange={handleEventPrice}>
-                  <option value="A">همه رویدادها</option>
+                  <option value="">همه رویدادها</option>
                   <option value="F">رایگان</option>
                   <option value="P">غیر رایگان</option>
                 </select>
