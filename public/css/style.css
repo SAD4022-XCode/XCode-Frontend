@@ -1,7 +1,9 @@
 .landing {
-  overflow-y: scroll;
-  height: 100vh;
   font-family: "iransansweb" !important;
+  .landing-container{
+    overflow-y: scroll !important;
+    height: 100vh;
+  }
   h2 {
     text-transform: uppercase;
     margin: 0 0 20px;
