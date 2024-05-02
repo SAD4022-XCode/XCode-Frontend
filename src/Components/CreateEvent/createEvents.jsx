@@ -508,7 +508,7 @@ const CreateEvent = () => {
             
 
             
-            <div className="container pb-5">
+            <div className="container pb-5 mb-5">
                 <div className="row">
                     <div className="section">
                         <div className="card-3d-wrap-ce" style={{height:(ticketCardHeight+90).toString()+"px"}}>

@@ -225,7 +225,7 @@ const EventDetails = () => {
                                     <center>
                                         <button
                                             className="btn  mt-1 mx-1"
-                                            onClick={(e) => navigator('/payment')}
+                                            onClick={(e) => navigator('/register-event')}
                                             >
                                             ثبت نام  
                                         </button>

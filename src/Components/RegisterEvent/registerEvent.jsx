@@ -14,7 +14,7 @@ const RegisterEvent = () =>{
             <div className="main">
 
             <div className="container">
-                <form method="POST" className="appointment-form" id="appointment-form">
+                <form method="POST" className="appointment-form " id="appointment-form">
                     <h2>
                         ثبت نام در رویداد
                         <br/>
