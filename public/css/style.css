@@ -161,6 +161,8 @@
     border-radius: 25px;
     transition: all 0.5s linear;
     border: 0;
+    font-weight: 400;
+    font-size: 22px;
   }
   .btn-custom:hover,
   .btn-custom:focus,
