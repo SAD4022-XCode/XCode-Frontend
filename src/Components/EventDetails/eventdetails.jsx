@@ -30,6 +30,7 @@ const EventDetails = () => {
         price:1500000,
         type:"آنلاین",
         category:"تکنولوژی",
+        tags:["پایتون","سرور","شبکه","دیتا ماینینگ","هوش مصنوعی"],
         organizerPhoto:"../../assets/sample-organizer.webp",
         organizerName:"پژوهشکده علوم شناختی دانش های بنیادی (IPM)",
         organizerPhone:"09123456789",
@@ -76,7 +77,7 @@ const EventDetails = () => {
 
     }, []);
 
-    
+    const eventTags = eventDetails.tags.map(tag => <div className="container" style={{margin:"5px",padding:"2px",background:"#808080",width:"fit-content",fontSize:"12px",height:"20px"}}>#{tag}</div>);
     const copyToClipboard = () => {
         copy(currentUrl)
         .then(() => {
@@ -119,7 +120,10 @@ const EventDetails = () => {
             </div>  */}
             
 
-            <div className="event-details"> 
+
+
+
+             <div className="event-details"> 
                 <div className="section pb-0">
                     <div className="row justify-content-center">
                         <div className="card-3d-wrap-ce" style={{height:"400px", width:"350px"}}>
@@ -165,7 +169,7 @@ const EventDetails = () => {
                             <img
                                 src={require("../../assets/sample-event.webp")}
                                 alt="Your Image"
-                                style={{ width: "770px", height: "400px" ,marginTop:"30px"}}
+                                style={{ maxWidth: "770px",width:"auto", maxHeight: "400px" ,marginTop:"30px"}}
                             />
                         </div>
                     </div>
@@ -212,13 +216,15 @@ const EventDetails = () => {
                                         </div>
                                     </button>
                                 </center>
-                                    
+                                 
                             </div>
+                            
+
                         </div>
 
                         <div>
                         <div className="section py-1 mr-0 ml-2 px-0 mb-2 pb-5">
-                                <div className="card-3d-wrap-description pb-5 mb-5 mx-0 px-0" style={{height:"455px"}} >
+                                <div className="card-3d-wrap-description pb-5 mb-5 mx-0 px-0" style={{minHeight:"455px",height:"auto"}} >
                                     <div className="card-back text-right px-3 pt-4  pb-1 mb-1" >
                                     <h4 className="pb-3">توضیحات</h4>
                                     <p className="message" style={{whiteSpace:"pre-line"}}>{eventDetails.description}</p>
@@ -230,15 +236,19 @@ const EventDetails = () => {
                                             ثبت نام  
                                         </button>
                                     </center>
-                                    
+                                    <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap',marginTop:"20px"}}>{eventTags}</div>  
+
                                     </div>
+
                                 </div>
                             </div>
+                            <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap'}}>{eventTags}</div>  
+
+                                    
                         </div>
                     </div>
                 </div>
-            </div> 
-            
+            </div>  
             <OrganizerInfoModal show = {show} handleClose={handleClose} email={eventDetails.organizerEmail} phone={eventDetails.organizerPhone}/>
             
         

@@ -61,6 +61,8 @@ const CreateEvent = () => {
     const createEventHandler =(event)=>{
         event.preventDefault()
         let canSubmit = false;
+        console.log("start date:",startDate)
+        console.log("----------------------------------")
         setShowViolations(true)
         if (values.eventName &&
             values.eventDescription &&
