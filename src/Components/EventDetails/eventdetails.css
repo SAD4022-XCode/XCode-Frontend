@@ -339,23 +339,7 @@ select {
 }
 
 
-@media screen and (max-width: 450px) {
-  .link {
-    color: #ffeba7;
-    padding-right: 245px;
-    font-size: 10px;
-  }
 
-  .section .message {
-    margin: 15px 0 0;
-    color: #b3b3b3;
-    font-size: 10px;
-  }
-  .section .message a {
-    color: #30c1c6;
-    font-size: 10px;
-  }
-}
 
 @media screen and (max-width: 420px) {
   .link {
@@ -367,6 +351,11 @@ select {
 
   
 }
+/* @media screen and (max-width: 600px) {
+  .event-details{
+    height: 75vh !important;
+  }
+} */
 
 
 
