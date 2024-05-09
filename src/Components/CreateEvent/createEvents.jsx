@@ -16,12 +16,15 @@ import MultiSelectTag from "./multiSelectTag";
 import SelectCategory from "./selectCategory";
 import MapComponent from "../MapComponent/MapComponent";
 import axios from 'axios'
+import { useAuth } from "../Authentication/authProvider";
 
 import { ToastContainer, toast } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
+import { format } from 'date-fns';
 
 const CreateEvent = () => {
+    const auth = useAuth();
 
     const [selectedTags, setSelectedTags] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(
@@ -57,6 +60,23 @@ const CreateEvent = () => {
             validateOnBlur:false
         }
     );
+    const printEventData = (event)=>{
+        console.log("printEventData")
+        
+            // let createEventData = {
+            //     date : [startDate.year,startDate.monthIndex+1,startDate.day],
+            //     startDay:startDate.weekDay.name,
+            //     endDay:endDate.weekDay.name,
+            //     startDate:[startDate.year,startDate.month.name,startDate.day],
+            //     endDate:[endDate.year,endDate.month.name,endDate.day],
+            //     startTime:[startTime.hour,startTime.minute],
+            //     endTime:[endTime.hour,endTime.minute],
+            // }
+            console.log(format(Date(startDate.year,startDate.monthIndex+1,startDate.day), "yyyy-MM-dd'T'HH:mm:ssxxx"))
+            
+            // console.log(createEventData)
+            console.log(mapData)
+    };
   
     const createEventHandler =(event)=>{
         event.preventDefault()
@@ -80,33 +100,35 @@ const CreateEvent = () => {
         }
         if (canSubmit){
             let createEventData = {
-                name:values.eventName,
+                title:values.eventName,
                 category:selectedCategory.value,
                 tags:selectedTags,
                 photo:eventPhoto,
                 description:values.eventDescription,
-                type:eventType,
-                link:values.eventLink,
+                attendance:eventType,
+                url:values.eventLink,
                 province:selectedProvince,
                 city:selectedCity,
                 address:address,
-                latlang:mapData,
+                location_lat:mapData.lat,
+                location_lon:mapData.lng,
+                date:format(Date(startDate.year,startDate.monthIndex+1,startDate.day), "yyyy-MM-dd'T'HH:mm:ssxxx"),
                 startDay:startDate.weekDay.name,
                 endDay:endDate.weekDay.name,
                 startDate:[startDate.year,startDate.month.name,startDate.day],
                 endDate:[endDate.year,endDate.month.name,endDate.day],
                 startTime:[startTime.hour,startTime.minute],
                 endTime:[endTime.hour,endTime.minute],
-                ticketCount:values.ticketCount,
-                ticketPrice:values.ticketPrice,
-                phoneNumber:values.phoneNumber,
-                ssn:values.ssn,
+                maximum_tickets:values.ticketCount,
+                ticket_price:values.ticketPrice,
+                organizer_phone:values.phoneNumber,
+                organizer_SSN:values.ssn,
             }
             console.log(createEventData)
             axios.post('http://127.0.0.1:8000/create-event/', createEventData,
                 {headers:{
                     "Content-Type": "application/json",
-                    accept: "application/json"
+                    Authorization:`JWT ${auth.token}`,
                 }})
                 .then(response => {
                     console.log('Data sent successfully:', response.data);
@@ -159,6 +181,7 @@ const CreateEvent = () => {
     }
 
     const handleEventType = (event) => {
+        printEventData();
         console.log("change event type")
         if (eventType==="in-person"){
             setEventType("online");
@@ -556,6 +579,7 @@ const CreateEvent = () => {
                                         // type="submit"
                                         className="btn mt-4"
                                         onClick={(e) => createEventHandler(e)}
+                                        // onClick={printEventData}
                                     >
                                         ایجاد رویداد
                                     </button>

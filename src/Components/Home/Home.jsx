@@ -7,7 +7,6 @@ import './Home.css'
 import Wallet from "../Wallet/wallet";
 import { useAuth } from "../Authentication/authProvider";
 import axios from "axios";
-
 const Home = () => {
     const auth = useAuth();
 

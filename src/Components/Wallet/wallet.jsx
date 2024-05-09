@@ -119,7 +119,7 @@ const Wallet = () =>  {
         minHeight:"480px",
         maxHeight:"auto",
         // animation:open?"fadeIn 0.5s ease-out":null,
-        animation:"fadeIn 0.5s ease-out"
+        // animation:"fadeIn 0.5s ease-out"
         
       }}
       >
