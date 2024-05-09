@@ -4,7 +4,7 @@ import axios from "axios";
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("userData")) || "");
+  // const [user, setUser] = useState(JSON.parse(localStorage.getItem("userData")) || "");
   const [token, setToken] = useState(localStorage.getItem("token") || "");
   const navigate = useNavigate();
 
@@ -12,8 +12,8 @@ const AuthProvider = ({ children }) => {
     try {
         const response = await axios.post('https://eventify.liara.run/auth/jwt/create', data,);
         if (response.data) {
-            setUser(data);
-            localStorage.setItem("userData",JSON.stringify(data));
+            // setUser(data);
+            // localStorage.setItem("userData",JSON.stringify(data));
             setToken(response.data.access);
             localStorage.setItem("token", response.data.access);
             return "Data received successfully";
@@ -29,15 +29,16 @@ const AuthProvider = ({ children }) => {
   };
 
   const logOut = () => {
-    setUser(null);
+    // setUser(null);
     localStorage.removeItem("userData");
     setToken("");
     localStorage.removeItem("token");
     navigate("/home");
+    console.log("logout")
   };
 
   return (
-    <AuthContext.Provider value={{ token, user,loginAction, logOut }}>
+    <AuthContext.Provider value={{ token,loginAction, logOut }}>
       {children}
     </AuthContext.Provider>
   );

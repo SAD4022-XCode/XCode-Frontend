@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect} from "react";
 import Navbar  from "../Navbar/navbar";
 import {useNavigate} from 'react-router-dom';
 import './createEvents.css'
@@ -25,7 +25,9 @@ import { format } from 'date-fns';
 
 const CreateEvent = () => {
     const auth = useAuth();
+    const [userData, setUserData] = useState(JSON.parse(localStorage.getItem("userData")) || "");
 
+    // console.log("new user data",userData)
     const [selectedTags, setSelectedTags] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(
         { value: 'entrepreneurship', label: 'کارآفرینی', color: '#5243AA' });
@@ -60,23 +62,23 @@ const CreateEvent = () => {
             validateOnBlur:false
         }
     );
-    const printEventData = (event)=>{
-        console.log("printEventData")
+    // const printEventData = (event)=>{
+    //     console.log("printEventData")
         
-            // let createEventData = {
-            //     date : [startDate.year,startDate.monthIndex+1,startDate.day],
-            //     startDay:startDate.weekDay.name,
-            //     endDay:endDate.weekDay.name,
-            //     startDate:[startDate.year,startDate.month.name,startDate.day],
-            //     endDate:[endDate.year,endDate.month.name,endDate.day],
-            //     startTime:[startTime.hour,startTime.minute],
-            //     endTime:[endTime.hour,endTime.minute],
-            // }
-            console.log(format(Date(startDate.year,startDate.monthIndex+1,startDate.day), "yyyy-MM-dd'T'HH:mm:ssxxx"))
+    //         // let createEventData = {
+    //         //     date : [startDate.year,startDate.monthIndex+1,startDate.day],
+    //         //     startDay:startDate.weekDay.name,
+    //         //     endDay:endDate.weekDay.name,
+    //         //     startDate:[startDate.year,startDate.month.name,startDate.day],
+    //         //     endDate:[endDate.year,endDate.month.name,endDate.day],
+    //         //     startTime:[startTime.hour,startTime.minute],
+    //         //     endTime:[endTime.hour,endTime.minute],
+    //         // }
+    //         console.log(format(Date(startDate.year,startDate.monthIndex+1,startDate.day), "yyyy-MM-dd'T'HH:mm:ssxxx"))
             
-            // console.log(createEventData)
-            console.log(mapData)
-    };
+    //         // console.log(createEventData)
+    //         console.log(mapData)
+    // };
   
     const createEventHandler =(event)=>{
         event.preventDefault()
@@ -181,7 +183,9 @@ const CreateEvent = () => {
     }
 
     const handleEventType = (event) => {
-        printEventData();
+        // printEventData();
+        // console.log("new user data",userData)
+
         console.log("change event type")
         if (eventType==="in-person"){
             setEventType("online");

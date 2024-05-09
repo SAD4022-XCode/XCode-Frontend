@@ -97,7 +97,7 @@ const EventsList = () => {
       // } else {
       const baseUrl = "https://eventify.liara.run/filter";
       let queryParams = [];
-      console.log(data);
+      // console.log(data);
       if (data.eventType !== "")
         queryParams.push(`attendance=${data.eventType}`);
       if (data.eventPrice !== "")
@@ -109,13 +109,13 @@ const EventsList = () => {
 
       queryParams.push(`page=${currentPage}`);
       const fullUrl = `${baseUrl}?${queryParams.join("&")}`;
-      console.log(fullUrl);
+      // console.log(fullUrl);
       const response = await axios.get(fullUrl);
       // .then((response) => {
       // console.log("Data sent successfully:", response.data);
       setTotalPages(response.data.count);
       setPosts(response.data.results);
-      console.log(response);
+      // console.log(response);
       setLoading(false);
       // })
       // .catch((error) => {

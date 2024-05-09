@@ -6,8 +6,10 @@ import { useAuth } from "../Authentication/authProvider";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import Wallet from "../Wallet/wallet";
+import axios from "axios";
 const Navbar = () => {
     const auth = useAuth();
+    const [userData, setUserData] = useState(JSON.parse(localStorage.getItem("userData")) || "");
     const navigator=useNavigate();
     const [showNavbar, setShowNavbar] = useState(false)
     const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -16,7 +18,17 @@ const Navbar = () => {
 
     useEffect(() => {
         if(auth.token !==""){
-            setIsLoggedIn(true)
+            if(!isLoggedIn){
+                async function fetchUserData() {
+                    const response = await axios.get(`https://eventify.liara.run/account/me/`,{headers: {
+                        "Content-Type": "application/json",
+                        Authorization:`JWT ${auth.token}`,
+                    }});
+                    localStorage.setItem("userData",JSON.stringify(response.data));
+                }
+                fetchUserData();
+            }
+            setIsLoggedIn(true) 
         }else{
             setIsLoggedIn(false)
         }
@@ -112,10 +124,13 @@ const Navbar = () => {
 
                         {!showNavbar && isLoggedIn && 
                         <div className="dropdown-container" onMouseEnter={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
+                        
                         <div className="row" >
-                          <p className="pt-2 px-2 ellipsis"> {auth.user.username}</p>
-                          <img src={require("../../assets/profile.png")} style={{height:"35px",borderRadius: "50%"  }} alt="profile"/>
+                            <p className="pt-2 px-2 ellipsis"> {userData.user.username}</p>
+                            <img src={require("../../assets/profile.png")} style={{height:"35px",borderRadius: "50%"  }} alt="profile"/>
                         </div>
+                          
+                        
                         {isOpen && (
                           <div className="col dropdown-content">
                                 <div className="row pr-2 pt-2  dropdown-item1" onClick={() =>navigator('/profile')}>
