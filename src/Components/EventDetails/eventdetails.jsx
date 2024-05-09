@@ -10,6 +10,7 @@ import PageNotFound from "../PageNotFound/PageNotFound";
 import Navbar from "../Navbar/navbar";
 import './eventdetails.css'
 import OrganizerInfoModal from "./organizer-contact-info";
+import MainComment from "./Comment/MainComment";
 const EventDetails = () => {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -233,6 +234,7 @@ const EventDetails = () => {
                         </div>
                     </div>
                 </div>
+                <MainComment />
             </div> 
             
             <OrganizerInfoModal show = {show} handleClose={handleClose} email={eventDetails.organizerEmail} phone={eventDetails.organizerPhone}/>
