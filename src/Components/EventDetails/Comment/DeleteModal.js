@@ -39,7 +39,7 @@ const DeleteModal = ({
     
     return (
         <div className='modalBackground'>
-            <div className='modal text-right'>
+            <div className='deleteModal text-right'>
                 <div className='modalTitle'>حذف دیدگاه</div>
                 <div>آیا مطمئنید که می خواهید این دیدگاه را حذف کنید؟ با این کار دیدگاه حذف می شود و قابل بازگشت نیست.</div>
                 <div className='buttonsRow'>

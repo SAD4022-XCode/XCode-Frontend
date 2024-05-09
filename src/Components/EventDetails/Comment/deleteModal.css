@@ -1,4 +1,4 @@
-.modal {
+.deleteModal {
     display: grid;
     grid-template-rows: 1fr 1fr 1fr;
     background: radial-gradient(ellipse at center, #5c5e5e 0%, #5d5f66 100%);
