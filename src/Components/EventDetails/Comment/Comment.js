@@ -69,10 +69,12 @@ const Comment = ({
 
                 <div className='contentColumn text-right'>
                     <div className='commentHeader'>
+                        <div className='row justify-content-center align-items-center pb-3'>
                         <img className='avatar' src={image} alt='avatar'/>
                         <div className='username'>{username}</div>
                         { current ? <div className='youTag'>شما</div> : ""}
                         <div className='timestamp'>{timeSince}</div>
+                        </div>
                         { current 
                             ? 
                             edit !== false 

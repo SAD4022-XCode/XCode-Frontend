@@ -1,6 +1,6 @@
 :root {
     --grey-background: hsl(228, 33%, 97%);
-    --blue: hsl(238, 41%, 55%);
+    --blue: hsl(214, 69%, 77%);
     --text-color: #e0dac6;
     --username-color: hsl(221, 18%, 79%);
 }
@@ -17,7 +17,7 @@
     margin-top: 20px;
     column-gap: 10px;
     border-radius: 10px;
-    border: 1px solid #ffeba7;
+    direction: rtl;
     
 }
 .commentContent{
@@ -46,8 +46,10 @@
 }
 
 .avatar {
-    max-width: 30px;
+    position: relative;
+    max-width: 40px;
     height: auto;
+    bottom: 10%;
 }
 
 .username, .timestamp {
@@ -56,7 +58,7 @@
 
 .replyButton, .editButton {
     position: absolute;
-    right: 30px;
+    left: 30px;
 }
 
 .deleteButton, .editButton, .replyButton, .upvote, .downvote, .updateButton {
@@ -64,15 +66,15 @@
 }
 
 .deleteButton {
-    color: hsl(358, 79%, 66%);
+    color: hsl(358, 100%, 75%);
     position: absolute;
-    right: 100px;
+    left: 105px;
 }
 
 /* ======= FONTS AND TYPOLOGY ======== */
 
 .username, .replyButton, .flex-item, .editButton, .deleteButton {
-    font-weight: 700;
+    font-weight: 400;
 }
 
 .commentContent, .timestamp {
@@ -96,14 +98,14 @@
     display: inline-block;
     width: 94%;
     position: relative;
-    margin-left: 40px;
+    margin-right: 40px;
 }
 
 .verticalLine {
     position: absolute;
-    left: -20px;
-    top: 23px;
-    border-left: 3px solid #ffeba7;
+    right: -20px;
+    top: 18px;
+    border-right: 3px solid #ffeba7;
     height: 100%;
 }
 
@@ -113,7 +115,8 @@
     display: relative;
     right: 90px;
     top:100px;
-    background-color: hsl(238, 40%, 52%);
+    background-color: hsl(238, 55%, 62%);
+    border-radius: 5px;
     text-align: center;
     font-size: small;
     color: white;
