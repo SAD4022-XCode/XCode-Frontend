@@ -15,8 +15,9 @@ const Navbar = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     const [searchBoxText, setSearchBoxText] = useState("")
     const [showBorder, setShowBorder] = useState(true);
-
+    const [isOpen, setIsOpen] = useState(false);
     useEffect(() => {
+        setUserData(JSON.parse(localStorage.getItem("userData")) || "");
         if(auth.token !==""){
             if(!isLoggedIn){
                 async function fetchUserData() {
@@ -25,10 +26,13 @@ const Navbar = () => {
                         Authorization:`JWT ${auth.token}`,
                     }});
                     localStorage.setItem("userData",JSON.stringify(response.data));
+                    setUserData(response.data);
+                    console.log(response.data)
+                    setIsLoggedIn(true) 
                 }
                 fetchUserData();
             }
-            setIsLoggedIn(true) 
+            
         }else{
             setIsLoggedIn(false)
         }
@@ -38,13 +42,22 @@ const Navbar = () => {
                 setShowBorder(true);
             }
         };
+        function handleClickOutside(event) {
+            if (isOpen && !event.target.closest('.dropdown-container')) {
+              setIsOpen(false);
+            }
+          }
         window.addEventListener('resize', handleResize);
-    
+        document.addEventListener('click', handleClickOutside);
         return () => {
+            document.removeEventListener('click', handleClickOutside);
         window.removeEventListener('resize', handleResize);
         };
+        
+      
+        
 
-    }, [isLoggedIn]);
+    }, [isOpen]);
 
     const handleShowNavbar = () => {
         console.log("show navbar",showNavbar)
@@ -63,7 +76,7 @@ const Navbar = () => {
     const searchHandler = () => {
         //get search results from server
     }
-    const [isOpen, setIsOpen] = useState(false);
+    
  
     return (
     <nav className="navbar">
@@ -112,22 +125,25 @@ const Navbar = () => {
                         <NavLink to="/create-event" > ایجاد رویداد </NavLink>
                     </li>
                     {!showNavbar &&
-                        <div className={!isLoggedIn && showBorder && "auth-link"}>
-                        {!isLoggedIn &&(<li className="auth-link-li">
+                        <div className={!auth.token && showBorder && "auth-link"}>
+                        {!auth.token &&(<li className="auth-link-li">
                             <NavLink to="/login" > ورود </NavLink>
                             </li>)}
-                        {!isLoggedIn &&(<li className="auth-link-li">
+                        {!auth.token &&(<li className="auth-link-li">
                             <NavLink to="/register" > عضویت </NavLink>
                             </li>
                         )}</div>
                     }
 
-                        {!showNavbar && isLoggedIn && 
-                        <div className="dropdown-container" onMouseEnter={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
+                        {!showNavbar && auth.token && 
+                        <div className="dropdown-container" onMouseEnter={() => setIsOpen(true)}>
                         
                         <div className="row" >
-                            <p className="pt-2 px-2 ellipsis"> {userData.user.username}</p>
-                            <img src={require("../../assets/profile.png")} style={{height:"35px",borderRadius: "50%"  }} alt="profile"/>
+                            {userData && <p className="pt-2 px-2 ellipsis"> {userData.user.username}</p>}
+                            {userData.profile_picture && <img src={userData.profile_picture} style={{height:"40px",width:"40px",borderRadius: "50%"  }} alt="profile"/>}
+                            {!userData.profile_picture && <img src={require("../../assets/profile.png")} style={{height:"40px",width:"40px",borderRadius: "50%"  }} alt="profile"/>}
+                            
+                            
                         </div>
                           
                         
@@ -159,26 +175,26 @@ const Navbar = () => {
                         
                     }
                     
-                    {showNavbar && !isLoggedIn &&(<li className="auth-link-li">
+                    {showNavbar && !auth.token &&(<li className="auth-link-li">
                             <NavLink to="/login" > ورود </NavLink>
                             </li>)}
-                    {showNavbar && !isLoggedIn &&(<li className="auth-link-li">
+                    {showNavbar && !auth.token &&(<li className="auth-link-li">
                             <NavLink to="/register" > عضویت </NavLink>
                             </li>
                         )}
-                    {showNavbar && isLoggedIn && (<li className="auth-link-li">
+                    {showNavbar && auth.token && (<li className="auth-link-li">
                             <NavLink to="/profile" > حساب کاربری </NavLink>
                             </li>
                         )
                     }
-                    {showNavbar && isLoggedIn && (
+                    {showNavbar && auth.token && (
                         <li className="auth-link-li pb-1">
                             <Wallet />
                         </li>
                         
                         )
                     }
-                    {showNavbar && isLoggedIn && (<li className="auth-link-li pb-1">
+                    {showNavbar && auth.token && (<li className="auth-link-li pb-1">
                             <p onClick={() => {
                                 toast.error("از حساب کاربری خارج شدید")
                                 setTimeout(() => {
