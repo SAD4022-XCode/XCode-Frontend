@@ -34,7 +34,7 @@ const CreateEvent = () => {
     const navigator = useNavigate();
     const [showViolations, setShowViolations] = useState(false)
     const [eventPhoto, setEventPhoto] = useState(defaultImage);
-    const [eventType, setEventType] = useState("online");
+    const [eventType, setEventType] = useState("O");
     const [selectedProvince, setSelectedProvince] = useState("");
     const [selectedCity, setSelectedCity] = useState("");
     const [isFree, setIsFree] = useState(false);
@@ -62,29 +62,65 @@ const CreateEvent = () => {
             validateOnBlur:false
         }
     );
-    // const printEventData = (event)=>{
-    //     console.log("printEventData")
-        
-    //         // let createEventData = {
-    //         //     date : [startDate.year,startDate.monthIndex+1,startDate.day],
-    //         //     startDay:startDate.weekDay.name,
-    //         //     endDay:endDate.weekDay.name,
-    //         //     startDate:[startDate.year,startDate.month.name,startDate.day],
-    //         //     endDate:[endDate.year,endDate.month.name,endDate.day],
-    //         //     startTime:[startTime.hour,startTime.minute],
-    //         //     endTime:[endTime.hour,endTime.minute],
-    //         // }
-    //         console.log(format(Date(startDate.year,startDate.monthIndex+1,startDate.day), "yyyy-MM-dd'T'HH:mm:ssxxx"))
-            
-    //         // console.log(createEventData)
-    //         console.log(mapData)
-    // };
+    const printEventData = (event)=>{
+        console.log("send photo to server")
+        const formData = new FormData();
+        formData.append('image', eventPhoto);
+        formData.append('title', values.eventName);
+        console.log(formData)
+        // axios.post('https://eventify.liara.run/events/create_event/', createEventData,
+        //     {headers:{
+        //         "Content-Type": "application/json",
+        //         Authorization:`JWT ${auth.token}`,
+        //     }})
+        //     .then(response => {
+        //         console.log('Data sent successfully:', response.data);
+        //         toast.success("رویداد ایجاد شد")
+        //         navigator('/home')
+        //     })
+        //     .catch(error => {
+        //         console.log('Error sending data:', error);
+        //         console.log("status code is:",error.response.status)
+        //         toast.error("مشکل در ایجاد رویداد")
+
+        //     });
+            // console.log(selectedTags)
+            // console.log(selectedCategory)
+            // let tags = []
+            // for(let i=0;i<selectedTags.length;i++){
+            //     tags.push(selectedTags[i].label)
+            // }
+            // let mylist=["a","b","c"]
+            // console.log(tags,JSON.stringify(mylist))
+            // console.log("map data:",mapData)
+            // let createEventData = {
+            //     date : [startDate.year,startDate.monthIndex+1,startDate.day],
+            //     startDay:startDate.weekDay.name,
+            //     endDay:endDate.weekDay.name,
+            //     startDate:[startDate.year,startDate.month.name,startDate.day],
+            //     endDate:[endDate.year,endDate.month.name,endDate.day],
+            //     startTime:[startTime.hour,startTime.minute],
+            //     endTime:[endTime.hour,endTime.minute],
+            // }
+            // const jalaliDate = startDate.year.toString()+"/"+(startDate.monthIndex+1).toString()+"/"+startDate.day.toString()
+            // const miladiDate = moment(jalaliDate,'jYYYY/jM/jD').format('YYYY-MM-DD')
+            // const time = startTime.hour.toString()+":"+startTime.minute.toString();
+            // const isoDate = moment(miladiDate).toISOString();
+            // console.log(isoDate)
+            // console.log(`${miladiDate}T${time}:00`)
+            // console.log(auth.token)
+            // console.log(startDate.year,startDate.monthIndex+1,startDate.day)
+            // console.log(moment(isoDate).format('jYYYY/jM/jD'))
+            // console.log(moment(jalaliDate,'jYYYY/jM/jD').locale('fa').format('dddd'))
+            // console.log(moment(jalaliDate,'jYYYY/jM/jD').locale('fa').format('jMMMM'))
+            // console.log(mapData)
+    };
   
     const createEventHandler =(event)=>{
         event.preventDefault()
         let canSubmit = false;
-        console.log("start date:",startDate)
         console.log("----------------------------------")
+        console.log(auth.token)
         setShowViolations(true)
         if (values.eventName &&
             values.eventDescription &&
@@ -93,43 +129,84 @@ const CreateEvent = () => {
             values.ticketCount &&
             values.ticketPrice &&
             values.eventLink && Object.keys(errors).length===0){
-                if (eventType==="online" && values.eventLink){
+                if (eventType==="O" && values.eventLink){
                    canSubmit = true 
                 }
-                if (eventType==="in-person" && address!=""){
+                if (eventType==="I" && address!=""){
                     canSubmit = true 
                 }
         }
         if (canSubmit){
+            let jalaliDate = startDate.year.toString()+"/"+(startDate.monthIndex+1).toString()+"/"+startDate.day.toString()
+            let miladiDate = moment(jalaliDate,'jYYYY/jM/jD').format('YYYY-MM-DD')
+            const startIsoDate = moment(miladiDate).toISOString();
+            const time1 = startTime.hour.toString()+":"+startTime.minute.toString();
+            const startDateTime = `${miladiDate}T${time1}:00`
+            let jalaliDate2 = endDate.year.toString()+"/"+(endDate.monthIndex+1).toString()+"/"+endDate.day.toString()
+            let miladiDate2 = moment(jalaliDate2,'jYYYY/jM/jD').format('YYYY-MM-DD')
+            const endIsoDate = moment(miladiDate2).toISOString();
+            const time2 = endTime.hour.toString()+":"+endTime.minute.toString();
+            const endDateTime = `${miladiDate}T${time1}:00`;
+            console.log(startDateTime,endDateTime)
+            let tags = []
+            for(let i=0;i<selectedTags.length;i++){
+                tags.push(selectedTags[i].label)
+            }
             let createEventData = {
                 title:values.eventName,
-                category:selectedCategory.value,
-                tags:selectedTags,
+                category:selectedCategory.label,
+                tags:JSON.stringify(tags),
                 photo:eventPhoto,
+                // photo:"photoFile",
                 description:values.eventDescription,
                 attendance:eventType,
                 url:values.eventLink,
                 province:selectedProvince,
                 city:selectedCity,
                 address:address,
-                location_lat:mapData.lat,
-                location_lon:mapData.lng,
-                date:format(Date(startDate.year,startDate.monthIndex+1,startDate.day), "yyyy-MM-dd'T'HH:mm:ssxxx"),
-                startDay:startDate.weekDay.name,
-                endDay:endDate.weekDay.name,
-                startDate:[startDate.year,startDate.month.name,startDate.day],
-                endDate:[endDate.year,endDate.month.name,endDate.day],
-                startTime:[startTime.hour,startTime.minute],
-                endTime:[endTime.hour,endTime.minute],
+                is_paid:!isFree,
+                location_lat:Math.round(mapData.lat*10000)/10000,
+                location_lon:Math.round(mapData.lng*10000)/10000,
+                starts:startDateTime,
+                ends:endDateTime,
                 maximum_tickets:values.ticketCount,
                 ticket_price:values.ticketPrice,
                 organizer_phone:values.phoneNumber,
                 organizer_SSN:values.ssn,
+                // startDate:startIsoDate,
+                // endDate:endIsoDate,
+                // startDay:startDate.weekDay.name,
+                // endDay:endDate.weekDay.name,
+                // startDate:[startDate.year,startDate.month.name,startDate.day],
+                // endDate:[endDate.year,endDate.month.name,endDate.day],
+                // startTime:[startTime.hour,startTime.minute],
+                // endTime:[endTime.hour,endTime.minute],
+                
             }
             console.log(createEventData)
-            axios.post('http://127.0.0.1:8000/create-event/', createEventData,
+            const formData = new FormData();
+            formData.append("title",values.eventName)
+            formData.append("category",selectedCategory.label)
+            formData.append("tags",JSON.stringify(tags))
+            formData.append("photo",eventPhoto,)
+            formData.append("description",values.eventDescription,)
+            formData.append("attendance",eventType)
+            formData.append("url",values.eventLink)
+            formData.append("province",selectedProvince)
+            formData.append("city",selectedCity)
+            formData.append("address",address)
+            formData.append("is_paid",!isFree)
+            formData.append("location_lat",Math.round(mapData.lat*10000)/10000)
+            formData.append("location_lon",Math.round(mapData.lng*10000)/10000)
+            formData.append("starts",startDateTime)
+            formData.append("ends",endDateTime)
+            formData.append("maximum_tickets",values.ticketCount)
+            formData.append("ticket_price",values.ticketPrice)
+            formData.append("organizer_phone",values.phoneNumber)
+            formData.append("ends",values.ssn)
+            axios.post('https://eventify.liara.run/events/create_event/',createEventData,
                 {headers:{
-                    "Content-Type": "application/json",
+                    "Content-Type": "multipart/form-data",
                     Authorization:`JWT ${auth.token}`,
                 }})
                 .then(response => {
@@ -138,7 +215,8 @@ const CreateEvent = () => {
                     navigator('/home')
                 })
                 .catch(error => {
-                    console.error('Error sending data:', error);
+                    console.log('Error sending data:', error);
+                    console.log("status code is:",error.response.status)
                     toast.error("مشکل در ایجاد رویداد")
 
                 });
@@ -172,26 +250,33 @@ const CreateEvent = () => {
       }, []);
 
     const handleEventPhoto = (event) => {
-        const file = event.target.files[0];
-        if (file){
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                setEventPhoto(e.target.result);
-            };
-            reader.readAsDataURL(file);
-        }
+        // const file = event.target.files[0];
+        // if (file){
+        //     const reader = new FileReader();
+        //     reader.onload = (e) => {
+        //         setEventPhoto(e.target.result);
+        //     };
+        //     reader.readAsDataURL(file);
+        // }
+        event.preventDefault();
+        const reader = new FileReader();
+        const file =event.target.files[0];
+        reader.onloadend = () => {
+            setEventPhoto(file);
+        };
+        reader.readAsDataURL(file);
     }
 
     const handleEventType = (event) => {
-        // printEventData();
+        printEventData();
         // console.log("new user data",userData)
 
         console.log("change event type")
-        if (eventType==="in-person"){
-            setEventType("online");
+        if (eventType==="I"){
+            setEventType("O");
         }
         else{
-            setEventType("in-person");
+            setEventType("I");
         }
     }
 
@@ -314,7 +399,7 @@ const CreateEvent = () => {
             <div className="container">
                 <div className="row">
                     <div className="section">
-                        <div className="card-3d-wrap-ce" style={{height:`${eventType==="online"? datetimeCardHeight.toString()+"px" : (datetimeCardHeight+700).toString()+"px"}`}}>
+                        <div className="card-3d-wrap-ce" style={{height:`${eventType==="O"? datetimeCardHeight.toString()+"px" : (datetimeCardHeight+700).toString()+"px"}`}}>
                             <div className="card-back ">
                             <div className="center-wrap">
                                 <div className="section">
@@ -322,16 +407,16 @@ const CreateEvent = () => {
                                 <div className="text-right pb-2">نوع برگزاری </div>
                                 <div class="radio-inputs">
                                     <label class="radio">
-                                        <input type="radio" name="radio" value="online" checked={eventType==="online"} onChange={handleEventType}/>
+                                        <input type="radio" name="radio" value="online" checked={eventType==="O"} onChange={handleEventType}/>
                                         <span class="name">آنلاین</span>
                                     </label>
                                         
                                     <label class="radio">
-                                        <input type="radio" name="radio" value="in-person" checked={eventType==="in-person"} onChange={handleEventType}/>
+                                        <input type="radio" name="radio" value="in-person" checked={eventType==="I"} onChange={handleEventType}/>
                                         <span class="name">حضوری</span>
                                     </label>
                                 </div>
-                                {eventType==="online" && 
+                                {eventType==="O" && 
                                     <div>
                                         <div className={`mb-2 mt-2 text-right`} style={{fontSize:"16px"}}>لینک برگزاری </div>
                                         <div className={`form-group mb-1 ${errors.eventLink && touched.eventLink ? "invalid" : ""}`}>
@@ -350,7 +435,7 @@ const CreateEvent = () => {
                                         {errors.eventLink && touched.eventLink && (<p className="mb-0 mt-2 validationMsg">{errors.eventLink}</p>)}
                                     </div>
                                 }
-                                {eventType==="in-person" && 
+                                {eventType==="I" && 
                                     <div >
                                         <div className="text-right mt-2">استان و شهر</div>
                                         <CityList 

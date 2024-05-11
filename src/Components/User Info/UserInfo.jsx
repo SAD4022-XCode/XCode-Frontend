@@ -14,6 +14,7 @@ import AxiosInstance from "./Axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useAuth } from "../Authentication/authProvider";
+import {useNavigate} from 'react-router-dom';
 const weekDays = ["ش", "ی", "د", "س", "چ", "پ", "ج"];
 const UserInfo = () => {
   const digits = persian_fa.digits;
@@ -129,10 +130,10 @@ const UserInfo = () => {
         );
 
         // If both requests succeed, show toast and reload page
-        // toast.success("اطلاعات شما با موفقیت تغییر یافت");
-        // setTimeout(() => {
-        //   window.location.reload();
-        // }, 6100);
+        toast.success("اطلاعات شما با موفقیت تغییر یافت");
+        setTimeout(() => {
+          window.location.reload();
+        }, 10000);
       } catch (error) {
         // Handle errors if any of the requests fail
         //toast.error("An error occurred while updating your information.");
