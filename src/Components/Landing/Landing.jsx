@@ -44,19 +44,21 @@ const Landing = () => {
   }, []);
 
   return (
-    <div className="landing">
+    <>
       <Navbar />
-      <div className="landing-container">
-        <Header data={landingPageData.Header} />
-        <Features data={landingPageData.Features} />
-        <About data={landingPageData.About} />
-        <Statistics data={websiteStatistics} />
-        <Gallery data={landingPageData.Gallery} />
-        <Testimonials data={landingPageData.Testimonials} />
-        {/* <Team data={landingPageData.Team} /> */}
-        <Contact data={landingPageData.Contact} />
+      <div className="landing">
+        <div className="landing-container">
+          <Header data={landingPageData.Header} />
+          <Features data={landingPageData.Features} />
+          <About data={landingPageData.About} />
+          {/* <Services data={landingPageData.Services} /> */}
+          <Gallery data={landingPageData.Gallery} />
+          <Testimonials data={landingPageData.Testimonials} />
+          {/* <Team data={landingPageData.Team} /> */}
+          <Contact data={landingPageData.Contact} />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
