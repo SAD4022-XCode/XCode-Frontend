@@ -14,6 +14,7 @@ import AxiosInstance from "./Axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useAuth } from "../Authentication/authProvider";
+import {useNavigate} from 'react-router-dom';
 const weekDays = ["ش", "ی", "د", "س", "چ", "پ", "ج"];
 const UserInfo = () => {
   const digits = persian_fa.digits;
@@ -36,6 +37,7 @@ const UserInfo = () => {
   const [selectedProvince, setSelectedProvince] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
   const [selectedGender, setSelectedGender] = useState("");
+  const navigator = useNavigate();
   const handleSelectedGender = (e) => {
     setSelectedGender(e.target.value);
   };
@@ -116,6 +118,8 @@ const UserInfo = () => {
           },
         }
       );
+        
+      
 
       AxiosInstance.patch(`https://eventify.liara.run/account/me/`, formData, {
         headers: {
@@ -133,7 +137,12 @@ const UserInfo = () => {
       //console.log({file});
       //console.log(imagePreviewUrl);
       //console.log(form_data["gender"])
-      toast.success("اطلاعات شما با موفقیت تغییر یافت");
+      console.log("show toast")
+      toast.success("اطلاعات شما با موفقیت تغییر یافت")
+        // console.log("refresh user info screen")
+        // window.location.reload();
+      
+
     },
   });
 

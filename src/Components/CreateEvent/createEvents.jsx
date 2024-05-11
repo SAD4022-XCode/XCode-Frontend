@@ -63,15 +63,36 @@ const CreateEvent = () => {
         }
     );
     const printEventData = (event)=>{
-        console.log("printEventData")
-            console.log(selectedTags)
-            console.log(selectedCategory)
-            let tags = []
-            for(let i=0;i<selectedTags.length;i++){
-                tags.push(selectedTags[i].label)
-            }
-            let mylist=["a","b","c"]
-            console.log(tags,JSON.stringify(mylist))
+        console.log("send photo to server")
+        const formData = new FormData();
+        formData.append('image', eventPhoto);
+        formData.append('title', values.eventName);
+        console.log(formData)
+        // axios.post('https://eventify.liara.run/events/create_event/', createEventData,
+        //     {headers:{
+        //         "Content-Type": "application/json",
+        //         Authorization:`JWT ${auth.token}`,
+        //     }})
+        //     .then(response => {
+        //         console.log('Data sent successfully:', response.data);
+        //         toast.success("رویداد ایجاد شد")
+        //         navigator('/home')
+        //     })
+        //     .catch(error => {
+        //         console.log('Error sending data:', error);
+        //         console.log("status code is:",error.response.status)
+        //         toast.error("مشکل در ایجاد رویداد")
+
+        //     });
+            // console.log(selectedTags)
+            // console.log(selectedCategory)
+            // let tags = []
+            // for(let i=0;i<selectedTags.length;i++){
+            //     tags.push(selectedTags[i].label)
+            // }
+            // let mylist=["a","b","c"]
+            // console.log(tags,JSON.stringify(mylist))
+            // console.log("map data:",mapData)
             // let createEventData = {
             //     date : [startDate.year,startDate.monthIndex+1,startDate.day],
             //     startDay:startDate.weekDay.name,
@@ -134,8 +155,8 @@ const CreateEvent = () => {
             let createEventData = {
                 title:values.eventName,
                 category:selectedCategory.label,
-                tags:tags,
-                // photo:eventPhoto,
+                tags:JSON.stringify(tags),
+                photo:eventPhoto,
                 // photo:"photoFile",
                 description:values.eventDescription,
                 attendance:eventType,
@@ -163,9 +184,29 @@ const CreateEvent = () => {
                 
             }
             console.log(createEventData)
-            axios.post('https://eventify.liara.run/events/create_event/', createEventData,
+            const formData = new FormData();
+            formData.append("title",values.eventName)
+            formData.append("category",selectedCategory.label)
+            formData.append("tags",JSON.stringify(tags))
+            formData.append("photo",eventPhoto,)
+            formData.append("description",values.eventDescription,)
+            formData.append("attendance",eventType)
+            formData.append("url",values.eventLink)
+            formData.append("province",selectedProvince)
+            formData.append("city",selectedCity)
+            formData.append("address",address)
+            formData.append("is_paid",!isFree)
+            formData.append("location_lat",Math.round(mapData.lat*10000)/10000)
+            formData.append("location_lon",Math.round(mapData.lng*10000)/10000)
+            formData.append("starts",startDateTime)
+            formData.append("ends",endDateTime)
+            formData.append("maximum_tickets",values.ticketCount)
+            formData.append("ticket_price",values.ticketPrice)
+            formData.append("organizer_phone",values.phoneNumber)
+            formData.append("ends",values.ssn)
+            axios.post('https://eventify.liara.run/events/create_event/',createEventData,
                 {headers:{
-                    "Content-Type": "application/json",
+                    "Content-Type": "multipart/form-data",
                     Authorization:`JWT ${auth.token}`,
                 }})
                 .then(response => {
@@ -209,14 +250,21 @@ const CreateEvent = () => {
       }, []);
 
     const handleEventPhoto = (event) => {
-        const file = event.target.files[0];
-        if (file){
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                setEventPhoto(e.target.result);
-            };
-            reader.readAsDataURL(file);
-        }
+        // const file = event.target.files[0];
+        // if (file){
+        //     const reader = new FileReader();
+        //     reader.onload = (e) => {
+        //         setEventPhoto(e.target.result);
+        //     };
+        //     reader.readAsDataURL(file);
+        // }
+        event.preventDefault();
+        const reader = new FileReader();
+        const file =event.target.files[0];
+        reader.onloadend = () => {
+            setEventPhoto(file);
+        };
+        reader.readAsDataURL(file);
     }
 
     const handleEventType = (event) => {
