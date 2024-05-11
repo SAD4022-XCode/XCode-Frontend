@@ -98,6 +98,8 @@ const EventsList = () => {
       const baseUrl = "https://eventify.liara.run/events";
       let queryParams = [];
       console.log(data);
+      if (data.selectedTags.length > 0)
+        queryParams.push(`tags=${data.selectedTags}`);
       if (data.eventType !== "")
         queryParams.push(`attendance=${data.eventType}`);
       if (data.eventPrice !== "")
