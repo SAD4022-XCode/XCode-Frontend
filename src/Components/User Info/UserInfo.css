@@ -39,7 +39,7 @@ body{
   padding: 13px 20px;
   padding-right: 55px;
   height: 48px;
-  width: 100%;
+  width: 80%;
   font-weight: 500;
   border-radius: 4px;
   font-size: 14px;
@@ -53,9 +53,13 @@ body{
   transition: all 200ms linear;
   box-shadow: 0 4px 8px 0 rgba(21, 21, 21, 0.2);
 }
+.userinfo__content__birthdate input{
+  width: 104%;
+}
 .userinfo__content select {
   color: #ffeba7;
   background-color: #1f2029;
+  width: 83%;
 }
 
 
@@ -138,6 +142,7 @@ body{
   direction: rtl;
   position: relative;
   width:850px;
+  height: 850px;
   max-width: 100%;
   -webkit-transform-style: preserve-3d;
   transform-style: preserve-3d;
@@ -219,7 +224,8 @@ select {
   box-shadow: 0 4px 8px 0 rgba(21, 21, 21, 0.2);
 }
 .change-password__content{
-  margin-right: 10px;
+  position: relative;
+  right: 5%;
 }
 
 .change-password__content-current,.change-password__content-new,.change-password__content-confirm {
@@ -298,28 +304,10 @@ img {
   height: 100%;
 }
 }
-@media screen and (max-width: 450px) {
-  .link {
-    color: #ffeba7;
-    padding-right: 245px;
-    font-size: 10px;
+@media screen and (max-width: 1000px){
+  .user-info{
+  .card-3d-wrap-ce{
+    height:1200px;
   }
-
-  .section .message {
-    margin: 15px 0 0;
-    color: #b3b3b3;
-    font-size: 10px;
-  }
-  .section .message a {
-    color: #30c1c6;
-    font-size: 10px;
-  }
-}
-
-@media screen and (max-width: 420px) {
-  .link {
-    color: #ffeba7;
-    padding-right: 190px;
-    font-size: 10px;
   }
 }
