@@ -95,7 +95,7 @@ const EventsList = () => {
       //   setPosts(response.data.results);
       //   setLoading(false);
       // } else {
-      const baseUrl = "https://eventify.liara.run/filter";
+      const baseUrl = "https://eventify.liara.run/events";
       let queryParams = [];
       console.log(data);
       if (data.eventType !== "")
