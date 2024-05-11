@@ -37,12 +37,13 @@ const EventsFilter = ({ sendFilteredPosts }) => {
     // debouncedSendData({ price: e.target.value });
   };
   useEffect(() => {
+    let convertedTags = selectedTags.map(tag => tag.value);
     let data = {
       eventPrice: eventPrice,
       eventType: eventType,
       eventStartDate: eventStartDate,
       eventEndDate: eventEndDate,
-      selectedTags: selectedTags,
+      selectedTags: convertedTags,
     };
 
     const getData = setTimeout(() => {
