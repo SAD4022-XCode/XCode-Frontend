@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./UserInfo.css";
 import Navbar from "../Navbar/navbar";
 import CityList from "../CreateEvent/cityList";
@@ -36,11 +36,14 @@ const UserInfo = () => {
   const [selectedProvince, setSelectedProvince] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
   const [selectedGender, setSelectedGender] = useState("");
+  let userData = JSON.parse(localStorage.getItem("userData"));
+
   const handleSelectedGender = (e) => {
     setSelectedGender(e.target.value);
+    console.log(JSON.parse(localStorage.getItem("userData")));
   };
   const initialValues = {
-    username: "",
+    username: userData.user.username,
   };
   const dateHandler = (date, { input, isTyping }) => {
     if (!isTyping) {
@@ -91,7 +94,7 @@ const UserInfo = () => {
   } = useFormik({
     initialValues: initialValues,
     validationSchema: userInfoValidation,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       let formData = new FormData();
       let formData1 = new FormData();
       formData1.append("user[username]", values.username);
@@ -100,42 +103,54 @@ const UserInfo = () => {
       formData.append("province", selectedProvince);
       formData.append("birth_date", dateValue);
       formData.append("profile_picture", file);
-      AxiosInstance.patch(
-        `https://eventify.liara.run/account/me/`,
-        //form_data
-        // user: {
-        //   username: values.username
-        //   },
-        formData1,
+      console.log(localStorage.getItem("userData"));
+      try {
+        await AxiosInstance.patch(
+          `https://eventify.liara.run/account/me/`,
+          formData1,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              accept: "application/json",
+              Authorization: `JWT ${auth.token}`,
+            },
+          }
+        );
 
-        {
-          headers: {
-            "Content-Type": "application/json",
-            accept: "application/json",
-            Authorization: `JWT ${auth.token}`,
-          },
-        }
-      );
+        await AxiosInstance.patch(
+          `https://eventify.liara.run/account/me/`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `JWT ${auth.token}`,
+            },
+          }
+        );
 
-      AxiosInstance.patch(`https://eventify.liara.run/account/me/`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `JWT ${auth.token}`,
-        },
-      });
-
-      //console.log(form_data);
-      //console.log(values);
-      //console.log(dateValue);
-      //console.log(selectedGender);
-      //console.log(selectedProvince);
-      //console.log(selectedCity);
-      //console.log({file});
-      //console.log(imagePreviewUrl);
-      //console.log(form_data["gender"])
-      toast.success("اطلاعات شما با موفقیت تغییر یافت");
+        // If both requests succeed, show toast and reload page
+        // toast.success("اطلاعات شما با موفقیت تغییر یافت");
+        // setTimeout(() => {
+        //   window.location.reload();
+        // }, 6100);
+      } catch (error) {
+        // Handle errors if any of the requests fail
+        //toast.error("An error occurred while updating your information.");
+        console.error("Error updating information:", error);
+      }
     },
   });
+
+  useEffect(() => {
+    userData = JSON.parse(localStorage.getItem("userData"));
+    if (userData) {
+      setSelectedGender(userData.gender);
+      setImagePreviewUrl(userData.profile_picture);
+      setValue(userData.birth_date);
+      setSelectedProvince(userData.province);
+      setSelectedCity(userData.city);
+    }
+  }, []);
 
   const ImgUpload = ({ onChange, src }) => (
     <label htmlFor="photo-upload" className="custom-file-upload fas">
@@ -146,9 +161,7 @@ const UserInfo = () => {
     </label>
   );
   const [file, setFile] = useState("");
-  const [imagePreviewUrl, setImagePreviewUrl] = useState(
-    "https://github.com/OlgaKoplik/CodePen/blob/master/profile.jpg?raw=true"
-  );
+  const [imagePreviewUrl, setImagePreviewUrl] = useState();
 
   const photoUpload = (e) => {
     e.preventDefault();
@@ -179,7 +192,7 @@ const UserInfo = () => {
           <div className="container">
             <div className="row">
               <div className="section">
-                <div className="card-3d-wrap-ce" style={{ height: "850px" }}>
+                <div className="card-3d-wrap-ce">
                   <div className="card-back ">
                     <div className="center-wrap">
                       <div className="section">
@@ -191,8 +204,8 @@ const UserInfo = () => {
                           </h4>
                         </div>
                         <div className="userinfo__content">
-                          <div className="row gutter-normal mode-float">
-                            <div className="column   column-md-20">
+                          <div className="row">
+                            <div className="column   col-md-12 col-lg-7 mb-lg-5">
                               <div className="userinfo__content__username">
                                 <div className="col-10 text-right ">
                                   <label>تغییر نام کاربری</label>
@@ -204,7 +217,11 @@ const UserInfo = () => {
                                       }
                                       type="text"
                                       placeholder="نام کاربری جدید"
-                                      value={values.username}
+                                      value={
+                                        values.username.length > 0
+                                          ? values.username
+                                          : ""
+                                      }
                                       onChange={handleChange}
                                       onBlur={handleBlur}
                                     />
@@ -258,7 +275,7 @@ const UserInfo = () => {
                                               }),
                                             ]}
                                             minDate="1300/01/01"
-                                            maxDate="1403/01/30"
+                                            maxDate="1403/03/31"
                                             value={dateValue || ""}
                                             onChange={dateHandler}
                                             calendar={persian}
@@ -282,7 +299,7 @@ const UserInfo = () => {
                                 </div>
                               </div>
                             </div>
-                            <div className="column   column-md-4 pull-left">
+                            <div className="column   col-md-8 pull-left col-lg-5">
                               <div className="userinfo__content__profile">
                                 <div>
                                   {
@@ -296,7 +313,7 @@ const UserInfo = () => {
                             </div>
                           </div>
                           <div className="userinfo__content__city">
-                            <div className="col-10 text-right">
+                            <div className="col-lg-10 col-md-10 text-right">
                               <div className="text-right mt-2">
                                 <CityList
                                   selectedProvince={selectedProvince}
@@ -310,9 +327,7 @@ const UserInfo = () => {
                           <br></br>
                           <br></br>
 
-                          <button disabled={isSubmitting} type="submit">
-                            ذخیره تغییرات
-                          </button>
+                          <button type="submit">ذخیره تغییرات</button>
                         </div>
                       </div>
                     </div>
