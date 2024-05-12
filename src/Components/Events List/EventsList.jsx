@@ -188,7 +188,7 @@ const EventsList = () => {
                         </div>
                         <div className="event-info__price">
                           {event.is_paid == true && (
-                            <h5 id="event-price">{event.ticket_price}</h5>
+                            <h5 id="event-price">{event.ticket_price} تومان</h5>
                           )}
                           {event.is_paid == false && (
                             <h5 id="event-price">رایگان</h5>
