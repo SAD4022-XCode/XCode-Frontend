@@ -96,7 +96,7 @@ const EventsList = () => {
       let queryParams = [];
       // console.log(data);
       if (data.selectedTags.length > 0)
-        queryParams.push(`tags=${JSON.stringify(data.selectedTags)}`);
+        queryParams.push(`tags=${(data.selectedTags)}`);
       if (data.eventType !== "")
         queryParams.push(`attendance=${data.eventType}`);
       if (data.eventPrice !== "")
@@ -108,6 +108,7 @@ const EventsList = () => {
 
       queryParams.push(`page=${currentPage}`);
       const fullUrl = `${baseUrl}?${queryParams.join("&")}`;
+      console.log(fullUrl)
       // console.log(fullUrl);
       const response = await axios.get(fullUrl);
       // .then((response) => {
