@@ -14,36 +14,6 @@ import Card from "./Card";
 import "./EventsList.css";
 import EventsFilter from "./EventsFilter";
 
-// function replaceMonthNames(dateString) {
-//   const months = [
-//     "فروردین",
-//     "اردیبهشت",
-//     "خرداد",
-//     "تیر",
-//     "مرداد",
-//     "شهریور",
-//     "مهر",
-//     "آبان",
-//     "آذر",
-//     "دی",
-//     "بهمن",
-//     "اسفند",
-//   ];
-
-//   let [year, month, day] = dateString.split("-");
-//   if (day[0] == "0") {
-//     day = day[1];
-//   }
-//   const monthName = months[parseInt(month, 10) - 1];
-//   return `${day} ${monthName} ${year}`;
-// }
-
-// // Replace date strings with month names
-// EVENTS = EVENTS.map((event) => ({
-//   ...event,
-//   date: replaceMonthNames(event.date),
-// }));
-
 const EventsList = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -73,9 +43,32 @@ const EventsList = () => {
   );
   const replaceImage = (err) => {
     err.target.src = defaultImage;
-  }
+  };
   const handleFilteredPosts = (response) => {
     setData(response);
+  };
+  const replaceMonthNames = (date) => {
+    const months = [
+      "فروردین",
+      "اردیبهشت",
+      "خرداد",
+      "تیر",
+      "مرداد",
+      "شهریور",
+      "مهر",
+      "آبان",
+      "آذر",
+      "دی",
+      "بهمن",
+      "اسفند",
+    ];
+    let [year, month, day] = date.split("-");
+    if (day[0] == "0") {
+      day = day[1];
+    }
+    const monthName = months[parseInt(month, 10) - 1];
+    const start_date = `${day} ${monthName} ${year}`;
+    return start_date;
   };
   useEffect(() => {
     const fetchEvents = async () => {
@@ -101,7 +94,7 @@ const EventsList = () => {
       // } else {
       const baseUrl = "https://eventify.liara.run/events";
       let queryParams = [];
-      console.log(data);
+      // console.log(data);
       if (data.selectedTags.length > 0)
         queryParams.push(`tags=${data.selectedTags}`);
       if (data.eventType !== "")
@@ -120,14 +113,21 @@ const EventsList = () => {
       // .then((response) => {
       // console.log("Data sent successfully:", response.data);
       setTotalPages(response.data.count);
-      setPosts(response.data.results);
+
+      let events = response.data.results;
+      // Replace date strings with month names
+      events = events.map((event) => ({
+        ...event,
+        start_date: replaceMonthNames(event.start_date),
+      }));
+      setPosts(events);
       // console.log(response);
       setLoading(false);
-      // })
-      // .catch((error) => {
-      //   console.error("Failed to send data:", error);
-      // });
     };
+    // })
+    // .catch((error) => {
+    //   console.error("Failed to send data:", error);
+    // });
     fetchEvents();
   }, [currentPage, data]);
   const handleChangePage = (event, value) => {
@@ -152,7 +152,11 @@ const EventsList = () => {
                   <div key={event.id} className="item mb-4">
                     <Link to={`/event-details/${event.id}`}>
                       <div className="event-img">
-                        <img alt={event.title} src={event.photo != null ? event.photo : photo1} onError={replaceImage} />
+                        <img
+                          alt={event.title}
+                          src={event.photo != null ? event.photo : photo1}
+                          onError={replaceImage}
+                        />
                       </div>
                       <div class="container">
                         <div class="row">
