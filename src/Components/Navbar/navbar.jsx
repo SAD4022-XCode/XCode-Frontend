@@ -44,8 +44,7 @@ const Navbar = () => {
                     } catch (error) {
                         if (error.response && error.response.status === 401) {
                             console.log("Authentication failed. Please log in again.");
-                            // auth.logOut()
-                            // انجام اقدامات مربوط به شناسایی ناموفق، مانند انتقال به صفحه ورود مجدد
+                            auth.logOut()
                         } else {
                             console.error("An error occurred:", error);
                         }

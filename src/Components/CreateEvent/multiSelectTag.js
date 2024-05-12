@@ -4,7 +4,7 @@ import makeAnimated from 'react-select/animated';
 const animatedComponents = makeAnimated();
 const Tags = [
   { label: 'برنامه نویسی' ,value:"برنامه نویسی"},
-  { label: 'تکنولوژی' ,value:"تکنولوژی"},
+  { label: 'تکنولوژی' ,value:"technology"},
   { label: 'جاوااسکریپت' ,value:"جاوااسکریپت"},
   { label: 'پایتون' ,value:"پایتون"},
   { label: 'شبکه' ,value:"شبکه"},
