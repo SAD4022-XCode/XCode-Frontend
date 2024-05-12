@@ -57,6 +57,7 @@ const EventsList = () => {
     eventEndDate: "",
     selectedTags: "",
   });
+  const [defaultImage, setDefaultImage] = useState(photo1);
   const isMobileDevice = useMediaQuery(
     "only screen and (min-width: 300px) and (max-width: 730px)"
   );
@@ -70,6 +71,9 @@ const EventsList = () => {
   const isLaptopOrDesktop = useMediaQuery(
     "only screen and (min-width: 1350px) and (max-width: 1800px)"
   );
+  const replaceImage = (err) => {
+    err.target.src = defaultImage;
+  }
   const handleFilteredPosts = (response) => {
     setData(response);
   };
@@ -148,7 +152,7 @@ const EventsList = () => {
                   <div key={event.id} className="item mb-4">
                     <Link to={`/event-details/${event.id}`}>
                       <div className="event-img">
-                        <img alt={event.title} src={event.photo} />
+                        <img alt={event.title} src={event.photo != null ? event.photo : photo1} onError={replaceImage} />
                       </div>
                       <div class="container">
                         <div class="row">
