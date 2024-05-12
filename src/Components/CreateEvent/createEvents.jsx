@@ -1,6 +1,6 @@
 import React, { useState, useEffect} from "react";
 import Navbar  from "../Navbar/navbar";
-import {useNavigate} from 'react-router-dom';
+import {json, useNavigate} from 'react-router-dom';
 import './createEvents.css'
 import defaultImage from '../../assets/events.jpg'
 import CityList from "./cityList";
@@ -33,6 +33,7 @@ const CreateEvent = () => {
         { value: 'entrepreneurship', label: 'کارآفرینی', color: '#5243AA' });
     const navigator = useNavigate();
     const [showViolations, setShowViolations] = useState(false)
+    const [eventPhotoFile, setEventPhotoFile] = useState(null);
     const [eventPhoto, setEventPhoto] = useState(defaultImage);
     const [eventType, setEventType] = useState("O");
     const [selectedProvince, setSelectedProvince] = useState("");
@@ -64,10 +65,19 @@ const CreateEvent = () => {
     );
     const printEventData = (event)=>{
         console.log("send photo to server")
-        const formData = new FormData();
-        formData.append('image', eventPhoto);
-        formData.append('title', values.eventName);
-        console.log(formData)
+        let tags = []
+        let data = {
+            t1:selectedTags[0].label,
+            t2:selectedTags[1].label,
+            t3:selectedCategory,
+        }
+        for(let i=0;i<selectedTags.length;i++){
+            tags.push(selectedTags[i].label)
+            console.log(selectedTags[i].label.toString())
+        }
+        console.log("tags:",tags)
+        console.log("data:",data)
+
         // axios.post('https://eventify.liara.run/events/create_event/', createEventData,
         //     {headers:{
         //         "Content-Type": "application/json",
@@ -152,12 +162,12 @@ const CreateEvent = () => {
             for(let i=0;i<selectedTags.length;i++){
                 tags.push(selectedTags[i].label)
             }
+
             let createEventData = {
                 title:values.eventName,
                 category:selectedCategory.label,
-                tags:JSON.stringify(tags),
-                photo:eventPhoto,
-                // photo:"photoFile",
+                tags:tags,
+                photo:eventPhotoFile,
                 description:values.eventDescription,
                 attendance:eventType,
                 url:values.eventLink,
@@ -183,27 +193,30 @@ const CreateEvent = () => {
                 // endTime:[endTime.hour,endTime.minute],
                 
             }
+            console.log("-----------------------------")
             console.log(createEventData)
-            const formData = new FormData();
-            formData.append("title",values.eventName)
-            formData.append("category",selectedCategory.label)
-            formData.append("tags",JSON.stringify(tags))
-            formData.append("photo",eventPhoto,)
-            formData.append("description",values.eventDescription,)
-            formData.append("attendance",eventType)
-            formData.append("url",values.eventLink)
-            formData.append("province",selectedProvince)
-            formData.append("city",selectedCity)
-            formData.append("address",address)
-            formData.append("is_paid",!isFree)
-            formData.append("location_lat",Math.round(mapData.lat*10000)/10000)
-            formData.append("location_lon",Math.round(mapData.lng*10000)/10000)
-            formData.append("starts",startDateTime)
-            formData.append("ends",endDateTime)
-            formData.append("maximum_tickets",values.ticketCount)
-            formData.append("ticket_price",values.ticketPrice)
-            formData.append("organizer_phone",values.phoneNumber)
-            formData.append("ends",values.ssn)
+            // const formData = new FormData();
+            // formData.append("title",values.eventName)
+            // formData.append("category",selectedCategory.label)
+            // formData.append("tags",JSON.stringify(tags))
+            // formData.append("photo",eventPhotoFile,)
+            // formData.append("description",values.eventDescription,)
+            // formData.append("attendance",eventType)
+            // formData.append("url",values.eventLink)
+            // formData.append("province",selectedProvince)
+            // formData.append("city",selectedCity)
+            // formData.append("address",address)
+            // formData.append("is_paid",!isFree)
+            // formData.append("location_lat",Math.round(mapData.lat*10000)/10000)
+            // formData.append("location_lon",Math.round(mapData.lng*10000)/10000)
+            // formData.append("starts",startDateTime)
+            // formData.append("ends",endDateTime)
+            // formData.append("maximum_tickets",values.ticketCount)
+            // formData.append("ticket_price",values.ticketPrice)
+            // formData.append("organizer_phone",values.phoneNumber)
+            // formData.append("ends",values.ssn)
+
+
             axios.post('https://eventify.liara.run/events/create_event/',createEventData,
                 {headers:{
                     "Content-Type": "multipart/form-data",
@@ -249,20 +262,22 @@ const CreateEvent = () => {
 
       }, []);
 
-    const handleEventPhoto = (event) => {
+    const handleeventPhotoFile = (event) => {
         // const file = event.target.files[0];
         // if (file){
         //     const reader = new FileReader();
         //     reader.onload = (e) => {
-        //         setEventPhoto(e.target.result);
+        //         setEventPhotoFile(e.target.result);
         //     };
         //     reader.readAsDataURL(file);
         // }
         event.preventDefault();
         const reader = new FileReader();
         const file =event.target.files[0];
+        console.log("file:",file)
         reader.onloadend = () => {
-            setEventPhoto(file);
+            setEventPhotoFile(file);
+            setEventPhoto(reader.result);
         };
         reader.readAsDataURL(file);
     }
@@ -363,7 +378,7 @@ const CreateEvent = () => {
                                         </label>
                                         <input id="file-upload" type="file" style={{ display: "none" }}
                                             accept="image/*"
-                                            onChange={handleEventPhoto}
+                                            onChange={handleeventPhotoFile}
                                         />
                                     </div>
                                 </div>
