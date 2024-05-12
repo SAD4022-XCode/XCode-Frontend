@@ -96,7 +96,7 @@ const EventsList = () => {
       let queryParams = [];
       // console.log(data);
       if (data.selectedTags.length > 0)
-        queryParams.push(`tags=${data.selectedTags}`);
+        queryParams.push(`tags=${JSON.stringify(data.selectedTags)}`);
       if (data.eventType !== "")
         queryParams.push(`attendance=${data.eventType}`);
       if (data.eventPrice !== "")
@@ -113,7 +113,6 @@ const EventsList = () => {
       // .then((response) => {
       // console.log("Data sent successfully:", response.data);
       setTotalPages(response.data.count);
-
       let events = response.data.results;
       // Replace date strings with month names
       events = events.map((event) => ({
