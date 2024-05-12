@@ -50,7 +50,6 @@ const CityList = ({ selectedProvince, setSelectedProvince,selectedCity,setSelect
         <div className='city-list-container'>
             <div className='col-6'>
                 <select value={selectedProvince} onChange={handleSelectedProvince} className='province-city'>
-                    <option value="">لطفا استان را انتخاب نمایید</option>
                     {provinces.map((province, index) => (
                         <option key={index} value={province.name}>{province.name}</option>
                     ))}
@@ -58,7 +57,6 @@ const CityList = ({ selectedProvince, setSelectedProvince,selectedCity,setSelect
             </div>
             <div className='col-6'>
                 <select value={selectedCity} onChange={handleSelectedCity} className='province-city'>
-                    <option value="">لطفا شهر را انتخاب نمایید</option>
                     {citiesOptions.map((city, index) => (
                         <option key={index} value={city}>{city}</option>
                     ))}

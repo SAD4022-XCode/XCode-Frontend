@@ -27,7 +27,7 @@ const CreateEvent = () => {
     const auth = useAuth();
     const [userData, setUserData] = useState(JSON.parse(localStorage.getItem("userData")) || "");
 
-    // console.log("new user data",userData)
+
     const [selectedTags, setSelectedTags] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(
         { value: 'entrepreneurship', label: 'کارآفرینی', color: '#5243AA' });
@@ -36,187 +36,87 @@ const CreateEvent = () => {
     const [eventPhotoFile, setEventPhotoFile] = useState(null);
     const [eventPhoto, setEventPhoto] = useState(defaultImage);
     const [eventType, setEventType] = useState("O");
-    const [selectedProvince, setSelectedProvince] = useState("");
-    const [selectedCity, setSelectedCity] = useState("");
+    const [selectedProvince, setSelectedProvince] = useState("تهران");
+    const [selectedCity, setSelectedCity] = useState("تهران");
     const [isFree, setIsFree] = useState(false);
-    const [ticketPrice, setTicketPrice] = useState();
     const [ticketCardHeight, setTicketCardHeight] = useState(window.innerWidth > 575 ? 180 : 320)
     const [datetimeCardHeight, setDatetimeCardHeight] = useState(window.innerWidth > 770 ? 400 : 500)
     const [todayJalaliDate, setTodayJalaliDate] = useState('');
     const [mapData, setMapData] = useState("");
-    const [startDate, setStartDate] = useState("");
-    const [endDate, setEndDate] = useState("");
-    const [startTime, setStartTime] = useState("");
-    const [endTime, setEndTime] = useState("");
-    const [address,setAddress] = useState("")
-    const {values, errors, touched, handleBlur,handleChange} = useFormik({
-            initialValues :{
-                eventName:"",
-                eventDescription:"",
-                phoneNumber:"",
-                ssn:"",
-                ticketCount:'',
-                ticketPrice:'',
-                eventLink:'',
-            },
-            validationSchema: createEventValidationSchema,
-            validateOnBlur:false
-        }
-    );
+    const [startDate, setStartDate] = useState(null);
+    const [endDate, setEndDate] = useState(null);
+    const [startTime, setStartTime] = useState(null);
+    const [endTime, setEndTime] = useState(null);
+    
     const printEventData = (event)=>{
-        console.log("send photo to server")
-        let tags = []
-        let data = {
-            t1:selectedTags[0].label,
-            t2:selectedTags[1].label,
-            t3:selectedCategory,
-        }
-        for(let i=0;i<selectedTags.length;i++){
-            tags.push(selectedTags[i].label)
-            console.log(selectedTags[i].label.toString())
-        }
-        console.log("tags:",tags)
-        console.log("data:",data)
-
-        // axios.post('https://eventify.liara.run/events/create_event/', createEventData,
-        //     {headers:{
-        //         "Content-Type": "application/json",
-        //         Authorization:`JWT ${auth.token}`,
-        //     }})
-        //     .then(response => {
-        //         console.log('Data sent successfully:', response.data);
-        //         toast.success("رویداد ایجاد شد")
-        //         navigator('/home')
-        //     })
-        //     .catch(error => {
-        //         console.log('Error sending data:', error);
-        //         console.log("status code is:",error.response.status)
-        //         toast.error("مشکل در ایجاد رویداد")
-
-        //     });
-            // console.log(selectedTags)
-            // console.log(selectedCategory)
-            // let tags = []
-            // for(let i=0;i<selectedTags.length;i++){
-            //     tags.push(selectedTags[i].label)
-            // }
-            // let mylist=["a","b","c"]
-            // console.log(tags,JSON.stringify(mylist))
-            // console.log("map data:",mapData)
-            // let createEventData = {
-            //     date : [startDate.year,startDate.monthIndex+1,startDate.day],
-            //     startDay:startDate.weekDay.name,
-            //     endDay:endDate.weekDay.name,
-            //     startDate:[startDate.year,startDate.month.name,startDate.day],
-            //     endDate:[endDate.year,endDate.month.name,endDate.day],
-            //     startTime:[startTime.hour,startTime.minute],
-            //     endTime:[endTime.hour,endTime.minute],
-            // }
-            // const jalaliDate = startDate.year.toString()+"/"+(startDate.monthIndex+1).toString()+"/"+startDate.day.toString()
-            // const miladiDate = moment(jalaliDate,'jYYYY/jM/jD').format('YYYY-MM-DD')
-            // const time = startTime.hour.toString()+":"+startTime.minute.toString();
-            // const isoDate = moment(miladiDate).toISOString();
-            // console.log(isoDate)
-            // console.log(`${miladiDate}T${time}:00`)
-            // console.log(auth.token)
-            // console.log(startDate.year,startDate.monthIndex+1,startDate.day)
-            // console.log(moment(isoDate).format('jYYYY/jM/jD'))
-            // console.log(moment(jalaliDate,'jYYYY/jM/jD').locale('fa').format('dddd'))
-            // console.log(moment(jalaliDate,'jYYYY/jM/jD').locale('fa').format('jMMMM'))
-            // console.log(mapData)
+        console.log("")
     };
-  
+    const [showError ,setShowError] = useState([true,true,true,true,true,true,true,true,true]);
     const createEventHandler =(event)=>{
         event.preventDefault()
-        let canSubmit = false;
-        console.log("----------------------------------")
-        console.log(auth.token)
         setShowViolations(true)
-        if (values.eventName &&
-            values.eventDescription &&
-            values.phoneNumber &&
-            values.ssn &&
-            values.ticketCount &&
-            values.ticketPrice &&
-            values.eventLink && Object.keys(errors).length===0){
-                if (eventType==="O" && values.eventLink){
-                   canSubmit = true 
-                }
-                if (eventType==="I" && address!=""){
-                    canSubmit = true 
-                }
-        }
-        if (canSubmit){
-            let jalaliDate = startDate.year.toString()+"/"+(startDate.monthIndex+1).toString()+"/"+startDate.day.toString()
-            let miladiDate = moment(jalaliDate,'jYYYY/jM/jD').format('YYYY-MM-DD')
-            const startIsoDate = moment(miladiDate).toISOString();
-            const time1 = startTime.hour.toString()+":"+startTime.minute.toString();
-            const startDateTime = `${miladiDate}T${time1}:00`
-            let jalaliDate2 = endDate.year.toString()+"/"+(endDate.monthIndex+1).toString()+"/"+endDate.day.toString()
-            let miladiDate2 = moment(jalaliDate2,'jYYYY/jM/jD').format('YYYY-MM-DD')
-            const endIsoDate = moment(miladiDate2).toISOString();
-            const time2 = endTime.hour.toString()+":"+endTime.minute.toString();
-            const endDateTime = `${miladiDate}T${time1}:00`;
-            console.log(startDateTime,endDateTime)
-            let tags = []
-            for(let i=0;i<selectedTags.length;i++){
-                tags.push(selectedTags[i].label)
-            }
-
-            let createEventData = {
-                title:values.eventName,
-                category:selectedCategory.label,
-                tags:tags,
-                photo:eventPhotoFile,
-                description:values.eventDescription,
-                attendance:eventType,
-                url:values.eventLink,
-                province:selectedProvince,
-                city:selectedCity,
-                address:address,
-                is_paid:!isFree,
-                location_lat:Math.round(mapData.lat*10000)/10000,
-                location_lon:Math.round(mapData.lng*10000)/10000,
-                starts:startDateTime,
-                ends:endDateTime,
-                maximum_tickets:values.ticketCount,
-                ticket_price:values.ticketPrice,
-                organizer_phone:values.phoneNumber,
-                organizer_SSN:values.ssn,
-                // startDate:startIsoDate,
-                // endDate:endIsoDate,
-                // startDay:startDate.weekDay.name,
-                // endDay:endDate.weekDay.name,
-                // startDate:[startDate.year,startDate.month.name,startDate.day],
-                // endDate:[endDate.year,endDate.month.name,endDate.day],
-                // startTime:[startTime.hour,startTime.minute],
-                // endTime:[endTime.hour,endTime.minute],
+        let canSubmit = true;
+        if (eventType==="O"){
+            if(showError[0] || showError[1] || showError[2] || showError[3] || showError[4] || showError[5] || showError[6] || startTime===null || startTime===null || endDate===null || endTime===null){
+                canSubmit=false
                 
+            }else{
+                setShowViolations(false)
             }
-            console.log("-----------------------------")
-            console.log(createEventData)
-            // const formData = new FormData();
-            // formData.append("title",values.eventName)
-            // formData.append("category",selectedCategory.label)
-            // formData.append("tags",JSON.stringify(tags))
-            // formData.append("photo",eventPhotoFile,)
-            // formData.append("description",values.eventDescription,)
-            // formData.append("attendance",eventType)
-            // formData.append("url",values.eventLink)
-            // formData.append("province",selectedProvince)
-            // formData.append("city",selectedCity)
-            // formData.append("address",address)
-            // formData.append("is_paid",!isFree)
-            // formData.append("location_lat",Math.round(mapData.lat*10000)/10000)
-            // formData.append("location_lon",Math.round(mapData.lng*10000)/10000)
-            // formData.append("starts",startDateTime)
-            // formData.append("ends",endDateTime)
-            // formData.append("maximum_tickets",values.ticketCount)
-            // formData.append("ticket_price",values.ticketPrice)
-            // formData.append("organizer_phone",values.phoneNumber)
-            // formData.append("ends",values.ssn)
+        }else{
+            console.log("qqqqq")
+            if(showError[0] || showError[1] || showError[3] || showError[4] || showError[5] || showError[6] || showError[7] || showError[8] || startTime===null || startTime===null || endDate===null || endTime===null){
+                canSubmit=false
+            }else{
+                setShowViolations(false)
 
+            }
+        }
+        // console.log("can submit:",canSubmit)
+        // console.log(showError)
 
+        let jalaliDate = startDate.year.toString()+"/"+(startDate.monthIndex+1).toString()+"/"+startDate.day.toString()
+        let miladiDate = moment(jalaliDate,'jYYYY/jM/jD').format('YYYY-MM-DD')
+        const startIsoDate = moment(miladiDate).toISOString();
+        const time1 = startTime.hour.toString()+":"+startTime.minute.toString();
+        const startDateTime = `${miladiDate}T${time1}:00`
+        let jalaliDate2 = endDate.year.toString()+"/"+(endDate.monthIndex+1).toString()+"/"+endDate.day.toString()
+        let miladiDate2 = moment(jalaliDate2,'jYYYY/jM/jD').format('YYYY-MM-DD')
+        const endIsoDate = moment(miladiDate2).toISOString();
+        const time2 = endTime.hour.toString()+":"+endTime.minute.toString();
+        const endDateTime = `${miladiDate}T${time1}:00`;
+        
+        let tags = []
+        for(let i=0;i<selectedTags.length;i++){
+            tags.push(selectedTags[i].value)
+        }
+
+        let createEventData = {
+            title:eventName,
+            category:selectedCategory.label,
+            tags:JSON.stringify(tags),
+            photo:eventPhotoFile,
+            description:eventDescription,
+            attendance:eventType,
+            url:eventLink,
+            province:selectedProvince,
+            city:selectedCity,
+            address:address,
+            is_paid:!isFree,
+            location_lat:Math.round(mapData.lat*10000)/10000,
+            location_lon:Math.round(mapData.lng*10000)/10000,
+            starts:startDateTime,
+            ends:endDateTime,
+            maximum_tickets:Number(ticketCount),
+            ticket_price:ticketPrice==="رایگان"? 0:Number(ticketPrice),
+            organizer_phone:phoneNumber,
+            organizer_SSN:ssn,
+            
+        }
+        console.log(createEventData)
+       
+        if (canSubmit){
+            
             axios.post('https://eventify.liara.run/events/create_event/',createEventData,
                 {headers:{
                     "Content-Type": "multipart/form-data",
@@ -225,24 +125,22 @@ const CreateEvent = () => {
                 .then(response => {
                     console.log('Data sent successfully:', response.data);
                     toast.success("رویداد ایجاد شد")
-                    navigator('/home')
+                    setTimeout(() => {
+                    navigator('/home');
+                    }, 7000);
                 })
                 .catch(error => {
                     console.log('Error sending data:', error);
                     console.log("status code is:",error.response.status)
-                    toast.error("مشکل در ایجاد رویداد")
+                    toast.error("خطا در ایجاد رویداد")
 
                 });
-        }else{
         }
         
     }
 
     
-    const handleMapData = (data) =>{
-        setMapData(data);
-        console.log(mapData)
-    }
+    
     useEffect(() => {
         document.documentElement.style.overflowY = 'hidden';
         document.title = "ایجاد رویداد";
@@ -251,7 +149,17 @@ const CreateEvent = () => {
         setTodayJalaliDate(todayJalali);
         const handleResize = () => {
             setTicketCardHeight(window.innerWidth > 575 ? 180 : 320);
-            setDatetimeCardHeight(window.innerWidth > 770 ? 400 : 450)
+            if (showError[6]){
+                setTicketCardHeight(window.innerWidth > 575 ? 200 : 350);
+            }
+            let increase = 0
+            if (startDate===null || startTime===null){
+                increase = increase+20
+            }
+            if (endDate===null || endTime===null){
+                increase = increase+20
+            }
+            setDatetimeCardHeight(window.innerWidth > 770 ? 400+increase : 450+increase)
         };
 
         window.addEventListener('resize', handleResize);
@@ -260,17 +168,10 @@ const CreateEvent = () => {
             window.removeEventListener('resize', handleResize);
         };
 
-      }, []);
-
+    }, []);
+    
+    
     const handleeventPhotoFile = (event) => {
-        // const file = event.target.files[0];
-        // if (file){
-        //     const reader = new FileReader();
-        //     reader.onload = (e) => {
-        //         setEventPhotoFile(e.target.result);
-        //     };
-        //     reader.readAsDataURL(file);
-        // }
         event.preventDefault();
         const reader = new FileReader();
         const file =event.target.files[0];
@@ -282,10 +183,127 @@ const CreateEvent = () => {
         reader.readAsDataURL(file);
     }
 
+    const [eventName ,setEventName] = useState("");
+    
+    const handleEventName = (event)=>{
+        event.preventDefault();
+        let errors = showError
+        setEventName(event.target.value)
+        if(event.target.value.length<3 || event.target.value.length>50){
+            errors[0]=true
+        }else{
+            errors[0]=false
+        }
+        setShowError(errors)
+    }
+
+    const [eventDescription ,setEventDescription] = useState("");
+    const handleEventDescription = (event) =>{
+        event.preventDefault();
+        let errors = showError
+        setEventDescription(event.target.value)
+        if(event.target.value.length<20 || event.target.value.length>1500){
+            errors[1]=true
+        }else{
+            errors[1]=false
+        }
+        setShowError(errors)
+    }
+    
+    const regLink = /^(http:\/\/|https:\/\/)(www\.)?[a-zA-Z0-9]+\.[a-zA-Z]{2,}(\/\S*)?$/;
+    const [eventLink ,setEventLink] = useState("");
+    const handleEventLink = (event)=>{
+        event.preventDefault();
+        let errors = showError
+        setEventLink(event.target.value)
+        if (!regLink.test(event.target.value)){
+            errors[2]=true
+        }else{
+            errors[2]=false
+        }
+        setShowError(errors)
+
+    }
+    const regSSN = /^\d{10}$/
+    const [ssn ,setSSN] = useState("");
+    const handleSSN = (event)=>{
+        event.preventDefault();
+        let errors = showError
+        setSSN(event.target.value)
+        if (!regSSN.test(event.target.value)){
+            errors[3]=true
+        }else{
+            errors[3]=false
+        }
+        setShowError(errors)
+
+    }
+    const regPhoneNumber = /^\d{11}$/
+    const [phoneNumber, setPhoneNumber]=useState("");
+    const handlePhoneNumber = (event)=>{
+        event.preventDefault();
+        let errors = showError
+        setPhoneNumber(event.target.value)
+        if (!regPhoneNumber.test(event.target.value)){
+            errors[4]=true
+        }else{
+            errors[4]=false
+        }
+        setShowError(errors)
+
+    }
+
+    const [ticketCount, setTicketCount] = useState('');
+    const handleTiketCount = (event)=>{
+        event.preventDefault();
+        let errors = showError
+        setTicketCount(event.target.value)
+        if(event.target.value<1 || event.target.value>10000){
+            errors[5]=true
+        }else{
+            errors[5]=false
+        }
+        setShowError(errors)
+
+    }
+    const [ticketPrice, setTicketPrice] = useState('');
+    const handleTicketPrice = (event)=>{
+        event.preventDefault();
+        let errors = showError
+        if(!isFree){
+            setTicketPrice(event.target.value)
+            if(event.target.value<1 || event.target.value>10000000){
+                errors[6]=true
+            }else{
+                errors[6]=false
+            }
+        }
+        
+        setShowError(errors)
+
+    }
+    const [address,setAddress] = useState("")
+    const handleAddress = (event)=>{
+        let errors = showError
+        setAddress(event.target.value)
+        if (event.target.value.length>100){
+            errors[8]=true
+        }else{
+            errors[8]=false
+        }
+        setShowError(errors)
+    }
+    const handleMapData = (data) =>{
+        let errors = showError
+        errors[7]=false
+        setShowError(errors)
+        setMapData(data);
+        // console.log(mapData)
+    }
+
     const handleEventType = (event) => {
         printEventData();
-        // console.log("new user data",userData)
-
+        setShowViolations(false)
         console.log("change event type")
         if (eventType==="I"){
             setEventType("O");
@@ -296,14 +314,17 @@ const CreateEvent = () => {
     }
 
     const handleIsFree = (event) => {
+        let errors = showError
         if(!isFree){
             setTicketPrice("رایگان");
-            values.ticketPrice=0;
+            errors[6]=false
             document.getElementById("ticketPrice").disabled = true;
         }else{
+            errors[6]=true
             document.getElementById("ticketPrice").disabled = false;
         }
         setIsFree(!isFree);
+        setShowError(errors)
         
         
     }
@@ -328,24 +349,24 @@ const CreateEvent = () => {
                                 <div className="row">
                                     <div className="col-6 text-right">
                                         <p className="mb-1">نام رویداد</p>
-                                        <div className={`form-group mt-2 ${errors.eventName && touched.eventName ? "invalid" : ""}`}>
+                                        <div className={`form-group mt-2 ${showError[0] && showViolations ? "invalid" : ""}`}>
                                             <input
-                                            value={values.eventName}
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
+                                            value={eventName}
+                                            onChange={handleEventName}
                                             id="eventName"
+                                            
                                             dir="rtl"
                                             type="text"
                                             className="form-style-ce"
                                             placeholder="نام رویداد"
                                             />
                                         </div>
-                                        {errors.eventName && touched.eventName && (<p className="mb-0 mt-2 validationMsg">{errors.eventName}</p>)}
+                                        {showError[0] && showViolations && (<p className="mb-0 mt-2 validationMsg">عنوان رویداد باید بین 3 تا 50 کاراکتر باشد</p>)}
                                     </div>
                                     <div className="col-6 text-right">
                                         <p className="mb-1">دسته بندی</p>
                                         
-                                        <div className={`form-group mt-2 ${errors.eventCategory && touched.eventCategory  ? "invalid" : ""}`}>
+                                        <div className={`form-group mt-2`}>
                                             <SelectCategory
                                                 selectedCategory={selectedCategory}
                                                 setSelectedCategory={setSelectedCategory}
@@ -384,16 +405,16 @@ const CreateEvent = () => {
                                 </div>
                                 <div className="col">
                                     <p className="mb-1 mt-1 text-right"> توضیحات</p>
-                                    <div className={`form-group mt-2 ${errors.eventDescription && touched.eventDescription ? "invalid" : ""}`}>
+                                    <div className={`form-group mt-2 ${showError[1] && showViolations ? "invalid" : ""}`}>
                                         <textarea 
                                             id="eventDescription"
-                                            value={values.eventDescription}
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
+                                            value={eventDescription}
+                                            onChange={handleEventDescription}
+
                                         rows="5" cols="80" className="form-style-ce-area" dir="rtl" placeholder="توضیحات برگزاری رویداد">
                                         </textarea>
                                     </div>
-                                    {errors.eventDescription && touched.eventDescription && (<p className="mb-0 mt-2 validationMsg">{errors.eventDescription}</p>)}
+                                    {showError[1] && showViolations && (<p className="mb-0 mt-2 validationMsg">توضیحات رویداد باید بین 20 تا 1500 کاراکتر باشد</p>)}
 
                                 </div>
                                 
@@ -414,7 +435,7 @@ const CreateEvent = () => {
             <div className="container">
                 <div className="row">
                     <div className="section">
-                        <div className="card-3d-wrap-ce" style={{height:`${eventType==="O"? datetimeCardHeight.toString()+"px" : (datetimeCardHeight+700).toString()+"px"}`}}>
+                        <div className="card-3d-wrap-ce" style={{height:`${eventType==="O"? datetimeCardHeight.toString()+"px" : (datetimeCardHeight+600).toString()+"px"}`}}>
                             <div className="card-back ">
                             <div className="center-wrap">
                                 <div className="section">
@@ -434,20 +455,21 @@ const CreateEvent = () => {
                                 {eventType==="O" && 
                                     <div>
                                         <div className={`mb-2 mt-2 text-right`} style={{fontSize:"16px"}}>لینک برگزاری </div>
-                                        <div className={`form-group mb-1 ${errors.eventLink && touched.eventLink ? "invalid" : ""}`}>
+                                        <div className={`form-group mb-1 ${showError[2] && showViolations ? "invalid" : ""}`}>
                                             <input
                                             dir="ltr"
                                             type="text"
                                             className="form-style-ce"
                                             placeholder="https://"
                                             id="eventLink"
-                                            value={values.eventLink}
-                                            onChange={handleChange}
-                                            onBlur={handleBlur}
+                                            value={eventLink}
+                                            onChange={handleEventLink}
                                             style={{textAlign:"left"}}
                                             />
                                         </div>
-                                        {errors.eventLink && touched.eventLink && (<p className="mb-0 mt-2 validationMsg">{errors.eventLink}</p>)}
+                                        {eventLink!=="" && eventType==="O"&& showError[2] && showViolations && (<p className="mb-0 mt-2 validationMsg">فرمت لینک نادرست است</p>)}
+                                        {eventLink==="" && eventType==="O"&& showError[2] && showViolations && (<p className="mb-0 mt-2 validationMsg">لینک رویداد را وارد کنید</p>)}
+
                                     </div>
                                 }
                                 {eventType==="I" && 
@@ -460,20 +482,22 @@ const CreateEvent = () => {
                                         setSelectedCity={setSelectedCity}
                                      />
                                      <div className="text-right mt-2">آدرس</div>
-                                     <div className={`form-group mb-1 mt-1 ${(address==="" || address.length>100)&&showViolations ? "invalid" : ""}`}>
+                                     <div className={`form-group mb-1 mt-1 ${(address==="" || address.length>100)&&showViolations  && eventType==="I" ? "invalid" : ""}`}>
                                             <input
                                             dir="rtl"
                                             type="text"
                                             className="form-style-ce"
                                             placeholder="آدرس"
                                             value = {address}
-                                            onChange={(e) => setAddress(e.target.value)}
+                                            onChange={handleAddress}
                                             style={{textAlign:"right"}}
                                             />
                                         </div>
-                                        {address==="" && showViolations && (<p className="mb-0 mt-2 validationMsg">آدرس را وارد کنید</p>)}
-                                        {address.length>100 && showViolations &&(<p className="mb-0 mt-2 validationMsg">طول آدرس کمتر از 100 کاراکتر باید باشد</p>)}
+                                        {address==="" && showError[8] && eventType==="I" && showViolations && (<p className="mb-0 mt-2 validationMsg">آدرس را وارد کنید</p>)}
+                                        {address.length>100  && showError[8] && eventType==="I" && showViolations &&(<p className="mb-0 mt-2 validationMsg">طول آدرس کمتر از 100 کاراکتر باید باشد</p>)}
                                         <MapComponent sendDataToParent={handleMapData}/>
+                                        {showError[7] && eventType==="I" && showViolations && (<p className="mb-0 mt-2 mb-2 validationMsg"> محل برگزاری رویداد را بر روی نقشه مشخص کنید  </p>)}
+
                                     </div>
                                 }
                                 <div className="row">
@@ -482,7 +506,7 @@ const CreateEvent = () => {
                                         <div className="row">    
                                             <div className="col-8">
                                                 <DatePicker portal
-                                                    inputClass="form-style-ce"
+                                                    inputClass={`form-style-ce ${startDate===null && showViolations ? "invalid" : ""}`}
                                                     calendar={persian}
                                                     locale={persian_fa}
                                                     calendarPosition="bottom-right"
@@ -494,13 +518,13 @@ const CreateEvent = () => {
                                                     minDate={todayJalaliDate}
                                                     placeholder={todayJalaliDate}
                                                 />
-                                                {errors.startDate && touched.startDate && (<p className="mb-0 mt-2 validationMsg">{errors.startDate}</p>)}
+                                            {(startDate===null || startTime===null) && showViolations && (<p className="mb-0 mt-2 validationMsg"> تاریخ و ساعت شروع را مشخص کنید</p>)}
                                             </div>
                                             <div className="col-4">
                                                 <DatePicker portal
                                                     value={startTime}
                                                     onChange={setStartTime}
-                                                    inputClass="form-style-ce"
+                                                    inputClass={`form-style-ce ${startTime===null && showViolations ? "invalid" : ""}`}
                                                     disableDayPicker
                                                     format="HH:mm"
                                                     placeholder="18:00"
@@ -510,8 +534,9 @@ const CreateEvent = () => {
                                                 />
                                             </div>
                                             
-                                            
+    
                                         </div>
+                                        
                                     </div>
 
                                     <div className="col-xl-6 col-md-6 form-group text-right pl-3 pr-3">
@@ -520,7 +545,7 @@ const CreateEvent = () => {
                                         <div className="row">    
                                             <div className="col-8">
                                                 <DatePicker portal
-                                                    inputClass="form-style-ce"
+                                                    inputClass={`form-style-ce ${endDate===null && showViolations ? "invalid" : ""}`}
                                                     calendar={persian}
                                                     locale={persian_fa}
                                                     calendarPosition="bottom-right"
@@ -533,12 +558,14 @@ const CreateEvent = () => {
                                                     minDate={todayJalaliDate}
                                                     placeholder={todayJalaliDate}
                                                 />
+                                              {(endDate===null || endTime===null) && showViolations && (<p className="mb-0 mt-2 validationMsg"> تاریخ و ساعت شروع را مشخص کنید</p>)}
+
                                             </div>
                                             <div className="col-4">
                                                 <DatePicker portal
                                                     value={endTime}
                                                     onChange={setEndTime}
-                                                    inputClass="form-style-ce"
+                                                    inputClass={`form-style-ce ${endTime===null && showViolations ? "invalid" : ""}`}
                                                     disableDayPicker
                                                     format="HH:mm"
                                                     placeholder="19:00"
@@ -590,38 +617,33 @@ const CreateEvent = () => {
                                         </div>
                                         <div className="col-lg-5 col-md-4 col-sm-4  text-right">
                                             <p className="mb-1">تعداد</p>
-                                            <div className={`form-group mb-1 ${errors.ticketCount && touched.ticketCount ? "invalid" : ""}`}>
+                                            <div className={`form-group mb-1 ${showError[5] && showViolations ? "invalid" : ""}`}>
                                                 <input
                                                     id="ticketCount"
-                                                    value={values.ticketCount}
-                                                    onChange={handleChange}
-                                                    onBlur={handleBlur}
+                                                    value = {ticketCount}
+                                                    onChange={handleTiketCount}
                                                     dir="rtl"
                                                     type="number"
                                                     className="form-style-ce"
-                                                    // value={ticketCount}
                                                     placeholder="100" />
                                             </div> 
-                                            {errors.ticketCount && touched.ticketCount && (<p className="mb-0 mt-2 validationMsg">{errors.ticketCount}</p>)}
+                                            {showError[5] && showViolations && (<p className="mb-0 mt-2 validationMsg">تعداد بلیت باید 1 تا 10هزار باشد</p>)}
 
                                         </div>
                                         <div className="col-lg-5 col-md-5 col-sm-4  text-right">
                                                 <p className="mb-1">قیمت</p> 
-                                                <div className={`form-group mb-1 ${errors.ticketPrice && touched.ticketPrice && !isFree  ? "invalid" : ""}`}>
+                                                <div className={`form-group mb-1 ${showError[6] && showViolations && !isFree  ? "invalid" : ""}`}>
                                                     <input
                                                         id="ticketPrice"
-                                                        value={isFree===true ?"رایگان" :values.ticketPrice}
-                                                        onChange={handleChange}
-                                                        onBlur={handleBlur}
+                                                        value = {isFree===true ?"رایگان" :ticketPrice}
+                                                        onChange={handleTicketPrice}
                                                         dir="rtl"
                                                         type={isFree===true ?"text" : "number"}
                                                         className="form-style-ce "
-                                                        // value={ticketPrice}
-                                                        // onChange={ticketPriceHandler}
 
                                                         placeholder={isFree===true ?"رایگان" : "50000"} />
                                                 </div>
-                                                {errors.ticketPrice && touched.ticketPrice && !isFree &&(<p className="mb-0 mt-2 validationMsg">{errors.ticketPrice}</p>)}
+                                                {showError[6] && showViolations && !isFree &&(<p className="mb-0 mt-2 validationMsg">قیمت  بلیت رویداد حداکثر 10 میلیون تومان می تواند باشد </p>)}
                                         </div>
                                         
                                     
@@ -649,34 +671,34 @@ const CreateEvent = () => {
                                     <div className="row">
                                         <div className="col-lg-6 col-md-6 col-sm-6  pt-2 text-right">
                                             <p className="mb-1">شماره تلفن</p>
-                                            <div className={`form-group mt-2 ${errors.phoneNumber && touched.phoneNumber ? "invalid" : ""}`}>
+                                            <div className={`form-group mt-2 ${showError[4] && showViolations ? "invalid" : ""}`}>
                                                 <input
                                                     id="phoneNumber"
-                                                    value={values.phoneNumber} 
-                                                    onChange={handleChange} 
-                                                    onBlur={handleBlur} 
+                                                    value={phoneNumber}
+                                                    onChange={handlePhoneNumber}
                                                     dir="rtl" 
-                                                    type="text"
+                                                    type="number"
                                                     className="form-style-ce" 
-                                                    placeholder="09123456789" />
+                                                    placeholder="09123456789" 
+                                                    maxLength="11"
+                                                    />
                                             </div>
-                                            {errors.phoneNumber  && touched.phoneNumber && (<p className="mb-0 mt-2 validationMsg">{errors.phoneNumber}</p>)}
+                                            {showError[4] && showViolations && (<p className="mb-0 mt-2 validationMsg">َشماره تلفن شامل یک عدد 11 رقمی است</p>)}
                                         </div><div className="col-lg-6 col-md-6 col-sm-6 pt-2 text-right">
                                                 <p className="mb-1">کدملی</p>
-                                                <div className={`form-group mt-2 ${errors.ssn  && touched.ssn ? "invalid" : ""}`}>
+                                                <div className={`form-group mt-2 ${showError[3] && showViolations ? "invalid" : ""}`}>
                                                     <input
                                                         id="ssn"
-                                                        value={values.ssn}
-                                                        onChange={handleChange}
-                                                        onBlur={handleBlur}
+                                                        value={ssn}
+                                                        onChange={handleSSN}
                                                         dir="rtl"
-                                                        type="text"
+                                                        type="number"
                                                         className="form-style-ce"
                                                         placeholder="0123456789"
                                                         maxLength="10"
                                                         />
                                                 </div>
-                                                {errors.ssn  && touched.ssn && (<p className="mb-0 mt-2 validationMsg">{errors.ssn}</p>)}
+                                                {showError[3] && showViolations && (<p className="mb-0 mt-2 validationMsg">کدملی یک عدد 10 رقمی باید باشد</p>)}
                                         </div>
                                     </div>
                                     <button
