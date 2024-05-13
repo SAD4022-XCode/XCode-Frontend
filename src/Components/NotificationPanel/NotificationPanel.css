@@ -7,7 +7,12 @@
     width: 300px;
     direction: rtl;
 }
-
+.lottie-parent{
+    width:100px;
+}
+.lottie{
+    transform: scale(0.8);
+}
 .notification-panel h4 {
     margin: 0 0 10px 0;
 }
