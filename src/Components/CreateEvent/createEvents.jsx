@@ -64,7 +64,6 @@ const CreateEvent = () => {
                 setShowViolations(false)
             }
         }else{
-            console.log("qqqqq")
             if(showError[0] || showError[1] || showError[3] || showError[4] || showError[5] || showError[6] || showError[7] || showError[8] || startTime===null || startTime===null || endDate===null || endTime===null){
                 canSubmit=false
             }else{
@@ -72,50 +71,49 @@ const CreateEvent = () => {
 
             }
         }
-        // console.log("can submit:",canSubmit)
-        // console.log(showError)
 
-        let jalaliDate = startDate.year.toString()+"/"+(startDate.monthIndex+1).toString()+"/"+startDate.day.toString()
-        let miladiDate = moment(jalaliDate,'jYYYY/jM/jD').format('YYYY-MM-DD')
-        const startIsoDate = moment(miladiDate).toISOString();
-        const time1 = startTime.hour.toString()+":"+startTime.minute.toString();
-        const startDateTime = `${miladiDate}T${time1}:00`
-        let jalaliDate2 = endDate.year.toString()+"/"+(endDate.monthIndex+1).toString()+"/"+endDate.day.toString()
-        let miladiDate2 = moment(jalaliDate2,'jYYYY/jM/jD').format('YYYY-MM-DD')
-        const endIsoDate = moment(miladiDate2).toISOString();
-        const time2 = endTime.hour.toString()+":"+endTime.minute.toString();
-        const endDateTime = `${miladiDate}T${time1}:00`;
-        
-        let tags = []
-        for(let i=0;i<selectedTags.length;i++){
-            tags.push(selectedTags[i].value)
-        }
-
-        let createEventData = {
-            title:eventName,
-            category:selectedCategory.label,
-            tags:JSON.stringify(tags),
-            photo:eventPhotoFile,
-            description:eventDescription,
-            attendance:eventType,
-            url:eventLink,
-            province:selectedProvince,
-            city:selectedCity,
-            address:address,
-            is_paid:!isFree,
-            location_lat:Math.round(mapData.lat*10000)/10000,
-            location_lon:Math.round(mapData.lng*10000)/10000,
-            starts:startDateTime,
-            ends:endDateTime,
-            maximum_tickets:Number(ticketCount),
-            ticket_price:ticketPrice==="رایگان"? 0:Number(ticketPrice),
-            organizer_phone:phoneNumber,
-            organizer_SSN:ssn,
-            
-        }
-        console.log(createEventData)
+       
        
         if (canSubmit){
+            let jalaliDate = startDate.year.toString()+"/"+(startDate.monthIndex+1).toString()+"/"+startDate.day.toString()
+            let miladiDate = moment(jalaliDate,'jYYYY/jM/jD').format('YYYY-MM-DD')
+            const startIsoDate = moment(miladiDate).toISOString();
+            const time1 = startTime.hour.toString()+":"+startTime.minute.toString();
+            const startDateTime = `${miladiDate}T${time1}:00`
+            let jalaliDate2 = endDate.year.toString()+"/"+(endDate.monthIndex+1).toString()+"/"+endDate.day.toString()
+            let miladiDate2 = moment(jalaliDate2,'jYYYY/jM/jD').format('YYYY-MM-DD')
+            const endIsoDate = moment(miladiDate2).toISOString();
+            const time2 = endTime.hour.toString()+":"+endTime.minute.toString();
+            const endDateTime = `${miladiDate}T${time1}:00`;
+            
+            let tags = []
+            for(let i=0;i<selectedTags.length;i++){
+                tags.push(selectedTags[i].value)
+            }
+    
+            let createEventData = {
+                title:eventName,
+                category:selectedCategory.label,
+                tags:JSON.stringify(tags),
+                photo:eventPhotoFile,
+                description:eventDescription,
+                attendance:eventType,
+                url:eventLink,
+                province:selectedProvince,
+                city:selectedCity,
+                address:address,
+                is_paid:!isFree,
+                location_lat:Math.round(mapData.lat*10000)/10000,
+                location_lon:Math.round(mapData.lng*10000)/10000,
+                starts:startDateTime,
+                ends:endDateTime,
+                maximum_tickets:Number(ticketCount),
+                ticket_price:ticketPrice==="رایگان"? 0:Number(ticketPrice),
+                organizer_phone:phoneNumber,
+                organizer_SSN:ssn,
+                
+            }
+            console.log(createEventData)
             
             axios.post('https://eventify.liara.run/events/create_event/',createEventData,
                 {headers:{
@@ -558,7 +556,7 @@ const CreateEvent = () => {
                                                     minDate={todayJalaliDate}
                                                     placeholder={todayJalaliDate}
                                                 />
-                                              {(endDate===null || endTime===null) && showViolations && (<p className="mb-0 mt-2 validationMsg"> تاریخ و ساعت شروع را مشخص کنید</p>)}
+                                              {(endDate===null || endTime===null) && showViolations && (<p className="mb-0 mt-2 validationMsg"> تاریخ و ساعت پایان را مشخص کنید</p>)}
 
                                             </div>
                                             <div className="col-4">
