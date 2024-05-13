@@ -7,6 +7,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import Wallet from "../Wallet/wallet";
 import axios from "axios";
+// import Noty from "./Noty"
+import NotificationPanel from "../NotificationPanel/NotificationPanel";
 const Navbar = () => {
     const auth = useAuth();
     const [userData, setUserData] = useState(JSON.parse(localStorage.getItem("userData")) || "");
@@ -105,13 +107,14 @@ const Navbar = () => {
 
         <div className="container">
             <div >
+                <NavLink to={"/home"}>
                 <img className="logo"
                     src={require("../../assets/logo.png")}
                     style={{paddingBottom:"15px"}}
-                    alt="Google Logo"
+                    alt="Google Logo"   
                 />
+                </NavLink>
             </div>
-
 
             <div className="search-bar">
                 <input 
@@ -126,18 +129,21 @@ const Navbar = () => {
                 </button>
             </div>
             
+            
 
 
             <div className="menu-icon" onClick={handleShowNavbar}>
                 <i class="bi bi-list" style={{ fontSize: '28px' ,paddingBottom : "15px"}}></i>
             </div>
             <div className={`nav-elements  ${showNavbar && 'active'}`}>
-                <ul> 
+                <ul>
+                    { auth.token && (
+                    <li>
+                        <NotificationPanel />
+                    </li>
+                    )}
                     <li>
                     <NavLink to="/home" >خانه </NavLink>
-                    </li>
-                    <li>
-                    <NavLink to="/blogs"> بلاگ ها</NavLink>
                     </li>
                     <li>
                     <NavLink to="/events">رویدادها</NavLink>
