@@ -17,6 +17,7 @@ import MapComponent from "./Components/MapComponent/MapComponent";
 import EventDetails from "./Components/EventDetails/eventdetails";
 import RegisterEvent from "./Components/RegisterEvent/registerEvent";
 import Landing from "./Components/Landing/Landing";
+import NotificationPanel from "./Components/NotificationPanel/NotificationPanel";
 function App() {
   return (
     <Router>
@@ -36,6 +37,7 @@ function App() {
           <Route exact path="/map" element={<MapComponent />} />
           <Route path="event-details/:id" element={<EventDetails />} />
           <Route path="*" element={<PageNotFound />} />
+          <Route path="notifications" element={<NotificationPanel />} />
         </Routes>
       </AuthProvider>
     </Router>
