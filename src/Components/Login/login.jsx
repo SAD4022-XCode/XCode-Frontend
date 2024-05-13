@@ -86,38 +86,42 @@ const Login = () => {
 
         if(loginUserNameValidation && loginPasswordValidation){
             setShowViolation(false);
-            let result = await auth.loginAction(userData);
-            if (result ==="Data received successfully"){
-              setEnteredLoginUserName("");
-              setEnteredLoginPassword("");
-              toast.success("!با موفقیت وارد شدید");
+            try{
+              let result = await auth.loginAction(userData);
+              if (result ==="Data received successfully"){
+                setEnteredLoginUserName("");
+                setEnteredLoginPassword("");
+                toast.success("!با موفقیت وارد شدید");
+                
+              // console.log("start fetching user data");            
+              // const response2 = await axios.get(`https://eventify.liara.run/account/me/`,{headers: {
+              //     "Content-Type": "application/json",
+              //     Authorization:`JWT ${response.data.access}`,
+              // }});
+              // console.log(response2.data)
+                setTimeout(() => {
+                  navigator('/home');
+                }, 4000);
+              }else if(result==="username does not exist"){
+                setShowViolation(true);
+                setLoginUserNameValidation(false);
+                setLoginUserNameValidationMsg("نام کاربری وارد شده در سیستم وجود ندارد");
+                toast.error("نام کاربری وارد شده در سیستم وجود ندارد");
+
+              }else if(result==="password incorrect"){
+                setShowViolation(true);
+                setLoginPasswordValidation(false);
+                setLoginPasswordValidationMsg("رمزعبور نادرست است");
+                toast.error("رمز عبور نادرست است");
+              }else{
+                toast.error("نام کاربری یا رمزعبور نادرست است");
+              }
+            }catch(error){
               
-            // console.log("start fetching user data");            
-            // const response2 = await axios.get(`https://eventify.liara.run/account/me/`,{headers: {
-            //     "Content-Type": "application/json",
-            //     Authorization:`JWT ${response.data.access}`,
-            // }});
-            // console.log(response2.data)
-              setTimeout(() => {
-                navigator('/home');
-              }, 4000);
-            }else if(result==="username does not exist"){
-              setShowViolation(true);
-              setLoginUserNameValidation(false);
-              setLoginUserNameValidationMsg("نام کاربری وارد شده در سیستم وجود ندارد");
-              
-            }else if(result==="password incorrect"){
-              setShowViolation(true);
-              setLoginPasswordValidation(false);
-              setLoginPasswordValidationMsg("رمزعبور نادرست است");
+              toast.error("خطا در برقرای ارتباط با سرور");
               
             }
-            else{
-              toast.warning("به صورت آزمایشی وارد شدید");
-              setTimeout(() => {
-                navigator('/home');
-              }, 4000);
-            }
+          
           }
     };
 

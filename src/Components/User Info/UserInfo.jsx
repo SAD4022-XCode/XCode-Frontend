@@ -15,6 +15,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useAuth } from "../Authentication/authProvider";
 import {useNavigate} from 'react-router-dom';
+import ProfileSidebar from "../Profile/ProfileSidebar/profileSidebar";
 const weekDays = ["ش", "ی", "د", "س", "چ", "پ", "ج"];
 const UserInfo = () => {
   const digits = persian_fa.digits;
@@ -177,6 +178,7 @@ const UserInfo = () => {
   return (
     <center>
       <Navbar />
+      <ProfileSidebar/>
       <div className="user-info">
         <ToastContainer
           className="toastify-container"

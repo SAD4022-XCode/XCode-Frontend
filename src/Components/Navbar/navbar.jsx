@@ -36,11 +36,11 @@ const Navbar = () => {
                                 Authorization: `JWT ${auth.token}`,
                             }
                         });
-                
+                        
                         localStorage.setItem("userData", JSON.stringify(response.data));
                         setUserData(response.data);
                         setIsLoggedIn(true);
-                        console.log(response.data);
+                        console.log("Navbar: ",response);
                     } catch (error) {
                         if (error.response && error.response.status === 401) {
                             console.log("Authentication failed. Please log in again.");

@@ -59,13 +59,16 @@ const CreateEvent = () => {
         if (eventType==="O"){
             if(showError[0] || showError[1] || showError[2] || showError[3] || showError[4] || showError[5] || showError[6] || startTime===null || startTime===null || endDate===null || endTime===null){
                 canSubmit=false
-                
+                toast.warning("فیلدهای مربوطه را به درستی پر کنید")
+
             }else{
                 setShowViolations(false)
             }
         }else{
             if(showError[0] || showError[1] || showError[3] || showError[4] || showError[5] || showError[6] || showError[7] || showError[8] || startTime===null || startTime===null || endDate===null || endTime===null){
                 canSubmit=false
+                toast.warning("فیلدهای مربوطه را به درستی پر کنید")
+
             }else{
                 setShowViolations(false)
 
@@ -131,6 +134,12 @@ const CreateEvent = () => {
                     console.log('Error sending data:', error);
                     console.log("status code is:",error.response.status)
                     toast.error("خطا در ایجاد رویداد")
+                    if (error.response && error.response.status === 401) {
+                        console.log("Authentication failed. Please log in again.");
+                        auth.logOut()
+                    } else {
+                        console.error("An error occurred:", error);
+                    }
 
                 });
         }
