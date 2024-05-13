@@ -136,10 +136,12 @@ const Navbar = () => {
                 <i class="bi bi-list" style={{ fontSize: '28px' ,paddingBottom : "15px"}}></i>
             </div>
             <div className={`nav-elements  ${showNavbar && 'active'}`}>
-                <ul> 
+                <ul>
+                    { auth.token && (
                     <li>
                         <NotificationPanel />
                     </li>
+                    )}
                     <li>
                     <NavLink to="/home" >خانه </NavLink>
                     </li>
