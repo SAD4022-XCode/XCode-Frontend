@@ -31,7 +31,18 @@ const Calendar = ({ sendDataToParent1, sendDataToParent2 }) => {
 
         date = date.replace(/\//g, "-");
       }
-      return setValue(date);
+      setValue(date);
+      try {
+        sendDataToParent1(dateValue);
+      } catch (err) {
+        sendDataToParent2(dateValue);
+      }
+      try {
+        sendDataToParent2(dateValue);
+      } catch (err) {
+        sendDataToParent1(dateValue);
+      }
+      return
     } // user selects the date from the calendar and no needs for validation.
 
     let value = input.value;
