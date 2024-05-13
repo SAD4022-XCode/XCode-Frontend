@@ -16,40 +16,55 @@ const EventsFilter = ({ sendFilteredPosts }) => {
 
   const handleEventStartDate = (e) => {
     setEventStartDate(e);
-    debouncedSendData({ startDate: e.target.value });
+    // debouncedSendData({ startDate: e.target.value });
   };
   const handleEventEndDate = (e) => {
     setEventEndDate(e);
-    debouncedSendData({ endDate: e.target.value });
+    // debouncedSendData({ endDate: e.target.value });
   };
   const handleEventCategory = (e) => {
     setEventCategory(selectedTags);
-    debouncedSendData({ category: selectedTags });
+    // debouncedSendData({ category: selectedTags });
   };
 
   const handleEventType = (e) => {
     setEventType(e.target.value);
-    debouncedSendData({ type: e.target.value });
+    // debouncedSendData({ type: e.target.value });
   };
 
   const handleEventPrice = (e) => {
     setEventPrice(e.target.value);
-    debouncedSendData({ price: e.target.value });
+    // debouncedSendData({ price: e.target.value });
   };
+  useEffect(() => {
+    let convertedTags = selectedTags.map(tag => tag.value);
+    let data = {
+      eventPrice: eventPrice,
+      eventType: eventType,
+      eventStartDate: eventStartDate,
+      eventEndDate: eventEndDate,
+      selectedTags: convertedTags,
+    };
 
-  const debouncedSendData = useCallback(
-    debounce((data) => {
-      axios
-        .post("https://api.yourbackend.com/events", data)
-        .then((response) => {
-          console.log("Data sent successfully:", response.data);
-        })
-        .catch((error) => {
-          console.error("Failed to send data:", error);
-        });
-    }, 500),
-    []
-  ); // 500ms delay; // 500ms delay
+    const getData = setTimeout(() => {
+      sendFilteredPosts(data);
+      // console.log(data);
+    }, 800);
+    return () => clearTimeout(getData);
+  }, [eventPrice, eventType, eventStartDate, eventEndDate, selectedTags]);
+  // const debouncedSendData = useCallback(
+  //   debounce((data) => {
+  //     axios
+  //       .post("https://api.yourbackend.com/events", data)
+  //       .then((response) => {
+  //         console.log("Data sent successfully:", response.data);
+  //       })
+  //       .catch((error) => {
+  //         console.error("Failed to send data:", error);
+  //       });
+  //   }, 500),
+  //   []
+  // ); // 500ms delay; // 500ms delay
   // axios.defaults.headers.common["X-Jsio-Token"] =
   //   "69b3f5f4d98b76f3d1337f262baeefbf";
   // useEffect(() => {
@@ -66,11 +81,11 @@ const EventsFilter = ({ sendFilteredPosts }) => {
   //   };
   //   fetchEvents();
   // }, []);
-  useEffect(() => {
-    return () => {
-      debouncedSendData.cancel();
-    };
-  }, []);
+  // useEffect(() => {
+  //   return () => {
+  //     debouncedSendData.cancel();
+  //   };
+  // }, []);
   return (
     <center>
       <div className="event-filter">
@@ -112,8 +127,8 @@ const EventsFilter = ({ sendFilteredPosts }) => {
               <div className="event-filter__type">
                 <label>نوع رویداد</label>
                 <select onChange={handleEventType}>
-                  <option value="A">همه رویدادها</option>
-                  <option value="H">حضوری</option>
+                  <option value="">همه رویدادها</option>
+                  <option value="I">حضوری</option>
                   <option value="O">آنلاین</option>
                 </select>
               </div>
@@ -122,9 +137,9 @@ const EventsFilter = ({ sendFilteredPosts }) => {
               <div className="event-filter__price">
                 <label>قیمت</label>
                 <select onChange={handleEventPrice}>
-                  <option value="A">همه رویدادها</option>
-                  <option value="F">رایگان</option>
-                  <option value="P">غیر رایگان</option>
+                  <option value="">همه رویدادها</option>
+                  <option value="False">رایگان</option>
+                  <option value="True">غیر رایگان</option>
                 </select>
               </div>
             </div>

@@ -123,7 +123,7 @@ const Register = () => {
 
   //Register validation
   //--------------------------------------------------------------------------------------------------
-  const regUserName = /^[a-zA-Z][a-zA-Z0-9]{2,29}$/;
+  const regUserName = /^[a-zA-Z][a-zA-Z0-9._]{2,29}$/;
   const registerUserNameHandler = (event) => {
     if (showViolations === true) {
       setAutoHeight(autoHeight - 20 * x);

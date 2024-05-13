@@ -14,42 +14,20 @@ import Card from "./Card";
 import "./EventsList.css";
 import EventsFilter from "./EventsFilter";
 
-// function replaceMonthNames(dateString) {
-//   const months = [
-//     "فروردین",
-//     "اردیبهشت",
-//     "خرداد",
-//     "تیر",
-//     "مرداد",
-//     "شهریور",
-//     "مهر",
-//     "آبان",
-//     "آذر",
-//     "دی",
-//     "بهمن",
-//     "اسفند",
-//   ];
-
-//   let [year, month, day] = dateString.split("-");
-//   if (day[0] == "0") {
-//     day = day[1];
-//   }
-//   const monthName = months[parseInt(month, 10) - 1];
-//   return `${day} ${monthName} ${year}`;
-// }
-
-// // Replace date strings with month names
-// EVENTS = EVENTS.map((event) => ({
-//   ...event,
-//   date: replaceMonthNames(event.date),
-// }));
-
 const EventsList = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage, setPostsPerPage] = useState(12);
   const [totalPages, setTotalPages] = useState(1);
+  const [data, setData] = useState({
+    eventPrice: "",
+    eventType: "",
+    eventStartDate: "",
+    eventEndDate: "",
+    selectedTags: "",
+  });
+  const [defaultImage, setDefaultImage] = useState(photo1);
   const isMobileDevice = useMediaQuery(
     "only screen and (min-width: 300px) and (max-width: 730px)"
   );
@@ -63,30 +41,95 @@ const EventsList = () => {
   const isLaptopOrDesktop = useMediaQuery(
     "only screen and (min-width: 1350px) and (max-width: 1800px)"
   );
-  const handleFilteredPosts = (data) => {
-    setPosts(data);
+  const replaceImage = (err) => {
+    err.target.src = defaultImage;
+  };
+  const handleFilteredPosts = (response) => {
+    setData(response);
+  };
+  const replaceMonthNames = (date) => {
+    const months = [
+      "فروردین",
+      "اردیبهشت",
+      "خرداد",
+      "تیر",
+      "مرداد",
+      "شهریور",
+      "مهر",
+      "آبان",
+      "آذر",
+      "دی",
+      "بهمن",
+      "اسفند",
+    ];
+    let [year, month, day] = date.split("-");
+    if (day[0] == "0") {
+      day = day[1];
+    }
+    const monthName = months[parseInt(month, 10) - 1];
+    const start_date = `${day} ${monthName} ${year}`;
+    return start_date;
   };
   useEffect(() => {
     const fetchEvents = async () => {
       setLoading(true);
-      try {
-        const response = await axios.get(
-          `https://eventify.liara.run/events/?page=${currentPage}`
-        );
-        console.log(response.data);
-        // setPosts(response.data);
-        setTotalPages(response.data.count);
-        setPosts(response.data.results);
-        setLoading(false);
-      } catch (error) {
-        console.log(error);
-      }
+      // if (
+      //   data ==
+      //   {
+      //     eventPrice: "",
+      //     eventType: "",
+      //     eventStartDate: "",
+      //     eventEndDate: "",
+      //     selectedTags: "",
+      //   }
+      // ) {
+      //   const response = await axios.get(
+      //     `https://eventify.liara.run/events/?page=${currentPage}`
+      //   );
+      //   console.log(response.data);
+      //   // setPosts(response.data);
+      //   setTotalPages(response.data.count);
+      //   setPosts(response.data.results);
+      //   setLoading(false);
+      // } else {
+      const baseUrl = "https://eventify.liara.run/events";
+      let queryParams = [];
+      // console.log(data);
+      if (data.selectedTags.length > 0)
+        queryParams.push(`tags=${(data.selectedTags)}`);
+      if (data.eventType !== "")
+        queryParams.push(`attendance=${data.eventType}`);
+      if (data.eventPrice !== "")
+        queryParams.push(`is_paid=${data.eventPrice}`);
+      if (data.eventStartDate !== "")
+        queryParams.push(`starts=${data.eventStartDate}T00%3A00%3A00Z`);
+      if (data.eventEndDate !== "")
+        queryParams.push(`ends=${data.eventEndDate}T00%3A00%3A00Z`);
+
+      queryParams.push(`page=${currentPage}`);
+      const fullUrl = `${baseUrl}?${queryParams.join("&")}`;
+      console.log(fullUrl)
+      // console.log(fullUrl);
+      const response = await axios.get(fullUrl);
+      // .then((response) => {
+      // console.log("Data sent successfully:", response.data);
+      setTotalPages(response.data.count);
+      let events = response.data.results;
+      // Replace date strings with month names
+      events = events.map((event) => ({
+        ...event,
+        start_date: replaceMonthNames(event.start_date),
+      }));
+      setPosts(events);
+      // console.log(response);
+      setLoading(false);
     };
+    // })
+    // .catch((error) => {
+    //   console.error("Failed to send data:", error);
+    // });
     fetchEvents();
-  }, [currentPage]);
-  const indexOfLastPost = currentPage * postsPerPage;
-  const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const currentEvents = posts.slice(indexOfFirstPost, indexOfLastPost);
+  }, [currentPage, data]);
   const handleChangePage = (event, value) => {
     setCurrentPage(value);
     setLoading(true);
@@ -109,7 +152,11 @@ const EventsList = () => {
                   <div key={event.id} className="item mb-4">
                     <Link to={`/event-details/${event.id}`}>
                       <div className="event-img">
-                        <img alt={event.title} src={event.photo} />
+                        <img
+                          alt={event.title}
+                          src={event.photo != null ? event.photo : photo1}
+                          onError={replaceImage}
+                        />
                       </div>
                       <div class="container">
                         <div class="row">
@@ -141,7 +188,7 @@ const EventsList = () => {
                         </div>
                         <div className="event-info__price">
                           {event.is_paid == true && (
-                            <h5 id="event-price">{event.ticket_price}</h5>
+                            <h5 id="event-price">{event.ticket_price} تومان</h5>
                           )}
                           {event.is_paid == false && (
                             <h5 id="event-price">رایگان</h5>

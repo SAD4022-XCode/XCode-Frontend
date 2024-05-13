@@ -119,7 +119,7 @@ const Wallet = () =>  {
         minHeight:"480px",
         maxHeight:"auto",
         // animation:open?"fadeIn 0.5s ease-out":null,
-        animation:"fadeIn 0.5s ease-out"
+        // animation:"fadeIn 0.5s ease-out"
         
       }}
       >
@@ -143,7 +143,7 @@ const Wallet = () =>  {
                                   onClick={() => handleChipClick(50000)}
                                   color="primary"
                                   deleteIcon={chargeValue==50000?<DoneIcon />:null}
-                                  avatar={<Avatar>$</Avatar>}
+                                  avatar={<Avatar>T</Avatar>}
                                   style={{marginTop:"5px"}}
                                 />
                                 <Chip
@@ -151,7 +151,7 @@ const Wallet = () =>  {
                                   onClick={() => handleChipClick(100000)}
                                   color="primary"
                                   deleteIcon={chargeValue==100000?<DoneIcon />:null}
-                                  avatar={<Avatar>$</Avatar>}
+                                  avatar={<Avatar>T</Avatar>}
                                   style={{marginTop:"5px"}}
                                 />
                                 <Chip
@@ -159,7 +159,7 @@ const Wallet = () =>  {
                                   onClick={() => handleChipClick(200000)}
                                   color="primary"
                                   deleteIcon={chargeValue !== 200000 ? null : <DoneIcon />}
-                                  avatar={<Avatar>$</Avatar>}
+                                  avatar={<Avatar>T</Avatar>}
                                   style={{marginTop:"5px"}}
 
                                 />
@@ -168,7 +168,7 @@ const Wallet = () =>  {
                                   onClick={() => handleChipClick(500000)}
                                   color="primary"
                                   deleteIcon={chargeValue==500000?<DoneIcon />:null}
-                                  avatar={<Avatar>$</Avatar>}
+                                  avatar={<Avatar>T</Avatar>}
                                   style={{marginTop:"5px"}}
                                 />
                                 <Chip
@@ -176,7 +176,7 @@ const Wallet = () =>  {
                                   onClick={() => handleChipClick(1000000)}
                                   color="primary"
                                   deleteIcon={chargeValue==1000000?<DoneIcon />:null}
-                                  avatar={<Avatar>$</Avatar>}
+                                  avatar={<Avatar>T</Avatar>}
                                   style={{marginTop:"5px"}}
                                 />
                               </Stack>

@@ -2,7 +2,16 @@
   border-top: 4px solid black;
   background: radial-gradient(ellipse at bottom, #303131 0%, #12141d 100%);
 }
-.items{
+.items-title {
+  color: #ffeba7;
+  font-family: "iransansweb";
+  margin: 1px;
+  padding: 3px;
+  border-bottom: 2px solid black;
+  background: radial-gradient(ellipse at bottom, #303131 0%, #24262f9b 100%);
+  border-radius: 10px;
+}
+.items {
   font-family: "iransansweb";
   display: flex;
   flex-wrap: wrap;
@@ -13,106 +22,100 @@
   overflow: hidden;
   position: relative;
   border-radius: 30px;
-.item {
-  height: 28em;
-  width: 20em;
-  font-family: "iransansweb";
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  justify-self: center;
-  align-self: center;
-  align-content: center;
-  flex-direction: column;
-  margin: 0.5em;
-  padding: 1em;
-  direction: rtl;
-  cursor: pointer;
-  background-color: #4b4b4b;
-  border-radius: 30px;
-  border: 1px solid #ffeba7;
-}
-.items-title {
-  color: #ffeba7;
-  font-family: "iransansweb";
-  margin: 1px;
-  padding: 3px;
-  border-bottom: 2px solid black;
-  background: radial-gradient(ellipse at bottom, #303131 0%, #24262f9b 100%);
-  border-radius: 10px;
-}
+  .item {
+    height: 29em;
+    width: 21em;
+    font-family: "iransansweb";
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    justify-self: center;
+    align-self: center;
+    align-content: center;
+    flex-direction: column;
+    margin: 0.5em;
+    padding: 1em;
+    direction: rtl;
+    cursor: pointer;
+    background-color: #4b4b4b;
+    border-radius: 30px;
+    border: 1px solid #ffeba7;
+  }
+
+  .item:hover {
+    transform: scale(1.01);
+  }
+
+  .item:hover .event-img img {
+    transform: scale(1.01);
+  }
+
+  .item:hover .event-info {
+    transform: scale(1.01);
+  }
+
+  a {
+    color: black;
+  }
+
+  .event-img img {
+    transform: scale(0.95);
+    height: 12em;
+    width: auto;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+
+  .event-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+
+  }
+  .items h2 {
+    color: #ffeba7;
+  }
+  .item h1 {
+    color: #ffeba7 !important;
+    font-size: 19px;
+    margin: 0 1rem;
+  }
+
+  .item h4 {
+    color: #ffeba7;
+    font-size: 11px;
+    font-weight: 300;
+    margin: 5px 1rem;
 
 
-.item:hover {
-  transform: scale(1.01);
-}
+  }
+  .item h5 {
+    color: #ffeba7;
+    font-size: 10px;
+    font-weight: 300;
+    margin: 5px 1rem;
+  }
 
-.item:hover .event-img img {
-  transform: scale(1.01);
-}
-
-.item:hover .event-info {
-  transform: scale(1.01);
-}
-
-a {
-  color: black;
-}
-
-.event-img img {
-  flex: 1;
-  height: 12em;
-  width: auto;
-  object-fit: cover;
-}
-
-.event-info {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  align-items: center;
-}
-.items h2{
-  color: #ffeba7;
-}
-.item h1 {
-  color: #ffeba7;
-  font-size: 30px;
-  margin: 0 1rem;
-}
-
-.item h4 {
-  color: #ffeba7;
-  font-size: 14px;
-  font-weight: 300;
-  margin: 0 1rem;
-}
-.item h5 {
-  color: #ffeba7;
-  font-size: 15px;
-  font-weight: 300;
-  margin: 0 1rem;
-}
-
-.event-info {
-  align-items: start;
-  margin-left: 50px;
-}
-.event-info__price {
-  font-size: 1rem;
-  font-weight: 400;
-  color: #ffeba7;
-}
-.event-info__title {
-  margin: 1px;
-  margin-right: 45px;
-  padding: 3px;
-  border-bottom: 2px solid black;
-  background: radial-gradient(ellipse at bottom, #303131 0%, #0e0e1254 100%);
-  border-radius: 10px;
-  width: 80%;
-}
+  .event-info {
+    align-items: start;
+    margin-left: 50px;
+  }
+  .event-info__price {
+    font-size: 1rem;
+    font-weight: 400;
+    color: #ffeba7;
+  }
+  .event-info__title {
+    margin: 1px;
+    margin-right: 17px;
+    padding: 3px;
+    border-bottom: 2px solid black;
+    background: radial-gradient(ellipse at bottom, #303131 0%, #0e0e1254 100%);
+    border-radius: 10px;
+    width: 105%;
+  }
   i {
     height: 1px;
   }
@@ -120,6 +123,8 @@ a {
     color: #ffeba7;
     position: relative !important;
     display: flex !important;
+    
+    
   }
   .event-info__date {
     display: flex;
@@ -138,10 +143,13 @@ a {
     flex-direction: row-reverse;
   }
 
-  .loading{
+  .loading {
     display: flex;
     flex-direction: column;
     margin: 20px 0 0 30px;
+  }
+  .loading h2 {
+    color: #ffeba7;
   }
 }
 /* @media screen and (max-width: 700px) {
@@ -149,7 +157,6 @@ a {
     height: 680vh;
   }
 } */
-
 
 /*
 @media screen and (max-width: 1000px) {

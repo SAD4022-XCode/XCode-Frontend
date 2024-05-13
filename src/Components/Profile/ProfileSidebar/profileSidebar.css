@@ -3,6 +3,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: "iransansweb";
 
   position: fixed;  
   top: 0;
@@ -34,7 +35,7 @@
   position: relative;
   display: flex;
   align-items: center; 
-  font-size: 1.3rem;
+  font-size: 1.1rem;
   color: #fff;
   font-weight: 600;
   transition: 0.3s ease;
@@ -84,7 +85,7 @@
 }
 
 .nav-links li a .link_name{
-  font-size: 1rem;
+  font-size: 0.8rem;
   font-weight: 400;
   color: #fff;
   transition: all 0.4s ease;
