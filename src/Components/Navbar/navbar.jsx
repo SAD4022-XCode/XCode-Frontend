@@ -23,15 +23,36 @@ const Navbar = () => {
         if(auth.token !==""){
             if(!isLoggedIn){
                 async function fetchUserData() {
-                    const response = await axios.get(`https://eventify.liara.run/account/me/`,{headers: {
-                        "Content-Type": "application/json",
-                        Authorization:`JWT ${auth.token}`,
-                    }});
-                    localStorage.setItem("userData",JSON.stringify(response.data));
-                    setUserData(response.data);
-                    console.log(response.data)
-                    setIsLoggedIn(true) 
+                //     const response = await axios.get(`https://eventify.liara.run/account/me/`,{headers: {
+                //         "Content-Type": "application/json",
+                //         Authorization:`JWT ${auth.token}`,
+                //     }});
+                //     localStorage.setItem("userData",JSON.stringify(response.data));
+                //     setUserData(response.data);
+                //     console.log(response.data)
+                //     setIsLoggedIn(true) 
+                    try {
+                        const response = await axios.get(`https://eventify.liara.run/account/me/`, {
+                            headers: {
+                                "Content-Type": "application/json",
+                                Authorization: `JWT ${auth.token}`,
+                            }
+                        });
+                
+                        localStorage.setItem("userData", JSON.stringify(response.data));
+                        setUserData(response.data);
+                        setIsLoggedIn(true);
+                        console.log(response.data);
+                    } catch (error) {
+                        if (error.response && error.response.status === 401) {
+                            console.log("Authentication failed. Please log in again.");
+                            auth.logOut()
+                        } else {
+                            console.error("An error occurred:", error);
+                        }
+                    }
                 }
+                    
                 fetchUserData();
             }
             
