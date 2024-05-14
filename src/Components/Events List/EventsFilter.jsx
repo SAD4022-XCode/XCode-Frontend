@@ -10,6 +10,7 @@ import persian_fa from "react-date-object/locales/persian_fa";
 import transition from "react-element-popper/animations/transition";
 import moment from "moment-jalaali";
 import { Controller, useForm } from "react-hook-form";
+import { json } from "react-router-dom";
 const weekDays = ["ش", "ی", "د", "س", "چ", "پ", "ج"];
 const EventsFilter = ({ sendFilteredPosts }) => {
   const digits = persian_fa.digits;
@@ -150,6 +151,9 @@ const EventsFilter = ({ sendFilteredPosts }) => {
       miladiEndDate = moment(eventEndDate, "jYYYY-jM-jD").format("YYYY-MM-DD");
     }
     // console.log(miladiDate)
+    // console.log(convertedTags);
+    // console.log(JSON.stringify(convertedTags))
+    // convertedTags = JSON.stringify(convertedTags);
     let data = {
       eventPrice: eventPrice,
       eventType: eventType,
@@ -236,7 +240,7 @@ const EventsFilter = ({ sendFilteredPosts }) => {
           </div>
           <div className="row">
             <div className="col-3">
-              <div className="event-filter__type">
+              <div className="event-filter__type ">
                 <label>نوع رویداد</label>
                 <select onChange={handleEventType}>
                   <option value="">همه رویدادها</option>
@@ -278,7 +282,7 @@ const EventsFilter = ({ sendFilteredPosts }) => {
                           }),
                         ]}
                         minDate="1300/01/01"
-                        maxDate="1403/02/15"
+                        maxDate="1403/03/01"
                         value={eventStartDate || ""}
                         onChange={startDateHandler}
                         calendar={persian}
@@ -320,7 +324,7 @@ const EventsFilter = ({ sendFilteredPosts }) => {
                           }),
                         ]}
                         minDate="1300/01/01"
-                        maxDate="1403/02/15"
+                        maxDate="1403/03/01"
                         value={eventEndDate || ""}
                         onChange={endDateHandler}
                         calendar={persian}
