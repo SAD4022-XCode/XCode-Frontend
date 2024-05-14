@@ -4,24 +4,124 @@ import "./EventsFilter.css";
 import Calendar from "./Calendar";
 import axios from "axios";
 import MultiSelectTag from "../CreateEvent/multiSelectTag";
+import DatePicker from "react-multi-date-picker";
+import persian from "react-date-object/calendars/persian";
+import persian_fa from "react-date-object/locales/persian_fa";
+import transition from "react-element-popper/animations/transition";
+import moment from "moment-jalaali";
+import { Controller, useForm } from "react-hook-form";
+const weekDays = ["ش", "ی", "د", "س", "چ", "پ", "ج"];
 const EventsFilter = ({ sendFilteredPosts }) => {
+  const digits = persian_fa.digits;
+  const persianNumbers = [
+    /۰/g,
+    /۱/g,
+    /۲/g,
+    /۳/g,
+    /۴/g,
+    /۵/g,
+    /۶/g,
+    /۷/g,
+    /۸/g,
+    /۹/g,
+  ];
+  const arabicNumbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+  const [eventStartDate, setEventStartDate] = useState();
+  const [eventEndDate, setEventEndDate] = useState();
+  const { control } = useForm();
+  const startDateHandler = (date, { input, isTyping }) => {
+    if (!isTyping) {
+      if (date != null) {
+        for (let i = 0; i < persianNumbers.length; i++) {
+          date = date.toString().replace(persianNumbers[i], arabicNumbers[i]);
+        }
+
+        date = date.replace(/\//g, "-");
+      }
+
+      return setEventStartDate(date);
+    } // user selects the date from the calendar and no needs for validation.
+
+    let value = input.value;
+
+    for (let digit of digits) {
+      value = value.replace(new RegExp(digit, "g"), digits.indexOf(digit));
+    }
+
+    const strings = value.split("/");
+    const numbers = strings.map(Number);
+    const [year, month, day] = numbers;
+
+    if (input.value && numbers.some((number) => isNaN(number))) {
+      return false; //in case user enter something other than digits
+    }
+
+    if (month > 12 || month < 0) return false; //month < 0 in case user want to type 01
+    if (day < 0 || (date && day > date.day)) return false;
+    if (strings.some((val) => val.startsWith("00"))) return false;
+    if (date != null) {
+      for (let i = 0; i < persianNumbers.length; i++) {
+        date = date.toString().replace(persianNumbers[i], arabicNumbers[i]);
+      }
+
+      date = date.replace(/\//g, "-");
+    }
+    setEventStartDate(date);
+  };
+  const endDateHandler = (date, { input, isTyping }) => {
+    if (!isTyping) {
+      if (date != null) {
+        for (let i = 0; i < persianNumbers.length; i++) {
+          date = date.toString().replace(persianNumbers[i], arabicNumbers[i]);
+        }
+
+        date = date.replace(/\//g, "-");
+      }
+
+      return setEventEndDate(date);
+    } // user selects the date from the calendar and no needs for validation.
+
+    let value = input.value;
+
+    for (let digit of digits) {
+      value = value.replace(new RegExp(digit, "g"), digits.indexOf(digit));
+    }
+
+    const strings = value.split("/");
+    const numbers = strings.map(Number);
+    const [year, month, day] = numbers;
+
+    if (input.value && numbers.some((number) => isNaN(number))) {
+      return false; //in case user enter something other than digits
+    }
+
+    if (month > 12 || month < 0) return false; //month < 0 in case user want to type 01
+    if (day < 0 || (date && day > date.day)) return false;
+    if (strings.some((val) => val.startsWith("00"))) return false;
+    if (date != null) {
+      for (let i = 0; i < persianNumbers.length; i++) {
+        date = date.toString().replace(persianNumbers[i], arabicNumbers[i]);
+      }
+
+      date = date.replace(/\//g, "-");
+    }
+    setEventEndDate(date);
+  };
   const [eventCategory, setEventCategory] = useState("A");
   const [eventType, setEventType] = useState("A");
   const [eventPrice, setEventPrice] = useState("A");
-  const [eventStartDate, setEventStartDate] = useState("");
-  const [eventEndDate, setEventEndDate] = useState("");
   const [selectedTags, setSelectedTags] = useState([]);
   const [filteredPosts, setFilteredPosts] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const handleEventStartDate = (e) => {
-    setEventStartDate(e);
-    // debouncedSendData({ startDate: e.target.value });
-  };
-  const handleEventEndDate = (e) => {
-    setEventEndDate(e);
-    // debouncedSendData({ endDate: e.target.value });
-  };
+  // const handleEventStartDate = (e) => {
+  //   setEventStartDate(e);
+  //   // debouncedSendData({ startDate: e.target.value });
+  // };
+  // const handleEventEndDate = (e) => {
+  //   setEventEndDate(e);
+  //   // debouncedSendData({ endDate: e.target.value });
+  // };
   const handleEventCategory = (e) => {
     setEventCategory(selectedTags);
     // debouncedSendData({ category: selectedTags });
@@ -37,12 +137,24 @@ const EventsFilter = ({ sendFilteredPosts }) => {
     // debouncedSendData({ price: e.target.value });
   };
   useEffect(() => {
-    let convertedTags = selectedTags.map(tag => tag.value);
+    let convertedTags = selectedTags.map((tag) => tag.value);
+    //let jalaliDate = eventStartDate.year.toString()+"/"+(eventStartDate.monthIndex+1).toString()+"/"+eventStartDate.day.toString()
+    let miladiStartDate;
+    if (eventStartDate != null) {
+      miladiStartDate = moment(eventStartDate, "jYYYY-jM-jD").format(
+        "YYYY-MM-DD"
+      );
+    }
+    let miladiEndDate;
+    if (eventEndDate != null) {
+      miladiEndDate = moment(eventEndDate, "jYYYY-jM-jD").format("YYYY-MM-DD");
+    }
+    // console.log(miladiDate)
     let data = {
       eventPrice: eventPrice,
       eventType: eventType,
-      eventStartDate: eventStartDate,
-      eventEndDate: eventEndDate,
+      eventStartDate: miladiStartDate,
+      eventEndDate: miladiEndDate,
       selectedTags: convertedTags,
     };
 
@@ -146,14 +258,84 @@ const EventsFilter = ({ sendFilteredPosts }) => {
             <div className="col-3">
               <div className="event-filter__date-start">
                 <label>تاریخ شروع رویداد</label>
-                <Calendar sendDataToParent1={handleEventStartDate} />
+                <Controller
+                  control={control}
+                  name="date"
+                  rules={{ required: true }} //optional
+                  render={({
+                    field: { onChange, name, value },
+                    formState: { errors }, //optional, but necessary if you want to show an error message
+                  }) => (
+                    <>
+                      <DatePicker
+                        weekDays={weekDays}
+                        className="bg-dark"
+                        animations={[
+                          transition({
+                            from: 35,
+                            transition:
+                              "all 400ms cubic-bezier(0.335, 0.010, 0.030, 1.360)",
+                          }),
+                        ]}
+                        minDate="1300/01/01"
+                        maxDate="1403/02/15"
+                        value={eventStartDate || ""}
+                        onChange={startDateHandler}
+                        calendar={persian}
+                        locale={persian_fa}
+                        calendarPosition="bottom-right"
+                      />
+                      {errors &&
+                        errors[name] &&
+                        errors[name].type === "required" && (
+                          //if you want to show an error message
+                          <span>تاریخ وارد شده مشکل دارد</span>
+                        )}
+                    </>
+                  )}
+                />
                 <i className="input-icon uil uil-calendar-alt"></i>
               </div>
             </div>
             <div className="col-3">
               <div className="event-filter__date-end">
                 <label>تاریخ پایان رویداد</label>
-                <Calendar sendDataToParent2={handleEventEndDate} />
+                <Controller
+                  control={control}
+                  name="date"
+                  rules={{ required: true }} //optional
+                  render={({
+                    field: { onChange, name, value },
+                    formState: { errors }, //optional, but necessary if you want to show an error message
+                  }) => (
+                    <>
+                      <DatePicker
+                        weekDays={weekDays}
+                        className="bg-dark"
+                        animations={[
+                          transition({
+                            from: 35,
+                            transition:
+                              "all 400ms cubic-bezier(0.335, 0.010, 0.030, 1.360)",
+                          }),
+                        ]}
+                        minDate="1300/01/01"
+                        maxDate="1403/02/15"
+                        value={eventEndDate || ""}
+                        onChange={endDateHandler}
+                        calendar={persian}
+                        locale={persian_fa}
+                        calendarPosition="bottom-right"
+                      />
+                      {errors &&
+                        errors[name] &&
+                        errors[name].type === "required" && (
+                          //if you want to show an error message
+                          <span>تاریخ وارد شده مشکل دارد</span>
+                        )}
+                    </>
+                  )}
+                />
                 <i className="input-icon uil uil-calendar-alt"></i>
               </div>
             </div>

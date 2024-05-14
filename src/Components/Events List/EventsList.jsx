@@ -4,6 +4,7 @@ import { useMediaQuery } from "@uidotdev/usehooks";
 import axios from "axios";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
+import moment from "moment-jalaali";
 import photo1 from "../../assets/events.jpg";
 import photo2 from "../../assets/logo.png";
 import photo3 from "../../assets/profile.png";
@@ -48,6 +49,8 @@ const EventsList = () => {
     setData(response);
   };
   const replaceMonthNames = (date) => {
+    let shamsiStartDate = moment(date, "YYYY-MM-DD").format("jYYYY-jM-jD");
+    console.log(shamsiStartDate);
     const months = [
       "فروردین",
       "اردیبهشت",
@@ -96,7 +99,7 @@ const EventsList = () => {
       let queryParams = [];
       // console.log(data);
       if (data.selectedTags.length > 0)
-        queryParams.push(`tags=${(data.selectedTags)}`);
+        queryParams.push(`tags=${data.selectedTags}`);
       if (data.eventType !== "")
         queryParams.push(`attendance=${data.eventType}`);
       if (data.eventPrice !== "")
@@ -108,7 +111,7 @@ const EventsList = () => {
 
       queryParams.push(`page=${currentPage}`);
       const fullUrl = `${baseUrl}?${queryParams.join("&")}`;
-      console.log(fullUrl)
+      console.log(fullUrl);
       // console.log(fullUrl);
       const response = await axios.get(fullUrl);
       // .then((response) => {
