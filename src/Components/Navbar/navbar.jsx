@@ -142,6 +142,11 @@ const Navbar = () => {
                         <NotificationPanel />
                     </li>
                     )}
+                    { auth.token && (
+                    <li>
+                        <Wallet/>
+                    </li>
+                    )}
                     <li>
                     <NavLink to="/home" >خانه </NavLink>
                     </li>
@@ -180,11 +185,11 @@ const Navbar = () => {
                                         <i class="pl-1 ml-0  uil uil-user"></i>
                                         <p className="pt-0 mb-0">حساب کاربری</p>
                                 </div>
-                                <div className="row pr-2 pb-0 mb-0   dropdown-item3">
+                                {/* <div className="row pr-2 pb-0 mb-0   dropdown-item3">
                                         <i class="pl-1 ml-0 pr-1 mt-0 pb-0 bi bi-wallet2"></i>
                                         <p className="pt-1 mb-0 mt-1"><Wallet/> </p>
                                     
-                                </div>
+                                </div> */}
                                 <div className="row pr-2 pb-2  dropdown-item2" >
                                        <i className=" pl-2 pr-1 mt-1 bi bi-box-arrow-right"></i>
                                          <p className="pt-2 mb-0 mt-1" onClick={() => {
@@ -214,13 +219,13 @@ const Navbar = () => {
                             </li>
                         )
                     }
-                    {showNavbar && auth.token && (
+                    {/* {showNavbar && auth.token && (
                         <li className="auth-link-li pb-1">
                             <Wallet />
                         </li>
                         
                         )
-                    }
+                    } */}
                     {showNavbar && auth.token && (<li className="auth-link-li pb-1">
                             <p onClick={() => {
                                 toast.error("از حساب کاربری خارج شدید")
