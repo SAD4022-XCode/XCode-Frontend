@@ -50,7 +50,7 @@ const EventsList = () => {
   };
   const replaceMonthNames = (date) => {
     let shamsiStartDate = moment(date, "YYYY-MM-DD").format("jYYYY-jM-jD");
-    console.log(shamsiStartDate);
+    date = shamsiStartDate;
     const months = [
       "فروردین",
       "اردیبهشت",
