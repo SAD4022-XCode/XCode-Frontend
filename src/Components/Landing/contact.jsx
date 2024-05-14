@@ -38,10 +38,10 @@ export const Contact = (props) => {
   return (
     <div>
       <div id="contact">
-        <div className="container text-right mr-2">
-          <div className="row">
-          <div className="col-md-8">
-            <div className="row w-100">
+        <div className="container text-right mr-xl-5 mr-md-5 mr-3">
+          <div className="row ">
+          <div className="col-md-8 mr-xl-5 mr-md-5">
+            <div className="row w-100 mr-xl-5">
               <div className="section-title">
                 <h2>ارتباط با ما</h2>
                 <p>

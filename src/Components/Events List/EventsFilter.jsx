@@ -112,34 +112,20 @@ const EventsFilter = ({ sendFilteredPosts }) => {
   const [eventType, setEventType] = useState("A");
   const [eventPrice, setEventPrice] = useState("A");
   const [selectedTags, setSelectedTags] = useState([]);
-  const [filteredPosts, setFilteredPosts] = useState([]);
-  const [loading, setLoading] = useState(false);
 
-  // const handleEventStartDate = (e) => {
-  //   setEventStartDate(e);
-  //   // debouncedSendData({ startDate: e.target.value });
-  // };
-  // const handleEventEndDate = (e) => {
-  //   setEventEndDate(e);
-  //   // debouncedSendData({ endDate: e.target.value });
-  // };
   const handleEventCategory = (e) => {
     setEventCategory(selectedTags);
-    // debouncedSendData({ category: selectedTags });
   };
 
   const handleEventType = (e) => {
     setEventType(e.target.value);
-    // debouncedSendData({ type: e.target.value });
   };
 
   const handleEventPrice = (e) => {
     setEventPrice(e.target.value);
-    // debouncedSendData({ price: e.target.value });
   };
   useEffect(() => {
     let convertedTags = selectedTags.map((tag) => tag.value);
-    //let jalaliDate = eventStartDate.year.toString()+"/"+(eventStartDate.monthIndex+1).toString()+"/"+eventStartDate.day.toString()
     let miladiStartDate;
     if (eventStartDate != null) {
       miladiStartDate = moment(eventStartDate, "jYYYY-jM-jD").format(
@@ -150,10 +136,6 @@ const EventsFilter = ({ sendFilteredPosts }) => {
     if (eventEndDate != null) {
       miladiEndDate = moment(eventEndDate, "jYYYY-jM-jD").format("YYYY-MM-DD");
     }
-    // console.log(miladiDate)
-    // console.log(convertedTags);
-    // console.log(JSON.stringify(convertedTags))
-    // convertedTags = JSON.stringify(convertedTags);
     let data = {
       eventPrice: eventPrice,
       eventType: eventType,
