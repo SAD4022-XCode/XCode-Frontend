@@ -6,11 +6,6 @@ import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 import moment from "moment-jalaali";
 import photo1 from "../../assets/events.jpg";
-import photo2 from "../../assets/logo.png";
-import photo3 from "../../assets/profile.png";
-import photo4 from "../../assets/red pin.png";
-import photo5 from "../../assets/blue pin.png";
-import EventDetails from "../EventDetails/eventdetails";
 import Card from "./Card";
 import "./EventsList.css";
 import EventsFilter from "./EventsFilter";
@@ -76,30 +71,12 @@ const EventsList = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       setLoading(true);
-      // if (
-      //   data ==
-      //   {
-      //     eventPrice: "",
-      //     eventType: "",
-      //     eventStartDate: "",
-      //     eventEndDate: "",
-      //     selectedTags: "",
-      //   }
-      // ) {
-      //   const response = await axios.get(
-      //     `https://eventify.liara.run/events/?page=${currentPage}`
-      //   );
-      //   console.log(response.data);
-      //   // setPosts(response.data);
-      //   setTotalPages(response.data.count);
-      //   setPosts(response.data.results);
-      //   setLoading(false);
-      // } else {
+
       const baseUrl = "https://eventify.liara.run/events";
       let queryParams = [];
       // console.log(data);
       if (data.selectedTags.length > 0)
-        queryParams.push(`tags=${data.selectedTags}`);
+        queryParams.push(`tags=${data.selectedTags.join(", ")}`);
       if (data.eventType !== "")
         queryParams.push(`attendance=${data.eventType}`);
       if (data.eventPrice !== "")
@@ -214,133 +191,6 @@ const EventsList = () => {
           <br />
           <br />
         </div>
-        {/* )}
-        {isMiddleDevice1 && (
-          <div className="items">
-            {EVENTS.map((event) => (
-              <div className="col-4 text-right justify-content-center align-items-center ">
-                <div key={event.id} className="item">
-                  <Link to={`/event-details/${event.id}`}>
-                    <div className="event-img">
-                      <img alt={event.title} src={event.photo} />
-                    </div>
-                    <div class="container">
-                      <div class="row">
-                        <hr className="custom-hr" />
-                        <hr className="custom-hr" />
-                      </div>
-                    </div>
-                    <div className="event-info">
-                      <div className="event-info__title">
-                        <h1 id="event-title">{event.title}</h1>
-                      </div>
-                      <div className="event-info__date">
-                        <h4 id="event-date">تاریخ: {event.date}</h4>
-                        <i className="input-icon uil uil-calendar-alt"></i>
-                      </div>
-                      <div className="event-info__address">
-                        <h4 id="event-address">{event.address}</h4>
-                        <i className="input-icon uil uil-location-point"></i>
-                      </div>
-                      <div className="event-info__category">
-                        <h4 id="event-category">{event.category}</h4>
-                        <i className="input-icon uil uil-apps"></i>
-                      </div>
-                      <div className="event-info__price">
-                        <h5 id="event-price">{event.price}</h5>
-                        <i className="input-icon uil uil-label-alt"></i>
-                      </div>
-                    </div>
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-        {isTabletDevice && (
-          <div className="items">
-            {EVENTS.map((event) => (
-              <div className="col-6 text-right justify-content-center align-items-center  ">
-                <div key={event.id} className="item">
-                  <Link to={`/event-details/${event.id}`}>
-                    <div className="event-img">
-                      <img alt={event.title} src={event.photo} />
-                    </div>
-                    <div class="container">
-                      <div class="row">
-                        <hr className="custom-hr" />
-                        <hr className="custom-hr" />
-                      </div>
-                    </div>
-                    <div className="event-info">
-                      <div className="event-info__title">
-                        <h1 id="event-title">{event.title}</h1>
-                      </div>
-                      <div className="event-info__date">
-                        <h4 id="event-date">تاریخ: {event.date}</h4>
-                        <i className="input-icon uil uil-calendar-alt"></i>
-                      </div>
-                      <div className="event-info__address">
-                        <h4 id="event-address">{event.address}</h4>
-                        <i className="input-icon uil uil-location-point"></i>
-                      </div>
-                      <div className="event-info__category">
-                        <h4 id="event-category">{event.category}</h4>
-                        <i className="input-icon uil uil-apps"></i>
-                      </div>
-                      <div className="event-info__price">
-                        <h5 id="event-price">{event.price}</h5>
-                        <i className="input-icon uil uil-label-alt"></i>
-                      </div>
-                    </div>
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-        {isMobileDevice && (
-          <div className="items">
-            {EVENTS.map((event) => (
-              <div className="col-12 text-right justify-content-center align-items-center  ">
-                <div key={event.id} className="item">
-                  <Link to={`/event-details/${event.id}`}>
-                    <div className="event-img">
-                      <img alt={event.title} src={event.photo} />
-                    </div>
-                    <div class="container">
-                      <div class="row">
-                        <hr className="custom-hr" />
-                        <hr className="custom-hr" />
-                      </div>
-                    </div>
-                    <div className="event-info">
-                      <div className="event-info__title">
-                        <h1 id="event-title">{event.title}</h1>
-                      </div>
-                      <div className="event-info__date">
-                        <h4 id="event-date">تاریخ: {event.date}</h4>
-                        <i className="input-icon uil uil-calendar-alt"></i>
-                      </div>
-                      <div className="event-info__address">
-                        <h4 id="event-address">{event.address}</h4>
-                        <i className="input-icon uil uil-location-point"></i>
-                      </div>
-                      <div className="event-info__category">
-                        <h4 id="event-category">{event.category}</h4>
-                        <i className="input-icon uil uil-apps"></i>
-                      </div>
-                      <div className="event-info__price">
-                        <h5 id="event-price">{event.price}</h5>
-                        <i className="input-icon uil uil-label-alt"></i>
-                      </div>
-                    </div>
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
-        )} */}
       </div>
     </Card>
   );
