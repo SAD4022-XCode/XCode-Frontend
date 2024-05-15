@@ -13,7 +13,7 @@ const Navbar = () => {
     const auth = useAuth();
     const [userData, setUserData] = useState(JSON.parse(localStorage.getItem("userData")) || "");
     const navigator=useNavigate();
-    const [showNavbar, setShowNavbar] = useState(false)
+    const [showDrawer, setshowDrawer] = useState(false)
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     const [searchBoxText, setSearchBoxText] = useState("")
     const [showBorder, setShowBorder] = useState(true);
@@ -61,7 +61,7 @@ const Navbar = () => {
         }
         const handleResize = () => {
             if (window.innerWidth>630){
-                setShowNavbar(false);
+                setshowDrawer(false);
                 setShowBorder(true);
             }
         };
@@ -82,10 +82,10 @@ const Navbar = () => {
 
     }, [isOpen]);
 
-    const handleShowNavbar = () => {
-        console.log("show navbar",showNavbar)
-        setShowNavbar(!showNavbar) ;
-        console.log("show navbar",showNavbar)
+    const handleshowDrawer = () => {
+        console.log("show navbar",showDrawer)
+        setshowDrawer(!showDrawer) ;
+        console.log("show navbar",showDrawer)
         if(showBorder===false){
             setTimeout(() => {setShowBorder(!showBorder)}, 300);
         }else{
@@ -132,17 +132,17 @@ const Navbar = () => {
             
 
 
-            <div className="menu-icon" onClick={handleShowNavbar}>
+            <div className="menu-icon" onClick={handleshowDrawer}>
                 <i class="bi bi-list" style={{ fontSize: '28px' ,paddingBottom : "15px"}}></i>
             </div>
-            <div className={`nav-elements  ${showNavbar && 'active'}`}>
+            <div className={`nav-elements  ${showDrawer && 'active'}`}>
                 <ul>
                     { auth.token && (
                     <li>
                         <NotificationPanel />
                     </li>
                     )}
-                    { auth.token && (
+                    {!showDrawer && auth.token && (
                     <li>
                         <Wallet/>
                     </li>
@@ -156,7 +156,7 @@ const Navbar = () => {
                     <li>
                         <NavLink to="/create-event" > ایجاد رویداد </NavLink>
                     </li>
-                    {!showNavbar &&
+                    {!showDrawer &&
                         <div className={!auth.token && showBorder && "auth-link"}>
                         {!auth.token &&(<li className="auth-link-li">
                             <NavLink to="/login" > ورود </NavLink>
@@ -167,7 +167,7 @@ const Navbar = () => {
                         )}</div>
                     }
 
-                        {!showNavbar && auth.token && 
+                        {!showDrawer && auth.token && 
                         <div className="dropdown-container" onMouseEnter={() => setIsOpen(true)}>
                         
                         <div className="row" >
@@ -207,26 +207,31 @@ const Navbar = () => {
                         
                     }
                     
-                    {showNavbar && !auth.token &&(<li className="auth-link-li">
+                    {showDrawer && !auth.token &&(<li className="auth-link-li">
                             <NavLink to="/login" > ورود </NavLink>
                             </li>)}
-                    {showNavbar && !auth.token &&(<li className="auth-link-li">
+                    {showDrawer && !auth.token &&(<li className="auth-link-li">
                             <NavLink to="/register" > عضویت </NavLink>
                             </li>
                         )}
-                    {showNavbar && auth.token && (<li className="auth-link-li">
+                    {showDrawer && auth.token && (<li className="auth-link-li">
                             <NavLink to="/profile" > حساب کاربری </NavLink>
                             </li>
                         )
                     }
-                    {/* {showNavbar && auth.token && (
+                    {showDrawer  && auth.token &&(<li className="auth-link-li" style={{marginRight:"15px"}}>
+                                <Wallet/>
+                            </li>
+                        )
+                    }
+                    {/* {showDrawer && auth.token && (
                         <li className="auth-link-li pb-1">
                             <Wallet />
                         </li>
                         
                         )
                     } */}
-                    {showNavbar && auth.token && (<li className="auth-link-li pb-1">
+                    {showDrawer && auth.token && (<li className="auth-link-li pb-1">
                             <p onClick={() => {
                                 toast.error("از حساب کاربری خارج شدید")
                                 setTimeout(() => {
