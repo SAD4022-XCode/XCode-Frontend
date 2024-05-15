@@ -138,9 +138,9 @@ const EventDetails = () => {
 
     return (
         <>
-            {/* <Navbar/>
+            <Navbar/>
             <ToastContainer className="toastify-container"position="top-right" toastStyle={{backgroundColor: "#2b2c38", fontFamily: "iransansweb", color: "#ffeba7",marginTop:"60px"}} pauseOnHover={false} autoClose={3000} />
-             */}
+            
 
             
 

@@ -118,7 +118,7 @@ const CreateEvent = () => {
             }
             console.log(createEventData)
             
-            axios.post('https://eventify.liara.run/events/create_event/',createEventData,
+            axios.post('https://eventify.liara.run/events/',createEventData,
                 {headers:{
                     "Content-Type": "multipart/form-data",
                     Authorization:`JWT ${auth.token}`,

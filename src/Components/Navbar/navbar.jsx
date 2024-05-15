@@ -137,7 +137,7 @@ const Navbar = () => {
             </div>
             <div className={`nav-elements  ${showDrawer && 'active'}`}>
                 <ul>
-                    { auth.token && (
+                    { !showDrawer && auth.token && (
                     <li>
                         <NotificationPanel />
                     </li>
@@ -216,6 +216,11 @@ const Navbar = () => {
                         )}
                     {showDrawer && auth.token && (<li className="auth-link-li">
                             <NavLink to="/profile" > حساب کاربری </NavLink>
+                            </li>
+                        )
+                    }
+                    {showDrawer  && auth.token &&(<li className="auth-link-li" style={{marginRight:"15px"}}>
+                                <NotificationPanel/>
                             </li>
                         )
                     }
