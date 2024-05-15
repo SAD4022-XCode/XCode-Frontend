@@ -19,6 +19,7 @@ const EventDetails = () => {
 
     const navigator=useNavigate();
     let { id } = useParams();
+
     const [eventDetails, setEventDetails] = useState({
         startDay:"پنج شنبه",
         startDate:[1403,"فروردین",30],
@@ -28,7 +29,9 @@ const EventDetails = () => {
         endTime:[22,30],
         eventName:"دوره جامع هوش‌مصنوعی پروژه-محور سمپوزیوم نوروساینس",
         price:1500000,
-        type:"آنلاین",
+        type:"i",
+        province:"تهران",
+        city:"دماوند",
         category:"تکنولوژی",
         organizerPhoto:"../../assets/sample-organizer.webp",
         organizerName:"پژوهشکده علوم شناختی دانش های بنیادی (IPM)",
@@ -55,7 +58,10 @@ const EventDetails = () => {
         
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://localhost:3000/event-details/'+id);
+                const response = await axios.get('/event-details/'+id,{headers: {
+                    "Content-Type": "application/json",
+                    accept: "application/json",
+                  }},);
                 setEventDetails(response.data);
             } catch (error) {
                 setError(error);
@@ -84,6 +90,10 @@ const EventDetails = () => {
         });
     };
 
+    const searchTagHandler = (tag) =>{
+        console.log(`selected tag: #${tag}`)
+    }
+    const eventTags = eventDetails.tags.map(tag => <div className="container" onClick={() =>searchTagHandler(tag)} style={{cursor:"pointer",borderRadius:"5px",margin:"5px",paddingTop:"3px",paddingBottom:"2px",paddingLeft:"4px",paddingRight:"4px",background:"#808080",width:"fit-content",fontSize:"12px",height:"20px"}}>#{tag}</div>);
     // if (loading) return <center>Loading...</center>;
     // if (error) return <PageNotFound />;
     // if (!eventDetails) return <div>No data available</div>;
@@ -118,7 +128,7 @@ const EventDetails = () => {
 
             <div className="event-details"> 
                 <div className="section pb-0">
-                    <div className="row justify-content-center">
+                    <div className="row justify-content-center" style={{marginTop:"30px"}}>
                         <div className="card-3d-wrap-ce" style={{height:"400px", width:"350px"}}>
                             <div className="card-back text-right px-3 py-4">
                                 <p className="pb-3 message">{eventDetails.day} {eventDetails.startDate[2]} {eventDetails.startDate[1]} {eventDetails.startDate[0]} ساعت {eventDetails.startTime[0]}:{eventDetails.startTime[1]}</p>
@@ -127,10 +137,15 @@ const EventDetails = () => {
                                     <i class="bi bi-tag-fill icons-style"></i>
                                     <p className="message">{eventDetails.price.toLocaleString()} تومان</p>
                                 </div>
-                                <div className="row px-3">
+                                {eventDetails.type==="o" && (<div className="row px-3">
                                     <i class="bi bi-geo-alt-fill icons-style"></i>
-                                    <p className="message">{eventDetails.type}</p>
-                                </div>
+                                    <p id="message">"آنلاین"</p>
+                                </div>)}
+                                
+                                {eventDetails.type==="i" && (<div className="row px-3">
+                                    <i class="bi bi-geo-alt-fill icons-style"></i>
+                                    <p id="message">{eventDetails.province}-{eventDetails.city}</p>
+                                </div>)}
                                 <div className="row px-3 pb-3">
                                     <p class="bi bi-grid icons-style"></p>
                                     <p className="message">{eventDetails.category}</p>
@@ -162,7 +177,7 @@ const EventDetails = () => {
                             <img
                                 src={require("../../assets/sample-event.webp")}
                                 alt="Your Image"
-                                style={{ width: "770px", height: "400px" ,marginTop:"30px"}}
+                                style={{ width: "770px", height: "400px" }}
                             />
                         </div>
                     </div>
@@ -171,7 +186,7 @@ const EventDetails = () => {
 
 
 
-                <div className="section pb-0" style={{marginLeft:"80px"}}>
+                <div className="section pb-0" style={{marginLeft:"40px"}}>
                     <div className="row justify-content-center">
                         <div className="card-3d-wrap-ce" style={{height:"260px", width:"335px" , marginTop:"15px"}}>
                             <div className="card-back text-right px-3 py-4">
@@ -222,12 +237,14 @@ const EventDetails = () => {
                                     <center>
                                         <button
                                             className="btn  mt-1 mx-1"
-                                            onClick={(e) => navigator('/payment')}
+                                            onClick={(e) => navigator('/register-event')}
                                             >
                                             ثبت نام  
                                         </button>
                                     </center>
-                                    
+                                    <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', marginTop: "20px" }}>
+                                        {eventTags}
+                                    </div>
                                     </div>
                                 </div>
                             </div>
@@ -246,4 +263,3 @@ const EventDetails = () => {
 }
 
 export default EventDetails;
-

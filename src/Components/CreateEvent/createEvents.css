@@ -37,7 +37,7 @@
     box-sizing: border-box;
     box-shadow: 0 0 0px 1px rgba(0, 0, 0, 0.06);
     padding-top: 7px;
-    width: 300px;
+    max-width: 300px;
     font-size: 14px;
   }
   

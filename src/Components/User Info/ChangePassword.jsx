@@ -33,7 +33,7 @@ const ChangePassword = () => {
     initialValues: InitialValues,
     validationSchema: changePasswordValidation,
     onSubmit: (values) => {
-      AxiosInstance.post(`http://127.0.0.1:8000/auth/users/set_password/`,{
+      AxiosInstance.post(`https://eventify.liara.run/auth/users/set_password/`,{
       new_password: values.newPassword,
       current_password: values.password,
     })
@@ -54,7 +54,7 @@ const ChangePassword = () => {
                     </div>
                     <div className="change-password__content">
                       <div className="change-password__content-current">
-                        <div className="col-6 text-right">
+                        <div className="col-lg-6 col-sm-10 text-right">
                           <label>رمز عبور فعلی </label>
                           <div className={`form-group mt-1`}>
                             <input
@@ -75,7 +75,7 @@ const ChangePassword = () => {
                                 fontSize: "20px",
                                 position: "absolute",
                                 top: "40%",
-                                left: "0%",
+                                left: "18%",
                                 transform: "translateY(-50%)",
                                 marginLeft: "20px",
                               }}
@@ -88,7 +88,7 @@ const ChangePassword = () => {
                         </div>
                       </div>
                       <div className="change-password__content-new">
-                        <div className="col-6 text-right">
+                        <div className="col-lg-6 col-sm-10 text-right">
                           <label>رمز عبور جدید </label>
                           <div className={`form-group mt-1`}>
                             <input
@@ -111,7 +111,7 @@ const ChangePassword = () => {
                                 fontSize: "20px",
                                 position: "absolute",
                                 top: "40%",
-                                left: "0%",
+                                left: "18%",
                                 transform: "translateY(-50%)",
                                 marginLeft: "20px",
                               }}
@@ -124,7 +124,7 @@ const ChangePassword = () => {
                         </div>
                       </div>
                       <div className="change-password__content-confirm">
-                        <div className="col-6 text-right">
+                        <div className="col-lg-6 col-sm-10 text-right">
                           <label>تکرار رمز عبور جدید </label>
                           <div className={`form-group mt-1`}>
                             <input
@@ -147,7 +147,7 @@ const ChangePassword = () => {
                                 fontSize: "20px",
                                 position: "absolute",
                                 top: "40%",
-                                left: "0%",
+                                left: "18%",
                                 transform: "translateY(-50%)",
                                 marginLeft: "20px",
                               }}
