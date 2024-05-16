@@ -35,6 +35,7 @@ const style = {
 };
 
 const Wallet = ({balance}) =>  {
+  console.log("My balance:",balance);
   const [open, setOpen] = useState(false);
   const [chargeValue, setChargeValue] = useState(null);
 
@@ -210,10 +211,9 @@ const Wallet = ({balance}) =>  {
                                 </div> 
                                 <p className='message text-center' style={{fontSize:"10px",marginTop:"0px",marginBottom:"5px"}}>مبلغ وارد شده باید بین 10,000 تا 1,000,000 باشد</p>
                                 <div className="row text-right justify-content-between px-3">
-                                  <p className="mb-1 mt-2"> {balance.toLocaleString()}</p>
+                                  {balance!==undefined && <p className="mb-1 mt-2"> {balance.toLocaleString()}</p>}
                                   <p className="mb-1 mt-2">:موجودی</p>
                                 </div>
-
                               </div>
                                 <button
                                   type="submit"
