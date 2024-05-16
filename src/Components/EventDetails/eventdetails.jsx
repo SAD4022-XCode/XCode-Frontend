@@ -13,6 +13,7 @@ import MainComment from "./Comment/MainComment";
 import moment from 'moment-jalaali';
 import animationData from "./Animation - 1715854965467.json";
 import Lottie from "react-lottie";
+import { Alert } from 'react-alert'
 
 const EventDetails = () => {
     const [show, setShow] = useState(false);
@@ -62,8 +63,28 @@ const EventDetails = () => {
     })
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
+    const [isBookmarked, setBookmark] = useState(false);
+    let userData = JSON.parse(localStorage.getItem("userData"));
 
+    const bookmarkToggler = () =>{
+        if (userData != null){
     
+            if (isBookmarked === false){
+                setBookmark(true);
+                // return "bi bi-bookmark-plus";
+            }
+            else{
+                setBookmark(false);
+                // return "bi bi-bookmark-plus-fill";
+            }
+            
+        }
+        else{
+            alert('برای افزودن به علاقه مندی ها باید وارد سیستم شوید!');
+            navigator('/login');
+        }
+    }
+
     useEffect(() => {
         
         const fetchData = async () => {
@@ -368,7 +389,7 @@ const EventDetails = () => {
                                     </div>
                                 </div>
                                 <center className="mt-2">
-                                    <button
+                                    {/* <button
                                         className="btn  mt-1 mx-1"
                                         onClick={handleShow}
                                         >
@@ -377,7 +398,12 @@ const EventDetails = () => {
                                              بعدا یادآوری کن
                                             
                                         </div>
-                                    </button>
+                                    </button> */}
+                                    <div className="row px-3">
+                                        <a class={isBookmarked ? 'bi bi-bookmark-plus-fill': 'bi bi-bookmark-plus'} 
+                                        onClick={bookmarkToggler}></a>
+                                        <p className="message">افزودن به علاقه مندی ها</p>
+                                    </div>
                                 </center>
                                 
                             </div>
