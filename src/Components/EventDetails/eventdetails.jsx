@@ -3,6 +3,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import {useNavigate} from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import copy from 'clipboard-copy';
+import { Alert } from 'react-alert'
 
 import 'react-toastify/dist/ReactToastify.css';
 import axios from "axios";
@@ -16,6 +17,9 @@ const EventDetails = () => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const currentUrl = window.location.href;
+    const [isBookmarked, setBookmark] = useState(false);
+    let userData = JSON.parse(localStorage.getItem("userData"));
+   
 
     const navigator=useNavigate();
     let { id } = useParams();
@@ -93,6 +97,26 @@ const EventDetails = () => {
     const searchTagHandler = (tag) =>{
         console.log(`selected tag: #${tag}`)
     }
+
+    const bookmarkToggler = () =>{
+        if (userData != null){
+
+            if (isBookmarked === false){
+                setBookmark(true);
+                // return "bi bi-bookmark-plus";
+            }
+            else{
+                setBookmark(false);
+                // return "bi bi-bookmark-plus-fill";
+            }
+            
+        }
+        else{
+            alert('برای افزودن به علاقه مندی ها باید وارد سیستم شوید!');
+            navigator('/login');
+        }
+    }
+
     const eventTags = eventDetails.tags.map(tag => <div className="container" onClick={() =>searchTagHandler(tag)} style={{cursor:"pointer",borderRadius:"5px",margin:"5px",paddingTop:"3px",paddingBottom:"2px",paddingLeft:"4px",paddingRight:"4px",background:"#808080",width:"fit-content",fontSize:"12px",height:"20px"}}>#{tag}</div>);
     // if (loading) return <center>Loading...</center>;
     // if (error) return <PageNotFound />;
@@ -212,8 +236,9 @@ const EventDetails = () => {
                                         
                                     </div>
                                 </div>
+
                                 <center className="mt-2">
-                                    <button
+                                    {/* <button
                                         className="btn  mt-1 mx-1"
                                         onClick={handleShow}
                                         >
@@ -222,7 +247,13 @@ const EventDetails = () => {
                                              بعدا یادآوری کن
                                             
                                         </div>
-                                    </button>
+                                        </button> */}
+
+                                    <div className="row px-3">
+                                        <a class={isBookmarked ? 'bi bi-bookmark-plus-fill': 'bi bi-bookmark-plus'} 
+                                        onClick={bookmarkToggler}></a>
+                                        <p className="message">افزودن به علاقه مندی ها</p>
+                                    </div>
                                 </center>
                                     
                             </div>

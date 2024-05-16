@@ -13,6 +13,8 @@ import EventDetails from "../EventDetails/eventdetails";
 import Card from "./Card";
 import "./EventsList.css";
 import EventsFilter from "./EventsFilter";
+import { Alert } from 'react-alert'
+import {useNavigate} from 'react-router-dom';
 
 const EventsList = () => {
   const [posts, setPosts] = useState([]);
@@ -20,6 +22,13 @@ const EventsList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage, setPostsPerPage] = useState(12);
   const [totalPages, setTotalPages] = useState(1);
+  
+  // bookmark items
+  let userData = JSON.parse(localStorage.getItem("userData"));
+//   const [isBookmarked, setBookmark] = useState(false);
+  const navigator=useNavigate();
+  const [bookmarkedEvents, setBookmarkedEvents] = useState({});
+
   const [data, setData] = useState({
     eventPrice: "",
     eventType: "",
@@ -134,6 +143,36 @@ const EventsList = () => {
     setCurrentPage(value);
     setLoading(true);
   };
+
+  const is_bookmarked = (event_id) =>{
+    if (event_id in bookmarkedEvents){
+        return bookmarkedEvents[event_id];
+    }
+    else{
+        return false
+    }
+  }
+
+  const bookmarkToggler = (event_id) =>{
+    if (userData == null){
+        if (event_id in bookmarkedEvents){
+            setBookmarkedEvents(!bookmarkedEvents[event_id]);
+            console.log('event reversed')
+        }
+        else{
+            setBookmarkedEvents[event_id] = true;
+            console.log(bookmarkedEvents);
+            console.log(event_id in bookmarkedEvents);
+            console.log('event activated');
+        }
+
+        }
+    else{
+        // alert('برای افزودن به علاقه مندی ها باید وارد سیستم شوید!');
+        // navigator('/login');
+    }
+}
+
   return (
     <Card className="events-list">
       <EventsFilter sendFilteredPosts={handleFilteredPosts} />
@@ -158,12 +197,18 @@ const EventsList = () => {
                           onError={replaceImage}
                         />
                       </div>
+                    </Link>
+
                       <div class="container">
                         <div class="row">
                           <hr className="custom-hr" />
+                          <a class={is_bookmarked(event.id) ? 'bi bi-bookmark-plus-fill': 'bi bi-bookmark-plus'} 
+                                    onClick={() => bookmarkToggler(event.id)}></a>
                           <hr className="custom-hr" />
                         </div>
                       </div>
+
+                    <Link to={`/event-details/${event.id}`}>
                       <div className="event-info">
                         <div className="event-info__title">
                           <h1 id="event-title">{event.title}</h1>
