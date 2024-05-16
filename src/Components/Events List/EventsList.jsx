@@ -127,7 +127,7 @@ const EventsList = () => {
 
 
   const bookmarkToggler = (event_id) =>{
-    if (userData == null){
+    if (userData != null){
         if (event_id in bookmarkedEvents){
             bookmarkedEvents[event_id] = !bookmarkedEvents[event_id];
             setBookmarkedEvents({ ...bookmarkedEvents });
