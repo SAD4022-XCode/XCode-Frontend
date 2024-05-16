@@ -244,7 +244,7 @@ const EventDetails = () => {
 
                             <div>
                             <img className="" 
-                                    src={eventDetails.photo!==""?eventDetails.photo : require("../../assets/events.jpg")}
+                                    src={(eventDetails.photo!=="" && eventDetails.photo!== null)?eventDetails.photo : require("../../assets/events.jpg")}
                                     alt="Your Image"
                                     style={{ width: "770px", height: "400px" }}
                                 />
@@ -322,7 +322,7 @@ const EventDetails = () => {
                         <>
                             <div>
                             <img className="" 
-                                    src={eventDetails.photo!==""?eventDetails.photo : require("../../assets/events.jpg")}
+                                    src={(eventDetails.photo!=="" && eventDetails.photo!== null)?eventDetails.photo : require("../../assets/events.jpg")}
                                     alt="Your Image"
                                     style={{ maxWidth:'90%',width: "770px", height: "fit-content" ,marginTop:"30px",marginLeft:"15px"}}
                                 />
