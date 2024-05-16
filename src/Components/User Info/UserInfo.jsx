@@ -38,7 +38,8 @@ const UserInfo = () => {
   const [selectedProvince, setSelectedProvince] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
   const [selectedGender, setSelectedGender] = useState("");
-  let userData = JSON.parse(localStorage.getItem("userData"));
+  // let userData = JSON.parse(localStorage.getItem("userData"));
+  const [userData, setUserData] = useState(JSON.parse(localStorage.getItem("userData")) || "");
 
   const handleSelectedGender = (e) => {
     setSelectedGender(e.target.value);
@@ -144,7 +145,8 @@ const UserInfo = () => {
   });
 
   useEffect(() => {
-    userData = JSON.parse(localStorage.getItem("userData"));
+    // userData = JSON.parse(localStorage.getItem("userData"));
+    setUserData(JSON.parse(localStorage.getItem("userData")) || "");
     if (userData) {
       setSelectedGender(userData.gender);
       setValue(userData.birth_date);
