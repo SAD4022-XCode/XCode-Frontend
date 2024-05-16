@@ -28,6 +28,7 @@ const EventsList = () => {
 //   const [isBookmarked, setBookmark] = useState(false);
   const navigator=useNavigate();
   const [bookmarkedEvents, setBookmarkedEvents] = useState({});
+//   const [isBookmarked, setIsBookmarked] = useState(false);
 
   const [data, setData] = useState({
     eventPrice: "",
@@ -144,32 +145,22 @@ const EventsList = () => {
     setLoading(true);
   };
 
-  const is_bookmarked = (event_id) =>{
-    if (event_id in bookmarkedEvents){
-        return bookmarkedEvents[event_id];
-    }
-    else{
-        return false
-    }
-  }
 
   const bookmarkToggler = (event_id) =>{
     if (userData == null){
         if (event_id in bookmarkedEvents){
-            setBookmarkedEvents(!bookmarkedEvents[event_id]);
-            console.log('event reversed')
+            bookmarkedEvents[event_id] = !bookmarkedEvents[event_id];
+            setBookmarkedEvents({ ...bookmarkedEvents });
         }
         else{
-            setBookmarkedEvents[event_id] = true;
-            console.log(bookmarkedEvents);
-            console.log(event_id in bookmarkedEvents);
-            console.log('event activated');
+            bookmarkedEvents[event_id] = true;
+            setBookmarkedEvents({ ...bookmarkedEvents });
         }
 
         }
     else{
-        // alert('برای افزودن به علاقه مندی ها باید وارد سیستم شوید!');
-        // navigator('/login');
+        alert('برای افزودن به علاقه مندی ها باید وارد سیستم شوید!');
+        navigator('/login');
     }
 }
 
@@ -202,7 +193,7 @@ const EventsList = () => {
                       <div class="container">
                         <div class="row">
                           <hr className="custom-hr" />
-                          <a class={is_bookmarked(event.id) ? 'bi bi-bookmark-plus-fill': 'bi bi-bookmark-plus'} 
+                          <a class={bookmarkedEvents[event.id] ? 'bi bi-bookmark-plus-fill': 'bi bi-bookmark-plus'} 
                                     onClick={() => bookmarkToggler(event.id)}></a>
                           <hr className="custom-hr" />
                         </div>
