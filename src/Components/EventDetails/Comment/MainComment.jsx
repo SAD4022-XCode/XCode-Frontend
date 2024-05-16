@@ -1,16 +1,29 @@
 import React from "react";
 import "./MainComment.css";
 import JSONdata from "./data.json";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 import Comment from "./Comment";
 import NewComment from "./NewComment";
 import DeleteModal from "./DeleteModal";
-let currentId = 5; // ¯\_(ツ)_/¯
-const MainComment = () => {
-  const [data, setData] = useState(JSONdata);
+let currentId = 5;
+const MainComment = (id) => {
+  const [data, setData] = useState([]);
   const [deleteComment, setDeleteComment] = useState(false);
-
+  let userData = JSON.parse(localStorage.getItem("userData"));
+  useEffect(() => {
+    const fetchComments = async () => {
+      const baseUrl = `https://eventify.liara.run/events/${id.id}/comments/`;
+      const response = await axios.get(baseUrl);
+      // console.log(response)
+      const comments = response.data.comments;
+      // console.log(comments);
+      setData(comments);
+      console.log(comments);
+    };
+    fetchComments();
+  }, []);
   const addNewReply = (id, content) => {
     if (!/\S/.test(content)) return; // to avoid posting empty comments (only whitespaces)
     let temp = data;
@@ -19,12 +32,13 @@ const MainComment = () => {
       if (comment.id === id) {
         comment.replies.push({
           id: currentId + 1,
-          content: content,
+          text: comment.text,
           createdAt: "Just now",
           score: 0,
           replyingTo: comment.user.username,
           user: { ...data.currentUser },
         });
+        console.log(comment);
         break;
       }
       if (comment.replies.length > 0) {
@@ -69,13 +83,13 @@ const MainComment = () => {
     let temp = data;
     for (let comment of temp.comments) {
       if (comment.id === id) {
-        comment.content = updatedContent;
+        comment.text = updatedContent;
         break;
       }
       if (comment.replies.length > 0) {
         for (let reply of comment.replies) {
           if (reply.id === id) {
-            reply.content = updatedContent;
+            reply.text = updatedContent;
             break;
           }
         }
@@ -88,12 +102,12 @@ const MainComment = () => {
     if (!/\S/.test(content)) return;
     let temp = data;
     currentId += 1;
-    temp.comments.push({
+    temp.push({
       id: currentId + 1,
       content: content,
       createdAt: "Just now",
       score: 0,
-      user: { ...data.currentUser },
+      user: userData,
       replies: [],
     });
     setData({ ...temp });
@@ -118,7 +132,7 @@ const MainComment = () => {
       )}
 
       <main className="comments-column">
-        {data.comments.map((comment) => {
+        {data.length > 0 && data.map((comment) => {
           return (
             <Comment
               replyingTo=""
@@ -127,21 +141,19 @@ const MainComment = () => {
               setDeleteComment={setDeleteComment}
               updateScore={updateScore}
               key={comment.id}
-              currentUser={data.currentUser}
-              comment={comment.content}
-              image={comment.user.image.png}
-              username={comment.user.username}
-              timeSince={comment.createdAt}
+              currentUser={userData.user.username}
+              comment={comment.text}
+              image={comment.user_photo}
+              username={comment.username}
+              timeSince={comment.created_at}
               score={comment.score}
               replies={comment.replies}
               id={comment.id}
+              hasLiked={comment.has_liked}
             />
           );
         })}
-        <NewComment
-          addNewComment={addNewComment}
-          currentUser={data.currentUser}
-        />
+        <NewComment addNewComment={addNewComment} currentUser={userData} />
       </main>
     </div>
   );

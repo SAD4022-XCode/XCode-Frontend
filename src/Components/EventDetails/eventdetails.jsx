@@ -251,7 +251,7 @@ const EventDetails = () => {
                         </div>
                     </div>
                 </div>
-                <MainComment />
+                <MainComment id={id}/>
             </div> 
             
             <OrganizerInfoModal show = {show} handleClose={handleClose} email={eventDetails.organizerEmail} phone={eventDetails.organizerPhone}/>
