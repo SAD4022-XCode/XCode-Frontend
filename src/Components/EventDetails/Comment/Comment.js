@@ -32,7 +32,7 @@ const Comment = ({
 
     // Evaluate to true or false and then render HTML accordingly
     useEffect(() => {
-        const curr = username === currentUser.username;
+        const curr = username === currentUser;
         setCurrent(curr);
     }, [currentUser, username]);
     
@@ -46,19 +46,22 @@ const Comment = ({
                         current 
                         ?
                         <>
-                         <img className="flex-item upvote disabled-upvote" src={upVote} alt="upvote" />
+                         <img className="flex-item upvote disabled-upvote" src={unliked} alt="upvote" />
                          <span className="flex-item">{score}</span>
-                         <img className="flex-item downvote disabled-upvote" src={disabledDownVote} alt="downvote" />
+                         {/* <img className="flex-item downvote disabled-upvote" src={disabledDownVote} alt="downvote" /> */}
                         </>
                         :
                         <>
-                        <img className="flex-item upvote" src={liked} alt="upvote" onClick={() => {
+                        <img className="flex-item upvote" src={vote === "upvote" ? liked : unliked} alt="upvote" onClick={() => {
                         if (vote !== "upvote") {
                             updateScore(id, 'upvote');
-                            setVote("upvote");}
+                            setVote("upvote");
+                            console.log(score);
+                        }
                         else {
                             updateScore(id, 'downvote');
                             setVote("downvote");
+                            console.log(score);
                         }
                     }}
                         />
@@ -162,7 +165,7 @@ const Comment = ({
                                 setDeleteComment={setDeleteComment}
                                 updateScore={updateScore}
                                 key={reply.id}
-                                currentUser={userData.user.username}
+                                currentUser={userData ? userData.user.username : ""}
                                 comment={reply.text}
                                 image={reply.user_photo}
                                 username={reply.username}

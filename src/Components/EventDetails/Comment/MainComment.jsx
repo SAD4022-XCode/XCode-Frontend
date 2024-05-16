@@ -1,44 +1,133 @@
 import React from "react";
 import "./MainComment.css";
 import JSONdata from "./data.json";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 
 import Comment from "./Comment";
 import NewComment from "./NewComment";
 import DeleteModal from "./DeleteModal";
+import { useAuth } from "../../Authentication/authProvider";
 let currentId = 5;
 const MainComment = (id) => {
+  const auth = useAuth();
   const [data, setData] = useState([]);
   const [deleteComment, setDeleteComment] = useState(false);
+  const initialDataLength = useRef(null);
   let userData = JSON.parse(localStorage.getItem("userData"));
+  let ID = id.id;
   useEffect(() => {
     const fetchComments = async () => {
       const baseUrl = `https://eventify.liara.run/events/${id.id}/comments/`;
       const response = await axios.get(baseUrl);
       // console.log(response)
       const comments = response.data.comments;
+      initialDataLength.current = comments.length; // set initial data length
       // console.log(comments);
       setData(comments);
       console.log(comments);
+      console.log(userData)
     };
     fetchComments();
   }, []);
+  // const addNewReply = (id, content) => {
+  //   if (!/\S/.test(content)) return; // to avoid posting empty comments (only whitespaces)
+  //   let temp = data;
+  //   currentId += 1;
+  
+  //   const addReplyToComments = (comments) => {
+  //     for (let comment of comments) {
+  //       if (comment.id === id) {
+  //         comment.replies.push({
+  //           id: currentId + 1,
+  //           text: content,
+  //           createdAt: "Just now",
+  //           score: 0,
+  //           username: userData.user.username,
+  //           replies: [],
+  //           user_photo: userData.profile_picture,
+  //           user: userData.user.id,
+  //           liked_by: [],
+  //           has_liked: false,
+  //           event: id.id,
+  //         });
+  //         return true;
+  //       }
+  //       if (comment.replies.length > 0) {
+  //         if (addReplyToComments(comment.replies)) return true;
+  //       }
+  //     }
+  //     return false;
+  //   };
+  
+  //   addReplyToComments(temp);
+  //   setData([...temp]);
+  //   console.log(data);
+  // };
+  const addNewCommentBack = async (newData) => {
+    const baseUrl = `https://eventify.liara.run/comments/`;
+    
+    await axios.post(baseUrl, newData, {headers: {
+      Authorization: `JWT ${auth.token}`,
+    }})
+  };
+  const updateCommentBack = async (id,newData) => {
+    const baseUrl = `https://eventify.liara.run/comments/${id}/`;
+    
+    await axios.patch(baseUrl, newData, {headers: {
+      Authorization: `JWT ${auth.token}`,
+    }})
+  };
+  const updateScoreBack = async (id) => {
+    const baseUrl = `https://eventify.liara.run/comments/${id}/like/`;
+    
+    await axios.post(baseUrl, {headers: {
+      Authorization: `JWT ${auth.token}`,
+    }})
+  };
+
+  const addNewReplyBack = async (id, newData) => {
+    const baseUrl = `https://eventify.liara.run/comments/${id}/reply/`;
+    
+    await axios.post(baseUrl, newData, {headers: {
+      Authorization: `JWT ${auth.token}`,
+    }})
+  }
+
+  // useEffect(() => {
+  //   const deleteCommentBack = async (deletecomment) => {
+  //     const baseUrl = `https://eventify.liara.run/comments/${id}/`;
+      
+  //     await axios.delete(baseUrl, {headers: {
+  //       Authorization: `JWT ${auth.token}`,
+  //     }})
+  //   };
+  //   deleteCommentBack(deleteComment);
+  // },[deleteComment])
+  
+
+  
   const addNewReply = (id, content) => {
     if (!/\S/.test(content)) return; // to avoid posting empty comments (only whitespaces)
-    let temp = data;
+    let temp = [...data];
     currentId += 1;
-    for (let comment of temp.comments) {
+    for (let comment of temp) {
       if (comment.id === id) {
         comment.replies.push({
           id: currentId + 1,
-          text: comment.text,
-          createdAt: "Just now",
-          score: 0,
-          replyingTo: comment.user.username,
-          user: { ...data.currentUser },
+            text: content,
+            createdAt: "Just now",
+            score: 0,
+            username: userData.user.username,
+            replies: [],
+            user_photo: userData.profile_picture,
+            user: userData.user.id,
+            liked_by: [],
+            has_liked: false,
+            event: ID,
+            parent: id
         });
-        console.log(comment);
+        addNewReplyBack(id, {event: ID, text:content});
         break;
       }
       if (comment.replies.length > 0) {
@@ -46,42 +135,52 @@ const MainComment = (id) => {
           if (reply.id === id) {
             comment.replies.push({
               id: currentId + 1,
-              content: content,
+              text: content,
               createdAt: "Just now",
               score: 0,
-              replyingTo: reply.user.username,
-              user: { ...data.currentUser },
+              username: userData.user.username,
+              replies: [],
+              user_photo: userData.profile_picture,
+              user: userData.user.id,
+              liked_by: [],
+              has_liked: false,
+              event: ID,
+              parent: id
             });
+            addNewReplyBack(id, {event: ID, text:content});
             break;
           }
         }
       }
     }
-    setData({ ...temp });
+    setData(temp);
+    console.log(temp)
   };
 
   const updateScore = (id, action) => {
-    let temp = data;
-    for (let comment of temp.comments) {
+    let temp = [...data];
+    for (let comment of temp) {
       if (comment.id === id) {
-        action == "upvote" ? (comment.score += 1) : (comment.score -= 1);
+        action == "upvote" ? (comment.score += 1) : (comment.score -= 1);  //liked by add
+        updateScoreBack(id);
         break;
       }
       if (comment.replies.length > 0) {
         for (let reply of comment.replies) {
           if (reply.id === id) {
-            action == "upvote" ? (reply.score += 1) : (reply.score -= 1);
+            action == "upvote" ? (reply.score += 1) : (reply.score -= 1); //liked by add
+            updateScoreBack(id);
             break;
           }
         }
       }
     }
-    setData({ ...temp });
+    setData(temp);
   };
 
   const updateComment = (updatedContent, id) => {
-    let temp = data;
-    for (let comment of temp.comments) {
+    let temp = [...data];
+    for (let comment of temp) {
       if (comment.id === id) {
         comment.text = updatedContent;
         break;
@@ -95,22 +194,36 @@ const MainComment = (id) => {
         }
       }
     }
-    setData({ ...temp });
+      
+    setData(temp);
+    updateCommentBack(id,{event: id.event, text:updatedContent});
   };
 
   const addNewComment = (content) => {
     if (!/\S/.test(content)) return;
-    let temp = data;
     currentId += 1;
-    temp.push({
+    
+    const newComment = {
+      parent:"",
       id: currentId + 1,
-      content: content,
+      text: content,
       createdAt: "Just now",
       score: 0,
-      user: userData,
+      username: userData.user.username,
       replies: [],
-    });
-    setData({ ...temp });
+      user_photo: userData.profile_picture,
+      user: userData.user.id,
+      liked_by: [],
+      has_liked: false,
+      event: id.id,
+    };
+    
+    const updatedData = [...data, newComment];
+    setData(updatedData);
+    if (updatedData.length > initialDataLength.current) {
+      addNewCommentBack({event: updatedData[updatedData.length - 1].event, text:updatedData[updatedData.length - 1].text});
+    }
+    
   };
 
   return (
@@ -141,7 +254,7 @@ const MainComment = (id) => {
               setDeleteComment={setDeleteComment}
               updateScore={updateScore}
               key={comment.id}
-              currentUser={userData.user.username}
+              currentUser={userData ? userData.user.username : ""}
               comment={comment.text}
               image={comment.user_photo}
               username={comment.username}
@@ -153,7 +266,9 @@ const MainComment = (id) => {
             />
           );
         })}
-        <NewComment addNewComment={addNewComment} currentUser={userData} />
+        {userData && <NewComment addNewComment={addNewComment} currentUser={userData} />}
+        {!userData && <div className="row">
+        <div className="col-7 mx-auto"><h2 id="login-comment" className="text-center mt-5">جهت ارسال نظر، ابتدا <a href="/login">وارد شوید.</a></h2></div></div>}
       </main>
     </div>
   );
