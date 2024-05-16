@@ -7,28 +7,21 @@ const DeleteModal = ({
     data
 }) => {
     const deleteComment = () => {
-            for (let comment of data.comments) {
+            for (let comment of data) {
                 if (comment.id === id) {
-                    const updatedComments = data.comments.filter(
+                    const updatedComments = data.filter(
                         (comment) => comment.id !== id
                     );
-                    setData(data => ({
-                        'currentUser': {...data.currentUser},
-                        'comments': updatedComments
-                    }));
+                    setData(updatedComments);
                     break;
                 }
                 if (comment.replies.length > 0) {
                     for (let reply of comment.replies) {
-                        if (reply.id === id) {
-                            const updatedReplies = comment.replies.filter((reply) => reply.id !== id);
+                        if (reply.parent === id) {
+                            const updatedReplies = comment.replies.filter((reply) => reply.parent !== id);
 
                             comment.replies = updatedReplies;
-
-                            setData(data => ({
-                                'currentUser': {...data.currentUser},
-                                'comments': data.comments
-                            }));
+                            setData(data);
                             break;
                         };
                     }

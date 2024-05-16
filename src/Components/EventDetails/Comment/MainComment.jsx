@@ -21,6 +21,7 @@ const MainComment = (id) => {
       // console.log(comments);
       setData(comments);
       console.log(comments);
+      console.log(userData)
     };
     fetchComments();
   }, []);
@@ -28,41 +29,76 @@ const MainComment = (id) => {
     if (!/\S/.test(content)) return; // to avoid posting empty comments (only whitespaces)
     let temp = data;
     currentId += 1;
-    for (let comment of temp.comments) {
-      if (comment.id === id) {
-        comment.replies.push({
-          id: currentId + 1,
-          text: comment.text,
-          createdAt: "Just now",
-          score: 0,
-          replyingTo: comment.user.username,
-          user: { ...data.currentUser },
-        });
-        console.log(comment);
-        break;
-      }
-      if (comment.replies.length > 0) {
-        for (let reply of comment.replies) {
-          if (reply.id === id) {
-            comment.replies.push({
-              id: currentId + 1,
-              content: content,
-              createdAt: "Just now",
-              score: 0,
-              replyingTo: reply.user.username,
-              user: { ...data.currentUser },
-            });
-            break;
-          }
+  
+    const addReplyToComments = (comments) => {
+      for (let comment of comments) {
+        if (comment.id === id) {
+          comment.replies.push({
+            id: currentId + 1,
+            text: content,
+            createdAt: "Just now",
+            score: 0,
+            username: userData.user.username,
+            replies: [],
+            user_photo: userData.profile_picture,
+            user: userData.user.id,
+            liked_by: [],
+            has_liked: false,
+            event: id.id,
+          });
+          return true;
+        }
+        if (comment.replies.length > 0) {
+          if (addReplyToComments(comment.replies)) return true;
         }
       }
-    }
-    setData({ ...temp });
+      return false;
+    };
+  
+    addReplyToComments(temp);
+    setData([...temp]);
+    console.log(data);
   };
+  
+  // const addNewReply = (id, content) => {
+  //   if (!/\S/.test(content)) return; // to avoid posting empty comments (only whitespaces)
+  //   let temp = data;
+  //   currentId += 1;
+  //   for (let comment of temp.comments) {
+  //     if (comment.id === id) {
+  //       comment.replies.push({
+  //         id: currentId + 1,
+  //         text: comment.text,
+  //         createdAt: "Just now",
+  //         score: 0,
+  //         replyingTo: comment.user.username,
+  //         user: { ...data.currentUser },
+  //       });
+  //       console.log(comment);
+  //       break;
+  //     }
+  //     if (comment.replies.length > 0) {
+  //       for (let reply of comment.replies) {
+  //         if (reply.id === id) {
+  //           comment.replies.push({
+  //             id: currentId + 1,
+  //             content: content,
+  //             createdAt: "Just now",
+  //             score: 0,
+  //             replyingTo: reply.user.username,
+  //             user: { ...data.currentUser },
+  //           });
+  //           break;
+  //         }
+  //       }
+  //     }
+  //   }
+  //   setData({ ...temp });
+  // };
 
   const updateScore = (id, action) => {
-    let temp = data;
-    for (let comment of temp.comments) {
+    let temp = [...data];
+    for (let comment of temp) {
       if (comment.id === id) {
         action == "upvote" ? (comment.score += 1) : (comment.score -= 1);
         break;
@@ -76,41 +112,51 @@ const MainComment = (id) => {
         }
       }
     }
-    setData({ ...temp });
+    setData(temp);
   };
 
   const updateComment = (updatedContent, id) => {
-    let temp = data;
-    for (let comment of temp.comments) {
+    let temp = [...data];
+    for (let comment of temp) {
       if (comment.id === id) {
         comment.text = updatedContent;
         break;
       }
       if (comment.replies.length > 0) {
         for (let reply of comment.replies) {
-          if (reply.id === id) {
+          if (reply.parent === id) {
             reply.text = updatedContent;
             break;
           }
         }
       }
     }
-    setData({ ...temp });
+      
+    setData(temp);
   };
 
   const addNewComment = (content) => {
     if (!/\S/.test(content)) return;
-    let temp = data;
     currentId += 1;
-    temp.push({
+    
+    const newComment = {
+      parent:"",
       id: currentId + 1,
-      content: content,
+      text: content,
       createdAt: "Just now",
       score: 0,
-      user: userData,
+      username: userData.user.username,
       replies: [],
-    });
-    setData({ ...temp });
+      user_photo: userData.profile_picture,
+      user: userData.user.id,
+      liked_by: [],
+      has_liked: false,
+      event: id.id,
+    };
+    
+    const updatedData = [...data, newComment];
+    setData(updatedData);
+    
   };
 
   return (
