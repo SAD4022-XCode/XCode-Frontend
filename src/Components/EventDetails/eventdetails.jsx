@@ -11,13 +11,20 @@ import './eventdetails.css'
 import OrganizerInfoModal from "./organizer-contact-info";
 import MainComment from "./Comment/MainComment";
 import moment from 'moment-jalaali';
+import animationData from "./Animation - 1715854965467.json";
+import Lottie from "react-lottie";
 
 const EventDetails = () => {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const currentUrl = window.location.href;
-
+    const defaultOptions = {
+        loop: true,
+        autoplay: true,
+        clickToPause: true,
+        animationData: animationData,
+      };
     const navigator=useNavigate();
     let { id } = useParams();
     const monthDict ={0:"فروردین", 1:"اردیبهشت",2:"خرداد",3:"تیر",4:"مرداد",5:"شهریور",6:"مهر",7:"آبان",8:"آذر",9:"دی",10:"بهمن",11:"اسفند"};
@@ -54,7 +61,7 @@ const EventDetails = () => {
 
     })
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [error, setError] = useState(false);
 
     
     useEffect(() => {
@@ -69,10 +76,14 @@ const EventDetails = () => {
                 console.log("Console:\n",response.data)
                 setEventDetails(response.data);
             } catch (error) {
-                setError(error); 
+                console.log("we have error")
+                setError(true); 
+                setTimeout(() => {
+                    setLoading(false);
+                }, 1000);
                 
             } finally { 
-                setLoading(false);
+                // setLoading(false);
             }
         };
         fetchData();
@@ -139,6 +150,10 @@ const EventDetails = () => {
                 endYear: eyear,
                 endDay: eday,
             });
+            setTimeout(() => {
+                setLoading(false);
+            }, 1000);
+            
         }
     }, [eventDetails]); 
     const copyToClipboard = () => {
@@ -156,8 +171,22 @@ const EventDetails = () => {
         console.log(`selected tag: #${tag}`)
     }
     const eventTags = eventDetails.tags.map(tag => <div className="container" onClick={() =>searchTagHandler(tag)} style={{cursor:"pointer",borderRadius:"5px",margin:"5px",paddingTop:"3px",paddingBottom:"2px",paddingLeft:"4px",paddingRight:"4px",background:"#808080",width:"fit-content",fontSize:"12px",height:"20px"}}>{tag}#</div>);
-    // if (loading) return <center>Loading...</center>;
-    // if (error) return <PageNotFound />;
+    if (loading) {
+        return(
+            <div className="event-details"> 
+                <Navbar/>
+                
+                <div className="container col loading" style={{height:"200px",width:"200px" ,marginTop:"15%"}}>
+                    <Lottie options={defaultOptions} />
+                </div>
+            </div>
+        );
+        
+    }
+    if (error) {
+        return <PageNotFound />;
+    }
+    
     // if (!eventDetails) return <div>No data available</div>;
 
 
@@ -214,11 +243,12 @@ const EventDetails = () => {
                                 </div>
 
                             <div>
-                                <img className="" 
+                            <img className="" 
                                     src={eventDetails.photo!==""?eventDetails.photo : require("../../assets/events.jpg")}
                                     alt="Your Image"
                                     style={{ width: "770px", height: "400px" }}
                                 />
+                                
                             </div>
                         </div> 
 
@@ -291,8 +321,8 @@ const EventDetails = () => {
                     <center>
                         <>
                             <div>
-                                <img className="" 
-                                    src={eventDetails.photo===""?eventDetails.photo : require("../../assets/events.jpg")}
+                            <img className="" 
+                                    src={eventDetails.photo!==""?eventDetails.photo : require("../../assets/events.jpg")}
                                     alt="Your Image"
                                     style={{ maxWidth:'90%',width: "770px", height: "fit-content" ,marginTop:"30px",marginLeft:"15px"}}
                                 />
