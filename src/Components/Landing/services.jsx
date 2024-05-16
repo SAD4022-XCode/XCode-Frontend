@@ -19,7 +19,7 @@ export const Statistics = (statistics) => {
         </div>
         <div className="row">
           <div className="col-md-4 mt-sm-4 d-flex flex-column align-items-center">
-            <h3 >بیش تر از{statistics.data.userCount}  کاربر ایونتیفای را برای برگزاری رویداد و شرکت در آن انتخاب کرده اند</h3>
+            <h3>بیش تر از{statistics.data.userCount}  کاربر ایونتیفای را برای برگزاری رویداد و شرکت در آن انتخاب کرده اند</h3>
             <div style={{height:"50px"}}></div>
             <GaugeChart id="gauge-chart3"
                   nrOfLevels={20} 

@@ -15,6 +15,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useAuth } from "../Authentication/authProvider";
 import {useNavigate} from 'react-router-dom';
+import ProfileSidebar from "../Profile/ProfileSidebar/profileSidebar";
 const weekDays = ["ش", "ی", "د", "س", "چ", "پ", "ج"];
 const UserInfo = () => {
   const digits = persian_fa.digits;
@@ -146,10 +147,12 @@ const UserInfo = () => {
     userData = JSON.parse(localStorage.getItem("userData"));
     if (userData) {
       setSelectedGender(userData.gender);
-      setImagePreviewUrl(userData.profile_picture);
       setValue(userData.birth_date);
       setSelectedProvince(userData.province);
       setSelectedCity(userData.city);
+    }
+    if (userData.profile_picture != null) {
+      setImagePreviewUrl(userData.profile_picture);
     }
   }, []);
 
@@ -162,7 +165,9 @@ const UserInfo = () => {
     </label>
   );
   const [file, setFile] = useState("");
-  const [imagePreviewUrl, setImagePreviewUrl] = useState();
+  const [imagePreviewUrl, setImagePreviewUrl] = useState(
+    "https://github.com/OlgaKoplik/CodePen/blob/master/profile.jpg?raw=true"
+  );
 
   const photoUpload = (e) => {
     e.preventDefault();
@@ -177,6 +182,7 @@ const UserInfo = () => {
   return (
     <center>
       <Navbar />
+      <ProfileSidebar/>
       <div className="user-info">
         <ToastContainer
           className="toastify-container"

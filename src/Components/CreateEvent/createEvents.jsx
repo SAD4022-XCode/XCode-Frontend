@@ -59,13 +59,16 @@ const CreateEvent = () => {
         if (eventType==="O"){
             if(showError[0] || showError[1] || showError[2] || showError[3] || showError[4] || showError[5] || showError[6] || startTime===null || startTime===null || endDate===null || endTime===null){
                 canSubmit=false
-                
+                toast.warning("فیلدهای مربوطه را به درستی پر کنید")
+
             }else{
                 setShowViolations(false)
             }
         }else{
             if(showError[0] || showError[1] || showError[3] || showError[4] || showError[5] || showError[6] || showError[7] || showError[8] || startTime===null || startTime===null || endDate===null || endTime===null){
                 canSubmit=false
+                toast.warning("فیلدهای مربوطه را به درستی پر کنید")
+
             }else{
                 setShowViolations(false)
 
@@ -80,11 +83,12 @@ const CreateEvent = () => {
             const startIsoDate = moment(miladiDate).toISOString();
             const time1 = startTime.hour.toString()+":"+startTime.minute.toString();
             const startDateTime = `${miladiDate}T${time1}:00`
+
             let jalaliDate2 = endDate.year.toString()+"/"+(endDate.monthIndex+1).toString()+"/"+endDate.day.toString()
             let miladiDate2 = moment(jalaliDate2,'jYYYY/jM/jD').format('YYYY-MM-DD')
             const endIsoDate = moment(miladiDate2).toISOString();
             const time2 = endTime.hour.toString()+":"+endTime.minute.toString();
-            const endDateTime = `${miladiDate}T${time1}:00`;
+            const endDateTime = `${miladiDate2}T${time2}:00`;
             
             let tags = []
             for(let i=0;i<selectedTags.length;i++){
@@ -103,8 +107,8 @@ const CreateEvent = () => {
                 city:selectedCity,
                 address:address,
                 is_paid:!isFree,
-                location_lat:Math.round(mapData.lat*10000)/10000,
-                location_lon:Math.round(mapData.lng*10000)/10000,
+                location_lat:Math.round(mapData.lat*1000000)/1000000,
+                location_lon:Math.round(mapData.lng*1000000)/1000000,
                 starts:startDateTime,
                 ends:endDateTime,
                 maximum_tickets:Number(ticketCount),
@@ -115,7 +119,7 @@ const CreateEvent = () => {
             }
             console.log(createEventData)
             
-            axios.post('https://eventify.liara.run/events/create_event/',createEventData,
+            axios.post('https://eventify.liara.run/events/',createEventData,
                 {headers:{
                     "Content-Type": "multipart/form-data",
                     Authorization:`JWT ${auth.token}`,
@@ -131,6 +135,12 @@ const CreateEvent = () => {
                     console.log('Error sending data:', error);
                     console.log("status code is:",error.response.status)
                     toast.error("خطا در ایجاد رویداد")
+                    if (error.response && error.response.status === 401) {
+                        console.log("Authentication failed. Please log in again.");
+                        auth.logOut()
+                    } else {
+                        console.error("An error occurred:", error);
+                    }
 
                 });
         }
@@ -200,7 +210,7 @@ const CreateEvent = () => {
         event.preventDefault();
         let errors = showError
         setEventDescription(event.target.value)
-        if(event.target.value.length<20 || event.target.value.length>1500){
+        if(event.target.value.length<20 || event.target.value.length>2000){
             errors[1]=true
         }else{
             errors[1]=false
@@ -412,7 +422,7 @@ const CreateEvent = () => {
                                         rows="5" cols="80" className="form-style-ce-area" dir="rtl" placeholder="توضیحات برگزاری رویداد">
                                         </textarea>
                                     </div>
-                                    {showError[1] && showViolations && (<p className="mb-0 mt-2 validationMsg">توضیحات رویداد باید بین 20 تا 1500 کاراکتر باشد</p>)}
+                                    {showError[1] && showViolations && (<p className="mb-0 mt-2 validationMsg">توضیحات رویداد باید بین 20 تا 2000 کاراکتر باشد</p>)}
 
                                 </div>
                                 

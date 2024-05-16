@@ -7,11 +7,13 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import Wallet from "../Wallet/wallet";
 import axios from "axios";
+// import Noty from "./Noty"
+import NotificationPanel from "../NotificationPanel/NotificationPanel";
 const Navbar = () => {
     const auth = useAuth();
     const [userData, setUserData] = useState(JSON.parse(localStorage.getItem("userData")) || "");
     const navigator=useNavigate();
-    const [showNavbar, setShowNavbar] = useState(false)
+    const [showDrawer, setshowDrawer] = useState(false)
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     const [searchBoxText, setSearchBoxText] = useState("")
     const [showBorder, setShowBorder] = useState(true);
@@ -36,11 +38,11 @@ const Navbar = () => {
                                 Authorization: `JWT ${auth.token}`,
                             }
                         });
-                
+                        
                         localStorage.setItem("userData", JSON.stringify(response.data));
                         setUserData(response.data);
                         setIsLoggedIn(true);
-                        console.log(response.data);
+                        console.log("Navbar: ",response);
                     } catch (error) {
                         if (error.response && error.response.status === 401) {
                             console.log("Authentication failed. Please log in again.");
@@ -59,7 +61,7 @@ const Navbar = () => {
         }
         const handleResize = () => {
             if (window.innerWidth>630){
-                setShowNavbar(false);
+                setshowDrawer(false);
                 setShowBorder(true);
             }
         };
@@ -80,10 +82,10 @@ const Navbar = () => {
 
     }, [isOpen]);
 
-    const handleShowNavbar = () => {
-        console.log("show navbar",showNavbar)
-        setShowNavbar(!showNavbar) ;
-        console.log("show navbar",showNavbar)
+    const handleshowDrawer = () => {
+        console.log("show navbar",showDrawer)
+        setshowDrawer(!showDrawer) ;
+        console.log("show navbar",showDrawer)
         if(showBorder===false){
             setTimeout(() => {setShowBorder(!showBorder)}, 300);
         }else{
@@ -105,13 +107,14 @@ const Navbar = () => {
 
         <div className="container">
             <div >
+                <NavLink to={"/home"}>
                 <img className="logo"
                     src={require("../../assets/logo.png")}
                     style={{paddingBottom:"15px"}}
-                    alt="Google Logo"
+                    alt="Google Logo"   
                 />
+                </NavLink>
             </div>
-
 
             <div className="search-bar">
                 <input 
@@ -126,18 +129,26 @@ const Navbar = () => {
                 </button>
             </div>
             
+            
 
 
-            <div className="menu-icon" onClick={handleShowNavbar}>
+            <div className="menu-icon" onClick={handleshowDrawer}>
                 <i class="bi bi-list" style={{ fontSize: '28px' ,paddingBottom : "15px"}}></i>
             </div>
-            <div className={`nav-elements  ${showNavbar && 'active'}`}>
-                <ul> 
+            <div className={`nav-elements  ${showDrawer && 'active'}`}>
+                <ul>
+                    { !showDrawer && auth.token && (
+                    <li>
+                        <NotificationPanel />
+                    </li>
+                    )}
+                    {!showDrawer && auth.token && (
+                    <li>
+                        <Wallet balance={userData.balance}/>
+                    </li>
+                    )}
                     <li>
                     <NavLink to="/home" >خانه </NavLink>
-                    </li>
-                    <li>
-                    <NavLink to="/blogs"> بلاگ ها</NavLink>
                     </li>
                     <li>
                     <NavLink to="/events">رویدادها</NavLink>
@@ -145,7 +156,7 @@ const Navbar = () => {
                     <li>
                         <NavLink to="/create-event" > ایجاد رویداد </NavLink>
                     </li>
-                    {!showNavbar &&
+                    {!showDrawer &&
                         <div className={!auth.token && showBorder && "auth-link"}>
                         {!auth.token &&(<li className="auth-link-li">
                             <NavLink to="/login" > ورود </NavLink>
@@ -156,7 +167,7 @@ const Navbar = () => {
                         )}</div>
                     }
 
-                        {!showNavbar && auth.token && 
+                        {!showDrawer && auth.token && 
                         <div className="dropdown-container" onMouseEnter={() => setIsOpen(true)}>
                         
                         <div className="row" >
@@ -174,11 +185,11 @@ const Navbar = () => {
                                         <i class="pl-1 ml-0  uil uil-user"></i>
                                         <p className="pt-0 mb-0">حساب کاربری</p>
                                 </div>
-                                <div className="row pr-2 pb-0 mb-0   dropdown-item3">
+                                {/* <div className="row pr-2 pb-0 mb-0   dropdown-item3">
                                         <i class="pl-1 ml-0 pr-1 mt-0 pb-0 bi bi-wallet2"></i>
                                         <p className="pt-1 mb-0 mt-1"><Wallet/> </p>
                                     
-                                </div>
+                                </div> */}
                                 <div className="row pr-2 pb-2  dropdown-item2" >
                                        <i className=" pl-2 pr-1 mt-1 bi bi-box-arrow-right"></i>
                                          <p className="pt-2 mb-0 mt-1" onClick={() => {
@@ -196,26 +207,36 @@ const Navbar = () => {
                         
                     }
                     
-                    {showNavbar && !auth.token &&(<li className="auth-link-li">
+                    {showDrawer && !auth.token &&(<li className="auth-link-li">
                             <NavLink to="/login" > ورود </NavLink>
                             </li>)}
-                    {showNavbar && !auth.token &&(<li className="auth-link-li">
+                    {showDrawer && !auth.token &&(<li className="auth-link-li">
                             <NavLink to="/register" > عضویت </NavLink>
                             </li>
                         )}
-                    {showNavbar && auth.token && (<li className="auth-link-li">
+                    {showDrawer && auth.token && (<li className="auth-link-li">
                             <NavLink to="/profile" > حساب کاربری </NavLink>
                             </li>
                         )
                     }
-                    {showNavbar && auth.token && (
+                    {showDrawer  && auth.token &&(<li className="auth-link-li" style={{marginRight:"15px"}}>
+                                <NotificationPanel/>
+                            </li>
+                        )
+                    }
+                    {showDrawer  && auth.token &&(<li className="auth-link-li" style={{marginRight:"15px"}}>
+                                <Wallet balance={userData.balance}/>
+                            </li>
+                        )
+                    }
+                    {/* {showDrawer && auth.token && (
                         <li className="auth-link-li pb-1">
                             <Wallet />
                         </li>
                         
                         )
-                    }
-                    {showNavbar && auth.token && (<li className="auth-link-li pb-1">
+                    } */}
+                    {showDrawer && auth.token && (<li className="auth-link-li pb-1">
                             <p onClick={() => {
                                 toast.error("از حساب کاربری خارج شدید")
                                 setTimeout(() => {

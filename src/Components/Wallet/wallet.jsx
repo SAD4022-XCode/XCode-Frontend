@@ -16,7 +16,8 @@ import {Modal} from 'react-bootstrap'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
-
+import Lottie from "react-lottie";
+import animationData from "./Animation - 1715722439036.json";
 const style = {
   position: 'absolute',
   top: '40%',
@@ -33,12 +34,17 @@ const style = {
   // direction:"rtl"
 };
 
-const Wallet = () =>  {
+const Wallet = ({balance}) =>  {
+  console.log("My balance:",balance);
   const [open, setOpen] = useState(false);
-  const [money, setMoney] = useState(2500000);
   const [chargeValue, setChargeValue] = useState(null);
 
-  
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    clickToPause: true,
+    animationData: animationData,
+  };
 
   const handleOpen = () => {
     setOpen(true);
@@ -90,7 +96,13 @@ const Wallet = () =>  {
     <>
       <ToastContainer className="toastify-container" position="top-right" toastStyle={{backgroundColor: "#2b2c38", fontFamily: "iransansweb", color: "#ffeba7",marginTop:"100px", zIndex:2000}} pauseOnHover={false} autoClose={3000} />
 
-      <p onClick={handleOpen} style={{marginBottom:"0px"}} >کیف پول </p>
+      {/* <p onClick={handleOpen} style={{marginBottom:"0px"}} >کیف پول </p> */}
+      {/* <i onClick={handleOpen} class="pl-1 ml-0 pr-1 mt-0 pb-0 bi bi-wallet2"></i> */}
+      <div className="lottie-parent" style={{height:"40px",width:"50px"}} onClick={()=> {handleOpen()}}>
+        <div className="lottie" >
+          <Lottie options={defaultOptions} />
+      </div>
+      </div>
       
       {/* <Modal
       style={{...style, width: 400,height:380}}
@@ -109,7 +121,6 @@ const Wallet = () =>  {
       animation={true}
       animationTime={500}
       style={{
-
         position: 'absolute',
         top: '50%',
         left: '50%',
@@ -120,7 +131,6 @@ const Wallet = () =>  {
         maxHeight:"auto",
         // animation:open?"fadeIn 0.5s ease-out":null,
         // animation:"fadeIn 0.5s ease-out"
-        
       }}
       >
            <div className='walletmodal'>
@@ -201,10 +211,9 @@ const Wallet = () =>  {
                                 </div> 
                                 <p className='message text-center' style={{fontSize:"10px",marginTop:"0px",marginBottom:"5px"}}>مبلغ وارد شده باید بین 10,000 تا 1,000,000 باشد</p>
                                 <div className="row text-right justify-content-between px-3">
-                                  <p className="mb-1 mt-2"> {money.toLocaleString()}</p>
+                                  {balance!==undefined && <p className="mb-1 mt-2"> {balance.toLocaleString()}</p>}
                                   <p className="mb-1 mt-2">:موجودی</p>
                                 </div>
-
                               </div>
                                 <button
                                   type="submit"

@@ -1,21 +1,27 @@
 import './deleteModal.css';
-
+import axios from "axios";
+import { useAuth } from "../../Authentication/authProvider";
 const DeleteModal = ({
     id,
     setDeleteComment,
     setData,
     data
 }) => {
+    const auth = useAuth();
+    // const deleteComment = async (id) => {
+    //     const baseUrl = `https://eventify.liara.run/comments/${id}/`;
+    //     console.log(auth.token);
+    //     await axios.delete(baseUrl, {headers: {
+    //       Authorization: `JWT ${auth.token}`,
+    //     }})
+    //   };
     const deleteComment = () => {
-            for (let comment of data.comments) {
+            for (let comment of data) {
                 if (comment.id === id) {
-                    const updatedComments = data.comments.filter(
+                    const updatedComments = data.filter(
                         (comment) => comment.id !== id
                     );
-                    setData(data => ({
-                        'currentUser': {...data.currentUser},
-                        'comments': updatedComments
-                    }));
+                    setData(updatedComments);
                     break;
                 }
                 if (comment.replies.length > 0) {
@@ -24,11 +30,7 @@ const DeleteModal = ({
                             const updatedReplies = comment.replies.filter((reply) => reply.id !== id);
 
                             comment.replies = updatedReplies;
-
-                            setData(data => ({
-                                'currentUser': {...data.currentUser},
-                                'comments': data.comments
-                            }));
+                            setData(data);
                             break;
                         };
                     }
