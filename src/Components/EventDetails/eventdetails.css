@@ -33,6 +33,15 @@
     background-color: #2b2e38;
     height:"fit-content";
   }
+  .event-details-mcard{
+    direction: rtl;
+    width:350px;
+    max-width: 90%;
+    margin-top: 0px;
+    border-radius: 6px;
+    background-color: #2b2e38;
+    height:400px;
+  }
   
   
 

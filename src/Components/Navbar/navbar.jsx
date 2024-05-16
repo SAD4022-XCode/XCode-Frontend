@@ -144,7 +144,7 @@ const Navbar = () => {
                     )}
                     {!showDrawer && auth.token && (
                     <li>
-                        <Wallet/>
+                        <Wallet balance={userData.balance}/>
                     </li>
                     )}
                     <li>
@@ -225,7 +225,7 @@ const Navbar = () => {
                         )
                     }
                     {showDrawer  && auth.token &&(<li className="auth-link-li" style={{marginRight:"15px"}}>
-                                <Wallet/>
+                                <Wallet balance={userData.balance}/>
                             </li>
                         )
                     }
