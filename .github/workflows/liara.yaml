@@ -18,3 +18,4 @@ jobs:
         run: |
           npm i -g @liara/cli@5
           liara deploy --app="eventified" --api-token="$LIARA_TOKEN" --no-app-logs
+        working-directory: ./src
