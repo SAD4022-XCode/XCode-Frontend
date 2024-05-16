@@ -44,14 +44,17 @@
   }
 
   .item:hover {
+    transition: all 0.2s;
     transform: scale(1.01);
   }
 
   .item:hover .event-img img {
+    transition: all 0.2s;
     transform: scale(1.01);
   }
 
   .item:hover .event-info {
+    transition: all 0.2s;
     transform: scale(1.01);
   }
 
@@ -60,6 +63,7 @@
   }
 
   .event-img img {
+    transition: all 0.2s;
     transform: scale(0.95);
     height: 12em;
     width: auto;

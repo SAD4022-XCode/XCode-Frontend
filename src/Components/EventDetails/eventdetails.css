@@ -389,7 +389,14 @@ select {
   }
 }
 
-  
+.bi-bookmark-plus{
+    cursor: pointer;
+}  
+
+.bi-bookmark-plus-fill{
+    cursor: pointer;
+}
+
 }
 /* @media screen and (max-width: 600px) {
   .event-details{
