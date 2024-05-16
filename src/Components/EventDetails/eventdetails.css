@@ -21,7 +21,19 @@
     overflow: hidden;
     text-overflow: ellipsis;
     max-width:170px;
+    width:'auto';
   }
+
+  .event-details-card{
+    direction: rtl;
+    width:770px;
+    max-width: 90%;
+    margin-top: 10px;
+    border-radius: 6px;
+    background-color: #2b2e38;
+    height:"fit-content";
+  }
+  
   
 
 a:hover {
@@ -132,7 +144,7 @@ h4 {
   font-size: 14px;
   margin-left: 5px;
 }
-.section .message {
+.ed-message {
   margin:10px 0 0;
   color: #b3b3b3;
   font-size: 14px;
@@ -334,7 +346,7 @@ select {
     
   }
   p{
-    font-size: 12px !important;
+    font-size: 14px !important;
   }
 }
 
@@ -346,6 +358,19 @@ select {
     color: #ffeba7;
     padding-right: 190px;
     font-size: 10px;
+  }
+  .ellipsis {
+    direction: ltr;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width:140px;
+    width:'auto';
+  }
+  .ed-message{
+    margin:10px 0 0;
+    color: #b3b3b3;
+    font-size: 13px !important;
   }
 }
 
