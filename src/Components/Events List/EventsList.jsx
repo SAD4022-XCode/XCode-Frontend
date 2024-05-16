@@ -88,7 +88,7 @@ const EventsList = () => {
 
       queryParams.push(`page=${currentPage}`);
       const fullUrl = `${baseUrl}?${queryParams.join("&")}`;
-      console.log(fullUrl);
+      console.log("full url:",fullUrl);
       // console.log(fullUrl);
       const response = await axios.get(fullUrl);
       // .then((response) => {
