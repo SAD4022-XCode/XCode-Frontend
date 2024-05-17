@@ -22,7 +22,8 @@ const Comment = ({
     updateScore,
     updateComment,
     setDeleteComment,
-    addNewReply
+    addNewReply,
+    hasLiked
 }) => {
     const [newReply, setNewReply] = useState(false);
     const [vote, setVote] = useState();
@@ -52,8 +53,8 @@ const Comment = ({
                         </>
                         :
                         <>
-                        <img className="flex-item upvote" src={vote === "upvote" ? liked : unliked} alt="upvote" onClick={() => {
-                        if (vote !== "upvote") {
+                        <img className="flex-item upvote" src={hasLiked ? liked : unliked} alt="upvote" onClick={() => {
+                        if (vote !== "upvote" && !hasLiked) {
                             updateScore(id, 'upvote');
                             setVote("upvote");
                             console.log(score);
