@@ -3,6 +3,7 @@ import "./MainComment.css";
 import JSONdata from "./data.json";
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
+import moment from "moment-timezone";
 
 import Comment from "./Comment";
 import NewComment from "./NewComment";
@@ -14,6 +15,7 @@ const MainComment = (id) => {
   const [data, setData] = useState([]);
   const [deleteComment, setDeleteComment] = useState(false);
   const initialDataLength = useRef(null);
+  axios.defaults.headers.common["Authorization"] = `JWT ${auth.token}`;
   let userData = JSON.parse(localStorage.getItem("userData"));
   let ID = id.id;
   useEffect(() => {
@@ -26,15 +28,51 @@ const MainComment = (id) => {
       // console.log(comments);
       setData(comments);
       console.log(comments);
-      console.log(userData)
+      console.log(userData);
+      const timeZoneOffset = "+3:30"; // Change this to your timezone offset
+
+      const translateTime = (time) => {
+        let translatedTime = moment.utc(time).local().fromNow();
+        const translations = {
+          "ago": "قبل",
+          "a few seconds": "لحظاتی",
+          "a": "یک",
+          "day": "روز",
+          "month": "ماه",
+          "year": "سال",
+          "minutes": "دقیقه",
+          "minute": "دقیقه",
+          "hours": "ساعت",
+          "seconds": "ثانیه",
+          "few": "چند"
+        };
+      
+        for (let key in translations) {
+          if (translatedTime.includes(key)) {
+            translatedTime = translatedTime.replace(key, translations[key]);
+          }
+        }
+      
+        return translatedTime;
+      };
+      
+      for (let comment of comments) {
+        comment.created_at = translateTime(comment.created_at);
+        if (comment.replies.length > 0) {
+          for (let reply of comment.replies) {
+            reply.created_at = translateTime(reply.created_at);
+          }
+        }
+      }
     };
     fetchComments();
-  }, []);
+  }, [data]);
+
   // const addNewReply = (id, content) => {
   //   if (!/\S/.test(content)) return; // to avoid posting empty comments (only whitespaces)
   //   let temp = data;
   //   currentId += 1;
-  
+
   //   const addReplyToComments = (comments) => {
   //     for (let comment of comments) {
   //       if (comment.id === id) {
@@ -59,54 +97,48 @@ const MainComment = (id) => {
   //     }
   //     return false;
   //   };
-  
+
   //   addReplyToComments(temp);
   //   setData([...temp]);
   //   console.log(data);
   // };
   const addNewCommentBack = async (newData) => {
     const baseUrl = `https://eventify.liara.run/comments/`;
-    
-    await axios.post(baseUrl, newData, {headers: {
-      Authorization: `JWT ${auth.token}`,
-    }})
+
+    await axios.post(baseUrl, newData);
   };
-  const updateCommentBack = async (id,newData) => {
+  const updateCommentBack = async (id, newData) => {
     const baseUrl = `https://eventify.liara.run/comments/${id}/`;
-    
-    await axios.patch(baseUrl, newData, {headers: {
-      Authorization: `JWT ${auth.token}`,
-    }})
+
+    await axios.patch(baseUrl, newData, {
+      headers: {
+        Authorization: `JWT ${auth.token}`,
+      },
+    });
   };
   const updateScoreBack = async (id) => {
     const baseUrl = `https://eventify.liara.run/comments/${id}/like/`;
-    
-    await axios.post(baseUrl, {headers: {
-      Authorization: `JWT ${auth.token}`,
-    }})
+
+    await axios.post(baseUrl);
   };
 
   const addNewReplyBack = async (id, newData) => {
     const baseUrl = `https://eventify.liara.run/comments/${id}/reply/`;
-    
-    await axios.post(baseUrl, newData, {headers: {
-      Authorization: `JWT ${auth.token}`,
-    }})
-  }
+
+    await axios.post(baseUrl, newData);
+  };
 
   // useEffect(() => {
   //   const deleteCommentBack = async (deletecomment) => {
   //     const baseUrl = `https://eventify.liara.run/comments/${id}/`;
-      
+
   //     await axios.delete(baseUrl, {headers: {
   //       Authorization: `JWT ${auth.token}`,
   //     }})
   //   };
   //   deleteCommentBack(deleteComment);
   // },[deleteComment])
-  
 
-  
   const addNewReply = (id, content) => {
     if (!/\S/.test(content)) return; // to avoid posting empty comments (only whitespaces)
     let temp = [...data];
@@ -115,19 +147,19 @@ const MainComment = (id) => {
       if (comment.id === id) {
         comment.replies.push({
           id: currentId + 1,
-            text: content,
-            createdAt: "Just now",
-            score: 0,
-            username: userData.user.username,
-            replies: [],
-            user_photo: userData.profile_picture,
-            user: userData.user.id,
-            liked_by: [],
-            has_liked: false,
-            event: ID,
-            parent: id
+          text: content,
+          createdAt: "Just now",
+          score: 0,
+          username: userData.user.username,
+          replies: [],
+          user_photo: userData.profile_picture,
+          user: userData.user.id,
+          liked_by: [],
+          has_liked: false,
+          event: ID,
+          parent: id,
         });
-        addNewReplyBack(id, {event: ID, text:content});
+        addNewReplyBack(id, { event: ID, text: content });
         break;
       }
       if (comment.replies.length > 0) {
@@ -145,23 +177,32 @@ const MainComment = (id) => {
               liked_by: [],
               has_liked: false,
               event: ID,
-              parent: id
+              parent: id,
             });
-            addNewReplyBack(id, {event: ID, text:content});
+            addNewReplyBack(id, { event: ID, text: content });
             break;
           }
         }
       }
     }
     setData(temp);
-    console.log(temp)
+    console.log(temp);
   };
 
   const updateScore = (id, action) => {
     let temp = [...data];
     for (let comment of temp) {
       if (comment.id === id) {
-        action == "upvote" ? (comment.score += 1) : (comment.score -= 1);  //liked by add
+        if (action == "upvote") {
+          comment.score += 1;
+          comment.has_liked = true;
+          // comment.liked_by.push(userData.user.id)
+        } else {
+          comment.score -= 1;
+          comment.has_liked = false;
+          // comment.liked_by = comment.liked_by.filter(id => id !== userData.user.id)
+        }
+        // action == "upvote" ? (comment.score += 1) : (comment.score -= 1);  //liked by add
         updateScoreBack(id);
         break;
       }
@@ -194,17 +235,17 @@ const MainComment = (id) => {
         }
       }
     }
-      
+
     setData(temp);
-    updateCommentBack(id,{event: id.event, text:updatedContent});
+    updateCommentBack(id, { event: id.event, text: updatedContent });
   };
 
   const addNewComment = (content) => {
     if (!/\S/.test(content)) return;
     currentId += 1;
-    
+
     const newComment = {
-      parent:"",
+      parent: "",
       id: currentId + 1,
       text: content,
       createdAt: "Just now",
@@ -217,13 +258,15 @@ const MainComment = (id) => {
       has_liked: false,
       event: id.id,
     };
-    
+
     const updatedData = [...data, newComment];
     setData(updatedData);
     if (updatedData.length > initialDataLength.current) {
-      addNewCommentBack({event: updatedData[updatedData.length - 1].event, text:updatedData[updatedData.length - 1].text});
+      addNewCommentBack({
+        event: updatedData[updatedData.length - 1].event,
+        text: updatedData[updatedData.length - 1].text,
+      });
     }
-    
   };
 
   return (
@@ -245,30 +288,40 @@ const MainComment = (id) => {
       )}
 
       <main className="comments-column">
-        {data.length > 0 && data.map((comment) => {
-          return (
-            <Comment
-              replyingTo=""
-              addNewReply={addNewReply}
-              updateComment={updateComment}
-              setDeleteComment={setDeleteComment}
-              updateScore={updateScore}
-              key={comment.id}
-              currentUser={userData ? userData.user.username : ""}
-              comment={comment.text}
-              image={comment.user_photo}
-              username={comment.username}
-              timeSince={comment.created_at}
-              score={comment.score}
-              replies={comment.replies}
-              id={comment.id}
-              hasLiked={comment.has_liked}
-            />
-          );
-        })}
-        {userData && <NewComment addNewComment={addNewComment} currentUser={userData} />}
-        {!userData && <div className="row">
-        <div className="col-7 mx-auto"><h2 id="login-comment" className="text-center mt-5">جهت ارسال نظر، ابتدا <a href="/login">وارد شوید.</a></h2></div></div>}
+        {data.length > 0 &&
+          data.map((comment) => {
+            return (
+              <Comment
+                replyingTo=""
+                addNewReply={addNewReply}
+                updateComment={updateComment}
+                setDeleteComment={setDeleteComment}
+                updateScore={updateScore}
+                key={comment.id}
+                currentUser={userData ? userData.user.username : ""}
+                comment={comment.text}
+                image={comment.user_photo}
+                username={comment.username}
+                timeSince={comment.created_at}
+                score={comment.score}
+                replies={comment.replies}
+                id={comment.id}
+                hasLiked={comment.has_liked}
+              />
+            );
+          })}
+        {userData && (
+          <NewComment addNewComment={addNewComment} currentUser={userData} />
+        )}
+        {!userData && (
+          <div className="row">
+            <div className="col-7 mx-auto">
+              <h2 id="login-comment" className="text-center mt-5">
+                جهت ارسال نظر، ابتدا <a href="/login">وارد شوید.</a>
+              </h2>
+            </div>
+          </div>
+        )}
       </main>
     </div>
   );
