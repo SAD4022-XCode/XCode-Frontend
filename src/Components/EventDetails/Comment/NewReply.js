@@ -10,7 +10,7 @@ const NewReply = ({
     return (
         <div className='newComment'>
             <div className='avatarColumn'>
-                <img className='avatarReply' src={currentUser.image.png} alt='current user avatar'/>
+                <img className='avatarReply' src={currentUser.profile_picture} alt='current user avatar'/>
             </div>
             
             <div className='inputColumn'>

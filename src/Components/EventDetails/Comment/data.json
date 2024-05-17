@@ -1,8 +1,7 @@
 {
     "currentUser": {
       "image": { 
-        "png": "https://gravatar.com/avatar/d78997c04ea0fe6bdf126852b4a5ee38?s=400&d=robohash&r=x ",
-        "webp": "./images/avatars/image-juliusomo.webp"
+        "png": "https://gravatar.com/avatar/d78997c04ea0fe6bdf126852b4a5ee38?s=400&d=robohash&r=x "
       },
       "username": "ادمین"
     },
@@ -14,8 +13,7 @@
         "score": 12,
         "user": {
           "image": { 
-            "png": "https://gravatar.com/avatar/a532c3431d3a82a4e6c56465788bb194?s=400&d=robohash&r=x",
-            "webp": "./images/avatars/image-amyrobson.webp"
+            "png": "https://gravatar.com/avatar/a532c3431d3a82a4e6c56465788bb194?s=400&d=robohash&r=x"
           },
           "username": "کاربر شماره 1"
         },
@@ -28,8 +26,7 @@
         "score": 5,
         "user": {
           "image": { 
-            "png": "https://gravatar.com/avatar/1f513698f4b6781b8cedc3acb3c95156?s=400&d=robohash&r=x",
-            "webp": "./images/avatars/image-maxblagun.webp"
+            "png": "https://gravatar.com/avatar/1f513698f4b6781b8cedc3acb3c95156?s=400&d=robohash&r=x"
           },
           "username": "کاربر شماره 2"
         },
@@ -42,8 +39,7 @@
             "replyingTo": "کاربر شماره 2",
             "user": {
               "image": { 
-                "png": "https://gravatar.com/avatar/4f65640b9061eb59b6585013945cb8fc?s=400&d=robohash&r=x",
-                "webp": "./images/avatars/image-ramsesmiron.webp"
+                "png": "https://gravatar.com/avatar/4f65640b9061eb59b6585013945cb8fc?s=400&d=robohash&r=x"
               },
               "username": "کاربر شماره 3"
             }
@@ -56,8 +52,7 @@
             "replyingTo": "کاربر شماره 3",
             "user": {
               "image": { 
-                "png": "https://gravatar.com/avatar/d78997c04ea0fe6bdf126852b4a5ee38?s=400&d=robohash&r=x",
-                "webp": "./images/avatars/image-juliusomo.webp"
+                "png": "https://gravatar.com/avatar/d78997c04ea0fe6bdf126852b4a5ee38?s=400&d=robohash&r=x"
               },
               "username": "ادمین"
             }

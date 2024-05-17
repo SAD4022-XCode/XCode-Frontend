@@ -6,11 +6,13 @@ import disabledDownVote from '../../../assets/images/icon-minus.svg'
 import deleteIcon from '../../../assets/images/icon-delete.svg'
 import editIcon from '../../../assets/images/icon-edit.svg'
 import replyIcon from '../../../assets/images/icon-reply.svg'
+import liked from '../../../assets/liked.png'
+import unliked from '../../../assets/unliked.png'
 
 const Comment = ({
     id,
     currentUser,
-    replyingTo,
+    parent,
     comment,
     image,
     username,
@@ -26,10 +28,11 @@ const Comment = ({
     const [vote, setVote] = useState();
     const [edit, setEdit] = useState(false);
     const [current, setCurrent] = useState(false);
+    let userData = JSON.parse(localStorage.getItem("userData"));
 
     // Evaluate to true or false and then render HTML accordingly
     useEffect(() => {
-        const curr = username === currentUser.username;
+        const curr = username === currentUser;
         setCurrent(curr);
     }, [currentUser, username]);
     
@@ -43,25 +46,26 @@ const Comment = ({
                         current 
                         ?
                         <>
-                         <img className="flex-item upvote disabled-upvote" src={upVote} alt="upvote" />
+                         <img className="flex-item upvote disabled-upvote" src={unliked} alt="upvote" />
                          <span className="flex-item">{score}</span>
-                         <img className="flex-item downvote disabled-upvote" src={disabledDownVote} alt="downvote" />
+                         {/* <img className="flex-item downvote disabled-upvote" src={disabledDownVote} alt="downvote" /> */}
                         </>
                         :
                         <>
-                        <img className="flex-item upvote" src={upVote} alt="upvote" onClick={() => {
+                        <img className="flex-item upvote" src={vote === "upvote" ? liked : unliked} alt="upvote" onClick={() => {
                         if (vote !== "upvote") {
                             updateScore(id, 'upvote');
-                            setVote("upvote");}
-                        }}
+                            setVote("upvote");
+                            console.log(score);
+                        }
+                        else {
+                            updateScore(id, 'downvote');
+                            setVote("downvote");
+                            console.log(score);
+                        }
+                    }}
                         />
                         <span className="flex-item">{score}</span>
-                        <img className="flex-item downvote" src={disabledDownVote} alt="downvote" onClick={() => {
-                            if (vote !== "downvote") {
-                                updateScore(id, 'downvote');
-                                setVote("downvote");}
-                            }}
-                        />
                         </>
                     }
 
@@ -131,7 +135,7 @@ const Comment = ({
                         </>
                         :
                         <div className='commentContent'>
-                            {replyingTo.length > 0 ? <span className='reply-username'>@{replyingTo} </span> : ''}
+                            {parent > 0 ? <span className='reply-username'>@{parent} </span> : ''}
                             {comment}
                         </div>
                     }
@@ -143,7 +147,7 @@ const Comment = ({
         {   newReply !== false &&
                 <NewReply
                     parentId={id}
-                    replyingTo={username}
+                    parent={username}
                     setNewReply={setNewReply}
                     addNewReply={addNewReply}
                     currentUser={currentUser}
@@ -155,20 +159,21 @@ const Comment = ({
                         <div className='commentReplies'>
                             <div className='verticalLine'></div>
                             <Comment
-                                replyingTo={reply.replyingTo}
+                                parent={reply.parent}
                                 addNewReply={addNewReply}
                                 updateComment={updateComment}
                                 setDeleteComment={setDeleteComment}
                                 updateScore={updateScore}
                                 key={reply.id}
-                                currentUser={currentUser}
-                                comment={reply.content}
-                                image={reply.user.image.png}
-                                username={reply.user.username}
-                                timeSince={reply.createdAt}
+                                currentUser={userData ? userData.user.username : ""}
+                                comment={reply.text}
+                                image={reply.user_photo}
+                                username={reply.username}
+                                timeSince={reply.created_at}
                                 score={reply.score}
                                 replies={reply.replies}
                                 id={reply.id}
+                                hasLiked={reply.has_liked}
                             />
                         </div>
                 )
