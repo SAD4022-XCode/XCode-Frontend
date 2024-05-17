@@ -91,6 +91,26 @@ const Wallet = ({balance}) =>  {
 
     });
   }
+  const [walletCardHeight, setWalletCardHeight] = useState(400);
+  useEffect(() => {
+      const handleResize = () => {
+          let width = window.innerWidth;
+          if(width>540){
+            setWalletCardHeight(400);
+          }else if(width>430){
+            setWalletCardHeight(470);
+          }else if(width>400){
+            setWalletCardHeight(530);
+          }else{
+            setWalletCardHeight(580);
+          }
+      };
+      window.addEventListener('resize', handleResize);
+      return () => {
+          window.removeEventListener('resize', handleResize);
+      };
+
+  })
 
   return (
     <>
@@ -139,7 +159,7 @@ const Wallet = ({balance}) =>  {
                 <div className="row  justify-content-center">
                   <div className="col-12 text-center align-self-center px-0">
                     <div className="section  text-center">
-                      <div className="card-3d-wrap mx-auto " style={{maxHeight:"auto",minHeight:"400px"}}>
+                      <div className="card-3d-wrap mx-auto " style={{maxHeight:"auto",minHeight:walletCardHeight.toString()+"px"}}>
                           <div className="card-front">
                             <div className="center-wrap">
                               <div className="section text-center">
