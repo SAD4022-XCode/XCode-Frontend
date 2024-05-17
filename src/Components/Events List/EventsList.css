@@ -155,6 +155,28 @@
   .loading h2 {
     color: #ffeba7;
   }
+
+  .bi-bookmark-plus-fill{
+    font-size: 3vh;
+    justify-content: center;
+  }
+  .bi-bookmark-plus{
+    font-size: 3vh;
+    color: white;
+    /* margin-bottom: 3vh; */
+  }
+
+  .bi-bookmark-plus:hover{
+    color: #ffeba7;
+    /* background-color: red; */
+  }
+
+  .bi-bookmark-plus, .bi-bookmark-plus-fill, .bi-bookmark-plus::before, .bi-bookmark-plus-fill::before{
+    cursor: pointer;
+    vertical-align: top !important;
+    padding-top: 5px;
+    font-size: 2.5vh;
+}
 }
 /* @media screen and (max-width: 700px) {
   .items {

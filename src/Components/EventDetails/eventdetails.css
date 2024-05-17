@@ -389,12 +389,17 @@ select {
   }
 }
 
-.bi-bookmark-plus{
-    cursor: pointer;
-}  
 
-.bi-bookmark-plus-fill{
+.bi-bookmark-plus, .bi-bookmark-plus-fill, .bi-bookmark-plus::before, .bi-bookmark-plus-fill::before{
     cursor: pointer;
+    vertical-align: top !important;
+    font-size: 2vh;
+}
+
+.message{
+    justify-content: center;
+    margin: 0;
+    font-size: 1.5vh;
 }
 
 }

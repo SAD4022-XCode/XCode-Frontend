@@ -13,7 +13,8 @@ import MainComment from "./Comment/MainComment";
 import moment from 'moment-jalaali';
 import animationData from "./Animation - 1715854965467.json";
 import Lottie from "react-lottie";
-import { Alert } from 'react-alert'
+// import { Alert } from 'react-alert'
+// import { toast } from "react-toastify";
 
 const EventDetails = () => {
     const [show, setShow] = useState(false);
@@ -80,8 +81,10 @@ const EventDetails = () => {
             
         }
         else{
-            alert('برای افزودن به علاقه مندی ها باید وارد سیستم شوید!');
-            navigator('/login');
+            toast.error('برای افزودن به علاقه مندی ها باید وارد سیستم شوید!');
+            setTimeout(() => {
+                navigator('/login');
+            }, 2500);
         }
     }
 
@@ -297,8 +300,8 @@ const EventDetails = () => {
                                         
                                     </div>
                                 </div>
-                                <center className="mt-2" >
-                                    <button
+                                <center className="mt-2">
+                                    {/* <button
                                         className="btn  mt-1 mx-1"
                                         onClick={handleShow}
                                         >
@@ -307,7 +310,12 @@ const EventDetails = () => {
                                              بعدا یادآوری کن
                                             
                                         </div>
-                                    </button>
+                                    </button> */}
+                                    <div className="row px-3">
+                                        <a class={isBookmarked ? 'bi bi-bookmark-plus-fill': 'bi bi-bookmark-plus'} 
+                                        onClick={bookmarkToggler}></a>
+                                        <p className="message">افزودن به علاقه مندی ها</p>
+                                    </div>
                                 </center>
                                 
                             </div>
@@ -401,7 +409,9 @@ const EventDetails = () => {
                                     </button> */}
                                     <div className="row px-3">
                                         <a class={isBookmarked ? 'bi bi-bookmark-plus-fill': 'bi bi-bookmark-plus'} 
-                                        onClick={bookmarkToggler}></a>
+                                        onClick={bookmarkToggler}>
+                                        </a>
+
                                         <p className="message">افزودن به علاقه مندی ها</p>
                                     </div>
                                 </center>
@@ -532,7 +542,7 @@ const EventDetails = () => {
                                     </div>
                                 </div>
                                 <center className="mt-2">
-                                    <button
+                                    {/* <button
                                         className="btn  mt-1 mx-1"
                                         onClick={handleShow}
                                         >
@@ -541,7 +551,12 @@ const EventDetails = () => {
                                              بعدا یادآوری کن
                                             
                                         </div>
-                                    </button>
+                                    </button> */}
+                                    <div className="row px-3">
+                                        <a class={isBookmarked ? 'bi bi-bookmark-plus-fill': 'bi bi-bookmark-plus'} 
+                                        onClick={bookmarkToggler}></a>
+                                        <p className="message">افزودن به علاقه مندی ها</p>
+                                    </div>
                                 </center>
                                 
                             </div>
