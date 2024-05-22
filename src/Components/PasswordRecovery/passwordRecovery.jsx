@@ -72,7 +72,7 @@ const PasswordRecovery = () =>{
 
     return(
         <form className="signin">
-       <ToastContainer className="toastify-container"position="top-right" toastStyle={{backgroundColor: "#2b2c38", fontFamily: "iransansweb", color: "#ffeba7"}} pauseOnHover={false} autoClose={3000} />
+       <ToastContainer closeOnClick  className="toastify-container"position="top-right" toastStyle={{backgroundColor: "#2b2c38", fontFamily: "iransansweb", color: "#ffeba7"}} pauseOnHover={false} autoClose={3000} />
       <div className="section">
         <div className="container">
           <div className="row full-height justify-content-center">

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "leaflet/dist/leaflet.css";
 import {
   MapContainer,
@@ -46,15 +46,17 @@ function LocationMarker(params) {
     </Marker>
   );
 }
-const MapComponent = ({ sendDataToParent }) => {
+const MapComponent = ({ sendDataToParent ,lati ,long,onlyShow}) => {
+  console.log(lati,long)
   const [marker, setMarker] = useState([
     {
-      geocode: [35.6997, 51.338],
+      geocode: [lati, long],
       popUp: "محل برگزاری رویداد",
     },
   ]);
+
   const mapOptions = {
-    center: [35.6997, 51.338],
+    center: [lati,long],
     zoom: 9,
   };
   const MapEventsHandler = ({ handleMapClick }) => {
@@ -64,15 +66,22 @@ const MapComponent = ({ sendDataToParent }) => {
     return null;
   };
   const handleMapClick = (e) => {
-    const { lat, lng } = e.latlng;
-    setMarker([
-      { ...marker, geocode: [lat, lng], popUp: "محل برگزاری رویداد" },
-    ]);
-    sendDataToParent({lat, lng})
-    //console.log(lat, lng);
+    console.log("only show ",onlyShow)
+    console.log(lati,long)
+    if (onlyShow===true){
+      console.log("only show")
+    }else{
+      const { lat, lng } = e.latlng;
+      setMarker([
+        { ...marker, geocode: [lat, lng], popUp: "محل برگزاری رویداد" },
+      ]);
+      sendDataToParent({lat, lng})
+      console.log(lat, lng);
+    }    
   };
+
   return (
-    <div className="map-component col-md-10 col-sm-12 col-12">
+    <div className="map-component col-md-12 col-sm-12 col-12">
       <MapContainer className="map-component__map" {...mapOptions}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

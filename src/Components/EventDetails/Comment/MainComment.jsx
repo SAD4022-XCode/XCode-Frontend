@@ -27,8 +27,8 @@ const MainComment = (id) => {
       initialDataLength.current = comments.length; // set initial data length
       // console.log(comments);
       setData(comments);
-      console.log(comments);
-      console.log(userData);
+      // console.log(comments);
+      // console.log(userData);
       const timeZoneOffset = "+3:30"; // Change this to your timezone offset
 
       const translateTime = (time) => {
