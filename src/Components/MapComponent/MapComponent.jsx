@@ -13,7 +13,6 @@ import { Icon } from "leaflet";
 import redPin from "../../assets/red pin.png";
 import bluePin from "../../assets/blue pin.png";
 import "./MapComponent.css";
-import AxiosInstance from "./Axios";
 
 const blackIcon = new Icon({
   iconUrl: "https://cdn-icons-png.flaticon.com/512/447/447031.png",
@@ -46,8 +45,9 @@ function LocationMarker(params) {
     </Marker>
   );
 }
-const MapComponent = ({ sendDataToParent ,lati ,long,onlyShow}) => {
-  console.log(lati,long)
+const MapComponent = ({ sendDataToParent, lati, long, onlyShow, name }) => {
+  console.log(lati, long);
+  const [classes, setClasses] = useState(name);
   const [marker, setMarker] = useState([
     {
       geocode: [lati, long],
@@ -56,7 +56,7 @@ const MapComponent = ({ sendDataToParent ,lati ,long,onlyShow}) => {
   ]);
 
   const mapOptions = {
-    center: [lati,long],
+    center: [lati, long],
     zoom: 9,
   };
   const MapEventsHandler = ({ handleMapClick }) => {
@@ -66,22 +66,22 @@ const MapComponent = ({ sendDataToParent ,lati ,long,onlyShow}) => {
     return null;
   };
   const handleMapClick = (e) => {
-    console.log("only show ",onlyShow)
-    console.log(lati,long)
-    if (onlyShow===true){
-      console.log("only show")
-    }else{
+    console.log("only show ", onlyShow);
+    console.log(lati, long);
+    if (onlyShow === true) {
+      console.log("only show");
+    } else {
       const { lat, lng } = e.latlng;
       setMarker([
         { ...marker, geocode: [lat, lng], popUp: "محل برگزاری رویداد" },
       ]);
-      sendDataToParent({lat, lng})
+      sendDataToParent({ lat, lng });
       console.log(lat, lng);
-    }    
+    }
   };
 
   return (
-    <div className="map-component col-md-12 col-sm-12 col-12">
+    <div className={`map-component ${classes} col-md-12 col-sm-12 col-12`}>
       <MapContainer className="map-component__map" {...mapOptions}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

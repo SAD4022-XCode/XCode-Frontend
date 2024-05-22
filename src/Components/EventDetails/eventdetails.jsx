@@ -316,7 +316,8 @@ const EventDetails = () => {
                                         
                                         </div>
                                     </div>
-                                    <MapComponent  sendDataToParent={handleMapData} lati={eventDetails.inpersonevent.location_lat} long={eventDetails.inpersonevent.location_lon} onlyShow={true}/>
+                                    
+                                    <MapComponent  sendDataToParent={handleMapData} lati={eventDetails.inpersonevent.location_lat} long={eventDetails.inpersonevent.location_lon} onlyShow={true} name="EventDetails"/>
 
                                 </>
                                 
