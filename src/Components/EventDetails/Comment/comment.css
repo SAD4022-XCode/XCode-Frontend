@@ -28,21 +28,12 @@
     max-width: 600px;
 }
 
-.scoreColumn {
-    display: flex;
-    flex-direction: column;
-    align-items: baseline;
-    justify-content: center;
-    background-color: #ffeba7;
-    width: 40px;
-    gap: 20px;
-    border-radius: 10px;
-}
 
 .flex-item {
     margin: 0 auto;
     padding-top: 5px;
     padding-bottom: 5px;
+    transform: rotate(270deg);
 }
 
 .avatar {
@@ -58,7 +49,7 @@
 
 .replyButton, .editButton {
     position: absolute;
-    left: 30px;
+    left: -50px;
 }
 
 .deleteButton, .editButton, .replyButton, .upvote, .downvote, .updateButton {
@@ -68,7 +59,7 @@
 .deleteButton {
     color: hsl(358, 100%, 75%);
     position: absolute;
-    left: 105px;
+    left: 30px;
 }
 
 /* ======= FONTS AND TYPOLOGY ======== */
@@ -103,7 +94,7 @@
 
 .verticalLine {
     position: absolute;
-    right: -20px;
+    right: -28px;
     top: 18px;
     border-right: 3px solid #ffeba7;
     height: 100%;
@@ -160,6 +151,35 @@
 }
 
 /* Make the reply button and scores button responsive */
+@media screen and (min-width:621px) {
+    .scoreColumn {
+        display: flex;
+        flex-direction: column;
+        align-items: baseline;
+        justify-content: center;
+        background-color: #ffeba7;
+        position: relative;
+        width: 40px;
+        gap: 20px;
+        border-radius: 10px;
+        transform: rotate(90deg);
+        right: 1000%;
+        top:10%;
+    }
+    .commentHeader{
+        position: relative;
+        left:10%;
+    }
+    .commentContent{
+        position: relative;
+        left: 10%;
+    }
+    
+    .flex-item {
+        transform: rotate(270deg);
+    }
+    
+}
 @media (max-width: 620px) {
     .comment {
         display: grid;
@@ -188,6 +208,9 @@
         padding-right: 10px;
         background-color: #ffeba7;
     }
+    .flex-item {
+        transform: rotate(0deg);
+    }
 
     .deleteButton, .editButton, .replyButton, .updateButton {
         cursor: pointer;
@@ -197,6 +220,9 @@
         position: absolute;
         right: 30px;
         bottom: 30px;
+    }
+    .replyButton{
+        width: 120px;
     }
 
     .deleteButton {
@@ -208,6 +234,13 @@
         margin-top: 10px;
         margin-bottom: 20px;
     }
+    .deleteButton{
+        right: 110px;
+        width: 70px;
+    }
+    .editButton{
+        width: 70px;
+    }
     
 }
 
@@ -218,7 +251,5 @@
     .commentContent{
         max-width: 300px;
     }
-    .deleteButton{
-        right: 110px;
-    }
+
 }

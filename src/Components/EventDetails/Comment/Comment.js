@@ -8,6 +8,7 @@ import editIcon from '../../../assets/images/icon-edit.svg'
 import replyIcon from '../../../assets/images/icon-reply.svg'
 import liked from '../../../assets/liked.png'
 import unliked from '../../../assets/unliked.png'
+import profile from "../../../assets/profile.png";
 
 const Comment = ({
     id,
@@ -30,6 +31,9 @@ const Comment = ({
     const [edit, setEdit] = useState(false);
     const [current, setCurrent] = useState(false);
     let userData = JSON.parse(localStorage.getItem("userData"));
+    if (!userData.profile_picture){
+        userData.profile_picture = profile;
+    }
 
     // Evaluate to true or false and then render HTML accordingly
     useEffect(() => {
@@ -151,7 +155,7 @@ const Comment = ({
                     parent={username}
                     setNewReply={setNewReply}
                     addNewReply={addNewReply}
-                    currentUser={currentUser}
+                    currentUser={userData}
                 />
         }
         {replies?.length > 0 && 
@@ -168,7 +172,7 @@ const Comment = ({
                                 key={reply.id}
                                 currentUser={userData ? userData.user.username : ""}
                                 comment={reply.text}
-                                image={reply.user_photo}
+                                image={reply.user_photo ? reply.user_photo : profile}
                                 username={reply.username}
                                 timeSince={reply.created_at}
                                 score={reply.score}

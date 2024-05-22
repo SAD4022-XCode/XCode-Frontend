@@ -5,7 +5,8 @@ const DeleteModal = ({
     id,
     setDeleteComment,
     setData,
-    data
+    data,
+    setInitialFetchDone
 }) => {
     const auth = useAuth();
     axios.defaults.headers.common['Authorization'] = `JWT ${auth.token}`;
@@ -15,6 +16,8 @@ const DeleteModal = ({
         await axios.delete(baseUrl)
         setTimeout(()=>{setDeleteComment(false)},1000);
         setData(data)
+        setInitialFetchDone(false);
+        setTimeout(()=>{setInitialFetchDone(true)},1500);
       };
     // const deleteComment = () => {
     //         for (let comment of data) {
