@@ -18,6 +18,7 @@ import EventDetails from "./Components/EventDetails/eventdetails";
 import RegisterEvent from "./Components/RegisterEvent/registerEvent";
 import Landing from "./Components/Landing/Landing";
 import NotificationPanel from "./Components/NotificationPanel/NotificationPanel";
+import RegisteredEvents from "./Components/RegisteredEvents/RegisteredEvents";
 function App() {
   return (
     <Router>
@@ -33,6 +34,7 @@ function App() {
             <Route exact path="/user-info" element={<UserInfo />} />
             <Route exact path="/profile" element={<MyEvents />}/>
             <Route exact path="/register-event" element={<RegisterEvent />}/>
+            <Route exact path="/registered-events" element={<RegisteredEvents />} />
           </Route>
           <Route exact path="/map" element={<MapComponent />} />
           <Route path="event-details/:id" element={<EventDetails />} />
