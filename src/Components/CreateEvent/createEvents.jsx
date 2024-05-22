@@ -78,7 +78,7 @@ const CreateEvent = () => {
 
        
        
-        if (canSubmit && false){
+        if (canSubmit){
             let jalaliDate = startDate.year.toString()+"/"+(startDate.monthIndex+1).toString()+"/"+startDate.day.toString()
             let miladiDate = moment(jalaliDate,'jYYYY/jM/jD').format('YYYY-MM-DD')
             const startIsoDate = moment(miladiDate).toISOString();
