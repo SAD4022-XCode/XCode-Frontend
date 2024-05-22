@@ -114,7 +114,7 @@ const Wallet = ({balance}) =>  {
 
   return (
     <>
-      <ToastContainer className="toastify-container" position="top-right" toastStyle={{backgroundColor: "#2b2c38", fontFamily: "iransansweb", color: "#ffeba7",marginTop:"100px", zIndex:2000}} pauseOnHover={false} autoClose={3000} />
+      <ToastContainer closeOnClick className="toastify-container" position="top-right" toastStyle={{backgroundColor: "#2b2c38", fontFamily: "iransansweb", color: "#ffeba7",marginTop:"100px", zIndex:2000}} pauseOnHover={false} autoClose={3000} />
 
       {/* <p onClick={handleOpen} style={{marginBottom:"0px"}} >کیف پول </p> */}
       {/* <i onClick={handleOpen} class="pl-1 ml-0 pr-1 mt-0 pb-0 bi bi-wallet2"></i> */}

@@ -184,7 +184,7 @@ const UserInfo = () => {
       <Navbar />
       <ProfileSidebar/>
       <div className="user-info">
-        <ToastContainer
+        <ToastContainer closeOnClick
           className="toastify-container"
           position="top-right"
           toastStyle={{

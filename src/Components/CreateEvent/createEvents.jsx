@@ -60,7 +60,7 @@ const CreateEvent = () => {
         if (eventType==="O"){
             if(showError[0] || showError[1] || showError[2] || showError[3] || showError[4] || showError[5] || showError[6] || startTime===null || startTime===null || endDate===null || endTime===null){
                 canSubmit=false
-                // toast.warning("فیلدهای مربوطه را به درستی پر کنید")
+                toast.warning("فیلدهای مربوطه را به درستی پر کنید",{toastId:"warning in create event"})
 
             }else{
                 setShowViolations(false)
@@ -68,7 +68,7 @@ const CreateEvent = () => {
         }else{
             if(showError[0] || showError[1] || showError[3] || showError[4] || showError[5] || showError[6] || showError[7] || showError[8] || startTime===null || startTime===null || endDate===null || endTime===null){
                 canSubmit=false
-                // toast.error("فیلدهای مربوطه را به درستی پر کنید")
+                toast.error("فیلدهای مربوطه را به درستی پر کنید",{toastId:"warning in create event"})
 
             }else{
                 setShowViolations(false)
@@ -78,7 +78,7 @@ const CreateEvent = () => {
 
        
        
-        if (canSubmit){
+        if (canSubmit && false){
             let jalaliDate = startDate.year.toString()+"/"+(startDate.monthIndex+1).toString()+"/"+startDate.day.toString()
             let miladiDate = moment(jalaliDate,'jYYYY/jM/jD').format('YYYY-MM-DD')
             const startIsoDate = moment(miladiDate).toISOString();
@@ -344,7 +344,7 @@ const CreateEvent = () => {
     return (
         <center>
             <Navbar/>
-            <ToastContainer className="toastify-container"position="top-right" toastStyle={{backgroundColor: "#2b2c38", fontFamily: "iransansweb", color: "#ffeba7",marginTop:"60px"}} pauseOnHover={false} autoClose={3000} />
+            <ToastContainer closeOnClick  className="toastify-container"position="top-right" toastStyle={{backgroundColor: "#2b2c38", fontFamily: "iransansweb", color: "#ffeba7",marginTop:"60px"}} pauseOnHover={false} autoClose={3000} />
             <form className="create-event">
                 <div className="container pt-2">
                 <div className="row">
@@ -504,7 +504,9 @@ const CreateEvent = () => {
                                         </div>
                                         {address==="" && showError[8] && eventType==="I" && showViolations && (<p className="mb-0 mt-2 validationMsg">آدرس را وارد کنید</p>)}
                                         {address.length>100  && showError[8] && eventType==="I" && showViolations &&(<p className="mb-0 mt-2 validationMsg">طول آدرس کمتر از 100 کاراکتر باید باشد</p>)}
-                                        <MapComponent sendDataToParent={handleMapData}/>
+                                        {/* <MapComponent sendDataToParent={handleMapData}/> */}
+                                        <MapComponent sendDataToParent={handleMapData} lati={35.6997} long={51.338} onlyShow={false}/>
+
                                         {showError[7] && eventType==="I" && showViolations && (<p className="mb-0 mt-2 mb-2 validationMsg"> محل برگزاری رویداد را بر روی نقشه مشخص کنید  </p>)}
 
                                     </div>
