@@ -9,64 +9,74 @@ import Comment from "./Comment";
 import NewComment from "./NewComment";
 import DeleteModal from "./DeleteModal";
 import { useAuth } from "../../Authentication/authProvider";
+import profile from "../../../assets/profile.png";
 let currentId = 5;
 const MainComment = (id) => {
   const auth = useAuth();
   const [data, setData] = useState([]);
   const [deleteComment, setDeleteComment] = useState(false);
+  const [initialFetchDone, setInitialFetchDone] = useState(false);
   const initialDataLength = useRef(null);
+
   axios.defaults.headers.common["Authorization"] = `JWT ${auth.token}`;
   let userData = JSON.parse(localStorage.getItem("userData"));
   let ID = id.id;
   useEffect(() => {
     const fetchComments = async () => {
-      const baseUrl = `https://eventify.liara.run/events/${id.id}/comments/`;
-      const response = await axios.get(baseUrl);
-      // console.log(response)
-      const comments = response.data.comments;
-      initialDataLength.current = comments.length; // set initial data length
-      // console.log(comments);
-      setData(comments);
-      // console.log(comments);
-      // console.log(userData);
-      const timeZoneOffset = "+3:30"; // Change this to your timezone offset
+      if (!initialFetchDone) {
+        const baseUrl = `https://eventify.liara.run/events/${id.id}/comments/`;
+        const response = await axios.get(baseUrl);
+        // console.log(response)
+        const comments = response.data.comments;
+        initialDataLength.current = comments.length; // set initial data length
+        // console.log(comments);
+        setData(comments);
+        const timeZoneOffset = "+3:30"; // Change this to your timezone offset
+        setInitialFetchDone(true);
+        console.log(comments);
+        const translateTime = (time) => {
+          let translatedTime = moment.utc(time).local().fromNow();
+          const translations = {
+            ago: "قبل",
+            "a few seconds": "لحظاتی",
+            days: "روز",
+            a: "یک",
+            day: "روز",
+            month: "ماه",
+            months: "ماه",
+            year: "سال",
+            years: "سال",
+            week: "هفته",
+            weeks: "هفته",
+            minutes: "دقیقه",
+            minute: "دقیقه",
+            hours: "ساعت",
+            hour: "ساعت",
+            seconds: "ثانیه",
+            few: "چند",
+          };
 
-      const translateTime = (time) => {
-        let translatedTime = moment.utc(time).local().fromNow();
-        const translations = {
-          "ago": "قبل",
-          "a few seconds": "لحظاتی",
-          "a": "یک",
-          "day": "روز",
-          "month": "ماه",
-          "year": "سال",
-          "minutes": "دقیقه",
-          "minute": "دقیقه",
-          "hours": "ساعت",
-          "seconds": "ثانیه",
-          "few": "چند"
-        };
-      
-        for (let key in translations) {
-          if (translatedTime.includes(key)) {
-            translatedTime = translatedTime.replace(key, translations[key]);
+          for (let key in translations) {
+            if (translatedTime.includes(key)) {
+              translatedTime = translatedTime.replace(key, translations[key]);
+            }
           }
-        }
-      
-        return translatedTime;
-      };
-      
-      for (let comment of comments) {
-        comment.created_at = translateTime(comment.created_at);
-        if (comment.replies.length > 0) {
-          for (let reply of comment.replies) {
-            reply.created_at = translateTime(reply.created_at);
+
+          return translatedTime;
+        };
+
+        for (let comment of comments) {
+          comment.created_at = translateTime(comment.created_at);
+          if (comment.replies.length > 0) {
+            for (let reply of comment.replies) {
+              reply.created_at = translateTime(reply.created_at);
+            }
           }
         }
       }
     };
     fetchComments();
-  }, [data]);
+  }, [id, initialFetchDone]);
 
   // const addNewReply = (id, content) => {
   //   if (!/\S/.test(content)) return; // to avoid posting empty comments (only whitespaces)
@@ -110,11 +120,18 @@ const MainComment = (id) => {
   const updateCommentBack = async (id, newData) => {
     const baseUrl = `https://eventify.liara.run/comments/${id}/`;
 
-    await axios.patch(baseUrl, newData, {
-      headers: {
-        Authorization: `JWT ${auth.token}`,
-      },
-    });
+    await axios
+      .patch(baseUrl, newData, {
+        headers: {
+          Authorization: `JWT ${auth.token}`,
+        },
+      })
+      .then(() => {
+        setTimeout(() => {
+          setInitialFetchDone(false);
+          setInitialFetchDone(true);
+        }, 1500);
+      });
   };
   const updateScoreBack = async (id) => {
     const baseUrl = `https://eventify.liara.run/comments/${id}/like/`;
@@ -125,19 +142,13 @@ const MainComment = (id) => {
   const addNewReplyBack = async (id, newData) => {
     const baseUrl = `https://eventify.liara.run/comments/${id}/reply/`;
 
-    await axios.post(baseUrl, newData);
+    await axios.post(baseUrl, newData).then(() => {
+      setTimeout(() => {
+        setInitialFetchDone(false);
+        setInitialFetchDone(true);
+      }, 1500);
+    });
   };
-
-  // useEffect(() => {
-  //   const deleteCommentBack = async (deletecomment) => {
-  //     const baseUrl = `https://eventify.liara.run/comments/${id}/`;
-
-  //     await axios.delete(baseUrl, {headers: {
-  //       Authorization: `JWT ${auth.token}`,
-  //     }})
-  //   };
-  //   deleteCommentBack(deleteComment);
-  // },[deleteComment])
 
   const addNewReply = (id, content) => {
     if (!/\S/.test(content)) return; // to avoid posting empty comments (only whitespaces)
@@ -209,7 +220,15 @@ const MainComment = (id) => {
       if (comment.replies.length > 0) {
         for (let reply of comment.replies) {
           if (reply.id === id) {
-            action == "upvote" ? (reply.score += 1) : (reply.score -= 1); //liked by add
+            if (action == "upvote") {
+              reply.score += 1;
+              reply.has_liked = true;
+              // comment.liked_by.push(userData.user.id)
+            } else {
+              reply.score -= 1;
+              reply.has_liked = false;
+              // comment.liked_by = comment.liked_by.filter(id => id !== userData.user.id)
+            }
             updateScoreBack(id);
             break;
           }
@@ -284,6 +303,7 @@ const MainComment = (id) => {
           setDeleteComment={setDeleteComment}
           setData={setData}
           data={data}
+          setInitialFetchDone={setInitialFetchDone}
         />
       )}
 
@@ -300,7 +320,7 @@ const MainComment = (id) => {
                 key={comment.id}
                 currentUser={userData ? userData.user.username : ""}
                 comment={comment.text}
-                image={comment.user_photo}
+                image={comment.user_photo ? comment.user_photo : profile}
                 username={comment.username}
                 timeSince={comment.created_at}
                 score={comment.score}
