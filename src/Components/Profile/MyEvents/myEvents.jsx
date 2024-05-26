@@ -4,9 +4,44 @@ import React, { useState,useEffect } from "react";
 import 'react-toastify/dist/ReactToastify.css';
 import Navbar from '../../Navbar/navbar';
 import ProfileSidebar from '../ProfileSidebar/profileSidebar';
-
+import axios from "axios";
 
 const MyEvents = () => {
+    const [eventName, setEventName] = useState("");
+    const [eventDate, setEventDate] = useState("");
+    const [isOnline, setIsOnline] = useState("");
+    
+    let eventData = {
+        name: eventName,
+        date: eventDate,
+        online: isOnline,
+    };
+
+    // axios.get('https://eventify.liara.run/account/my_events/', eventData).then(response => {
+    //     console.log('Data sent successfully:', response.data);
+    //     if (response.data['message'] === "Data received successfully") {
+    //         setEventName("");
+    //         // setEnteredRegisterEmail("");
+    //         setEventDate("");
+    //         setIsOnline("");
+    //         // toast.success("!با موفقیت عضو شدید");
+    //         setTimeout(() => {
+    //           navigator('/home');
+    //         }, 4000);
+        //   } else if (response.data['message'] === `username is already taken`) {
+            // setShowViolation(true);
+            // setRegisterUserNameValidation(false);
+            // setRegisterUserNameValidationMsg("نام کاربری موردنظر در سیستم ثبت شده است");
+
+        //   } else if (response.data['message'] === `email address has already been registered in our system`) {
+            // setShowViolation(true);
+            // setRegisterEmailValidation(false);
+            // setRegisterEmailValidationMsg("ایمیل موردنظر در سیستم ثبت شده است");
+        //   }
+        // })
+
+    // }
+
 
     return(
         <div className="myEventsAll">

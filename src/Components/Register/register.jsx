@@ -6,10 +6,12 @@ import { useNavigate } from 'react-router-dom';
 
 import 'react-toastify/dist/ReactToastify.css';
 import axios from "axios";
+import { useAuth } from "../Authentication/authProvider";
 
 let x = 0;
 const Register = () => {
   const navigator = useNavigate();
+  const auth = useAuth();
 
   const [enteredRegisterUserName, setEnteredRegisterUserName] = useState("");
   const [enteredRegisterEmail, setEnteredRegisterEmail] = useState("");
@@ -50,7 +52,27 @@ const Register = () => {
     setShowRegisterPassword2(!showRegisterPassword2);
   };
 
-  const registerHandler = (event, action) => {
+  const autoLogin = async ()=>{
+    let userData = {
+      username: enteredRegisterUserName,
+      password: enteredRegisterPassword,
+  };
+    try{
+      let result = await auth.loginAction(userData);
+      console.log(auth.token)
+      toast.success("!با موفقیت حساب کاربری خود را ساختید");
+      setTimeout(() => {
+        navigator('/home');
+      }, 4000);
+      
+    }catch(error){
+      
+      toast.error("خطا در برقرای ارتباط با سرور");
+      
+    }
+  }
+
+  const registerHandler =  (event, action) => {
     x = 0;
     if (registerUserNameValidation === false) {
       x++;
@@ -77,43 +99,44 @@ const Register = () => {
 
     let userData = {
       username: enteredRegisterUserName,
-      name: enteredName,
+      first_name: enteredName,
       email: enteredRegisterEmail,
       password: enteredRegisterPassword,
     };
+    // console.log(userData)
     if (registerUserNameValidation && registerEmailValidation && registerPasswordValidation && registerPasswordValidation2 && nameValidation) {
-      axios.post('http://127.0.0.1:8000/auth/users/', userData)
+      console.log("sending data to backend")
+      axios.post('https://eventify.liara.run/auth/users/', userData)
         .then(response => {
           setShowViolation(false);
-          console.log('Data sent successfully:', response.data);
-          if (response.data['message'] === "Data received successfully") {
-            setEnteredRegisterUserName("");
-            setEnteredRegisterEmail("");
-            setEnteredRegisterPassword("");
-            setEnteredRegisterPassword2("");
-            setEnteredName("");
-            toast.success("!با موفقیت عضو شدید");
-            setTimeout(() => {
-              navigator('/home');
-            }, 4000);
-          } else if (response.data['message'] === `username is already taken`) {
-            setShowViolation(true);
-            setRegisterUserNameValidation(false);
-            setRegisterUserNameValidationMsg("نام کاربری موردنظر در سیستم ثبت شده است");
-
-          } else if (response.data['message'] === `email address has already been registered in our system`) {
-            setShowViolation(true);
-            setRegisterEmailValidation(false);
-            setRegisterEmailValidationMsg("ایمیل موردنظر در سیستم ثبت شده است");
-          }
+          console.log('Data sent successfully:', response);
+          autoLogin();
         })
         .catch(error => {
-          console.error('Error sending data:', error);
-
-          toast.success("به صورت آزمایشی عضو شدید");
-          // setTimeout(() => {
-          // navigator('/home');
-          // }, 4000);
+          try {
+            console.log('Error sending data:', error.response.request.responseText);
+            const jsonObject = JSON.parse(error.response.request.responseText);
+            console.log(jsonObject);
+            if(jsonObject.username && jsonObject.email){
+              console.log("username & email");
+              toast.error("نام کاربری و ایمیل در سیستم موجود است")
+            }else if(jsonObject.username){
+              console.log("username");
+              toast.error("نام کاربری تکراری است")
+            }else if(jsonObject.email){
+              console.log("email");
+              toast.error("ایمیل تکراری است")
+            }else if(jsonObject.password){
+              console.log("password");
+              toast.error("رمزعبور انتخابی ضعیف است")
+            }else{
+              toast.error("خطا در برقراری ارتباط با سرور")
+            }
+          } catch (error) {
+              console.error('Error parsing JSON:', error);
+              toast.error("خطا در برقراری ارتباط با سرور")
+          }
+          
         });
     }
 
@@ -123,7 +146,7 @@ const Register = () => {
 
   //Register validation
   //--------------------------------------------------------------------------------------------------
-  const regUserName = /^[a-zA-Z][a-zA-Z0-9]{2,29}$/;
+  const regUserName = /^[a-zA-Z][a-zA-Z0-9._]{2,29}$/;
   const registerUserNameHandler = (event) => {
     if (showViolations === true) {
       setAutoHeight(autoHeight - 20 * x);
@@ -224,12 +247,15 @@ const Register = () => {
     setEnteredName(event.target.value);
     const regNamePersian = /^[\u0600-\u06FF\s]+$/;
     const regNameEnglish = /^[a-zA-Z\s]+$/;
-    if (event.target.value.length < 5 || event.target.value.length > 30) {
-      setNameValidation(false);
-    } else {
-      if (regNamePersian.test(event.target.value) || regNameEnglish.test(event.target.value)) {
+    // event.target.value.length < 5 || event.target.value.length > 30
+    if (regNamePersian.test(event.target.value) || regNameEnglish.test(event.target.value)) {
+      if (event.target.value.length > 4 && event.target.value.length <31) {
         setNameValidation(true);
+      }else{
+        setNameValidation(false);
       }
+    } else {
+      setNameValidation(false);
     }
   };
 

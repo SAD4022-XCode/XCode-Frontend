@@ -6,6 +6,7 @@
   padding: 0 10px;
   height: 320px;
   border: 1px solid #ffeba7;
+  border-radius: 30px !important;
   padding: 30px;
   margin: 15px;
   border-radius: 5px;
@@ -51,7 +52,7 @@
     position: relative;
     width: 45%;
     margin-left: 260px;
-    left: 50%;
+    left: 40%;
   }
   .event-filter__category {
     display: flex;
@@ -62,8 +63,7 @@
     display: flex;
     flex-direction: column;
     width: 45%;
-    margin-right: 280px;
-    right: 20%;
+    right: 65%;
   }
   .event-filter__price {
     position: relative;
