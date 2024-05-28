@@ -19,6 +19,7 @@ import RegisterEvent from "./Components/RegisterEvent/registerEvent";
 import Landing from "./Components/Landing/Landing";
 import NotificationPanel from "./Components/NotificationPanel/NotificationPanel";
 import RegisteredEvents from "./Components/RegisteredEvents/RegisteredEvents";
+import MyChat from "./Components/Chat/MyChat";
 function App() {
   return (
     <Router>
@@ -40,6 +41,7 @@ function App() {
           <Route path="event-details/:id" element={<EventDetails />} />
           <Route path="*" element={<PageNotFound />} />
           <Route path="notifications" element={<NotificationPanel />} />
+          <Route path="chat" element={<MyChat />} />
         </Routes>
       </AuthProvider>
     </Router>
