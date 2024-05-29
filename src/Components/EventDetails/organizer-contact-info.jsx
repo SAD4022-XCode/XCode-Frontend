@@ -24,7 +24,7 @@ const OrganizerInfoModal = ({show,handleClose,email,phone}) => {
           </Button>
         </Modal.Footer>
       </Modal>
-    
+        
   );
 }
 
