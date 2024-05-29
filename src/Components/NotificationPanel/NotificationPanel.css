@@ -52,15 +52,42 @@
   margin-left: 10px;
 }
 
-.notification-panel p {
+.notification-panel #notification-title {
   display: block;
   margin-bottom: 10px;
   padding: 5px 10px;
   cursor: pointer;
 }
-.notification-panel p:hover {
-  transform: scale(1.1);
+
+.notification-panel #read-all:hover {
+  transform: scale(1.02);
+  cursor: pointer;
 }
+
+.notification-panel #notification-title:hover {
+  transform: scale(1.02);
+}
+.notification-panel .content{
+  display: flex;
+  flex-direction: row;
+}
+.notification-panel #notification-time{
+  position: relative;
+  left: -90px;
+}
+.notification-panel .title{
+  display: flex;
+  flex-direction: row;
+}
+.blue-bullet {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background-color: blue;
+  border-radius: 50%;
+  margin-left: 10px;
+}
+
 
 .notification-panel ul {
   list-style-type: none;
