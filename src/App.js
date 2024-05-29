@@ -27,7 +27,6 @@ function App() {
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/home" element={<Home />} />
-          <Route path="/chat" element={<ChatBox />} />
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/register" element={<Register />} />
           <Route exact path="/password-recovery" element={<PasswordRecovery />} />
@@ -37,6 +36,7 @@ function App() {
             <Route exact path="/profile" element={<MyEvents />}/>
             <Route exact path="/register-event" element={<RegisterEvent />}/>
             <Route exact path="/registered-events" element={<RegisteredEvents />} />
+            <Route path="/chat" element={<ChatBox />} />
           </Route>
           <Route exact path="/map" element={<MapComponent />} />
           <Route path="event-details/:id" element={<EventDetails />} />
