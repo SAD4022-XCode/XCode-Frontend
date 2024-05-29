@@ -31,7 +31,7 @@ function App() {
           <Route element={<PrivateRoute />}>
             <Route exact path="/create-event" element={<CreateEvent />}/>
             <Route exact path="/user-info" element={<UserInfo />} />
-            <Route exact path="/profile" element={<MyEvents />}/>
+            <Route exact path="/created-events" element={<MyEvents />}/>
             <Route exact path="/register-event" element={<RegisterEvent />}/>
           </Route>
           <Route exact path="/map" element={<MapComponent />} />

@@ -181,7 +181,7 @@ const Navbar = () => {
                         
                         {isOpen && (
                           <div className="col dropdown-content">
-                                <div className="row pr-2 pt-2  dropdown-item1" onClick={() =>navigator('/profile')}>
+                                <div className="row pr-2 pt-2  dropdown-item1" onClick={() =>navigator('/created-events')}>
                                         <i class="pl-1 ml-0  uil uil-user"></i>
                                         <p className="pt-0 mb-0">حساب کاربری</p>
                                 </div>
@@ -215,7 +215,7 @@ const Navbar = () => {
                             </li>
                         )}
                     {showDrawer && auth.token && (<li className="auth-link-li">
-                            <NavLink to="/profile" > حساب کاربری </NavLink>
+                            <NavLink to="/created-events" > حساب کاربری </NavLink>
                             </li>
                         )
                     }
