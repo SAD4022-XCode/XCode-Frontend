@@ -19,6 +19,7 @@ import RegisterEvent from "./Components/RegisterEvent/registerEvent";
 import Landing from "./Components/Landing/Landing";
 import NotificationPanel from "./Components/NotificationPanel/NotificationPanel";
 import RegisteredEvents from "./Components/RegisteredEvents/RegisteredEvents";
+import ChatBox from "./Components/ChatBox/chatbox";
 function App() {
   return (
     <Router>
@@ -26,6 +27,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/home" element={<Home />} />
+          <Route path="/chat" element={<ChatBox />} />
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/register" element={<Register />} />
           <Route exact path="/password-recovery" element={<PasswordRecovery />} />
