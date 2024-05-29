@@ -60,7 +60,7 @@ const CreateEvent = () => {
         if (eventType==="O"){
             if(showError[0] || showError[1] || showError[2] || showError[3] || showError[4] || showError[5] || showError[6] || startTime===null || startTime===null || endDate===null || endTime===null){
                 canSubmit=false
-                toast.warning("فیلدهای مربوطه را به درستی پر کنید",{toastId:"warning in create event"})
+                // toast.warning("فیلدهای مربوطه را به درستی پر کنید",{toastId:"warning in create event"})
 
             }else{
                 setShowViolations(false)
@@ -68,7 +68,7 @@ const CreateEvent = () => {
         }else{
             if(showError[0] || showError[1] || showError[3] || showError[4] || showError[5] || showError[6] || showError[7] || showError[8] || startTime===null || startTime===null || endDate===null || endTime===null){
                 canSubmit=false
-                toast.error("فیلدهای مربوطه را به درستی پر کنید",{toastId:"warning in create event"})
+                // toast.error("فیلدهای مربوطه را به درستی پر کنید",{toastId:"warning in create event"})
 
             }else{
                 setShowViolations(false)
