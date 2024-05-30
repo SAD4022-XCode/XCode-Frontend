@@ -187,17 +187,13 @@ const EventDetails = () => {
             const inputDate = moment(eventDetails.starts);
             const inputTime = moment(moment(stime, 'HH:mm:ss').subtract(3, 'hours').subtract(30, 'minutes').format('HH:mm:ss'), 'HH:mm:ss');
             const currentDate = moment();
-            const currentTime = moment();
-            console.log("inputTime: ",inputTime);
+            const currentTime = moment().format('HH:mm:ss');
+            const currentTimeMoment = moment(currentTime, 'HH:mm:ss');
             if (inputDate.isBefore(currentDate, 'day')) {
                 setCanPurchase(false);
-                console.log("cant purchase 1");
             }
             if (inputDate.isSame(currentDate, 'day')) {
-                console.log("same dayyyyyyyyyyyyyyyyy")
-                console.log("start time:",inputTime)
-                console.log(moment(stime, 'HH:mm:ss').subtract(3, 'hours').subtract(30, 'minutes').format('HH:mm:ss'))
-                if (inputTime.isBefore(currentTime)) {
+                if (inputTime.isBefore(currentTimeMoment)) {
                     setCanPurchase(false);
                     console.log("cant purchase 2");
                 }
