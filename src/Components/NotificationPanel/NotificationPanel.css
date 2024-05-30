@@ -31,13 +31,13 @@
 }
 .notification-modal {
   position: absolute;
-  top: 28%;
+  top: 40%;
   left: 62%;
   transform: translate(-50%, -50%);
   border-radius: 20px;
-  max-width: 300px;
+  max-width: 400px;
   min-height: 480px;
-  max-height: auto;
+  max-height: 500px;
 }
 .notification-panel h4 {
   margin: 0 0 10px 0;
@@ -73,7 +73,8 @@
 }
 .notification-panel #notification-time{
   position: relative;
-  left: -90px;
+  left: 0px;
+  font-size: 11px;
 }
 .notification-panel .title{
   display: flex;
