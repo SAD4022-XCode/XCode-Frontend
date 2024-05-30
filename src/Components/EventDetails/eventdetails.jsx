@@ -185,15 +185,19 @@ const EventDetails = () => {
             });
             console.log("start 2",moment(stime, 'HH:mm:ss').subtract(3, 'hours').subtract(30, 'minutes').format('HH:mm:ss'));
             const inputDate = moment(eventDetails.starts);
-            const inputTime = moment(eventDetails.starts, 'HH:mm:ss');
+            const inputTime = moment(moment(stime, 'HH:mm:ss').subtract(3, 'hours').subtract(30, 'minutes').format('HH:mm:ss'), 'HH:mm:ss');
             const currentDate = moment();
+            const currentTime = moment();
             console.log("inputTime: ",inputTime);
             if (inputDate.isBefore(currentDate, 'day')) {
                 setCanPurchase(false);
                 console.log("cant purchase 1");
             }
             if (inputDate.isSame(currentDate, 'day')) {
-                if (inputTime.isBefore(moment(stime, 'HH:mm:ss').subtract(3, 'hours').subtract(30, 'minutes').format('HH:mm:ss'))) {
+                console.log("same dayyyyyyyyyyyyyyyyy")
+                console.log("start time:",inputTime)
+                console.log(moment(stime, 'HH:mm:ss').subtract(3, 'hours').subtract(30, 'minutes').format('HH:mm:ss'))
+                if (inputTime.isBefore(currentTime)) {
                     setCanPurchase(false);
                     console.log("cant purchase 2");
                 }
@@ -435,12 +439,14 @@ const EventDetails = () => {
                             <h4 className="pb-3">توضیحات</h4>
                             <p className="ed-message" style={{whiteSpace:"pre-line", textAlign: "right"}}>{eventDetails.description}</p>
                             <center>
-                                <button
-                                    className="btn  mt-1 mx-1"
-                                    onClick={(e) => navigator('/register-event')}
-                                    >
-                                    ثبت نام  
-                                </button>
+                                    {canPurchase && 
+                                        <button
+                                            className="btn  mt-1 mx-1"
+                                            onClick={(e) => navigator('/register-event')}
+                                            >
+                                            ثبت نام  
+                                        </button>
+                                    }
                             </center>
                             </div>
                         </div>
