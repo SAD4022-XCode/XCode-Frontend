@@ -16,9 +16,11 @@ import Lottie from "react-lottie";
 // import { Alert } from 'react-alert'
 // import { toast } from "react-toastify";
 import MapComponent from "../MapComponent/MapComponent";
+import { useAuth } from "../Authentication/authProvider";
 
 const EventDetails = () => {
     const [show, setShow] = useState(false);
+    const [canPurchase, setCanPurchase] = useState(true);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const currentUrl = window.location.href;
@@ -88,6 +90,7 @@ const EventDetails = () => {
             }, 2500);
         }
     }
+    const auth = useAuth();
 
     useEffect(() => {
         
@@ -101,7 +104,12 @@ const EventDetails = () => {
                 console.log("Console:\n",response.data)
                 setEventDetails(response.data);
             } catch (error) {
-                console.log("we have error")
+                if (error.response && error.response.status === 401) {
+                    console.log("Authentication failed. Please log in again.");
+                    auth.logOut()
+                } else {
+                    console.error("An error occurred:", error);
+                }
                 setError(true); 
                 setTimeout(() => {
                     setLoading(false);
@@ -175,7 +183,22 @@ const EventDetails = () => {
                 endYear: eyear,
                 endDay: eday,
             });
-            console.log("start 2",eventDateTime.startTime);
+            console.log("start 2",moment(stime, 'HH:mm:ss').subtract(3, 'hours').subtract(30, 'minutes').format('HH:mm:ss'));
+            const inputDate = moment(eventDetails.starts);
+            const inputTime = moment(eventDetails.starts, 'HH:mm:ss');
+            const currentDate = moment();
+            console.log("inputTime: ",inputTime);
+            if (inputDate.isBefore(currentDate, 'day')) {
+                setCanPurchase(false);
+                console.log("cant purchase 1");
+            }
+            if (inputDate.isSame(currentDate, 'day')) {
+                if (inputTime.isBefore(moment(stime, 'HH:mm:ss').subtract(3, 'hours').subtract(30, 'minutes').format('HH:mm:ss'))) {
+                    setCanPurchase(false);
+                    console.log("cant purchase 2");
+                }
+               
+            }
             setTimeout(() => {
                 setLoading(false);
             }, 1000);
@@ -373,12 +396,15 @@ const EventDetails = () => {
                                     <h4 className="pb-3" style={{textAlign: "center"}}>توضیحات</h4>
                                     <p className="ed-message" style={{whiteSpace:"pre-line", textAlign: "right"}}>{eventDetails.description}</p>
                                     <center>
+                                    {canPurchase && 
                                         <button
                                             className="btn  mt-1 mx-1"
                                             onClick={(e) => navigator('/register-event')}
                                             >
                                             ثبت نام  
                                         </button>
+                                    }
+                                        
                                     </center>
                                     
                                     </div>
