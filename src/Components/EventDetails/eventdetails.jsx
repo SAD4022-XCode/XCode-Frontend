@@ -169,7 +169,6 @@ const EventDetails = () => {
             const etime = moment(eventDetails.ends).format('HH:mm:ss');
             const eyear = moment(eventDetails.ends).format('jYYYY');
             const eday = moment(eventDetails.ends).format('jD');
-            console.log("start",eventDetails.starts)
             setEventDateTime({
                 startWeekDay: dayDict[sdayOfWeek],
                 startMonth: monthDict[moment(eventDetails.starts).locale('fa').jMonth()],
@@ -183,7 +182,6 @@ const EventDetails = () => {
                 endYear: eyear,
                 endDay: eday,
             });
-            console.log("start 2",moment(stime, 'HH:mm:ss').subtract(3, 'hours').subtract(30, 'minutes').format('HH:mm:ss'));
             const inputDate = moment(eventDetails.starts);
             const inputTime = moment(moment(stime, 'HH:mm:ss').subtract(3, 'hours').subtract(30, 'minutes').format('HH:mm:ss'), 'HH:mm:ss');
             const currentDate = moment();
@@ -195,7 +193,6 @@ const EventDetails = () => {
             if (inputDate.isSame(currentDate, 'day')) {
                 if (inputTime.isBefore(currentTimeMoment)) {
                     setCanPurchase(false);
-                    console.log("cant purchase 2");
                 }
                
             }
@@ -206,7 +203,6 @@ const EventDetails = () => {
         }
     }, [eventDetails]); 
     const copyToClipboard = () => {
-        console.log("event date & time:",eventDateTime)
         copy(currentUrl)
         .then(() => {
             console.log('آدرس کپی شد:', currentUrl);
