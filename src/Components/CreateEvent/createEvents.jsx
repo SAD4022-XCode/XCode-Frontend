@@ -135,6 +135,7 @@ const CreateEvent = () => {
                 .catch(error => {
                     console.log('Error sending data:', error);
                     console.log("status code is:",error.response.status)
+                    console.log(auth.token);
                     toast.error("خطا در ایجاد رویداد")
                     if (error.response && error.response.status === 401) {
                         console.log("Authentication failed. Please log in again.");
