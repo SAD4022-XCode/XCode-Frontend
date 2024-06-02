@@ -54,7 +54,7 @@ const ChangePassword = () => {
                     </div>
                     <div className="change-password__content">
                       <div className="change-password__content-current">
-                        <div className="col-6 text-right">
+                        <div className="col-lg-6 col-sm-10 text-right">
                           <label>رمز عبور فعلی </label>
                           <div className={`form-group mt-1`}>
                             <input
@@ -75,7 +75,7 @@ const ChangePassword = () => {
                                 fontSize: "20px",
                                 position: "absolute",
                                 top: "40%",
-                                left: "0%",
+                                left: "18%",
                                 transform: "translateY(-50%)",
                                 marginLeft: "20px",
                               }}
@@ -88,7 +88,7 @@ const ChangePassword = () => {
                         </div>
                       </div>
                       <div className="change-password__content-new">
-                        <div className="col-6 text-right">
+                        <div className="col-lg-6 col-sm-10 text-right">
                           <label>رمز عبور جدید </label>
                           <div className={`form-group mt-1`}>
                             <input
@@ -111,7 +111,7 @@ const ChangePassword = () => {
                                 fontSize: "20px",
                                 position: "absolute",
                                 top: "40%",
-                                left: "0%",
+                                left: "18%",
                                 transform: "translateY(-50%)",
                                 marginLeft: "20px",
                               }}
@@ -124,7 +124,7 @@ const ChangePassword = () => {
                         </div>
                       </div>
                       <div className="change-password__content-confirm">
-                        <div className="col-6 text-right">
+                        <div className="col-lg-6 col-sm-10 text-right">
                           <label>تکرار رمز عبور جدید </label>
                           <div className={`form-group mt-1`}>
                             <input
@@ -147,7 +147,7 @@ const ChangePassword = () => {
                                 fontSize: "20px",
                                 position: "absolute",
                                 top: "40%",
-                                left: "0%",
+                                left: "18%",
                                 transform: "translateY(-50%)",
                                 marginLeft: "20px",
                               }}

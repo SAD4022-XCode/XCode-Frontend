@@ -3,14 +3,15 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: "iransansweb";
 
   position: fixed;  
   top: 0;
   right: 0;
   height: 100%;
-  width: 30vh;
+  width: 15%;
   background: #313536;  /* #11101d */
-  z-index: 100;
+  /* z-index: 1; */
   transition: all 0.5s ease;
   margin-top: 60px;
 
@@ -22,7 +23,7 @@
   align-items: center;
 }
 .logo-details i{
-  font-size: 30px;
+  font-size: 1.7rem;
   color: #fff;
   height: 50px;
   min-width: 78px;
@@ -34,7 +35,7 @@
   position: relative;
   display: flex;
   align-items: center; 
-  font-size: 22px;
+  font-size: 1.1rem;
   color: #fff;
   font-weight: 600;
   transition: 0.3s ease;
@@ -78,13 +79,13 @@
   text-align: center;
   line-height: 50px;
   color: #fff;
-  font-size: 20px;
+  font-size: 1.1rem;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .nav-links li a .link_name{
-  font-size: 18px;
+  font-size: 1rem;
   font-weight: 400;
   color: #fff;
   transition: all 0.4s ease;
@@ -126,7 +127,7 @@
 
 .nav-links li .sub-menu a{
   color: #fff;
-  font-size: 15px;
+  font-size: 0.8rem;
   padding: 5px 0;
   white-space: nowrap;
   opacity: 0.6;
@@ -210,7 +211,7 @@
 .home-section .home-content .bx-menu,
 .home-section .home-content .text{
   color: #11101d;
-  font-size: 35px;
+  font-size: 0.5rem;
 }
 .home-section .home-content .bx-menu{
   margin: 0 15px;
@@ -218,16 +219,29 @@
 }
 
 .home-section .home-content .text{
-  font-size: 26px;
+  font-size: 1rem;
   font-weight: 600;
+  
 }
-@media (max-width: 400px) {
 
-    width: 78px;
-  .home-section{
-    left: 78px;
-    width: calc(100% - 78px);
-    z-index: 100;
-  }
+@media screen and (max-width: 1600px) {
+    .link_name, .logo-details .logo_name
+    {
+       display: none;
+    }
+
+    /* .sidebar */
+    
+    width: 5%;
+
 }
+
+
+}
+
+@media screen and (max-width: 1600px) {       
+    .myEventsAll .myEvent {
+        width: 95% !important;
+    }
+
 }

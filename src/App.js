@@ -16,25 +16,28 @@ import Navbar from "./Components/Navbar/navbar";
 import MapComponent from "./Components/MapComponent/MapComponent";
 import EventDetails from "./Components/EventDetails/eventdetails";
 import RegisterEvent from "./Components/RegisterEvent/registerEvent";
+import Landing from "./Components/Landing/Landing";
+import NotificationPanel from "./Components/NotificationPanel/NotificationPanel";
 function App() {
   return (
     <Router>
       <AuthProvider>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Landing />} />
           <Route path="/home" element={<Home />} />
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/register" element={<Register />} />
-          <Route exact path="/profile" element={<MyEvents />}/>
-          <Route exact path="/register-event" element={<RegisterEvent />}/>
           <Route exact path="/password-recovery" element={<PasswordRecovery />} />
-          {/* <Route element={<PrivateRoute />}> */}
+          <Route element={<PrivateRoute />}>
             <Route exact path="/create-event" element={<CreateEvent />}/>
             <Route exact path="/user-info" element={<UserInfo />} />
-          {/* </Route> */}
+            <Route exact path="/created-events" element={<MyEvents />}/>
+            <Route exact path="/register-event" element={<RegisterEvent />}/>
+          </Route>
           <Route exact path="/map" element={<MapComponent />} />
           <Route path="event-details/:id" element={<EventDetails />} />
           <Route path="*" element={<PageNotFound />} />
+          <Route path="notifications" element={<NotificationPanel />} />
         </Routes>
       </AuthProvider>
     </Router>

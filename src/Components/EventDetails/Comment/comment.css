@@ -1,0 +1,255 @@
+:root {
+    --grey-background: hsl(228, 33%, 97%);
+    --blue: hsl(214, 69%, 77%);
+    --text-color: #e0dac6;
+    --username-color: hsl(221, 18%, 79%);
+}
+
+.comment {
+    font-family: "iransansweb";
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 10fr;
+    grid-template-areas: "score content";
+    background: radial-gradient(ellipse at center, #4b4c4c 0%, #5d5f66 100%);
+    background-color:#1f2029;
+    padding: 30px;
+    margin-top: 20px;
+    column-gap: 10px;
+    border-radius: 10px;
+    direction: rtl;
+    
+}
+.commentContent{
+    direction: rtl;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    max-width: 600px;
+}
+
+
+.flex-item {
+    margin: 0 auto;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    transform: rotate(270deg);
+}
+
+.avatar {
+    position: relative;
+    max-width: 40px;
+    height: auto;
+    bottom: 10%;
+}
+
+.username, .timestamp {
+    margin-left: 10px;
+  }
+
+.replyButton, .editButton {
+    position: absolute;
+    left: -50px;
+}
+
+.deleteButton, .editButton, .replyButton, .upvote, .downvote, .updateButton {
+    cursor: pointer;
+}
+
+.deleteButton {
+    color: hsl(358, 100%, 75%);
+    position: absolute;
+    left: 30px;
+}
+
+/* ======= FONTS AND TYPOLOGY ======== */
+
+.username, .replyButton, .flex-item, .editButton, .deleteButton {
+    font-weight: 400;
+}
+
+.commentContent, .timestamp {
+    color: var(--text-color);
+}
+
+.username {
+    color: var(--username-color);
+}
+
+.replyButton, .flex-item, .editButton, .reply-username {
+    color: var(--blue);
+}
+
+.commentHeader {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.commentReplies {
+    display: inline-block;
+    width: 94%;
+    position: relative;
+    margin-right: 40px;
+}
+
+.verticalLine {
+    position: absolute;
+    right: -28px;
+    top: 18px;
+    border-right: 3px solid #ffeba7;
+    height: 100%;
+}
+
+.youTag {
+    margin-left: 10px;
+    margin-right: 10px;
+    display: relative;
+    right: 90px;
+    top:100px;
+    background-color: hsl(238, 55%, 62%);
+    border-radius: 5px;
+    text-align: center;
+    font-size: small;
+    color: white;
+    width: 35px;
+    height: 18px;
+}
+
+/* change color of selected text cuz it's cool */
+::-moz-selection { background: hsl(240, 6%, 90%); }
+::selection { background: hsl(240, 6%, 90%); }
+
+.reply-username {
+    font-weight: 900;
+}
+
+.disabled-upvote {
+    cursor: default !important;
+}
+
+.disabled {
+    cursor: default !important;
+    opacity: 50% !important;
+}
+
+.updateRow {
+    margin-top: 10px;
+    margin-bottom: 50px;
+}
+
+.updateButton {
+    position: absolute!important;
+    margin-right: 15px;
+    right: 0px;
+    font-size: large;
+    color: white;
+    background-color: hsl(238, 40%, 52%);
+    border-color: transparent;
+    border-radius: 10px;
+    width: 110px;
+    height: 50px;
+}
+
+/* Make the reply button and scores button responsive */
+@media screen and (min-width:621px) {
+    .scoreColumn {
+        display: flex;
+        flex-direction: column;
+        align-items: baseline;
+        justify-content: center;
+        background-color: #ffeba7;
+        position: relative;
+        width: 40px;
+        gap: 20px;
+        border-radius: 10px;
+        transform: rotate(90deg);
+        right: 1000%;
+        top:10%;
+    }
+    .commentHeader{
+        position: relative;
+        left:10%;
+    }
+    .commentContent{
+        position: relative;
+        left: 10%;
+    }
+    
+    .flex-item {
+        transform: rotate(270deg);
+    }
+    
+}
+@media (max-width: 620px) {
+    .comment {
+        display: grid;
+        grid-template-rows: 2fr 1fr;
+        grid-template-columns: 1fr;
+        position: relative;
+        background-color: #1f2029;
+        padding: 20px;
+        margin-top: 20px;
+        column-gap: 10px;
+        border-radius: 10px;
+        min-height: 120px;
+    }
+
+    .scoreColumn {
+        display: flex;
+        flex-direction: row;
+        height: 40px;
+        width: 90px;
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        align-items: center;
+        justify-content: center;
+        padding-left: 10px;
+        padding-right: 10px;
+        background-color: #ffeba7;
+    }
+    .flex-item {
+        transform: rotate(0deg);
+    }
+
+    .deleteButton, .editButton, .replyButton, .updateButton {
+        cursor: pointer;
+    }
+
+    .replyButton, .editButton {
+        position: absolute;
+        right: 30px;
+        bottom: 30px;
+    }
+    .replyButton{
+        width: 120px;
+    }
+
+    .deleteButton {
+        bottom: 30px;
+        right: 90px;
+    }
+
+    .updateRow {
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+    .deleteButton{
+        right: 110px;
+        width: 70px;
+    }
+    .editButton{
+        width: 70px;
+    }
+    
+}
+
+@media (max-width: 760px) {
+    .adjust-width {
+        width: auto;
+    }
+    .commentContent{
+        max-width: 300px;
+    }
+
+}

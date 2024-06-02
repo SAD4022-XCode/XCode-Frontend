@@ -72,7 +72,7 @@ const MapComponent = ({ sendDataToParent }) => {
     //console.log(lat, lng);
   };
   return (
-    <div className="map-component">
+    <div className="map-component col-md-10 col-sm-12 col-12">
       <MapContainer className="map-component__map" {...mapOptions}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
