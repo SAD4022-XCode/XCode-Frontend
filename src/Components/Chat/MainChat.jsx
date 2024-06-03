@@ -40,12 +40,12 @@ const MainChat = () => {
 
   return (
     <>
-      <Navbar style={{marginTop:"60px"}}/>
+      <Navbar/>
       <ProfileSidebar />
       {smallScreen===false &&
         <div className="main-chat">
           <div className="row">
-            <div className="col-lg-5 col-md-6 com-sm-">
+            <div className="col-lg-5 col-md-6">
               <MyChat setShowChatBox={setShowChatBox} />
             </div>
             {showChatBox ===true &&
@@ -72,7 +72,7 @@ const MainChat = () => {
         <div className="main-chat">
           <div className="row">
             {showChatBox ===false &&
-              <div className="col-lg-5 col-md-6 com-sm-">
+              <div className="col-lg-5 col-md-6">
                 <MyChat setShowChatBox={setShowChatBox} />
               </div>
             }

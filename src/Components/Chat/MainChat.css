@@ -1,6 +1,6 @@
 .main-chat {
-  height: 100vh !important;
-  overflow-x: auto !important;
-  overflow-y: auto !important;
+  height: calc(100vh - 60px) !important;
+  overflow-x: hidden !important;
+  overflow-y: hidden !important;
   background: radial-gradient(ellipse at bottom, #303131 0%, rgba(18, 20, 29, 0.875) 100%) !important;
 }
