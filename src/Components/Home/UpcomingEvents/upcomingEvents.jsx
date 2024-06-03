@@ -29,7 +29,7 @@ const UpcomingEvents = () => {
 
     const events = [ 
         {
-            url: 'https://eventify.liara.run/media/events/b14c573b721ae79d1195b083922c5207.webp',
+            url: 'https://picsum.photos/id/1/3200/900',
         },
         {
             url: 'https://picsum.photos/id/2/3200/900',
