@@ -11,6 +11,7 @@ import "./EventsList.css";
 import EventsFilter from "./EventsFilter";
 import animationData from "../EventDetails/Animation - 1715854965467.json";
 import Lottie from "react-lottie";
+import { useNavigate } from "react-router-dom";
 
 const EventsList = () => {
   const [posts, setPosts] = useState([]);
@@ -18,6 +19,8 @@ const EventsList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage, setPostsPerPage] = useState(12);
   const [totalPages, setTotalPages] = useState(1);
+  let userData = JSON.parse(localStorage.getItem("userData"));
+  const [bookmarkedEvents, setBookmarkedEvents] = useState({});
   if (axios.defaults.headers.common["Authorization"])
     delete axios.defaults.headers.common["Authorization"];
   const defaultOptions = {
@@ -98,7 +101,7 @@ const EventsList = () => {
 
       queryParams.push(`page=${currentPage}`);
       const fullUrl = `${baseUrl}?${queryParams.join("&")}`;
-      console.log("full url:",fullUrl);
+      console.log("full url:", fullUrl);
       // console.log(fullUrl);
       const response = await axios.get(fullUrl);
       // .then((response) => {
@@ -125,24 +128,20 @@ const EventsList = () => {
     setLoading(true);
   };
 
-
-  const bookmarkToggler = (event_id) =>{
-    if (userData != null){
-        if (event_id in bookmarkedEvents){
-            bookmarkedEvents[event_id] = !bookmarkedEvents[event_id];
-            setBookmarkedEvents({ ...bookmarkedEvents });
-        }
-        else{
-            bookmarkedEvents[event_id] = true;
-            setBookmarkedEvents({ ...bookmarkedEvents });
-        }
-
-        }
-    else{
-        alert('برای افزودن به علاقه مندی ها باید وارد سیستم شوید!');
-        navigator('/login');
+  const bookmarkToggler = (event_id) => {
+    if (userData != null) {
+      if (event_id in bookmarkedEvents) {
+        bookmarkedEvents[event_id] = !bookmarkedEvents[event_id];
+        setBookmarkedEvents({ ...bookmarkedEvents });
+      } else {
+        bookmarkedEvents[event_id] = true;
+        setBookmarkedEvents({ ...bookmarkedEvents });
+      }
+    } else {
+      alert("برای افزودن به علاقه مندی ها باید وارد سیستم شوید!");
+      navigator("/login");
     }
-}
+  };
 
   return (
     <Card className="events-list">
@@ -170,14 +169,20 @@ const EventsList = () => {
                       </div>
                     </Link>
 
-                      <div class="container">
-                        <div class="row">
-                          <hr className="custom-hr" />
-                          <a class={bookmarkedEvents[event.id] ? 'bi bi-bookmark-plus-fill': 'bi bi-bookmark-plus'} 
-                                    onClick={() => bookmarkToggler(event.id)}></a>
-                          <hr className="custom-hr" />
-                        </div>
+                    <div class="container">
+                      <div class="row">
+                        <hr className="custom-hr" />
+                        <a
+                          class={
+                            bookmarkedEvents[event.id]
+                              ? "bi bi-bookmark-plus-fill"
+                              : "bi bi-bookmark-plus"
+                          }
+                          onClick={() => bookmarkToggler(event.id)}
+                        ></a>
+                        <hr className="custom-hr" />
                       </div>
+                    </div>
 
                     <Link to={`/event-details/${event.id}`}>
                       <div className="event-info">
