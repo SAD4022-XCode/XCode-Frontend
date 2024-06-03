@@ -1,5 +1,5 @@
 .saved-events{
-    overflow-x: auto;
+    overflow-x: hidden;
     overflow-y: auto;
     height: 100vh;
     background-color: #4b4b4b ;
