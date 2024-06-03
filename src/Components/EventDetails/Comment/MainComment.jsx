@@ -19,12 +19,12 @@ const MainComment = (id) => {
   const initialDataLength = useRef(null);
   if( auth.token )
   axios.defaults.headers.common["Authorization"] = `JWT ${auth.token}`;
-
   let userData = JSON.parse(localStorage.getItem("userData"));
   let ID = id.id;
   useEffect(() => {
     const fetchComments = async () => {
       if (!initialFetchDone && auth.token) {
+        axios.defaults.headers.common["Authorization"] = `JWT ${auth.token}`;
         const baseUrl = `https://eventify.liara.run/events/${id.id}/comments/`;
         const response = await axios.get(baseUrl);
         // console.log(response)
