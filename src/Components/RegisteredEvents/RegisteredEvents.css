@@ -3,8 +3,16 @@
     overflow-y: auto;
     height: 100vh;
     background-color: #4b4b4b ;
+    max-width: 1345px;
+    position: relative;
+    left: -8%;
 }
 
 .registered-events{
     background-color: #4b4b4b;
+    position: relative;
+    right: -3%;
+}
+.saved-events::-webkit-scrollbar {
+    display: none;
 }
