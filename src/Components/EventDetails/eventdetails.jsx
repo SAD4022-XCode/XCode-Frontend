@@ -16,9 +16,11 @@ import Lottie from "react-lottie";
 // import { Alert } from 'react-alert'
 // import { toast } from "react-toastify";
 import MapComponent from "../MapComponent/MapComponent";
+import { useAuth } from "../Authentication/authProvider";
 
 const EventDetails = () => {
     const [show, setShow] = useState(false);
+    const [canPurchase, setCanPurchase] = useState(true);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const currentUrl = window.location.href;
@@ -88,6 +90,7 @@ const EventDetails = () => {
             }, 2500);
         }
     }
+    const auth = useAuth();
 
     useEffect(() => {
         
@@ -101,7 +104,12 @@ const EventDetails = () => {
                 console.log("Console:\n",response.data)
                 setEventDetails(response.data);
             } catch (error) {
-                console.log("we have error")
+                if (error.response && error.response.status === 401) {
+                    console.log("Authentication failed. Please log in again.");
+                    auth.logOut()
+                } else {
+                    console.error("An error occurred:", error);
+                }
                 setError(true); 
                 setTimeout(() => {
                     setLoading(false);
@@ -161,7 +169,6 @@ const EventDetails = () => {
             const etime = moment(eventDetails.ends).format('HH:mm:ss');
             const eyear = moment(eventDetails.ends).format('jYYYY');
             const eday = moment(eventDetails.ends).format('jD');
-            console.log("start",eventDetails.starts)
             setEventDateTime({
                 startWeekDay: dayDict[sdayOfWeek],
                 startMonth: monthDict[moment(eventDetails.starts).locale('fa').jMonth()],
@@ -175,7 +182,20 @@ const EventDetails = () => {
                 endYear: eyear,
                 endDay: eday,
             });
-            console.log("start 2",eventDateTime.startTime);
+            const inputDate = moment(eventDetails.starts);
+            const inputTime = moment(moment(stime, 'HH:mm:ss').subtract(3, 'hours').subtract(30, 'minutes').format('HH:mm:ss'), 'HH:mm:ss');
+            const currentDate = moment();
+            const currentTime = moment().format('HH:mm:ss');
+            const currentTimeMoment = moment(currentTime, 'HH:mm:ss');
+            if (inputDate.isBefore(currentDate, 'day')) {
+                setCanPurchase(false);
+            }
+            if (inputDate.isSame(currentDate, 'day')) {
+                if (inputTime.isBefore(currentTimeMoment)) {
+                    setCanPurchase(false);
+                }
+               
+            }
             setTimeout(() => {
                 setLoading(false);
             }, 1000);
@@ -183,7 +203,6 @@ const EventDetails = () => {
         }
     }, [eventDetails]); 
     const copyToClipboard = () => {
-        console.log("event date & time:",eventDateTime)
         copy(currentUrl)
         .then(() => {
             console.log('آدرس کپی شد:', currentUrl);
@@ -373,12 +392,15 @@ const EventDetails = () => {
                                     <h4 className="pb-3" style={{textAlign: "center"}}>توضیحات</h4>
                                     <p className="ed-message" style={{whiteSpace:"pre-line", textAlign: "right"}}>{eventDetails.description}</p>
                                     <center>
+                                    {canPurchase && 
                                         <button
                                             className="btn  mt-1 mx-1"
                                             onClick={(e) => navigator('/register-event')}
                                             >
                                             ثبت نام  
                                         </button>
+                                    }
+                                        
                                     </center>
                                     
                                     </div>
@@ -409,12 +431,14 @@ const EventDetails = () => {
                             <h4 className="pb-3">توضیحات</h4>
                             <p className="ed-message" style={{whiteSpace:"pre-line", textAlign: "right"}}>{eventDetails.description}</p>
                             <center>
-                                <button
-                                    className="btn  mt-1 mx-1"
-                                    onClick={(e) => navigator('/register-event')}
-                                    >
-                                    ثبت نام  
-                                </button>
+                                    {canPurchase && 
+                                        <button
+                                            className="btn  mt-1 mx-1"
+                                            onClick={(e) => navigator('/register-event')}
+                                            >
+                                            ثبت نام  
+                                        </button>
+                                    }
                             </center>
                             </div>
                         </div>

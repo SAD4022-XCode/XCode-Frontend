@@ -3,7 +3,7 @@ import { MessageBox, MessageList, Input, Avatar } from 'react-chat-elements';
 import 'react-chat-elements/dist/main.css';
 import styled from 'styled-components';
 import { ArrowBack, Send } from '@material-ui/icons';
-
+import axios from 'axios';
 const ChatContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -74,42 +74,119 @@ const ReceivedMessageBox = styled(MessageBox)`
   align-self: flex-start !important;
 `;
 
+
+
+
 const ChatBox = () => {
-  const [messages, setMessages] = useState([]);
+  const [mockMessages, setMockMessages] = useState(
+    [
+      {
+        sender:"ali",
+        receiver:"leo",
+        date:"Sun Jun 02 2023 16:55:32 GMT+0330 (Iran Standard Time)",
+        text:"msg 1"
+      },
+      {
+        sender:"leo",
+        receiver:"ali",
+        date:"Sun Jun 02 2024 18:55:32 GMT+0330 (Iran Standard Time)",
+        text:"msg 2"
+      },
+      {
+        sender:"leo",
+        receiver:"ali",
+        date:"Sun Jun 02 2024 19:55:32 GMT+0330 (Iran Standard Time)",
+        text:"msg 3"
+      },
+      {
+        sender:"ali",
+        receiver:"leo",
+        date:"Sun Jun 02 2024 20:55:32 GMT+0330 (Iran Standard Time)",
+        text:"msg 4"
+      },
+    ]
+  
+  );
+  const [messages, setMessages] = useState([])
+  const [userData, setUserData] = useState(JSON.parse(localStorage.getItem("userData")) || "");
+  const username=userData.user.username;
+  const receiver = "ali"
   const [inputValue, setInputValue] = useState('');
   const messagesEndRef = useRef(null);
 
-  const handleSend = () => {
+
+  const fetchMessages = async () => {
+    try{
+      // let response = await axios.get("api address",{headers: {
+      //   "Content-Type": "application/json",
+      //   accept: "application/json",
+      //   // Authorization:`JWT ${auth.token}`,
+      // }})
+      setMessages([])
+      console.log("mock messages:",mockMessages)
+      mockMessages.forEach((message, index) => {    
+        message.type="text"      
+        if (message.sender===username){
+          message.position="right"
+        }else{ 
+          message.position="left"
+        }
+        setMessages((prevMessages) => [...prevMessages, message]);
+      })
+     
+    }catch(e){
+      console.log("error in chatbox",e)
+    }
+  }
+
+
+  const handleSend = async() =>{
     if (inputValue.trim() !== '') {
       const newMessage = {
-        position: 'right',
-        type: 'text',
         text: inputValue,
         date: new Date(),
-        sender: 'You',
+        sender: username,
+        receiver:"akbar",
+        position:"right",
+        type:"text"
       };
-
+      const sendingMessage = {
+        text: inputValue,
+        date: new Date(),
+        sender: username,
+        receiver:"akbar",
+      }
       setMessages([...messages, newMessage]);
       setInputValue('');
-      // Adding a simulated response from another user
-      setTimeout(() => {
-        const responseMessage = {
-          position: 'left',
-          type: 'text',
-          text: 'This is a response.',
-          date: new Date(),
-          sender: 'Bot',
-        };
-        setMessages((prevMessages) => [...prevMessages, responseMessage]);
-
-      }, 1000);
-
+      try {
+        let response =await axios.post('api address', sendingMessage, {
+          headers: {
+            "Content-Type": "application/json",
+            accept: "application/json",
+            // Authorization:`JWT ${auth.token}`,
+          }
+        });
+        setMessages([...messages, newMessage]);
+        fetchMessages();
+        console.log('Message sent successfully');
+      } catch (error) {
+        console.error('Error sending message:', error);
+      }
     }
+
   };
 
   const handleBackClick = () => {
     console.log('Back button clicked');
   };
+
+  useEffect(() =>{
+    
+    fetchMessages();
+
+  },[])
+
+
   useEffect(() => {
     messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
@@ -127,7 +204,7 @@ const ChatBox = () => {
           type='circle'
         />
         <UserInfo>
-          <UserName>Chatbot</UserName>
+          <UserName>{receiver}</UserName>
           <UserStatus>Online</UserStatus>
         </UserInfo>
       </HeaderContainer>

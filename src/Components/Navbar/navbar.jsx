@@ -103,7 +103,7 @@ const Navbar = () => {
  
     return (
     <nav className="navbar">
-        <ToastContainer closeOnClick  className="toastify-container" position="bottom-right" toastStyle={{backgroundColor: "#2b2c38", fontFamily: "iransansweb", color: "#ffeba7",marginBottom:"60px"}} pauseOnHover={false} autoClose={3000} />
+        {/* <ToastContainer closeOnClick  className="toastify-container" position="bottom-right" toastStyle={{backgroundColor: "#2b2c38", fontFamily: "iransansweb", color: "#ffeba7",marginBottom:"60px"}} pauseOnHover={false} autoClose={3000} /> */}
 
         <div className="container">
             <div >
@@ -139,7 +139,7 @@ const Navbar = () => {
                 <ul>
                     { !showDrawer && auth.token && (
                     <li>
-                        <NotificationPanel />
+                        <NotificationPanel reload="true"/>
                     </li>
                     )}
                     {!showDrawer && auth.token && (

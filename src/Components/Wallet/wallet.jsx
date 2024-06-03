@@ -35,7 +35,6 @@ const style = {
 };
 
 const Wallet = ({balance}) =>  {
-  console.log("My balance:",balance);
   const [open, setOpen] = useState(false);
   const [chargeValue, setChargeValue] = useState(null);
 
