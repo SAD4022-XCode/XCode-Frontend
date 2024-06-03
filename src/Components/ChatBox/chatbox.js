@@ -82,7 +82,7 @@ const ReceivedMessageBox = styled(MessageBox)`
 
 
 
-const ChatBox = () => {
+const ChatBox = ({setShowChatBox}) => {
   const [mockMessages, setMockMessages] = useState(
     [
       {
@@ -182,6 +182,7 @@ const ChatBox = () => {
   };
 
   const handleBackClick = () => {
+    setShowChatBox(false)
     console.log('Back button clicked');
   };
 

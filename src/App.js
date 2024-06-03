@@ -37,12 +37,13 @@ function App() {
             <Route exact path="/created-events" element={<MyEvents />}/>
             <Route exact path="/register-event" element={<RegisterEvent />}/>
             <Route exact path="/registered-events" element={<RegisteredEvents />} />
+            <Route path="chat" element={<MainChat />} />
           </Route>
           <Route exact path="/map" element={<MapComponent />} />
           <Route path="event-details/:id" element={<EventDetails />} />
           <Route path="*" element={<PageNotFound />} />
           <Route path="notifications" element={<NotificationPanel />} />
-          <Route path="chat" element={<MainChat />} />
+          
         </Routes>
       </AuthProvider>
     </Router>

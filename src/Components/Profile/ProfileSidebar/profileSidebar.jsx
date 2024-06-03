@@ -163,7 +163,7 @@ const ProfileSidebar = () => {
                 {url.includes("chat")!=true && 
                 <>
                 <li>
-                    <a href="/chatbox">
+                    <a href="/chat">
                         <span class="link_name">گفت و گو</span>
                         <i class="bx bi-chat-dots"></i> 
                     </a>
