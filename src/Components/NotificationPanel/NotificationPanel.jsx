@@ -69,7 +69,17 @@ const NotificationPanel = (reload) => {
       console.log(notificationsCount);
     };
     fetchData();
-  }, [reload]);
+  }, [reload, notificationsCount]);
+
+  const readNotification = async (id) => {
+    const baseUrl = `https://eventify.liara.run/notifications/${id}/mark_as_read/`;
+    axios.defaults.headers.common["Authorization"] = `JWT ${auth.token}`;
+    await axios.patch(baseUrl);
+    setTimeout(() => {
+      reload = false;
+    }, 400);
+  };
+  delete axios.defaults.headers.common["Authorization"];
   const [showAll, setShowAll] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -95,6 +105,9 @@ const NotificationPanel = (reload) => {
     }));
     setNotifications(updatedNotifications);
     setNotificationsCount(0);
+    for (const notification of updatedNotifications) {
+      readNotification(notification.id);
+    }
   };
   const date = new Date().toISOString();
   const translateTime = (time) => {
@@ -175,6 +188,7 @@ const NotificationPanel = (reload) => {
                         const updatedNotifications = notifications.map(
                           (notif) => {
                             if (notif.id === notification.id) {
+                              readNotification(notif.id);
                               return { ...notif, is_read: true };
                             }
                             return notif;
