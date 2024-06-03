@@ -6,6 +6,7 @@ import { ArrowBack, Send } from '@material-ui/icons';
 import axios from 'axios';
 import ProfileSidebar from "../Profile/ProfileSidebar/profileSidebar";
 import Navbar from "../Navbar/navbar";
+import './chatbox.css'
 
 
 
@@ -82,36 +83,36 @@ const ReceivedMessageBox = styled(MessageBox)`
 
 
 
-const ChatBox = ({setShowChatBox}) => {
+const ChatBox = ({setShowChatBox, userName}) => {
   const [userData, setUserData] = useState(JSON.parse(localStorage.getItem("userData")) || "");
   const username=userData.user.username;
-  const [mockMessages, setMockMessages] = useState(
-    [
-      {
-        sender:username,
-        receiver:"nobody",
-        date:"Sun Jun 02 2023 16:55:32 GMT+0330 (Iran Standard Time)",
-        text:"msg 1"
-      },
-      {
-        sender:"nobody",
-        receiver:username,
-        date:"Sun Jun 02 2024 18:55:32 GMT+0330 (Iran Standard Time)",
-        text:"msg 2"
-      },
-      {
-        sender:"nobody",
-        receiver:username,
-        date:"Sun Jun 02 2024 19:55:32 GMT+0330 (Iran Standard Time)",
-        text:"msg 3"
-      },
-      {
-        sender:username,
-        receiver:"nobody",
-        date:"Sun Jun 02 2024 20:55:32 GMT+0330 (Iran Standard Time)",
-        text:"msg 4"
-      },
-    ]
+
+  const [mockMessages, setMockMessages] = useState( [
+    {
+      sender:username,
+      receiver:userName,
+      date:"Sun Jun 02 2023 16:55:32 GMT+0330 (Iran Standard Time)",
+      text:"msg 1"
+    },
+    {
+      sender:userName,
+      receiver:username,
+      date:"Sun Jun 02 2024 18:55:32 GMT+0330 (Iran Standard Time)",
+      text:"msg 2"
+    },
+    {
+      sender:userName,
+      receiver:username,
+      date:"Sun Jun 02 2024 19:55:32 GMT+0330 (Iran Standard Time)",
+      text:"msg 3"
+    },
+    {
+      sender:username,
+      receiver:userName,
+      date:"Sun Jun 02 2024 20:55:32 GMT+0330 (Iran Standard Time)",
+      text:"msg 4"
+    },
+  ]
   
   );
   const [messages, setMessages] = useState([])
@@ -129,7 +130,7 @@ const ChatBox = ({setShowChatBox}) => {
       //   // Authorization:`JWT ${auth.token}`,
       // }})
       setMessages([])
-      console.log("mock messages:",mockMessages)
+      // console.log("mock messages:",mockMessages)
       mockMessages.forEach((message, index) => {    
         message.type="text"      
         if (message.sender===username){
@@ -145,7 +146,35 @@ const ChatBox = ({setShowChatBox}) => {
     }
   }
 
-
+  useEffect(()=> {
+    setMockMessages([
+      {
+        sender:username,
+        receiver:userName,
+        date:"Sun Jun 02 2023 16:55:32 GMT+0330 (Iran Standard Time)",
+        text:"msg 1"
+      },
+      {
+        sender:userName,
+        receiver:username,
+        date:"Sun Jun 02 2024 18:55:32 GMT+0330 (Iran Standard Time)",
+        text:"msg 2"
+      },
+      {
+        sender:userName,
+        receiver:username,
+        date:"Sun Jun 02 2024 19:55:32 GMT+0330 (Iran Standard Time)",
+        text:"msg 3"
+      },
+      {
+        sender:username,
+        receiver:userName,
+        date:"Sun Jun 02 2024 20:55:32 GMT+0330 (Iran Standard Time)",
+        text:"msg 4"
+      },
+    ])
+    fetchMessages();
+  },)
   const handleSend = async() =>{
     if (inputValue.trim() !== '') {
       const newMessage = {
@@ -231,7 +260,7 @@ const ChatBox = ({setShowChatBox}) => {
           type='circle'
         />
         <UserInfo>
-          <UserName>{receiver}</UserName>
+          <UserName style={{color: "#ffeba7"}}>{userName}</UserName>
           <UserStatus>Online</UserStatus>
         </UserInfo>
       </HeaderContainer>

@@ -10,6 +10,7 @@ const MainChat = () => {
   const [smallScreen,setSmallScreen] = useState()
   const [showChatBox,setShowChatBox] = useState(false)
   const [marginRight, setMarginRight] = useState("250px")
+  const [userName, setUserName] = useState("");
   useEffect(() => {
     const handleResize = () => {
       if(window.innerWidth>767){
@@ -46,11 +47,11 @@ const MainChat = () => {
         <div className="main-chat">
           <div className="row">
             <div className="col-lg-5 col-md-6 mt-2">
-              <MyChat setShowChatBox={setShowChatBox} />
+              <MyChat setShowChatBox={setShowChatBox} setUserName={setUserName} />
             </div>
             {showChatBox ===true &&
               <div className="col-lg-6 col-md-6 mt-2">
-                <ChatBox setShowChatBox={setShowChatBox} />
+                <ChatBox setShowChatBox={setShowChatBox} userName={userName} />
               </div>
             }
             {/* ,marginRight:{marginRight} */}
@@ -73,12 +74,12 @@ const MainChat = () => {
           <div className="row">
             {showChatBox ===false &&
               <div className="col-lg-5 col-md-6">
-                <MyChat setShowChatBox={setShowChatBox} />
+                <MyChat setShowChatBox={setShowChatBox} setUserName={setUserName} />
               </div>
             }
             {showChatBox ===true &&
               <div className="col-lg-6 col-md-6">
-                <ChatBox setShowChatBox={setShowChatBox}/>
+                <ChatBox setShowChatBox={setShowChatBox} userName={userName}/>
               </div>
             }
           </div>

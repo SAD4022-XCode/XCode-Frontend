@@ -7,7 +7,7 @@ import moment from "moment-timezone";
 import myData from "./MOCK_DATA.json";
 import Card from "../Events List/Card";
 import "./MyChat.css";
-const MyChat = ({setShowChatBox}) => {
+const MyChat = ({ setShowChatBox, setUserName }) => {
   const [loading, setLoading] = useState(true);
   const translateTime = (time) => {
     let translatedTime = moment.utc(time).local().fromNow();
@@ -51,14 +51,18 @@ const MyChat = ({setShowChatBox}) => {
           {myData.map((item, index) => (
             <div key={item.id} className="col-lg-12">
               <ChatList
-                className={`chat-list mt-2 col-lg-12 col-md-12 chat-list-${index}`} onClick={(e)=>setShowChatBox(true)}
+                className={`chat-list mt-2 col-lg-12 col-md-12 chat-list-${index}`}
+                onClick={(e) => {
+                  setShowChatBox(true);
+                  setUserName(item.title);
+                }}
                 dataSource={[
                   {
                     avatar: item.avatar,
                     alt: item.alt,
                     title: item.title,
                     subtitle: item.subtitle,
-                    
+
                     unread: item.unread,
                   },
                 ]}
@@ -67,7 +71,8 @@ const MyChat = ({setShowChatBox}) => {
           ))}
 
           <ChatList
-            className="chat-list mt-2 col-lg-10 col-md-10" onClick={(e)=>setShowChatBox(true)}
+            className="chat-list mt-2 col-lg-10 col-md-10"
+            onClick={(e) => setShowChatBox(true)}
             dataSource={[
               {
                 avatar: "https://avatars.githubusercontent.com/u/80540635?v=4",
