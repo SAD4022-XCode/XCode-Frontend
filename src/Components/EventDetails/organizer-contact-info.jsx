@@ -34,7 +34,7 @@ const OrganizerInfoModal = ({show,handleClose,email,phone}) => {
 
       const pasteClipboard = (e) =>{
         // const pastedText = await navigator.clipboard.read();
-        setInput(pastedText)    
+        // setInput(pastedText)    
 
       }
 
@@ -55,7 +55,7 @@ const OrganizerInfoModal = ({show,handleClose,email,phone}) => {
             setInput("");
             setPlaceHolder("میتوانید گفت و گو را از صفحه پروفایل ادامه دهید")
             setTimeout(() => {
-                navigator('/profile');
+                navigator('/chat');
             }, 2500);
     }
 
