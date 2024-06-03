@@ -2,5 +2,5 @@
   height: 100vh !important;
   overflow-x: auto !important;
   overflow-y: auto !important;
-  
+  background: radial-gradient(ellipse at bottom, #303131 0%, rgba(18, 20, 29, 0.875) 100%) !important;
 }

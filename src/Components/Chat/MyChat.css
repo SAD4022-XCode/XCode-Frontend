@@ -9,9 +9,10 @@
   min-width: 300px;
   max-width: 600px;
   position: relative;
-  left: -30%;
+  left: 0%;
   overflow-y: auto;
-  height: 100vh;
+  height: calc(100vh - 60px);
+  
 }
 .rce-citem-body {
   background-color: #4b4b4bb5;

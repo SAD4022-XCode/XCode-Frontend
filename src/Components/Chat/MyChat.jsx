@@ -40,7 +40,7 @@ const MyChat = () => {
     return translatedTime;
   };
   return (
-    <Card className="my-chats">
+    <div className="my-chats">
       <div className="container-fluid justify-content-center align-content-center pb-5 mb-5 pt-1">
         <div className="items pb-5 mb-5 ">
           {/* {loading && (
@@ -82,7 +82,7 @@ const MyChat = () => {
           />
         </div>
       </div>
-    </Card>
+    </div>
   );
 };
 

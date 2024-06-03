@@ -13,7 +13,7 @@ const ChatContainer = styled.div`
   display: flex;
   flex-direction: column;
   height: calc(100vh - 60px);
-  max-width: 2000px;
+  max-width: 800px;
   margin: 0 auto;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -215,8 +215,8 @@ const ChatBox = () => {
 
   return (
     <>
-    <Navbar />
-    <ProfileSidebar/>
+    {/* <Navbar />
+    <ProfileSidebar/> */}
     <ChatContainer style={{marginRight:marginRight,marginLeft:"5%"}}>
       <HeaderContainer>
         <BackButton onClick={handleBackClick}>
