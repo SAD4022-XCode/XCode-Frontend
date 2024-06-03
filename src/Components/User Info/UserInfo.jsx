@@ -184,7 +184,7 @@ const UserInfo = () => {
       <Navbar />
       <ProfileSidebar/>
       <div className="user-info">
-        <ToastContainer closeOnClick
+        {/* <ToastContainer closeOnClick
           className="toastify-container"
           position="top-right"
           toastStyle={{
@@ -194,7 +194,7 @@ const UserInfo = () => {
           }}
           pauseOnHover={false}
           autoClose={3000}
-        />
+        /> */}
         <form className="userinfo" onSubmit={handleSubmit}>
           <div className="container">
             <div className="row">
