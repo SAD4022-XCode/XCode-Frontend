@@ -44,7 +44,7 @@ const Comment = ({
     return (
         <>
         { 
-            <div className='comment mr-3'>
+            <div className='comment comment-content mr-3'>
                 <div className='scoreColumn'>
                     {
                         // disable voting function for user's own comments
