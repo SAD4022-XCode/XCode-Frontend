@@ -139,7 +139,7 @@ const Navbar = () => {
                 <ul>
                     { !showDrawer && auth.token && (
                     <li>
-                        <NotificationPanel />
+                        <NotificationPanel reload="true"/>
                     </li>
                     )}
                     {!showDrawer && auth.token && (
