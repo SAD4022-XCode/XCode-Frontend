@@ -4,10 +4,16 @@ import 'react-chat-elements/dist/main.css';
 import styled from 'styled-components';
 import { ArrowBack, Send } from '@material-ui/icons';
 import axios from 'axios';
+import ProfileSidebar from "../Profile/ProfileSidebar/profileSidebar";
+import Navbar from "../Navbar/navbar";
+import './chatbox.css'
+
+
+
 const ChatContainer = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: calc(100vh - 65px);
   max-width: 800px;
   margin: 0 auto;
   border: 1px solid #ddd;
@@ -77,44 +83,45 @@ const ReceivedMessageBox = styled(MessageBox)`
 
 
 
-const ChatBox = () => {
-  const [mockMessages, setMockMessages] = useState(
-    [
-      {
-        sender:"ali",
-        receiver:"leo",
-        date:"Sun Jun 02 2023 16:55:32 GMT+0330 (Iran Standard Time)",
-        text:"msg 1"
-      },
-      {
-        sender:"leo",
-        receiver:"ali",
-        date:"Sun Jun 02 2024 18:55:32 GMT+0330 (Iran Standard Time)",
-        text:"msg 2"
-      },
-      {
-        sender:"leo",
-        receiver:"ali",
-        date:"Sun Jun 02 2024 19:55:32 GMT+0330 (Iran Standard Time)",
-        text:"msg 3"
-      },
-      {
-        sender:"ali",
-        receiver:"leo",
-        date:"Sun Jun 02 2024 20:55:32 GMT+0330 (Iran Standard Time)",
-        text:"msg 4"
-      },
-    ]
+const ChatBox = ({setShowChatBox, userName}) => {
+  const [userData, setUserData] = useState(JSON.parse(localStorage.getItem("userData")) || "");
+  const username=userData.user.username;
+
+  const [mockMessages, setMockMessages] = useState( [
+    {
+      sender:username,
+      receiver:userName,
+      date:"Sun Jun 02 2023 16:55:32 GMT+0330 (Iran Standard Time)",
+      text:"msg 1"
+    },
+    {
+      sender:userName,
+      receiver:username,
+      date:"Sun Jun 02 2024 18:55:32 GMT+0330 (Iran Standard Time)",
+      text:"msg 2"
+    },
+    {
+      sender:userName,
+      receiver:username,
+      date:"Sun Jun 02 2024 19:55:32 GMT+0330 (Iran Standard Time)",
+      text:"msg 3"
+    },
+    {
+      sender:username,
+      receiver:userName,
+      date:"Sun Jun 02 2024 20:55:32 GMT+0330 (Iran Standard Time)",
+      text:"msg 4"
+    },
+  ]
   
   );
   const [messages, setMessages] = useState([])
-  const [userData, setUserData] = useState(JSON.parse(localStorage.getItem("userData")) || "");
-  const username=userData.user.username;
+  
   const receiver = "ali"
   const [inputValue, setInputValue] = useState('');
   const messagesEndRef = useRef(null);
 
-
+  const [marginRight, setMarginRight ] =useState()
   const fetchMessages = async () => {
     try{
       // let response = await axios.get("api address",{headers: {
@@ -123,12 +130,13 @@ const ChatBox = () => {
       //   // Authorization:`JWT ${auth.token}`,
       // }})
       setMessages([])
-      console.log("mock messages:",mockMessages)
+      // console.log("mock messages:",mockMessages)
       mockMessages.forEach((message, index) => {    
         message.type="text"      
         if (message.sender===username){
           message.position="right"
         }else{ 
+          message.sender=userName
           message.position="left"
         }
         setMessages((prevMessages) => [...prevMessages, message]);
@@ -177,6 +185,7 @@ const ChatBox = () => {
   };
 
   const handleBackClick = () => {
+    setShowChatBox(false)
     console.log('Back button clicked');
   };
 
@@ -186,13 +195,33 @@ const ChatBox = () => {
 
   },[])
 
+  useEffect(() => {
+    const handleResize = () => {
+      if(window.innerWidth>1600){
+        setMarginRight("260px")
+      }else{
+        setMarginRight("7%")
+      }
+    };
+    
+    window.addEventListener('resize', handleResize);
+    
+    handleResize();
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
   return (
-    <ChatContainer>
+    <>
+    {/* <Navbar />
+    <ProfileSidebar/> */}
+    <ChatContainer style={{marginRight:marginRight,marginLeft:"5%"}}>
       <HeaderContainer>
         <BackButton onClick={handleBackClick}>
           <ArrowBack />
@@ -204,7 +233,7 @@ const ChatBox = () => {
           type='circle'
         />
         <UserInfo>
-          <UserName>{receiver}</UserName>
+          <UserName style={{color: "#ffeba7"}}>{userName}</UserName>
           <UserStatus>Online</UserStatus>
         </UserInfo>
       </HeaderContainer>
@@ -240,10 +269,20 @@ const ChatBox = () => {
         />
       </InputContainer>
     </ChatContainer>
+    </>
   );
 };
 
 export default ChatBox;
+
+
+
+
+
+
+
+
+
 
 
 
