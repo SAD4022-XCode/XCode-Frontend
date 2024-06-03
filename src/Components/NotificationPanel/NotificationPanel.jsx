@@ -65,7 +65,9 @@ const NotificationPanel = (reload) => {
       );
       console.log(response);
       setNotifications(response.data);
+      setTimeout(()=> {
       setNotificationsCount(updateNotificationCount(notifications));
+      },1000);
       console.log(notificationsCount);
     };
     fetchData();
@@ -74,10 +76,12 @@ const NotificationPanel = (reload) => {
   const readNotification = async (id) => {
     const baseUrl = `https://eventify.liara.run/notifications/${id}/mark_as_read/`;
     axios.defaults.headers.common["Authorization"] = `JWT ${auth.token}`;
-    await axios.patch(baseUrl);
+    await axios.patch(baseUrl).then(()=>{
+      setNotificationsCount(updateNotificationCount(notifications));
+    });
     setTimeout(() => {
       reload = false;
-    }, 400);
+    }, 400)
   };
   delete axios.defaults.headers.common["Authorization"];
   const [showAll, setShowAll] = useState(false);
