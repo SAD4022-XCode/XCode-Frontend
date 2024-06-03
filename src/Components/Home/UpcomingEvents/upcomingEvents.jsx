@@ -149,8 +149,14 @@ const UpcomingEvents = () => {
                         <a className="linkedTile" onClick={() => navigator(`/event-details/${currentSlide.id}`)}>
 
                         <div class="tile">                            
-                            
-                            <p dir="rtl" className="paragraph">{currentSlide.ticket_price} تومان</p>
+                            {currentSlide.ticket_price===0 &&
+                               <p dir="rtl" className="paragraph"> رایگان</p>
+
+                            }
+                            {currentSlide.ticket_price!==0 &&
+                                 <p dir="rtl" className="paragraph">{currentSlide.ticket_price} تومان</p>
+
+                            }
                             <i className="bi bi-cash" />
                             <p className="paragraph">{currentSlide.attendance ==="I" ? "حضوری" : "مجازی"}</p>
                             <i className="bi bi-geo-alt-fill" />
