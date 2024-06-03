@@ -114,11 +114,13 @@ const MainComment = (id) => {
   //   console.log(data);
   // };
   const addNewCommentBack = async (newData) => {
+    axios.defaults.headers.common["Authorization"] = `JWT ${auth.token}`;
     const baseUrl = `https://eventify.liara.run/comments/`;
 
     await axios.post(baseUrl, newData);
   };
   const updateCommentBack = async (id, newData) => {
+    axios.defaults.headers.common["Authorization"] = `JWT ${auth.token}`;
     const baseUrl = `https://eventify.liara.run/comments/${id}/`;
 
     await axios
@@ -135,12 +137,14 @@ const MainComment = (id) => {
       });
   };
   const updateScoreBack = async (id) => {
+    axios.defaults.headers.common["Authorization"] = `JWT ${auth.token}`;
     const baseUrl = `https://eventify.liara.run/comments/${id}/like/`;
 
     await axios.post(baseUrl);
   };
 
   const addNewReplyBack = async (id, newData) => {
+    axios.defaults.headers.common["Authorization"] = `JWT ${auth.token}`;
     const baseUrl = `https://eventify.liara.run/comments/${id}/reply/`;
 
     await axios.post(baseUrl, newData).then(() => {
