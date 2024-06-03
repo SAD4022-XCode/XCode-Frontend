@@ -34,9 +34,7 @@ function App() {
             <Route exact path="/create-event" element={<CreateEvent />}/>
             <Route exact path="/user-info" element={<UserInfo />} />
             <Route exact path="/created-events" element={<MyEvents />}/>
-            <Route exact path="/register-event" element={<RegisterEvent />}/>
-            <Route exact path="/registered-events" element={<RegisteredEvents />} />
-            <Route path="/chat" element={<ChatBox />} />
+            <Route exact path="/register-event/:id" element={<RegisterEvent />}/>
           </Route>
           <Route exact path="/map" element={<MapComponent />} />
           <Route path="event-details/:id" element={<EventDetails />} />

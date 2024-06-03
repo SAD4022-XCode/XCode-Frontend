@@ -180,7 +180,16 @@
         color: #222;
         border-bottom: 0.2vh solid #4966b1; }
     
-    input[type=checkbox]:not(old) {
+    input[type=checkbox] {
+        width: 2em;
+        margin: 0;
+        padding: 0;
+        font-size: 1em;
+        display: inline-flex; 
+        vertical-align: middle;
+    }
+
+    /* input[type=checkbox]:not(old) {
         width: 2em;
         margin: 0;
         padding: 0;
@@ -221,14 +230,14 @@
         font-size: 1.1vh;
         line-height: 1.2;
         text-align: center;
-        /* font-family: 'Material-Design-Iconic-Font'; */
         font-family: 'iransansweb';
-        font-weight: bold; }
+        font-weight: bold; } */
+
     
-    /* input[type="checkbox"] {
+        /* input[type="checkbox"] {
             outline: 3px solid black; 
-    } */
-    .label-agree-term {
+        } */
+        .label-agree-term {
         /* align-content: right; */
         /* margin-right: 0; */
         justify-content: right;
@@ -291,6 +300,8 @@
     ul li:not(.init):hover, ul li.selected:not(.init) {
         background: #4966b1;
         color: #fff; }
+
+
     
     li.init {
         cursor: pointer;
