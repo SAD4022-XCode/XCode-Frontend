@@ -14,11 +14,13 @@ const DeleteModal = ({
     const baseUrl = `https://eventify.liara.run/comments/${id}/`;
     console.log(auth.token);
     await axios.delete(baseUrl).then(() => {
-        setDeleteComment(false);
-setData(data);
-setInitialFetchDone(false);
-      setInitialFetchDone(true);
-    })
+      setDeleteComment(false);
+      setData(data);
+      setInitialFetchDone(false);
+      setTimeout(() => {
+        setInitialFetchDone(true);
+      }, 2000);
+    });
     // setTimeout(() => {
     //   setDeleteComment(false);
     // }, 1000);

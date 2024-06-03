@@ -119,8 +119,10 @@ const MainComment = (id) => {
 
     await axios.post(baseUrl, newData).then(() => {
       // setTimeout(() => {
-        setInitialFetchDone(false);
+      setInitialFetchDone(false);
+      setTimeout(() => {
         setInitialFetchDone(true);
+      }, 2000);
       // }, 3000);
     });
   };
@@ -136,8 +138,10 @@ const MainComment = (id) => {
       })
       .then(() => {
         // setTimeout(() => {
-          setInitialFetchDone(false);
+        setInitialFetchDone(false);
+        setTimeout(() => {
           setInitialFetchDone(true);
+        }, 2000);
         // }, 3000);
       });
   };
@@ -147,8 +151,10 @@ const MainComment = (id) => {
 
     await axios.post(baseUrl).then(() => {
       // setTimeout(() => {
-        setInitialFetchDone(false);
+      setInitialFetchDone(false);
+      setTimeout(() => {
         setInitialFetchDone(true);
+      }, 2000);
       // }, 3000);
     });
   };
@@ -159,8 +165,10 @@ const MainComment = (id) => {
 
     await axios.post(baseUrl, newData).then(() => {
       // setTimeout(() => {
-        setInitialFetchDone(false);
+      setInitialFetchDone(false);
+      setTimeout(() => {
         setInitialFetchDone(true);
+      }, 2000);
       // }, 3000);
     });
   };
