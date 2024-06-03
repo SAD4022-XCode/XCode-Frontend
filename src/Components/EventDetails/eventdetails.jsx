@@ -398,7 +398,7 @@ const EventDetails = () => {
                                     {canPurchase && 
                                         <button
                                             className="btn  mt-1 mx-1"
-                                            onClick={(e) => navigator('/register-event')}
+                                            onClick={(e) => navigator('/register-event/'+id.toString())}
                                             >
                                             ثبت نام  
                                         </button>
@@ -437,7 +437,7 @@ const EventDetails = () => {
                                     {canPurchase && 
                                         <button
                                             className="btn  mt-1 mx-1"
-                                            onClick={(e) => navigator('/register-event')}
+                                            onClick={(e) => navigator('/register-event/'+id.toString())}
                                             >
                                             ثبت نام  
                                         </button>

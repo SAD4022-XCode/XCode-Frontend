@@ -199,6 +199,10 @@ const ChatBox = ({setShowChatBox, userName}) => {
     const handleResize = () => {
       if(window.innerWidth>1600){
         setMarginRight("260px")
+      }else if(window.innerWidth>993){
+        setMarginRight("12%")
+      }else if(window.innerWidth>768){
+        setMarginRight("15%")
       }else{
         setMarginRight("7%")
       }
@@ -221,7 +225,7 @@ const ChatBox = ({setShowChatBox, userName}) => {
     <>
     {/* <Navbar />
     <ProfileSidebar/> */}
-    <ChatContainer style={{marginRight:marginRight,marginLeft:"5%"}}>
+    <ChatContainer style={{marginRight:marginRight,marginLeft:"0%"}}>
       <HeaderContainer>
         <BackButton onClick={handleBackClick}>
           <ArrowBack />
