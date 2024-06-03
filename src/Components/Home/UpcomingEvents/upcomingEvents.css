@@ -1,7 +1,6 @@
-
 .UpcomingEvents{
-    
-    
+    position: relative;
+    /* margin-top: 60px; */
     .image-slider {
         position: relative;
         height: 70vh;
@@ -131,7 +130,7 @@
         /* display: inline-flex; */
         /* flex-direction: column; */
         text-align: center !important;
-        font-family: vazir !important;
+        font-family: "iransansweb" !important;
         font-weight: bold !important;
         font-size: 3vh !important;
     }
@@ -168,7 +167,7 @@
         display: inline-block !important;
         /* display: table-cell !important; */
         margin-left: 3vh !important;
-        font-family: vazir !important;
+        font-family: "iransansweb" !important;
         justify-content: center !important;
         font-size: 3vh !important;
         color: #2B2E38 !important;

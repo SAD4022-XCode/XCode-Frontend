@@ -13,27 +13,35 @@ import MyEvents from "./Components/Profile/MyEvents/myEvents";
 import AuthProvider from "./Components/Authentication/authProvider";
 import PrivateRoute from "./Components/Authentication/privateRoute";
 import Navbar from "./Components/Navbar/navbar";
-
+import MapComponent from "./Components/MapComponent/MapComponent";
+import EventDetails from "./Components/EventDetails/eventdetails";
+import RegisterEvent from "./Components/RegisterEvent/registerEvent";
+import Landing from "./Components/Landing/Landing";
+import NotificationPanel from "./Components/NotificationPanel/NotificationPanel";
+import RegisteredEvents from "./Components/RegisteredEvents/RegisteredEvents";
+import ChatBox from "./Components/ChatBox/chatbox";
 function App() {
   return (
     <Router>
       <AuthProvider>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Landing />} />
           <Route path="/home" element={<Home />} />
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/register" element={<Register />} />
-          <Route exact path="/profile" element={<> 
-                                                <Navbar/> 
-                                                <ProfileSidebar />
-                                                <MyEvents />
-                                                </>}        />
           <Route exact path="/password-recovery" element={<PasswordRecovery />} />
           <Route element={<PrivateRoute />}>
             <Route exact path="/create-event" element={<CreateEvent />}/>
             <Route exact path="/user-info" element={<UserInfo />} />
+            <Route exact path="/created-events" element={<MyEvents />}/>
+            <Route exact path="/register-event" element={<RegisterEvent />}/>
+            <Route exact path="/registered-events" element={<RegisteredEvents />} />
+            <Route path="/chat" element={<ChatBox />} />
           </Route>
+          <Route exact path="/map" element={<MapComponent />} />
+          <Route path="event-details/:id" element={<EventDetails />} />
           <Route path="*" element={<PageNotFound />} />
+          <Route path="notifications" element={<NotificationPanel />} />
         </Routes>
       </AuthProvider>
     </Router>

@@ -11,7 +11,23 @@
   height: 100vh;
   background: radial-gradient(ellipse at bottom, #1b2735 0%, #12141d 100%);
   overflow-y: auto;
+  
+  .asda{
 
+  }
+  .validationMsg {
+    font-size: x-small;
+    direction: rtl;
+    text-align: start;
+    color: #ffa500;
+    font-weight: 1000;
+    font-family: "iransansweb";
+  }
+  .invalid {
+    border: solid;
+    border-color: #ff6200 !important;
+    border-radius: 8px;
+  }
   .radio-inputs {
     position: relative;
     display: flex;
@@ -21,7 +37,7 @@
     box-sizing: border-box;
     box-shadow: 0 0 0px 1px rgba(0, 0, 0, 0.06);
     padding-top: 7px;
-    width: 300px;
+    max-width: 300px;
     font-size: 14px;
   }
   
@@ -177,7 +193,11 @@ input::-webkit-inner-spin-button{
 input[type=number]{
   -moz-appearance: textfield;
 }
-
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+}
 .form-style-ce {
   
   text-align: right;
@@ -199,7 +219,25 @@ input[type=number]{
   box-shadow: 0 4px 8px 0 rgba(21, 21, 21, 0.2);
 }
 
-
+.form-style-ce-area {
+  resize: none;
+  text-align: right;
+  padding: 13px 20px;
+  padding-right: 20px;
+  width: 100%;
+  font-weight: 500;
+  border-radius: 4px;
+  font-size: 14px;
+  line-height: 22px;
+  letter-spacing: 0.5px;
+  outline: none;
+  color: #c4c3ca;
+  background-color: #1f2029;
+  border: none;
+  -webkit-transition: all 200ms linear;
+  transition: all 200ms linear;
+  box-shadow: 0 4px 8px 0 rgba(21, 21, 21, 0.2);
+}
 
 
 .province-city{ 

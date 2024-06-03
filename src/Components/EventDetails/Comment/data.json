@@ -1,0 +1,63 @@
+{
+    "currentUser": {
+      "image": { 
+        "png": "https://gravatar.com/avatar/d78997c04ea0fe6bdf126852b4a5ee38?s=400&d=robohash&r=x "
+      },
+      "username": "ادمین"
+    },
+    "comments": [
+      {
+        "id": 1,
+        "content": "رویداد بسیار عالی بود.",
+        "createdAt": "1 month ago",
+        "score": 12,
+        "user": {
+          "image": { 
+            "png": "https://gravatar.com/avatar/a532c3431d3a82a4e6c56465788bb194?s=400&d=robohash&r=x"
+          },
+          "username": "کاربر شماره 1"
+        },
+        "replies": []
+      },
+      {
+        "id": 2,
+        "content": "رویداد بدی نبود",
+        "createdAt": "2 weeks ago",
+        "score": 5,
+        "user": {
+          "image": { 
+            "png": "https://gravatar.com/avatar/1f513698f4b6781b8cedc3acb3c95156?s=400&d=robohash&r=x"
+          },
+          "username": "کاربر شماره 2"
+        },
+        "replies": [
+          {
+            "id": 3,
+            "content": "متاسفانه رویداد با تاخیر بسیار زیادی برگزار شد.",
+            "createdAt": "1 week ago",
+            "score": 4,
+            "replyingTo": "کاربر شماره 2",
+            "user": {
+              "image": { 
+                "png": "https://gravatar.com/avatar/4f65640b9061eb59b6585013945cb8fc?s=400&d=robohash&r=x"
+              },
+              "username": "کاربر شماره 3"
+            }
+          },
+          {
+            "id": 4,
+            "content": "ما برای بهبود فرآیندها در آینده، نیاز به بازخوردهای شما داریم. لطفاً نظرات و پیشنهادات خود را با ما به اشتراک بگذارید تا بتوانیم رویدادهای آینده را بهبود بخشیم.",
+            "createdAt": "2 days ago",
+            "score": 2,
+            "replyingTo": "کاربر شماره 3",
+            "user": {
+              "image": { 
+                "png": "https://gravatar.com/avatar/d78997c04ea0fe6bdf126852b4a5ee38?s=400&d=robohash&r=x"
+              },
+              "username": "ادمین"
+            }
+          }
+        ]
+      }
+    ]
+  }

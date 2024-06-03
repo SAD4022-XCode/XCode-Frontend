@@ -1,0 +1,26 @@
+.comments-column {
+  position: relative;
+  margin: 0 auto;
+  width: 750px;
+}
+.comment-section-title {
+  color: #ffeba7;
+  position: relative;
+  font-family: "iransansweb";
+  margin: 1px;
+  padding: 3px;
+  background: radial-gradient(ellipse at bottom, #303131 0%, #24262f9b 100%);
+  border-radius: 10px;
+  border: 1px solid #ffeba7;
+}
+#login-comment{
+  direction: rtl;
+  background: radial-gradient(ellipse at bottom, #303131 0%, #24262f9b 100%);
+  border-radius: 10px;
+  border: 1px solid #ffeba7;
+}
+@media (max-width: 760px) {
+  .comments-column {
+    width: 90vw;
+  }
+}

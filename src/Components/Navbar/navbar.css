@@ -25,6 +25,12 @@
   background-color: #2B2E38;
   cursor: pointer;
 }
+.dropdown-item3{
+  border-radius: 0px 0px 0px 0px;
+  color:#ffeba7;
+  background-color: #2B2E38;
+  cursor: pointer;
+}
 .dropdown-item2{
   border-radius:0px 0px 4px 4px ;
   color:#ffeba7;
@@ -64,6 +70,14 @@
   font-family: "iransansweb";
   color: #ffeba7;
 
+    /* overflow: hidden;
+    position: fixed;
+    width: 100%;
+    z-index: 1100; */
+
+  .asdsa{
+    
+  }
   .search-bar {
     display: flex;
     direction: rtl;
@@ -165,9 +179,11 @@
 
 
 
-
 @media (max-width: 1220px) {
   .navbar{
+    .asdsa{
+
+    }
     .search-bar {
       width: 300px;
     }
@@ -195,6 +211,14 @@
 
 @media (max-width: 1100px) {
   .navbar{
+    .asdsa{
+      
+    }
+    .search-icon{
+      padding-bottom: 10px;
+      font-size: large !important;
+      color:#FFFFFF;
+    }
     .ellipsis {
       direction: rtl;
       white-space: nowrap;
@@ -229,7 +253,14 @@
 @media (max-width: 1000px) {
   
   .navbar{
-    
+    .asdsa{
+      
+    }
+    .search-icon{
+      padding-bottom: 10px;
+      font-size: large !important;
+      color:#FFFFFF;
+    }
     .logo{
       display: none;
     }
@@ -258,6 +289,14 @@
 @media (max-width: 715px) {
 
   .navbar{
+    .asdsa{
+      
+    }
+    .search-icon{
+      padding-bottom: 10px;
+      font-size: large !important;
+      color:#FFFFFF;
+    }
     .nav-elements ul li:not(:last-child) {
       margin-right: 10px;
     }
@@ -274,8 +313,17 @@
 }
 
 @media (max-width: 642px) {
-  .navbar{
-    z-index: 1;
+  .navbar {
+    z-index: 999;
+    .asdsa{
+      
+    }
+    .search-icon{
+      padding-bottom: 10px;
+      font-size: large !important;
+      color:#FFFFFF;
+    }
+
     .search-bar{
       width: 75%;
       height: 40px;

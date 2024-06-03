@@ -28,7 +28,6 @@ const PasswordRecovery = () =>{
         if(recoveryEmailValidation===true){
           axios.post('http://localhost:8080/api', {email:enteredRecoveryEmail})
           .then(response => {
-            console.log('Data sent successfully:', response.data);
             setShowViolation(false);
             if (response.data['message']==="Email sent successfully"){
               setEnteredRecoveryEmail("");
@@ -73,7 +72,7 @@ const PasswordRecovery = () =>{
 
     return(
         <form className="signin">
-       <ToastContainer className="toastify-container"position="top-right" toastStyle={{backgroundColor: "#2b2c38", fontFamily: "iransansweb", color: "#ffeba7"}} pauseOnHover={false} autoClose={3000} />
+       <ToastContainer closeOnClick  className="toastify-container"position="top-right" toastStyle={{backgroundColor: "#2b2c38", fontFamily: "iransansweb", color: "#ffeba7"}} pauseOnHover={false} autoClose={3000} />
       <div className="section">
         <div className="container">
           <div className="row full-height justify-content-center">
@@ -98,7 +97,7 @@ const PasswordRecovery = () =>{
                           </div>
                           {!recoveryEmailValidation && showViolations &&(<p className="mb-0 mt-2 validationMsg">{recoveryEmailValidationMsg}</p>)}
                           <p className="mb-0 mt-2">
-                            <a className="link cancel" href="http://localhost:3000/login">بازگشت</a>
+                            <a className="link cancel" href="/login">بازگشت</a>
                           </p>
                           <br></br>
                           <button

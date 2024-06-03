@@ -1,0 +1,112 @@
+.notification-panel {
+  font-family: "iransansweb";
+  background-color: #4b4b4b;
+  color: #ffeba7;
+  padding: 20px;
+  border-radius: 5px;
+  direction: rtl;
+  max-width: 100%;
+}
+.close-section {
+  background-color: #4b4b4b;
+}
+.lottie-parent {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  width: 50px;
+  bottom: 22%;
+}
+.lottie-parent p {
+  display: inline-block;
+  position: relative;
+  top: 10px;
+  color: #f06868;
+  font-size: 15px;
+  font-weight: 800;
+  right: 20%;
+}
+.lottie {
+  transform: scale(0.8);
+}
+.notification-modal {
+  position: absolute;
+  top: 28%;
+  left: 62%;
+  transform: translate(-50%, -50%);
+  border-radius: 20px;
+  max-width: 300px;
+  min-height: 480px;
+  max-height: auto;
+}
+.notification-panel h4 {
+  margin: 0 0 10px 0;
+}
+
+.notification-panel label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.notification-panel input[type="checkbox"] {
+  margin-left: 10px;
+}
+
+.notification-panel #notification-title {
+  display: block;
+  margin-bottom: 10px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.notification-panel #read-all:hover {
+  transform: scale(1.02);
+  cursor: pointer;
+}
+
+.notification-panel #notification-title:hover {
+  transform: scale(1.02);
+}
+.notification-panel .content{
+  display: flex;
+  flex-direction: row;
+}
+.notification-panel #notification-time{
+  position: relative;
+  left: -90px;
+}
+.notification-panel .title{
+  display: flex;
+  flex-direction: row;
+}
+.blue-bullet {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background-color: blue;
+  border-radius: 50%;
+  margin-left: 10px;
+}
+
+
+.notification-panel ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.notification-panel li {
+  padding: 5px;
+  margin-bottom: 5px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.notification-panel li.read {
+  background-color: #888;
+  color: ffeba7;
+}
+
+.notification-panel li.unread {
+  background-color: #ddd;
+  color: #333;
+}
