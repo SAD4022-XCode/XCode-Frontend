@@ -12,7 +12,7 @@ import Navbar from "../Navbar/navbar";
 const ChatContainer = styled.div`
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 60px);
+  height: calc(100vh - 65px);
   max-width: 800px;
   margin: 0 auto;
   border: 1px solid #ddd;
