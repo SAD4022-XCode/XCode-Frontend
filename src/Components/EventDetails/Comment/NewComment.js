@@ -1,4 +1,5 @@
 import './newComment.css';
+import profile from "../../../assets/profile.png";
 import { useState } from 'react';
 
 const NewComment = ({
@@ -13,7 +14,7 @@ const NewComment = ({
     return (
         <div className='newComment'>
             <div className='avatarColumn'>
-                <img className='avatarReply' src={currentUser.profile_picture} alt='current user avatar'/>
+                <img className='avatarReply' src={currentUser.profile_picture || profile } alt='current user avatar'/>
             </div>
             
             <div className='inputColumn'>
