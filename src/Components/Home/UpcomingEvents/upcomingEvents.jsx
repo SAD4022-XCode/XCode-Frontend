@@ -56,11 +56,11 @@ const UpcomingEvents = () => {
                     // const event_id = eventIdExtractor();
                     // console.log("start fetching data")
                     const response = await axios.get(event_url);
-                    // setEvents(events, response.data);
+                    // console.log("dataaaaa: ", response.data);
                     events[i] = response.data
                     // console.log("Console:\n", events)
                     setIsLoaded(true);
-                } catch (error) {
+            } catch (error) {
                     console.log("we have error")
             } finally { 
                 // setLoading(false);
@@ -68,9 +68,9 @@ const UpcomingEvents = () => {
         };
         fetchData();
     }
-    if(isLoaded){
+    // if(isLoaded){
         setAllEvents(events);
-    }
+    // }
         
     console.log('all events: ', allEvents)
     }, []);
@@ -102,17 +102,17 @@ const UpcomingEvents = () => {
      }
 
 
-     if (isLoaded === false){
-        return(
-            <div className="event-details"> 
-                {/* <Navbar/> */}
+    //  if (isLoaded === false){
+    //     return(
+    //         <div className="event-details"> 
+    //             {/* <Navbar/> */}
                 
-                <div className="container col loading" style={{height:"200px",width:"200px" ,marginTop:"15%"}}>
-                    <Lottie options={defaultOptions} />
-                </div>
-            </div>
-        );
-    }
+    //             <div className="container col loading" style={{height:"200px",width:"200px" ,marginTop:"15%"}}>
+    //                 <Lottie options={defaultOptions} />
+    //             </div>
+    //         </div>
+    //     );
+    // }
 
 
 
