@@ -9,6 +9,8 @@ import photo1 from "../../assets/events.jpg";
 import Card from "./Card";
 import "./EventsList.css";
 import EventsFilter from "./EventsFilter";
+import animationData from "../EventDetails/Animation - 1715854965467.json";
+import Lottie from "react-lottie";
 
 const EventsList = () => {
   const [posts, setPosts] = useState([]);
@@ -16,7 +18,14 @@ const EventsList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage, setPostsPerPage] = useState(12);
   const [totalPages, setTotalPages] = useState(1);
-  delete axios.defaults.headers.common["Authorization"];
+  if (axios.defaults.headers.common["Authorization"])
+    delete axios.defaults.headers.common["Authorization"];
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    clickToPause: true,
+    animationData: animationData,
+  };
   const [data, setData] = useState({
     eventPrice: "",
     eventType: "",
@@ -123,7 +132,7 @@ const EventsList = () => {
         <div className="items pb-5 mb-5 pt-5">
           {loading && (
             <div className="loading">
-              <h2>Loading...</h2>
+              <Lottie options={defaultOptions} />
             </div>
           )}
           {posts.map(
