@@ -83,29 +83,31 @@ const ReceivedMessageBox = styled(MessageBox)`
 
 
 const ChatBox = ({setShowChatBox}) => {
+  const [userData, setUserData] = useState(JSON.parse(localStorage.getItem("userData")) || "");
+  const username=userData.user.username;
   const [mockMessages, setMockMessages] = useState(
     [
       {
-        sender:"ali",
-        receiver:"leo",
+        sender:username,
+        receiver:"nobody",
         date:"Sun Jun 02 2023 16:55:32 GMT+0330 (Iran Standard Time)",
         text:"msg 1"
       },
       {
-        sender:"leo",
-        receiver:"ali",
+        sender:"nobody",
+        receiver:username,
         date:"Sun Jun 02 2024 18:55:32 GMT+0330 (Iran Standard Time)",
         text:"msg 2"
       },
       {
-        sender:"leo",
-        receiver:"ali",
+        sender:"nobody",
+        receiver:username,
         date:"Sun Jun 02 2024 19:55:32 GMT+0330 (Iran Standard Time)",
         text:"msg 3"
       },
       {
-        sender:"ali",
-        receiver:"leo",
+        sender:username,
+        receiver:"nobody",
         date:"Sun Jun 02 2024 20:55:32 GMT+0330 (Iran Standard Time)",
         text:"msg 4"
       },
@@ -113,8 +115,7 @@ const ChatBox = ({setShowChatBox}) => {
   
   );
   const [messages, setMessages] = useState([])
-  const [userData, setUserData] = useState(JSON.parse(localStorage.getItem("userData")) || "");
-  const username=userData.user.username;
+  
   const receiver = "ali"
   const [inputValue, setInputValue] = useState('');
   const messagesEndRef = useRef(null);
