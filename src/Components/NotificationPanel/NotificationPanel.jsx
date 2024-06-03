@@ -41,35 +41,38 @@ import "./NotificationPanel.css";
 //   created_at: "2024-05-28T16:54:37.465Z",
 //   is_read: true,
 // },]
-const NotificationPanel = () => {
+const NotificationPanel = (reload) => {
   const auth = useAuth();
   const [notifications, setNotifications] = useState([]);
   const [notificationsCount, setNotificationsCount] = useState(0);
-  let count = 0;
-  axios.defaults.headers.common["Authorization"] = `JWT ${auth.token}`;
+  const updateNotificationCount = (notifications) => {
+    let count = 0;
+    notifications.map((notification) => {
+      !notification.is_read ? count++ : (count = count);
+    });
+    return count;
+  };
+  // axios.defaults.headers.common["Authorization"] = `JWT ${auth.token}`;
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get(
-        "https://eventify.liara.run/account/inbox/"
+        "https://eventify.liara.run/account/inbox/",
+        {
+          headers: {
+            Authorization: `JWT ${auth.token}`,
+          },
+        }
       );
       console.log(response);
       setNotifications(response.data);
-      notifications.map((notification) => {
-        !notification.is_read ? count++ : (count = count);
-      setNotificationsCount(count);
-      console.log(notification)
-      console.log(notificationsCount)
-      });
+      setNotificationsCount(updateNotificationCount(notifications));
+      console.log(notificationsCount);
     };
     fetchData();
-  }, []);
+  }, [reload]);
   const [showAll, setShowAll] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  
-  // notifications.map((notification) => {
-  //   !notification.is_read ? count++ : (count = count);
-  // });
-  
+
   const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -178,11 +181,10 @@ const NotificationPanel = () => {
                           }
                         );
                         setNotifications(updatedNotifications);
-                        count = 0;
-                        updatedNotifications.map((notification) => {
-                          !notification.is_read ? count++ : (count = count);
-                        });
-                        setNotificationsCount(count);
+                        // count = 0;
+                        setNotificationsCount(
+                          updateNotificationCount(updatedNotifications)
+                        );
                       }}
                     >
                       <div className="title">

@@ -139,7 +139,7 @@ const Navbar = () => {
                 <ul>
                     { auth.token && (
                     <li>
-                        <NotificationPanel />
+                        <NotificationPanel reload="true"/>
                     </li>
                     )}
                     <li>
