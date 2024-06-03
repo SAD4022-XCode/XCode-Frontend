@@ -136,6 +136,7 @@ const ChatBox = ({setShowChatBox, userName}) => {
         if (message.sender===username){
           message.position="right"
         }else{ 
+          message.sender=userName
           message.position="left"
         }
         setMessages((prevMessages) => [...prevMessages, message]);
@@ -146,35 +147,7 @@ const ChatBox = ({setShowChatBox, userName}) => {
     }
   }
 
-  useEffect(()=> {
-    setMockMessages([
-      {
-        sender:username,
-        receiver:userName,
-        date:"Sun Jun 02 2023 16:55:32 GMT+0330 (Iran Standard Time)",
-        text:"msg 1"
-      },
-      {
-        sender:userName,
-        receiver:username,
-        date:"Sun Jun 02 2024 18:55:32 GMT+0330 (Iran Standard Time)",
-        text:"msg 2"
-      },
-      {
-        sender:userName,
-        receiver:username,
-        date:"Sun Jun 02 2024 19:55:32 GMT+0330 (Iran Standard Time)",
-        text:"msg 3"
-      },
-      {
-        sender:username,
-        receiver:userName,
-        date:"Sun Jun 02 2024 20:55:32 GMT+0330 (Iran Standard Time)",
-        text:"msg 4"
-      },
-    ])
-    fetchMessages();
-  },)
+
   const handleSend = async() =>{
     if (inputValue.trim() !== '') {
       const newMessage = {
