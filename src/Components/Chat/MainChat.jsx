@@ -45,11 +45,11 @@ const MainChat = () => {
       {smallScreen===false &&
         <div className="main-chat">
           <div className="row">
-            <div className="col-lg-5 col-md-6">
+            <div className="col-lg-5 col-md-6 mt-2">
               <MyChat setShowChatBox={setShowChatBox} />
             </div>
             {showChatBox ===true &&
-              <div className="col-lg-6 col-md-6">
+              <div className="col-lg-6 col-md-6 mt-2">
                 <ChatBox setShowChatBox={setShowChatBox} />
               </div>
             }
