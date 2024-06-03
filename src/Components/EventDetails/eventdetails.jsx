@@ -58,7 +58,7 @@ const EventDetails = () => {
         photo:"",
         category:"",
         organizer_photo:"",
-        organizerName:"",
+        organizer_name:"",
         organizer_phone:"09123456789",
         organizer_email:"organizer@gmail.com",
         description:"",
@@ -282,9 +282,12 @@ const EventDetails = () => {
                                         <p className="ed-message"style={{fontSize:"14px"}}>{eventDetails.category}</p>
                                     </div>
                                     <div className="row px-3 pt-4" >
-                                        <img className="mt-1" src={require("../../assets/sample-organizer.webp")} style={{height:"45px",borderRadius: "50%" }} alt="profile"/>
+                                        <img className="mt-1" 
+                                        src={(eventDetails.organizer_photo!=="" && eventDetails.organizer_photo!== null)?eventDetails.organizer_photo : require("../../assets/profile.png")}
+                                        
+                                        style={{height:"45px",borderRadius: "50%" }} alt="profile"/>
                                         <div className="col">
-                                            <p className="pt-2 px-0 text-right"> نام برگزارکننده</p>
+                                            <p className="pt-3 px-0 text-right"> {eventDetails.organizer_name} </p>
                                         </div>
                                     </div>
                                         <div className="row px-3"style={{ display: 'flex', justifyContent: 'center' }}>
@@ -538,9 +541,11 @@ const EventDetails = () => {
                                         <p className="ed-message">{eventDetails.category}</p>
                                     </div>
                                     <div className="row px-3 pt-4" >
-                                        <img className="mt-1" src={require("../../assets/sample-organizer.webp")} style={{height:"45px",borderRadius: "50%" }} alt="profile"/>
+                                        <img className="mt-1" 
+                                        src={(eventDetails.organizer_photo!=="" && eventDetails.organizer_photo!== null)?eventDetails.organizer_photo : require("../../assets/profile.png")}
+                                        style={{height:"45px",borderRadius: "50%" }} alt="profile"/>
                                         <div className="col">
-                                            <p className="pt-2 px-0 text-right"> نام برگزارکننده</p>
+                                            <p className="pt-3 px-0 text-right"> {eventDetails.organizer_name} </p>
                                         </div>
                                     </div>
                                     <div className="row px-3" style={{ display: 'flex', justifyContent: 'center' }}>
@@ -594,9 +599,11 @@ const EventDetails = () => {
                                         <p className="ed-message">{eventDetails.category}</p>
                                     </div>
                                     <div className="row px-3 pt-4" >
-                                        <img className="mt-1" src={require("../../assets/sample-organizer.webp")} style={{height:"45px",borderRadius: "50%" }} alt="profile"/>
+                                        <img className="mt-1" 
+                                        src={(eventDetails.organizer_photo!=="" && eventDetails.organizer_photo!== null)?eventDetails.organizer_photo : require("../../assets/profile.png")}
+                                        style={{height:"45px",borderRadius: "50%" }} alt="profile"/>
                                         <div className="col">
-                                            <p className="pt-2 px-0 text-right"> نام برگزارکننده</p>
+                                            <p className="pt-3 px-0 text-right"> {eventDetails.organizer_name} </p>
                                         </div>
                                     </div>
                                     <div className="row px-3" style={{ display: 'flex', justifyContent: 'center' }}>
