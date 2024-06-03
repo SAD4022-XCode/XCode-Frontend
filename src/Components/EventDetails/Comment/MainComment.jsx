@@ -17,8 +17,8 @@ const MainComment = (id) => {
   const [deleteComment, setDeleteComment] = useState(false);
   const [initialFetchDone, setInitialFetchDone] = useState(false);
   const initialDataLength = useRef(null);
-  if( auth.token )
-  axios.defaults.headers.common["Authorization"] = `JWT ${auth.token}`;
+  if (auth.token)
+    axios.defaults.headers.common["Authorization"] = `JWT ${auth.token}`;
   let userData = JSON.parse(localStorage.getItem("userData"));
   let ID = id.id;
   useEffect(() => {
@@ -117,7 +117,12 @@ const MainComment = (id) => {
     axios.defaults.headers.common["Authorization"] = `JWT ${auth.token}`;
     const baseUrl = `https://eventify.liara.run/comments/`;
 
-    await axios.post(baseUrl, newData);
+    await axios.post(baseUrl, newData).then(() => {
+      // setTimeout(() => {
+        setInitialFetchDone(false);
+        setInitialFetchDone(true);
+      // }, 3000);
+    });
   };
   const updateCommentBack = async (id, newData) => {
     axios.defaults.headers.common["Authorization"] = `JWT ${auth.token}`;
@@ -130,17 +135,22 @@ const MainComment = (id) => {
         },
       })
       .then(() => {
-        setTimeout(() => {
+        // setTimeout(() => {
           setInitialFetchDone(false);
           setInitialFetchDone(true);
-        }, 1500);
+        // }, 3000);
       });
   };
   const updateScoreBack = async (id) => {
     axios.defaults.headers.common["Authorization"] = `JWT ${auth.token}`;
     const baseUrl = `https://eventify.liara.run/comments/${id}/like/`;
 
-    await axios.post(baseUrl);
+    await axios.post(baseUrl).then(() => {
+      // setTimeout(() => {
+        setInitialFetchDone(false);
+        setInitialFetchDone(true);
+      // }, 3000);
+    });
   };
 
   const addNewReplyBack = async (id, newData) => {
@@ -148,10 +158,10 @@ const MainComment = (id) => {
     const baseUrl = `https://eventify.liara.run/comments/${id}/reply/`;
 
     await axios.post(baseUrl, newData).then(() => {
-      setTimeout(() => {
+      // setTimeout(() => {
         setInitialFetchDone(false);
         setInitialFetchDone(true);
-      }, 1500);
+      // }, 3000);
     });
   };
 
