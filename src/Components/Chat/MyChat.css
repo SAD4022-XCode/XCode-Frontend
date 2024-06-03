@@ -1,0 +1,39 @@
+/* .my-chats {
+  height: 100vh !important;
+  overflow-x: auto !important;
+  overflow-y: auto !important;
+  direction: rtl;
+} */
+.my-chats {
+  direction: rtl;
+  min-width: 300px;
+  max-width: 600px;
+  position: relative;
+  left: -30%;
+  overflow-y: auto;
+  height: 100vh;
+}
+.rce-citem-body {
+  background-color: #4b4b4bb5;
+  color: azure !important;
+}
+.rce-citem-body--bottom-title {
+  color: azure !important;
+}
+.rce-citem-body--top-time {
+  color: #ffeba7 !important;
+  margin-left: 10px;
+  display: none;
+}
+.rce-citem-body--bottom-status span {
+  color: azure !important;
+  background-color: #fe0000;
+  margin-left: 10px;
+}
+
+.rce-citem-avatar {
+  background-color: #ffeba7;
+}
+.rce-container-citem {
+  border-radius: 10px;
+}

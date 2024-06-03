@@ -1,0 +1,6 @@
+.main-chat {
+  height: 100vh !important;
+  overflow-x: auto !important;
+  overflow-y: auto !important;
+  
+}
