@@ -149,7 +149,27 @@ const ProfileSidebar = () => {
                 </>
                 }   
 
+                {url.includes("chat")==true && 
+                <>
+                <li style={{border:"1px solid #ffeba7"}}>
+                    <a href="/chat">
+                        <span class="link_name">گفت و گو</span>
+                        <i class="bx bi-chat-dots"></i>
+                    </a>
+                </li>
+                </>
+                }
 
+                {url.includes("chat")!=true && 
+                <>
+                <li>
+                    <a href="/chat">
+                        <span class="link_name">گفت و گو</span>
+                        <i class="bx bi-chat-dots"></i> 
+                    </a>
+                </li>
+                </>
+                }
 
                 {/* ------------------------------------------------------------ user-info */}
                 {url.includes("user-info")==true && 
@@ -175,6 +195,7 @@ const ProfileSidebar = () => {
                 }
                 
 
+                
 
                 {/* <li>
                 <div class="profile-details">

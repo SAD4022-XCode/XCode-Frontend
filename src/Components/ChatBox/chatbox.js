@@ -4,11 +4,16 @@ import 'react-chat-elements/dist/main.css';
 import styled from 'styled-components';
 import { ArrowBack, Send } from '@material-ui/icons';
 import axios from 'axios';
+import ProfileSidebar from "../Profile/ProfileSidebar/profileSidebar";
+import Navbar from "../Navbar/navbar";
+
+
+
 const ChatContainer = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  max-width: 800px;
+  height: calc(100vh - 60px);
+  max-width: 2000px;
   margin: 0 auto;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -114,7 +119,7 @@ const ChatBox = () => {
   const [inputValue, setInputValue] = useState('');
   const messagesEndRef = useRef(null);
 
-
+  const [marginRight, setMarginRight ] =useState()
   const fetchMessages = async () => {
     try{
       // let response = await axios.get("api address",{headers: {
@@ -186,13 +191,33 @@ const ChatBox = () => {
 
   },[])
 
+  useEffect(() => {
+    const handleResize = () => {
+      if(window.innerWidth>1600){
+        setMarginRight("260px")
+      }else{
+        setMarginRight("7%")
+      }
+    };
+    
+    window.addEventListener('resize', handleResize);
+    
+    handleResize();
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
   return (
-    <ChatContainer>
+    <>
+    <Navbar />
+    <ProfileSidebar/>
+    <ChatContainer style={{marginRight:marginRight,marginLeft:"5%"}}>
       <HeaderContainer>
         <BackButton onClick={handleBackClick}>
           <ArrowBack />
@@ -240,10 +265,20 @@ const ChatBox = () => {
         />
       </InputContainer>
     </ChatContainer>
+    </>
   );
 };
 
 export default ChatBox;
+
+
+
+
+
+
+
+
+
 
 
 
