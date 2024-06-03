@@ -1,11 +1,13 @@
 .saved-events{
-    overflow-x: auto;
-    overflow-y: hidden;
+    overflow-x: hidden  ;
+    overflow-y: auto;
     height: 100vh;
     background-color: #4b4b4b ;
-    max-width: 1345px;
+    max-width: 1500px;
     position: relative;
-    left: -8%;
+    left: -3.85%;
+    top: -1px;
+    
 }
 
 .registered-events{
