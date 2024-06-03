@@ -16,6 +16,7 @@ const EventsList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage, setPostsPerPage] = useState(12);
   const [totalPages, setTotalPages] = useState(1);
+  delete axios.defaults.headers.common["Authorization"];
   const [data, setData] = useState({
     eventPrice: "",
     eventType: "",
