@@ -82,25 +82,25 @@ const ChatBox = () => {
     [
       {
         sender:"ali",
-        receiver:"akbar",
-        date:"Sun Jun 02 2024 16:55:32 GMT+0330 (Iran Standard Time)",
+        receiver:"leo",
+        date:"Sun Jun 02 2023 16:55:32 GMT+0330 (Iran Standard Time)",
         text:"msg 1"
       },
       {
-        sender:"akbar",
+        sender:"leo",
         receiver:"ali",
         date:"Sun Jun 02 2024 18:55:32 GMT+0330 (Iran Standard Time)",
         text:"msg 2"
       },
       {
-        sender:"akbar",
+        sender:"leo",
         receiver:"ali",
         date:"Sun Jun 02 2024 19:55:32 GMT+0330 (Iran Standard Time)",
         text:"msg 3"
       },
       {
         sender:"ali",
-        receiver:"akbar",
+        receiver:"leo",
         date:"Sun Jun 02 2024 20:55:32 GMT+0330 (Iran Standard Time)",
         text:"msg 4"
       },
@@ -108,8 +108,9 @@ const ChatBox = () => {
   
   );
   const [messages, setMessages] = useState([])
-  const username="ali";
-  const receiver = "akbar"
+  const [userData, setUserData] = useState(JSON.parse(localStorage.getItem("userData")) || "");
+  const username=userData.user.username;
+  const receiver = "ali"
   const [inputValue, setInputValue] = useState('');
   const messagesEndRef = useRef(null);
 
