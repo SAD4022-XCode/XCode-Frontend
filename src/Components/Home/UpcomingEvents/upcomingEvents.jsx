@@ -102,17 +102,17 @@ const UpcomingEvents = () => {
      }
 
 
-     if (isLoaded === false){
-        return(
-            <div className="event-details"> 
-                {/* <Navbar/> */}
+    //  if (isLoaded === false){
+    //     return(
+    //         <div className="event-details"> 
+    //             {/* <Navbar/> */}
                 
-                <div className="container col loading" style={{height:"200px",width:"200px" ,marginTop:"15%"}}>
-                    <Lottie options={defaultOptions} />
-                </div>
-            </div>
-        );
-    }
+    //             <div className="container col loading" style={{height:"200px",width:"200px" ,marginTop:"15%"}}>
+    //                 <Lottie options={defaultOptions} />
+    //             </div>
+    //         </div>
+    //     );
+    // }
 
 
 
