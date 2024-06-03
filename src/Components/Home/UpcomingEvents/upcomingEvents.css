@@ -37,8 +37,8 @@
       }
 
     .image {
-        filter: blur(12px);
-        -webkit-filter: blur(12px);
+        filter: blur(2px);
+        -webkit-filter: blur(2px);
         padding-bottom: 2vh;
 
         width: 100%;
