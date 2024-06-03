@@ -21,8 +21,8 @@ const RegisterEvent = () =>{
                         مقدمه ای بر هوش مصنوعی
                         </h2>
                     <div className="form-group-1">
-                        <input type="text" name="title" itemID="title" placeholder="عنوان" required />
-                        <input type="text" name="name" itemID="name" placeholder="نام و نام خانوادگی" required />
+                        <input type="text" name="title" itemID="title" placeholder="نام" required />
+                        <input type="text" name="name" itemID="name" placeholder="نام خانوادگی" required />
                         <input type="email" name="email" itemID="email" placeholder="ایمیل" required />
                         <input type="number" name="phone_number" itemID="phone_number" placeholder="شماره تماس" required />
                         {/* <input type="number" name="phone_number" itemID="phone_number" placeholder="شماره تماس" required /> */}

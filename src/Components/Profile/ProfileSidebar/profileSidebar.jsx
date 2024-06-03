@@ -28,7 +28,7 @@ const ProfileSidebar = () => {
                 <ul class="nav-links">
 
                 <li>
-                    <a href="#">
+                    <a href="/registered-events">
                         <span class="link_name">رویداد های ثبت نام شده</span>
                         <i class='bx bx-purchase-tag' ></i>
                     </a>

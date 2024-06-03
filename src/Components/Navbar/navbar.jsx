@@ -103,7 +103,7 @@ const Navbar = () => {
  
     return (
     <nav className="navbar">
-        <ToastContainer className="toastify-container" position="bottom-right" toastStyle={{backgroundColor: "#2b2c38", fontFamily: "iransansweb", color: "#ffeba7",marginBottom:"60px"}} pauseOnHover={false} autoClose={3000} />
+        <ToastContainer closeOnClick  className="toastify-container" position="bottom-right" toastStyle={{backgroundColor: "#2b2c38", fontFamily: "iransansweb", color: "#ffeba7",marginBottom:"60px"}} pauseOnHover={false} autoClose={3000} />
 
         <div className="container">
             <div >
@@ -137,14 +137,14 @@ const Navbar = () => {
             </div>
             <div className={`nav-elements  ${showDrawer && 'active'}`}>
                 <ul>
-                    { auth.token && (
+                    { !showDrawer && auth.token && (
                     <li>
                         <NotificationPanel />
                     </li>
                     )}
                     {!showDrawer && auth.token && (
                     <li>
-                        <Wallet/>
+                        <Wallet balance={userData.balance}/>
                     </li>
                     )}
                     <li>
@@ -220,7 +220,12 @@ const Navbar = () => {
                         )
                     }
                     {showDrawer  && auth.token &&(<li className="auth-link-li" style={{marginRight:"15px"}}>
-                                <Wallet/>
+                                <NotificationPanel/>
+                            </li>
+                        )
+                    }
+                    {showDrawer  && auth.token &&(<li className="auth-link-li" style={{marginRight:"15px"}}>
+                                <Wallet balance={userData.balance}/>
                             </li>
                         )
                     }

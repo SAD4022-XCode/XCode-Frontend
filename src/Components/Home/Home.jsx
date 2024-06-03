@@ -32,7 +32,7 @@ const Home = () => {
         <center>
             <Navbar />
             <div className="home-page">
-                <button onClick={printUserData}>نمایش اطلاعات کاربر </button>
+                {/* <button onClick={printUserData}>نمایش اطلاعات کاربر </button> */}
                 <UpcomingEvents/>
                 <Events />
             </div>            

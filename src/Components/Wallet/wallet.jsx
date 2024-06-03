@@ -34,9 +34,8 @@ const style = {
   // direction:"rtl"
 };
 
-const Wallet = () =>  {
+const Wallet = ({balance}) =>  {
   const [open, setOpen] = useState(false);
-  const [money, setMoney] = useState(2500000);
   const [chargeValue, setChargeValue] = useState(null);
 
   const defaultOptions = {
@@ -91,10 +90,30 @@ const Wallet = () =>  {
 
     });
   }
+  const [walletCardHeight, setWalletCardHeight] = useState(400);
+  useEffect(() => {
+      const handleResize = () => {
+          let width = window.innerWidth;
+          if(width>540){
+            setWalletCardHeight(400);
+          }else if(width>430){
+            setWalletCardHeight(470);
+          }else if(width>400){
+            setWalletCardHeight(530);
+          }else{
+            setWalletCardHeight(580);
+          }
+      };
+      window.addEventListener('resize', handleResize);
+      return () => {
+          window.removeEventListener('resize', handleResize);
+      };
+
+  })
 
   return (
     <>
-      <ToastContainer className="toastify-container" position="top-right" toastStyle={{backgroundColor: "#2b2c38", fontFamily: "iransansweb", color: "#ffeba7",marginTop:"100px", zIndex:2000}} pauseOnHover={false} autoClose={3000} />
+      <ToastContainer closeOnClick className="toastify-container" position="top-right" toastStyle={{backgroundColor: "#2b2c38", fontFamily: "iransansweb", color: "#ffeba7",marginTop:"100px", zIndex:2000}} pauseOnHover={false} autoClose={3000} />
 
       {/* <p onClick={handleOpen} style={{marginBottom:"0px"}} >کیف پول </p> */}
       {/* <i onClick={handleOpen} class="pl-1 ml-0 pr-1 mt-0 pb-0 bi bi-wallet2"></i> */}
@@ -139,7 +158,7 @@ const Wallet = () =>  {
                 <div className="row  justify-content-center">
                   <div className="col-12 text-center align-self-center px-0">
                     <div className="section  text-center">
-                      <div className="card-3d-wrap mx-auto " style={{maxHeight:"auto",minHeight:"400px"}}>
+                      <div className="card-3d-wrap mx-auto " style={{maxHeight:"auto",minHeight:walletCardHeight.toString()+"px"}}>
                           <div className="card-front">
                             <div className="center-wrap">
                               <div className="section text-center">
@@ -211,10 +230,9 @@ const Wallet = () =>  {
                                 </div> 
                                 <p className='message text-center' style={{fontSize:"10px",marginTop:"0px",marginBottom:"5px"}}>مبلغ وارد شده باید بین 10,000 تا 1,000,000 باشد</p>
                                 <div className="row text-right justify-content-between px-3">
-                                  <p className="mb-1 mt-2"> {money.toLocaleString()}</p>
+                                  {balance!==undefined && <p className="mb-1 mt-2"> {balance.toLocaleString()}</p>}
                                   <p className="mb-1 mt-2">:موجودی</p>
                                 </div>
-
                               </div>
                                 <button
                                   type="submit"
