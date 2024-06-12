@@ -103,8 +103,8 @@
 }
 
 .notification-panel li.read {
-  background-color: #888;
-  color: ffeba7;
+  background-color: #d2d1d1;
+  color: #ffeba7;
 }
 
 .notification-panel li.unread {
