@@ -72,16 +72,20 @@ const RegisteredEvents = () => {
       //   const fullUrl = `${baseUrl}?${queryParams.join("&")}`;
       //   console.log("full url:", fullUrl);
       //   // console.log(fullUrl);
-      const response = await axios.get(baseUrl,{headers: {Authorization: `JWT ${auth.token}`}});
+      const response = await axios.get(baseUrl, {
+        headers: { Authorization: `JWT ${auth.token}` },
+      });
       // .then((response) => {
       // console.log("Data sent successfully:", response.data);
       let events = response.data.results;
       // Replace date strings with month names
-      events = events.map((event) => ({
-        ...event,
-        start_date: replaceMonthNames(event.start_date),
-      }));
-      setPosts(events);
+      if (events) {
+        events = events.map((event) => ({
+          ...event,
+          start_date: replaceMonthNames(event.start_date),
+        }));
+        setPosts(events);
+      }
       // console.log(response);
       setLoading(false);
     };
@@ -104,9 +108,12 @@ const RegisteredEvents = () => {
                 <Lottie options={defaultOptions} />
               </div>
             )}
-            {posts.map(
+            {(!loading && posts.length === 0) && <div className="loading">
+                <h2>شما در رویدادی ثبت نام نکرده اید</h2>
+              </div>}
+            {(!loading && posts.length > 0) &&(posts.map(
               (event) =>
-                !loading && (
+                (
                   <div className="col-xl-4 col-lg-6 col-md-6 col-sm-12 justify-content-center align-items-center">
                     <div key={event.id} className="item mb-4">
                       <Link to={`/event-details/${event.id}`}>
@@ -165,7 +172,7 @@ const RegisteredEvents = () => {
                     </div>
                   </div>
                 )
-            )}
+            ))}
             <br />
             <br />
           </div>
