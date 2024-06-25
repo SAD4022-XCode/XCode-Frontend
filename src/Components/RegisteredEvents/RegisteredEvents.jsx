@@ -10,7 +10,9 @@ import Card from "../Events List/Card";
 import "./RegisteredEvents.css";
 import ProfileSidebar from "../Profile/ProfileSidebar/profileSidebar";
 import Navbar from "../Navbar/navbar";
+import { useAuth } from "../Authentication/authProvider";
 const RegisteredEvents = () => {
+  const auth = useAuth();
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [defaultImage, setDefaultImage] = useState(photo1);
@@ -20,7 +22,7 @@ const RegisteredEvents = () => {
   const defaultOptions = {
     loop: true,
     autoplay: true,
-    clickToPause: true,
+    clickToPause: false,
     animationData: animationData,
   };
   const replaceMonthNames = (date) => {
@@ -52,7 +54,7 @@ const RegisteredEvents = () => {
     const fetchEvents = async () => {
       setLoading(true);
 
-      const baseUrl = "https://eventify.liara.run/events";
+      const baseUrl = "https://eventify.liara.run/account/enrolled_events/";
       //   let queryParams = [];
       //   // console.log(data);
       //   if (data.selectedTags.length > 0)
@@ -70,7 +72,7 @@ const RegisteredEvents = () => {
       //   const fullUrl = `${baseUrl}?${queryParams.join("&")}`;
       //   console.log("full url:", fullUrl);
       //   // console.log(fullUrl);
-      const response = await axios.get(baseUrl);
+      const response = await axios.get(baseUrl,{headers: {Authorization: `JWT ${auth.token}`}});
       // .then((response) => {
       // console.log("Data sent successfully:", response.data);
       let events = response.data.results;
