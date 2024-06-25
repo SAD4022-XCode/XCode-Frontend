@@ -64,24 +64,33 @@ const NotificationPanel = (reload) => {
         }
       );
       console.log(response);
-      setNotifications(response.data);
-      setTimeout(()=> {
-      setNotificationsCount(updateNotificationCount(notifications));
-      },1000);
-      console.log(notificationsCount);
+      // setNotifications(response.data);
+      // setTimeout(()=> {
+      // setNotificationsCount(updateNotificationCount(notifications));
+      // },1000);
+      // console.log(notificationsCount);
+      const sortedNotifications = response.data.sort((a, b) => {
+        if (a.is_read === b.is_read) {
+          return new Date(b.created_at) - new Date(a.created_at);
+        }
+        return a.is_read - b.is_read;
+      });
+
+      setNotifications(sortedNotifications);
+      setNotificationsCount(updateNotificationCount(sortedNotifications));
     };
     fetchData();
-  }, [reload, notificationsCount]);
+  }, [reload, notificationsCount, auth.token]);
 
   const readNotification = async (id) => {
     const baseUrl = `https://eventify.liara.run/notifications/${id}/mark_as_read/`;
     axios.defaults.headers.common["Authorization"] = `JWT ${auth.token}`;
-    await axios.patch(baseUrl).then(()=>{
+    await axios.patch(baseUrl).then(() => {
       setNotificationsCount(updateNotificationCount(notifications));
     });
     setTimeout(() => {
       reload = false;
-    }, 400)
+    }, 400);
   };
   delete axios.defaults.headers.common["Authorization"];
   const [showAll, setShowAll] = useState(false);
@@ -184,42 +193,59 @@ const NotificationPanel = (reload) => {
               <ul>
                 {notifications
                   .filter((notification) => showAll || !notification.is_read)
-                  .map((notification) => (
-                    <li
-                      key={notification.id}
-                      className={notification.is_read ? "is_read" : "unread"}
-                      onClick={() => {
-                        const updatedNotifications = notifications.map(
-                          (notif) => {
-                            if (notif.id === notification.id) {
-                              readNotification(notif.id);
-                              return { ...notif, is_read: true };
-                            }
-                            return notif;
+                  .map((notification, index, self) => {
+                    const isLastUnread =
+                      index < self.length - 1 &&
+                      !notification.is_read &&
+                      self[index + 1].is_read;
+                    return (
+                      <React.Fragment key={notification.id}>
+                        <li
+                          className={
+                            notification.is_read ? "is_read" : "unread"
                           }
-                        );
-                        setNotifications(updatedNotifications);
-                        // count = 0;
-                        setNotificationsCount(
-                          updateNotificationCount(updatedNotifications)
-                        );
-                      }}
-                    >
-                      <div className="title">
-                        {!notification.is_read && (
-                          <span className="blue-bullet"></span>
+                          onClick={() => {
+                            const updatedNotifications = notifications.map(
+                              (notif) => {
+                                if (notif.id === notification.id) {
+                                  readNotification(notif.id);
+                                  return { ...notif, is_read: true };
+                                }
+                                return notif;
+                              }
+                            );
+                            setNotifications(updatedNotifications);
+                            setNotificationsCount(
+                              updateNotificationCount(updatedNotifications)
+                            );
+                          }}
+                        >
+                          <div className="title">
+                            {!notification.is_read && (
+                              <span className="blue-bullet"></span>
+                            )}
+                            <p id="notification-title">{notification.title}</p>
+                          </div>
+                          <div className="content">
+                            <p id="notification-content">
+                              {notification.content}
+                            </p>
+                            <p id="notification-time">
+                              {translateTime(notification.created_at)}
+                            </p>
+                          </div>
+                        </li>
+                        {isLastUnread && (
+                          <div class="container">
+                            <div class="row">
+                              <hr className="custom-hr" />
+                              <hr className="custom-hr" />
+                            </div>
+                          </div>
                         )}
-                        <p id="notification-title">{notification.title}</p>
-                        {/* place bullet here */}
-                      </div>
-                      <div className="content">
-                        <p id="notification-content">{notification.content}</p>
-                        <p id="notification-time">
-                          {translateTime(notification.created_at)}
-                        </p>
-                      </div>
-                    </li>
-                  ))}
+                      </React.Fragment>
+                    );
+                  })}
               </ul>
             </>
           ) : (

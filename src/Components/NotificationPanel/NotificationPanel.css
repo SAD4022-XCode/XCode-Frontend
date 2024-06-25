@@ -7,9 +7,11 @@
   direction: rtl;
   max-width: 100%;
 }
+
 .close-section {
   background-color: #4b4b4b;
 }
+
 .lottie-parent {
   display: flex;
   flex-direction: row;
@@ -17,6 +19,7 @@
   width: 50px;
   bottom: 22%;
 }
+
 .lottie-parent p {
   display: inline-block;
   position: relative;
@@ -26,9 +29,11 @@
   font-weight: 800;
   right: 20%;
 }
+
 .lottie {
   transform: scale(0.8);
 }
+
 .notification-modal {
   position: absolute;
   top: 40%;
@@ -39,6 +44,7 @@
   min-height: 480px;
   max-height: 500px;
 }
+
 .notification-panel h4 {
   margin: 0 0 10px 0;
 }
@@ -56,7 +62,6 @@
   display: block;
   margin-bottom: 10px;
   padding: 5px 10px;
-  cursor: pointer;
 }
 
 .notification-panel #read-all:hover {
@@ -67,19 +72,23 @@
 .notification-panel #notification-title:hover {
   transform: scale(1.02);
 }
-.notification-panel .content{
+
+.notification-panel .content {
   display: flex;
   flex-direction: row;
 }
-.notification-panel #notification-time{
+
+.notification-panel #notification-time {
   position: relative;
   left: 0px;
   font-size: 11px;
 }
-.notification-panel .title{
+
+.notification-panel .title {
   display: flex;
   flex-direction: row;
 }
+
 .blue-bullet {
   display: inline-block;
   width: 8px;
@@ -89,25 +98,38 @@
   margin-left: 10px;
 }
 
-
 .notification-panel ul {
   list-style-type: none;
   padding: 0;
 }
 
 .notification-panel li {
-  padding: 5px;
-  margin-bottom: 5px;
-  border-radius: 3px;
-  cursor: pointer;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
 }
 
-.notification-panel li.read {
-  background-color: #d2d1d1;
-  color: #ffeba7;
+.notification-panel li.is_read {
+  background-color: #f0f0f0;
+  color: #a0a0a0;
+  border: 1px solid #d0d0d0;
 }
 
 .notification-panel li.unread {
-  background-color: #ddd;
+  background-color: #ffefa0;
+  color: #000;
+  border: 1px solid #ffc107;
+  font-weight: bold;
+}
+
+.notification-panel li.is_read:hover {
+  background-color: #e0e0e0;
+  color: #808080;
+}
+
+.notification-panel li.unread:hover {
+  background-color: #ffe680;
   color: #333;
+  cursor: pointer;
 }
