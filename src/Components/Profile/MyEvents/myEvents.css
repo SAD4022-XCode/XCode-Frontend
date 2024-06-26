@@ -1,107 +1,85 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,800;1,600&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap");
 
-@media (max-width: 800px) {
-  #header {
-    text-align: center;
-    height: auto;
-  }
-}
-
-@media (max-width: 991px) {
-  .header-content-div {
-    max-width: 75rem;
-  }
-}
-
-@media (max-width: 800px) {
-    #header-img {
-        height: 4rem;
-    }
-}
-
-@media (max-width: 800px) {
-  nav {
-    position: static;
-    float: none;
-    font-size: 1.4rem;
-    padding: 0.5rem 1rem;
-}
-}
-
-@media (max-width: 475px) {
-  .nav-link {
-    margin: 0 0.2rem;
-    padding: 0 0.2rem;
-    font-size: 1.2rem;
-  }
-}
-
-@media (max-width: 990px) {
-    .bars {
-      flex-flow: column wrap;
-    }
-    .icon-container {
-      margin: 0 2.5rem;
-    }
-  }
-
-
-@media (max-width: 680px) {
-    .tile {
-      width: auto;
-      max-width: 100%;
-      min-width: 20rem;
-      margin: 1.5rem auto;
-      height: auto;
-    }
-  }
-
-@media (max-width: 520px) {
-    #contact h6 {
-      font-size: 2rem;
-    }
-    #contact input[type="submit"],
-    #contact input[type="email"] {
-      margin: 1rem 1rem 0 1rem;
-    }
-  }
-
 .myEventsAll .myEvent{
-    /* height: 10%; */
-/* :root {
-  font-size: 10px;
-  font-family: "Open Sans", sans-serif;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  scroll-behavior: smooth;
-} */
-/* body {
-  margin: 0;
-  padding: 0;
-} */
-/* #header {
-  height: max-content;
-  font-family: "Montserrat", sans-serif;
-  width: 100%;
-  background-color: white;
-  padding: 1rem 0;
-  position: sticky;
-  z-index: 99;
-  top: 0;
-  left: 0;
-  box-shadow: 0 6px 31px -2px rgba(0, 0, 0, 0.1);
-} */
+    /* z-index: -100; */
+    width: 85%;
+    height: 100vh;
+    font-family: "iransansweb";
+    overflow-y: auto !important;
+    
+    /* @media (max-width: 800px) {
+    #header {
+        text-align: center;
+        height: auto;
+    }
+    }
+
+    @media (max-width: 991px) {
+    .header-content-div {
+        max-width: 75rem;
+    }
+    }
+
+    @media (max-width: 800px) {
+        #header-img {
+            height: 4rem;
+        }
+    }
+
+    @media (max-width: 800px) {
+    nav {
+        position: static;
+        float: none;
+        font-size: 1.4rem;
+        padding: 0.5rem 1rem;
+    }
+    }
+
+    @media (max-width: 475px) {
+    .nav-link {
+        margin: 0 0.2rem;
+        padding: 0 0.2rem;
+        font-size: 1.2rem;
+    }
+    }
+
+    @media (max-width: 990px) {
+        .bars {
+        flex-flow: column wrap;
+        }
+        .icon-container {
+        margin: 0 2.5rem;
+        }
+    }
+
+
+    @media (max-width: 680px) {
+        .tile {
+        width: auto;
+        max-width: 100%;
+        min-width: 20rem;
+        margin: 1.5rem auto;
+        height: auto;
+        }
+    }
+
+    @media (max-width: 520px) {
+        #contact h6 {
+        font-size: 2rem;
+        }
+        #contact input[type="submit"],
+        #contact input[type="email"] {
+        margin: 1rem 1rem 0 1rem;
+        }
+    } */
+
 .header-content-div {
   max-width: 95rem;
   width: auto;
   margin: 0 auto;
 }
-/* #header-img {
-  height: 5rem;
-  width: auto;
-} */
+
 nav {
   position: relative;
   top: 0.8rem;
@@ -125,19 +103,6 @@ nav {
   color: #f84848;
 }
 
-
-/* .btn {
-  border: none;
-  font-size: 2rem;
-  border-radius: 0.4rem;
-  padding: 2rem;
-  background-color: #e23d3d;
-  color: #fafafa;
-  outline: 0;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-  transition: all 0.2s;
-} */
-
 .btn:hover {
   background-color: #f84848;
   cursor: pointer;
@@ -155,10 +120,6 @@ nav {
   text-align: center;
 }
 
-/* .sec-padding {
-  
-  padding: 0 0 0 0;
-} */
 #about {
   background-color: #fafafa;
 }
@@ -171,69 +132,74 @@ nav {
 }
 
 #varieties {
-    padding-top: 160px;
-    /* bottom: 0px; */
-    background-color: #e3e3e3;
+    /* padding-top: 160px; */
+    background: radial-gradient(ellipse at bottom, #303131 0%, #0e0e12 100%);
     position: relative;
-    right : 15vh;
-    /* left: 290px; */
-    /* height: 100%; */
+    /* overflow-y: auto; */
+    /* margin: 60px 0vh 0vh 0vh; */
+    /* padding: 0px 0vh 0vh 0vh; */
     width: 100%;
-    /* bottom: 0; */
+    height: 100%;
 }
 
 .sec-content-div {
-    font-size: 2rem;
-    text-align: start;
-    padding: 0 2rem 5rem 2rem;
+    /* font-size: 0.1rem; */
+    /* text-align: start; */
+    padding: 0px 0vh 10vh 0vh;
+    background: radial-gradient(ellipse at bottom, #303131 0%, #0e0e12 100%);
     
-    height: 100%;
-    width: auto;
+    /* height: 94vh; */
+    /* width: auto; */
     justify-content: space-around;
+    /* justify-content: center; */
     max-width: 95rem;
-    margin: 0 auto;
-}
+    overflow-y: hidden !important;
 
-.flexible {
+    /* margin: 60px auto; */
     display: flex;
-    /* position: relative; */
     flex-flow: row wrap;
-    justify-content: center;
+    /* justify-content: center; */
     align-content: center;
     text-align: center;
-    height: 100vh;
+    /* height: 100vh; */
 }
 
+/* .flexible {
+
+} */
+
 .tile {
-  background-color: #fafafa;
-  height: 30rem;
-  width: 20rem;
+  background-color: #4b4b4b;
+  height: 40vh;
+  width: 32vh;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
   border-radius: 0.5rem;
+  border: 1px solid #ffeba7;
   transition: all 0.2s;
-  padding: 1.5rem;
-  margin: 1.5rem;
+  padding: 2vh;
+  margin: 2vh;
 }
 
 .tile img {
   width: 100%;
-  max-width: 48rem;
+  max-width: 48vh;
   border-radius: 0.5rem;
 }
 .tile h4 {
-  font-size: 1.5rem;
+  font-size: 3vh;
   font-weight: 600;
-  padding: 1rem 0;
-  color: #e23d3d;
+  padding: 1vh 0;
+  color: #ffeba7;
   margin: 0;
 }
 .tile p {
-  font-size: 1.2rem;
+  font-size: 2vh;
   padding: 0;
   margin: 0;
+  color: #b3b3b3;
 }
 .tile:hover {
-  transform: scale(1.05);
+  transform: scale(1.02);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.19), 0 16px 16px rgba(0, 0, 0, 0.23);
 }
 #our-service {
@@ -245,7 +211,7 @@ nav {
   flex-flow: row wrap;
   justify-content: space-between;
   align-content: flex-start;
-  margin: 2rem;
+  margin: 2vh;
   width: 100%;
 }
 

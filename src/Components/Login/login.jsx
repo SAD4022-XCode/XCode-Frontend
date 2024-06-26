@@ -7,38 +7,32 @@ import {useNavigate} from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import { useGoogleLogin } from '@react-oauth/google';
 import axios from "axios";
-// let x=0;
+import { useAuth } from "../Authentication/authProvider";
 
+let x=0;
 const Login = () => {
+    const auth = useAuth();
     const navigator=useNavigate();
 
     const [enteredLoginUserName, setEnteredLoginUserName] = useState("");
     const [enteredLoginPassword, setEnteredLoginPassword] = useState("");
 
     const [autoHeight,setAutoHeight] = useState(450);
-
     const [showLoginPassword, setShowLoginPassword] = useState(false);
-    const [showViolationsUsername, setShowViolationUsername] = useState(false);
-    const [showViolationsPassword, setShowViolationPassword] = useState(false);
+    const [showViolations, setShowViolation] = useState(false);
 
     const [loginUserNameValidation, setLoginUserNameValidation] = useState(false);
-    const [loginUserNameValidationMsg, setLoginUserNameValidationMsg] = useState("نام کاربری شامل 4 تا 30 کاراکتر است و باید با حروف انگلیسی شروع شود");
+    const [loginUserNameValidationMsg, setLoginUserNameValidationMsg] = useState("نام کاربری شامل 3 تا 30 کاراکتر است و باید با حروف انگلیسی شروع شود");
     
     const [loginPasswordValidation, setLoginPasswordValidation] = useState(false);
     const [loginPasswordValidationMsg, setLoginPasswordValidationMsg] = useState("رمزعبور حداقل باید شامل 8 کاراکتر باشد");
 
-    const [firstSubmit, setFirstSubmit] = useState(false);
-
-    const regUserName = /^[a-zA-Z][a-zA-Z0-9]{3,29}$/;
-    const regPassword = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)" + "(?=.*[-+_!@#$%^&*., ?]).+$");
-
-    const [usernameErrorExtended, setUsernameErrorExtended] = useState(false);
-    const [passwordErrorExtended, setPasswordErrorExtended] = useState(false);
-
+    
+  
     useEffect(() => {
       //disable vertical scrollbar
-      document.documentElement.style.overflowY = 'hidden';
-      //change title of html page dynamically
+      // document.documentElement.style.overflowY = 'hidden';
+      //changing title of html pages dynamically
       document.title = "ورود کاربران";
 
     }, []);
@@ -51,7 +45,10 @@ const Login = () => {
                   Authorization: `Bearer ${tokenResponse.access_token}`,
                 },}
               );
+              console.log(res);
+              console.log("-----------------------------------------");
               toast.success("!با موفقیت وارد شدید");
+              console.log("hello world!");  
               setTimeout(() => {
                 navigator('/home');
               }, 4000);
@@ -67,21 +64,19 @@ const Login = () => {
     };
 
  
-    const loginHandler = (event, action) => {
-        if (!loginUserNameValidation && !usernameErrorExtended){
-            setAutoHeight(autoHeight+20);
-            setUsernameErrorExtended(true);
+    const loginHandler = async (event, action) => {
+        x=0;
+        if(loginUserNameValidation===false){
+        x++;
+        }
+        if(loginPasswordValidation===false){
+        x++;
         }
 
-        if (!loginPasswordValidation && !passwordErrorExtended){
-            setAutoHeight(autoHeight+20);
-            setPasswordErrorExtended(true);
-        }
-        
-        setFirstSubmit(true);
-        setShowViolationUsername(true);
-        setShowViolationPassword(true);
-        
+        if(showViolations===false && x>0){
+            setAutoHeight(autoHeight+x*20);
+          }
+        setShowViolation(true)
         event.preventDefault();
         
         let userData = {
@@ -90,118 +85,97 @@ const Login = () => {
         };
 
         if(loginUserNameValidation && loginPasswordValidation){
-            axios.post('http://localhost:8080/api', userData)
-            .then(response => {
-              console.log('Data sent successfully:', response.data);
-              setShowViolationUsername(false);
-              setShowViolationPassword(false);
-              if (response.data['message']==="Data received successfully"){
+            setShowViolation(false);
+            try{
+              let result = await auth.loginAction(userData);
+              if (result ==="Data received successfully"){
                 setEnteredLoginUserName("");
                 setEnteredLoginPassword("");
-                toast.success("!با موفقیت عضو شدید");
+                toast.success("!با موفقیت وارد شدید");
+                
+              // console.log("start fetching user data");            
+              // const response2 = await axios.get(`https://eventify.liara.run/account/me/`,{headers: {
+              //     "Content-Type": "application/json",
+              //     Authorization:`JWT ${response.data.access}`,
+              // }});
+              // console.log(response2.data)
                 setTimeout(() => {
                   navigator('/home');
                 }, 4000);
-              }else if(response.data['message']===`username does not exist`){
-                setShowViolationUsername(true);
-                setShowViolationPassword(true);
+              }else if(result==="username does not exist"){
+                setShowViolation(true);
                 setLoginUserNameValidation(false);
                 setLoginUserNameValidationMsg("نام کاربری وارد شده در سیستم وجود ندارد");
-                
-              }else if(response.data['message']===`password incorrect`){
-                setShowViolationUsername(true);   
-                setShowViolationPassword(true);
+                toast.error("نام کاربری وارد شده در سیستم وجود ندارد");
+
+              }else if(result==="password incorrect"){
+                setShowViolation(true);
                 setLoginPasswordValidation(false);
                 setLoginPasswordValidationMsg("رمزعبور نادرست است");
+                toast.error("رمز عبور نادرست است");
+              }else{
+                toast.error("نام کاربری یا رمزعبور نادرست است");
               }
-            })
-            .catch(error => {
-              console.error('Error sending data:', error);
+            }catch(error){
               
-              toast.success("به صورت آزمایشی وارد شدید");
-              setTimeout(() => {
-                navigator('/home');
-              }, 4000);
-            });
+              toast.error("خطا در برقرای ارتباط با سرور");
+              
+            }
+          
           }
     };
 
 
    //Login validations
   //--------------------------------------------------------------------------------------------------
+    const regUserName = /^[a-zA-Z][a-zA-Z0-9._]{2,29}$/;
 
     const loginUserNameHandler = (event) => {
+        if(showViolations===true){
+        setAutoHeight(autoHeight-20*x);
+        }
+        setShowViolation(false)
         setEnteredLoginUserName(event.target.value);
-        if (firstSubmit){
-            
-            if (event.target.value.length<3 || event.target.value.length>30){
+        if (event.target.value.length<3 || event.target.value.length>30){
+        setLoginUserNameValidation(false);
+        setLoginUserNameValidationMsg("نام کاربری شامل 3 تا 30 کاراکتر است و باید با حروف انگلیسی شروع شود")
+        }
+        else{
+            if (regUserName.test(event.target.value)){
+                setLoginUserNameValidation(true);
+            }else{
                 setLoginUserNameValidation(false);
-                setShowViolationUsername(true);
-                setLoginUserNameValidationMsg("نام کاربری شامل 4 تا 30 کاراکتر است")
-                if (!usernameErrorExtended){
-                    setAutoHeight(autoHeight+20);
-                    setUsernameErrorExtended(true);
-                }
+                setLoginUserNameValidationMsg("نام کاربری باید با حروف انگلیسی شروع شود و شامل حروف و اعداد انگلیسی است")
             }
-            else{
-                if (regUserName.test(event.target.value)){
-                    setLoginUserNameValidation(true);
-                    setShowViolationUsername(false);  
-                    if (showViolationsUsername){
-                        setAutoHeight(autoHeight-20);
-                        setUsernameErrorExtended(false);
-                    }
-                }
-                else{
-                    setLoginUserNameValidationMsg("نام کاربری باید با حروف انگلیسی شروع شود و شامل حروف و اعداد انگلیسی است")
-                    setLoginUserNameValidation(false);
-                    setShowViolationUsername(true);
-                    if (!usernameErrorExtended){
-                        setAutoHeight(autoHeight+20);
-                        setUsernameErrorExtended(true);
-                    }
-                }
-            }  
         }
     }
 
     const loginPasswordHandler = (event) => {
+        if(showViolations===true){
+        setAutoHeight(autoHeight-20*x);
+        }
+        setShowViolation(false)
         setEnteredLoginPassword(event.target.value);
-        if (firstSubmit){
+        if(event.target.value.length<8){
+        setLoginPasswordValidation(false);
+        setLoginPasswordValidationMsg("رمزعبور حداقل باید شامل 8 کاراکتر باشد")
+        }else{
+        let pattern=new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)" + "(?=.*[-+_!@#$%^&*., ?]).+$")
+        if(!pattern.test(event.target.value)){
+            setLoginPasswordValidationMsg("رمزعبور باید شامل حروف کوچک و بزرگ انگلیسی،اعداد و نشانه های خاص باشد")
+            setLoginPasswordValidation(false);
+        }else{
+            setLoginPasswordValidation(true);
+        }
+        
+        }
 
-            if(event.target.value.length<8){
-                setLoginPasswordValidationMsg("رمزعبور حداقل باید شامل 8 کاراکتر باشد")
-                setLoginPasswordValidation(false);
-                setShowViolationPassword(true);
-                if (!passwordErrorExtended){
-                    setAutoHeight(autoHeight+20);
-                    setPasswordErrorExtended(true);
-                }
-            }else{
-                if(!regPassword.test(event.target.value)){
-                    setLoginPasswordValidationMsg("رمزعبور باید شامل حروف کوچک و بزرگ انگلیسی،اعداد و نشانه های خاص باشد")
-                    setLoginPasswordValidation(false);
-                    setShowViolationPassword(true);
-                    if (!passwordErrorExtended){
-                        setAutoHeight(autoHeight+20);
-                        setPasswordErrorExtended(true);
-                    }
-                }else{
-                    setLoginPasswordValidation(true);
-                    setShowViolationPassword(false); 
-                    if (showViolationsPassword){
-                        setAutoHeight(autoHeight-20);
-                        setPasswordErrorExtended(false);
-                    }
-                };
-            };
-    };
     };
 
 
     return(
     <form className="signin">
-       <ToastContainer className="toastify-container"position="top-right" toastStyle={{backgroundColor: "#2b2c38", fontFamily: "iransansweb", color: "#ffeba7"}} pauseOnHover={false} autoClose={3000} />
+       <ToastContainer closeOnClick  className="toastify-container"position="top-right" toastStyle={{backgroundColor: "#2b2c38", fontFamily: "iransansweb", color: "#ffeba7"}} pauseOnHover={false} autoClose={3000} />
       <div className="section">
         <div className="container">
           <div className="row full-height justify-content-center">
@@ -212,7 +186,7 @@ const Login = () => {
                       <div className="center-wrap">
                         <div className="section text-center">
                           <h4 className="mb-4 pb-3">ورود کاربران</h4>
-                          <div className={`form-group mt-2 ${(!loginUserNameValidation && showViolationsUsername && firstSubmit) ? "invalid" : ""}`}>   
+                          <div className={`form-group mt-2 ${(!loginUserNameValidation && showViolations) ? "invalid" : ""}`}>
                             <input
                               dir="rtl"
                               type="text"
@@ -223,8 +197,8 @@ const Login = () => {
                             />
                             <i className="input-icon uil uil-user"></i>
                           </div>
-                          {!loginUserNameValidation && showViolationsUsername && firstSubmit &&(<p className="mb-0 mt-2 validationMsg">{loginUserNameValidationMsg}</p>)}   
-                          <div className={`form-group mt-2 ${!loginPasswordValidation && showViolationsPassword && firstSubmit ? "invalid" : ""}`}>          
+                          {!loginUserNameValidation && showViolations &&(<p className="mb-0 mt-2 validationMsg">{loginUserNameValidationMsg}</p>)}
+                          <div className={`form-group mt-2 ${!loginPasswordValidation && showViolations ? "invalid" : ""}`}>
                             <i class={showLoginPassword ? "bi bi-eye":"bi bi-eye-slash"} onClick={toggleLoginPasswordVisibility} style={{ fontSize: "20px", position: "absolute", top: "40%", transform: "translateY(-50%)", paddingLeft: "10px"  }}></i>
                             <input
                               dir="rtl"
@@ -236,7 +210,7 @@ const Login = () => {
                             />
                             <i className="input-icon uil uil-lock-alt" ></i>
                           </div>
-                          {!loginPasswordValidation && showViolationsPassword && firstSubmit &&(<p className="mb-0 mt-2 validationMsg">{loginPasswordValidationMsg}</p>)}   
+                          {!loginPasswordValidation && showViolations &&(<p className="mb-0 mt-2 validationMsg">{loginPasswordValidationMsg}</p>)}
                           <p className="mb-0 mt-2">
                             <a className="link" href="/password-recovery">بازیابی رمز عبور</a>
                           </p>
