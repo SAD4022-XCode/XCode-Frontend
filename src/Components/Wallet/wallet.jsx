@@ -35,7 +35,7 @@ const style = {
   // direction:"rtl"
 };
 
-const Wallet = ({balance}) =>  {
+const Wallet = ({balance=0}) =>  {
   const [open, setOpen] = useState(false);
   const [chargeValue, setChargeValue] = useState(0);
   const auth = useAuth();
