@@ -69,22 +69,6 @@ const MyChat = ({ setShowChatBox, setUserName }) => {
               />
             </div>
           ))}
-
-          <ChatList
-            className="chat-list mt-2 col-lg-10 col-md-10"
-            onClick={(e) => setShowChatBox(true)}
-            dataSource={[
-              {
-                avatar: "https://avatars.githubusercontent.com/u/80540635?v=4",
-                alt: "kursat_avatar",
-                title: "Kursat",
-                subtitle:
-                  "Why don't we go to the No Way Home movie this weekend ?",
-                date: new Date(),
-                unread: 10,
-              },
-            ]}
-          />
         </div>
       </div>
     </div>

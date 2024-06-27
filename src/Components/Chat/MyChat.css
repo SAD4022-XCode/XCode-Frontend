@@ -5,7 +5,7 @@
   direction: rtl;
 } */
 .my-chats {
-  direction: rtl;
+  direction: ltr;
   min-width: 300px;
   max-width: 600px;
   position: relative;
@@ -17,9 +17,15 @@
 .rce-citem-body {
   background-color: #4b4b4bb5;
   color: azure !important;
+  
+}
+.rce-citem-body--top-title{
+  margin-left: 8px;
 }
 .rce-citem-body--bottom-title {
   color: azure !important;
+  margin-left: 10px;
+  font-size: 12px;
 }
 .rce-citem-body--top-time {
   color: #ffeba7 !important;
@@ -28,6 +34,8 @@
 }
 .rce-citem-body--bottom-status span {
   color: azure !important;
+  height: 24px;
+  width: 20px;
   background-color: #fe0000;
   margin-left: 10px;
 }
