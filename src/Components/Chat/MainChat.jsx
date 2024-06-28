@@ -56,7 +56,7 @@ const MainChat = () => {
             }
             {/* ,marginRight:{marginRight} */}
             {showChatBox ===false &&
-              <div className="col-lg-6 col-md-6" style={{ textAlign: 'center', color: 'white', fontSize: '24px',marginTop:"40vh"}}>
+              <div className="col-lg-6 col-md-6" style={{ textAlign: 'center', color: 'white', fontSize: '24px',marginTop:"40vh",fontFamily:"iransansweb"}}>
                 گفت و گویی را انتخاب کنید
               </div>
             // <div className="col-lg-6 col-md-6">
