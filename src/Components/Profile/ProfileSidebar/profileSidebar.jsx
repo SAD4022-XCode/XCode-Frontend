@@ -104,7 +104,7 @@ const ProfileSidebar = () => {
                 }
 
                 {/* ------------------------------------------------------------ icon-link */}
-                <li>
+                {/* <li>
                     <div class="icon-link">
                         <a onClick={expandHandler} href="#">
                             <i class='bx bxs-chevron-down arrow' ></i>
@@ -118,7 +118,7 @@ const ProfileSidebar = () => {
                         <li><a href="#">:اعتبار شما</a></li>
                         <li><a href="#">افزایش اعتبار</a></li>
                     </ul>
-                </li>
+                </li> */}
                 
                 {/* ------------------------------------------------------------ bookmarked-events */}
                 {url.includes("bookmarked-events")==true && 
@@ -149,7 +149,27 @@ const ProfileSidebar = () => {
                 </>
                 }   
 
+                {url.includes("chat")==true && 
+                <>
+                <li style={{border:"1px solid #ffeba7"}}>
+                    <a href="/chat">
+                        <span class="link_name">گفت و گو</span>
+                        <i class="bx bi-chat-dots"></i>
+                    </a>
+                </li>
+                </>
+                }
 
+                {url.includes("chat")!=true && 
+                <>
+                <li>
+                    <a href="/chat">
+                        <span class="link_name">گفت و گو</span>
+                        <i class="bx bi-chat-dots"></i> 
+                    </a>
+                </li>
+                </>
+                }
 
                 {/* ------------------------------------------------------------ user-info */}
                 {url.includes("user-info")==true && 
@@ -175,6 +195,7 @@ const ProfileSidebar = () => {
                 }
                 
 
+                
 
                 {/* <li>
                 <div class="profile-details">

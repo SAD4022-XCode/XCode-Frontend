@@ -1,0 +1,255 @@
+#chat{
+    justify-items: center;
+
+
+    .chat__conversation-panel {
+        background: var(--chat-panel-background);
+        border-radius: 2vh;
+        border: 2px solid #0f0e0e;
+        padding: 0 1em;
+        height: 55px;
+        margin: 0.5em 0 0;
+        width: 97%;
+        margin-right: 1.5%;
+    }
+    .chat__conversation-panel__container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        height: 100%;
+        
+    }
+
+    .chat__conversation-panel__container .panel-item:not(:last-child) {
+        margin: 0 1em 0 0;
+    }
+    .chat__conversation-panel .add-file-button {
+        height: 23px;
+        min-width: 23px;
+        width: 23px;
+        background: var(--chat-add-button-background);
+        border-radius: 50%;
+    }
+
+    .chat__conversation-panel__button {
+        background: grey;
+        height: 20px;
+        width: 30px;
+        border: 0;
+        padding: 0;
+        outline: none;
+        cursor: pointer;
+    }
+
+    .btn-icon {
+        position: relative;
+        cursor: pointer;
+    }
+
+    button, input, optgroup, select, textarea {
+        font-size: 100%;
+        line-height: 1.15;
+        margin: 0;
+    }
+
+    button, hr, input {
+        overflow: visible;
+    }
+
+    .chat__conversation-panel .emoji-button {
+        min-width: 23px;
+        width: 23px;
+        height: 23px;
+        background: transparent;
+        border-radius: 50%;
+    }
+
+    .chat__conversation-panel__input {
+        width: 100%;
+        height: 100%;
+        outline: none;
+        position: relative;
+        color: var(--chat-text-color);
+        font-size: 16px;
+        background: transparent;
+        border: 0;
+        font-family: "Lato", sans-serif;
+        resize: none;
+    }
+
+    input {
+        /* font-style: ;
+        font-variant-ligatures: ;
+        font-variant-caps: ;
+        font-variant-numeric: ;
+        font-variant-east-asian: ;
+        font-variant-alternates: ;
+        font-variant-position: ;
+        font-weight: ;
+        font-stretch: ;
+        font-family: ;
+        font-optical-sizing: ;
+        font-kerning: ;
+        font-feature-settings: ;
+        font-size: 25px;
+        font-variation-settings: ; */
+        
+        text-rendering: auto;
+        color: fieldtext;
+        letter-spacing: normal;
+        word-spacing: normal;
+        line-height: normal;
+        text-transform: none;
+        text-indent: 0px;
+        text-shadow: none;
+        display: inline-block;
+        text-align: start;
+        appearance: auto;
+        -webkit-rtl-ordering: logical;
+        cursor: text;
+        background-color: field;
+        margin: 0em;
+        padding: 1px 0px;
+        border-width: 2px;
+        border-style: inset;
+        border-color: light-dark(rgb(118, 118, 118), rgb(133, 133, 133));
+        border-image: initial;
+        padding-block: 1px;
+        padding-inline: 2px;
+    }
+
+    .chat__conversation-panel .send-message-button {
+        background: var(--chat-send-button-background);
+        height: 30px;
+        min-width: 30px;
+        border-radius: 50%;
+        transition: 0.3s ease;
+        border: 1px solid #0f0e0e;
+    }
+
+    button, select {
+        text-transform: none;
+    }
+
+    button {
+        appearance: auto;
+        /* font-style: ;
+        font-variant-ligatures: ;
+        font-variant-caps: ;
+        font-variant-numeric: ;
+        font-variant-east-asian: ;
+        font-variant-alternates: ;
+        font-variant-position: ;
+        font-weight: ;
+        font-stretch: ;
+        font-size: ;
+        font-family: ;
+        font-optical-sizing: ;
+        font-kerning: ;
+        font-feature-settings: ;
+        font-variation-settings: ; */
+        text-rendering: auto;
+        color: buttontext;
+        letter-spacing: normal;
+        word-spacing: normal;
+        line-height: normal;
+        text-transform: none;
+        text-indent: 0px;
+        text-shadow: none;
+        display: inline-block;
+        text-align: center;
+        align-items: flex-start;
+        cursor: default;
+        box-sizing: border-box;
+        background-color: buttonface;
+        margin: 0em;
+        padding-block: 1px;
+        padding-inline: 6px;
+        border-width: 2px;
+        border-style: outset;
+        border-color: buttonborder;
+        border-image: initial;
+    }
+
+    /* --------------------------------------------- */
+
+    :not(svg) {
+        transform-origin: 0px 0px;
+    }
+
+
+
+    .btn-icon svg {
+        stroke: #1f2029;
+        fill: #FFF;
+        width: 50%;
+        height: auto;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .btn-icon i {
+        stroke: #1f2029;
+        fill: #FFF;
+        width: 50%;
+        height: auto;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    style attribute {
+        --darkreader-inline-stroke: currentColor;
+    }
+
+    svg:not(:root) {
+        overflow: hidden;
+    }
+
+    element.style {
+        --darkreader-inline-stroke: currentColor;
+    }
+    .chat__conversation-panel .emoji-button svg {
+        width: 110%;
+        /* fill: transparent; */
+        fill: #ffeba7;
+        stroke: #1f2029;
+
+    }
+
+    .chat__conversation-panel .emoji-button i {
+        font-size: 2vh;
+        width: 100%;
+        height: 130%;
+        /* fill: transparent; */
+        fill: #ffeba7;
+        stroke: #1f2029;
+
+    }
+
+
+    circle{
+        cx: 12;
+        cy: 12;
+        r: 10;
+    }
+
+    path {
+        d: path("M 8 14 s 1.5 2 4 2 s 4 -2 4 -2");
+    }
+
+        --chat-background: #e6e6e6;
+        --chat-panel-background: #e6e6e6;
+        /* --chat-panel-border: 5px solid #1f2029; */
+
+        --chat-bubble-background: #e6e6e6;
+        --chat-bubble-active-background: #e6e6e6;
+        /* --chat-add-button-background: #e6e6e6; */
+        --chat-send-button-background: #ffeba7;
+        --chat-text-color: #0f0e0e;
+        --chat-options-svg: #a3a3a3;
+
+}

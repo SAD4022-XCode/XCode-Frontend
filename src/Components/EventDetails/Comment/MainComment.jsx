@@ -17,13 +17,14 @@ const MainComment = (id) => {
   const [deleteComment, setDeleteComment] = useState(false);
   const [initialFetchDone, setInitialFetchDone] = useState(false);
   const initialDataLength = useRef(null);
-
-  axios.defaults.headers.common["Authorization"] = `JWT ${auth.token}`;
+  if (auth.token)
+    axios.defaults.headers.common["Authorization"] = `JWT ${auth.token}`;
   let userData = JSON.parse(localStorage.getItem("userData"));
   let ID = id.id;
   useEffect(() => {
     const fetchComments = async () => {
-      if (!initialFetchDone) {
+      if (!initialFetchDone && auth.token) {
+        axios.defaults.headers.common["Authorization"] = `JWT ${auth.token}`;
         const baseUrl = `https://eventify.liara.run/events/${id.id}/comments/`;
         const response = await axios.get(baseUrl);
         // console.log(response)
@@ -113,11 +114,20 @@ const MainComment = (id) => {
   //   console.log(data);
   // };
   const addNewCommentBack = async (newData) => {
+    axios.defaults.headers.common["Authorization"] = `JWT ${auth.token}`;
     const baseUrl = `https://eventify.liara.run/comments/`;
 
-    await axios.post(baseUrl, newData);
+    await axios.post(baseUrl, newData).then(() => {
+      // setTimeout(() => {
+      setInitialFetchDone(false);
+      setTimeout(() => {
+        setInitialFetchDone(true);
+      }, 2000);
+      // }, 3000);
+    });
   };
   const updateCommentBack = async (id, newData) => {
+    axios.defaults.headers.common["Authorization"] = `JWT ${auth.token}`;
     const baseUrl = `https://eventify.liara.run/comments/${id}/`;
 
     await axios
@@ -127,26 +137,39 @@ const MainComment = (id) => {
         },
       })
       .then(() => {
+        // setTimeout(() => {
+        setInitialFetchDone(false);
         setTimeout(() => {
-          setInitialFetchDone(false);
           setInitialFetchDone(true);
-        }, 1500);
+        }, 2000);
+        // }, 3000);
       });
   };
   const updateScoreBack = async (id) => {
+    axios.defaults.headers.common["Authorization"] = `JWT ${auth.token}`;
     const baseUrl = `https://eventify.liara.run/comments/${id}/like/`;
 
-    await axios.post(baseUrl);
+    await axios.post(baseUrl).then(() => {
+      // setTimeout(() => {
+      setInitialFetchDone(false);
+      setTimeout(() => {
+        setInitialFetchDone(true);
+      }, 2000);
+      // }, 3000);
+    });
   };
 
   const addNewReplyBack = async (id, newData) => {
+    axios.defaults.headers.common["Authorization"] = `JWT ${auth.token}`;
     const baseUrl = `https://eventify.liara.run/comments/${id}/reply/`;
 
     await axios.post(baseUrl, newData).then(() => {
+      // setTimeout(() => {
+      setInitialFetchDone(false);
       setTimeout(() => {
-        setInitialFetchDone(false);
         setInitialFetchDone(true);
-      }, 1500);
+      }, 2000);
+      // }, 3000);
     });
   };
 

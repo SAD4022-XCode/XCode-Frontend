@@ -31,13 +31,13 @@
 }
 .notification-modal {
   position: absolute;
-  top: 28%;
+  top: 40%;
   left: 62%;
   transform: translate(-50%, -50%);
   border-radius: 20px;
-  max-width: 300px;
+  max-width: 400px;
   min-height: 480px;
-  max-height: auto;
+  max-height: 500px;
 }
 .notification-panel h4 {
   margin: 0 0 10px 0;
@@ -52,15 +52,43 @@
   margin-left: 10px;
 }
 
-.notification-panel p {
+.notification-panel #notification-title {
   display: block;
   margin-bottom: 10px;
   padding: 5px 10px;
   cursor: pointer;
 }
-.notification-panel p:hover {
-  transform: scale(1.1);
+
+.notification-panel #read-all:hover {
+  transform: scale(1.02);
+  cursor: pointer;
 }
+
+.notification-panel #notification-title:hover {
+  transform: scale(1.02);
+}
+.notification-panel .content{
+  display: flex;
+  flex-direction: row;
+}
+.notification-panel #notification-time{
+  position: relative;
+  left: 0px;
+  font-size: 11px;
+}
+.notification-panel .title{
+  display: flex;
+  flex-direction: row;
+}
+.blue-bullet {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background-color: blue;
+  border-radius: 50%;
+  margin-left: 10px;
+}
+
 
 .notification-panel ul {
   list-style-type: none;
