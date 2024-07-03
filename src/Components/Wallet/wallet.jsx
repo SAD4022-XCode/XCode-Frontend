@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import {useNavigate} from 'react-router-dom';
 import './wallet.css'
 import Box from '@mui/material/Box';
-// import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
@@ -18,6 +17,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import Lottie from "react-lottie";
 import animationData from "./Animation - 1715722439036.json";
+import { useAuth } from "../Authentication/authProvider";
+
 const style = {
   position: 'absolute',
   top: '40%',
@@ -34,10 +35,12 @@ const style = {
   // direction:"rtl"
 };
 
-const Wallet = ({balance}) =>  {
+const Wallet = ({balance=0}) =>  {
   const [open, setOpen] = useState(false);
-  const [chargeValue, setChargeValue] = useState(null);
-
+  const [chargeValue, setChargeValue] = useState(0);
+  const auth = useAuth();
+  const navigator=useNavigate();
+  const [showingBalance, setShowingBalance] = useState(balance);
   const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -74,21 +77,44 @@ const Wallet = ({balance}) =>  {
   const chargeWallet = (event) => {
     // toast.success("موجودی حساب شما با موفقیت افزایش پیدا کرد")
     console.log("send request to backend")
-    axios.post('http://127.0.0.1:8000/chargeWallet/', chargeValue,
+    axios.post('https://eventify.liara.run/account/deposit/', {amount:chargeValue},
       {headers:{
           "Content-Type": "application/json",
-          accept: "application/json"
+          Authorization: `JWT ${auth.token}`,
       }})
     .then(response => {
-        console.log('Data sent successfully:', response.data);
+        console.log('wallet charged successfully:', response.data);
+        setShowingBalance(showingBalance + chargeValue);
         toast.success("موجودی حساب شما با موفقیت افزایش پیدا کرد")
-        navigator('/home')
+        async function fetchUserData() {
+            try {
+                const response = await axios.get(`https://eventify.liara.run/account/me/`, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `JWT ${auth.token}`,
+                    }
+                });
+                
+                localStorage.setItem("userData", JSON.stringify(response.data));
+                console.log("Navbar: ",response);
+            } catch (error) {
+                if (error.response && error.response.status === 401) {
+                    console.log("Authentication failed. Please log in again.");
+                    auth.logOut()
+                } else {
+                    console.error("An error occurred:", error);
+                }
+            }
+        }
+            
+        fetchUserData();
     })
     .catch(error => {
         console.error('Error sending data:', error);
         toast.error("خطا در برقراری ارتباط با سرور")
 
     });
+
   }
   const [walletCardHeight, setWalletCardHeight] = useState(400);
   useEffect(() => {
@@ -230,7 +256,7 @@ const Wallet = ({balance}) =>  {
                                 </div> 
                                 <p className='message text-center' style={{fontSize:"10px",marginTop:"0px",marginBottom:"5px"}}>مبلغ وارد شده باید بین 10,000 تا 1,000,000 باشد</p>
                                 <div className="row text-right justify-content-between px-3">
-                                  {balance!==undefined && <p className="mb-1 mt-2"> {balance.toLocaleString()}</p>}
+                                  {balance!==undefined && <p className="mb-1 mt-2"> {showingBalance.toLocaleString()}</p>}
                                   <p className="mb-1 mt-2">:موجودی</p>
                                 </div>
                               </div>
