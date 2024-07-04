@@ -23,6 +23,7 @@ const MainComment = (id) => {
   let ID = id.id;
   useEffect(() => {
     const fetchComments = async () => {
+      try{
       if (!initialFetchDone && auth.token) {
         axios.defaults.headers.common["Authorization"] = `JWT ${auth.token}`;
         const baseUrl = `https://eventify.liara.run/events/${id.id}/comments/`;
@@ -75,6 +76,10 @@ const MainComment = (id) => {
             }
           }
         }
+      }
+    }
+    catch (error){
+      // console.log(error)
       }
     };
     fetchComments();

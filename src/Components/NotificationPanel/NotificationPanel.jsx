@@ -64,6 +64,7 @@ const NotificationPanel = (reload) => {
   };
   useEffect(() => {
     const fetchData = async () => {
+      try{
       const response = await axios.get(
         "https://eventify.liara.run/account/inbox/",
         {
@@ -91,11 +92,16 @@ const NotificationPanel = (reload) => {
 
       setNotifications(sortedNotifications);
       setNotificationsCount(updateNotificationCount(sortedNotifications));
-    };
+    }
+    catch (error){
+      console.log(error);
+    }
+  }
     fetchData();
   }, [reload, notificationsCount, auth.token]);
 
   const readNotification = async (id) => {
+    try{
     const baseUrl = `https://eventify.liara.run/notifications/${id}/mark_as_read/`;
     axios.defaults.headers.common["Authorization"] = `JWT ${auth.token}`;
     await axios.patch(baseUrl).then(() => {
@@ -104,6 +110,10 @@ const NotificationPanel = (reload) => {
     setTimeout(() => {
       reload = false;
     }, 400);
+  }
+  catch (error){
+    // console.log(error);
+  }
   };
   delete axios.defaults.headers.common["Authorization"];
   const [showAll, setShowAll] = useState(false);

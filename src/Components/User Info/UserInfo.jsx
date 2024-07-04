@@ -138,7 +138,7 @@ const UserInfo = () => {
       } catch (error) {
         // Handle errors if any of the requests fail
         //toast.error("An error occurred while updating your information.");
-        console.error("Error updating information:", error);
+        // console.error("Error updating information:", error);
       }
     },
   });

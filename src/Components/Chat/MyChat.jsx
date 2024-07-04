@@ -123,7 +123,7 @@ const MyChat = ({ setShowChatBox, setUserName , setConversationId, setProfile, s
     console.log(contacts)
     setLoading(false);
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 };
     fetchData();

@@ -83,6 +83,7 @@ const EventsList = () => {
   };
   useEffect(() => {
     const fetchEvents = async () => {
+      try{
       setLoading(true);
 
       const baseUrl = "https://eventify.liara.run/events";
@@ -116,7 +117,12 @@ const EventsList = () => {
       setPosts(events);
       // console.log(response);
       setLoading(false);
-    };
+    }
+    catch (error){
+      // console.log(error);
+    }
+  }
+
     // })
     // .catch((error) => {
     //   console.error("Failed to send data:", error);
