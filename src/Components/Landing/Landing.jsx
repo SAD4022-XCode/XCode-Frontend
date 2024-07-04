@@ -30,17 +30,35 @@ const Landing = () => {
     paidOnline:20
   });
   useEffect(() => {
-    setLandingPageData(JsonData);
-    let data = {
-      userCount:24000,
-      satisficationPercentage:0.87,
-      freeInperson:50,
-      paidInperson:25,
-      freeOnline:100,
-      paidOnline:20
+    async function fetchWebsiteData() {
+      try {
+        const response = await axios.get(`https://eventify.liara.run/analytics/`, {
+            headers: {
+                "Content-Type": "application/json",
+            }
+        });
+        
+        console.log("get chart data from server:::",response.data)
+        let data = {
+          userCount:24000,
+          satisficationPercentage:0.87,
+          freeInperson:50,
+          paidInperson:25,
+          freeOnline:100,
+          paidOnline:20
+        }
+  // let data = axios.get("website statistics api");
+        setWebsiteStatistics(data)
+
+      } catch (error) {
+          
+        console.error("An error occurred:", error);
+          
+      }
     }
-    // let data = axios.get("website statistics api");
-    setWebsiteStatistics(data)
+    fetchWebsiteData()
+    setLandingPageData(JsonData);
+    
   }, []);
 
   return (

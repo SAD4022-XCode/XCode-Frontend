@@ -8,10 +8,12 @@ import Picker from "emoji-picker-react"
 import EmojiModal from "./emojiPicker"
 import {toast } from 'react-toastify';
 import {useNavigate} from 'react-router-dom';
+import axios from "axios";
+import { useAuth } from "../Authentication/authProvider";
 
 
-const OrganizerInfoModal = ({show,handleClose,email,phone}) => {
-
+const OrganizerInfoModal = ({show,handleClose,email,phone,id}) => {
+    const auth = useAuth();
     const navigator=useNavigate();
     const [isInputDisabled, setIsInputDisabled] = useState(false);
     const [showEmojis, setShowEmojis] = useState(false);
@@ -39,24 +41,40 @@ const OrganizerInfoModal = ({show,handleClose,email,phone}) => {
       }
 
     
-    const sendMessageHandler = () =>{
+    const sendMessageHandler = async () =>{
+      let sendingMessage = {
+        content: input,
+        recipient:id.toString(),
+      }
+      console.log("sending message:",sendingMessage)
+      try {
+        let response =await axios.post('https://eventify.liara.run/messages/', sendingMessage, {
+          headers: {
+            Authorization:`JWT ${auth.token}`,
+          }
+        });
+        console.log('Message sent successfully');
+        
         toast.success('پیام شما برای برگزارکننده ارسال شد', {
-            position: "top-right",
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-            autoClose:3000,
-            toastStyle:{backgroundColor: "#2b2c38", fontFamily: "iransansweb", color: "#ffeba7",marginTop:"60px"}
-            });
-            setIsInputDisabled(true);
-            const inputted_text = input
-            setInput("");
-            setPlaceHolder("میتوانید گفت و گو را از صفحه پروفایل ادامه دهید")
-            setTimeout(() => {
-                navigator('/chat');
-            }, 2500);
+          position: "top-right",
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          autoClose:3000,
+          toastStyle:{backgroundColor: "#2b2c38", fontFamily: "iransansweb", color: "#ffeba7",marginTop:"60px"}
+          });
+          setIsInputDisabled(true);
+          const inputted_text = input
+          setInput("");
+          setPlaceHolder("میتوانید گفت و گو را از صفحه پروفایل ادامه دهید")
+          // setTimeout(() => {
+          //     navigator('/chat');
+          // }, 2500);
+      } catch (error) {
+        console.error('Error sending message:', error);
+      }
     }
 
     return (            
