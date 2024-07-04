@@ -111,7 +111,7 @@ const MyChat = ({ setShowChatBox, setUserName , setConversationId, setProfile, s
         content: conversation.last_message.content,
         is_read: conversation.last_message.is_read,
         time: conversation.last_message.timestamp,
-        sender: conversation.last_message.sender.id === currentUserData.id ? "شما" : participant.user.username
+        sender: conversation.last_message.sender === currentUserData.user.id ? "شما" : participant.user.username
       };
     });
 
