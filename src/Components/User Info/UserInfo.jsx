@@ -154,7 +154,7 @@ const UserInfo = () => {
     if (userData.profile_picture != null) {
       setImagePreviewUrl(userData.profile_picture);
     }
-  }, []);
+  }, [auth.token]);
 
   const ImgUpload = ({ onChange, src }) => (
     <label htmlFor="photo-upload" className="custom-file-upload fas">
