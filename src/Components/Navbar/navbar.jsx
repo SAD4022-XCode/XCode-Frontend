@@ -103,7 +103,7 @@ const Navbar = () => {
  
     return (
     <nav className="navbar">
-        <ToastContainer className="toastify-container" position="bottom-right" toastStyle={{backgroundColor: "#2b2c38", fontFamily: "iransansweb", color: "#ffeba7",marginBottom:"60px"}} pauseOnHover={false} autoClose={3000} />
+        {/* <ToastContainer closeOnClick  className="toastify-container" position="bottom-right" toastStyle={{backgroundColor: "#2b2c38", fontFamily: "iransansweb", color: "#ffeba7",marginBottom:"60px"}} pauseOnHover={false} autoClose={3000} /> */}
 
         <div className="container">
             <div >
@@ -139,7 +139,7 @@ const Navbar = () => {
                 <ul>
                     { !showDrawer && auth.token && (
                     <li>
-                        <NotificationPanel />
+                        <NotificationPanel reload="true"/>
                     </li>
                     )}
                     {!showDrawer && auth.token && (
@@ -181,7 +181,7 @@ const Navbar = () => {
                         
                         {isOpen && (
                           <div className="col dropdown-content">
-                                <div className="row pr-2 pt-2  dropdown-item1" onClick={() =>navigator('/profile')}>
+                                <div className="row pr-2 pt-2  dropdown-item1" onClick={() =>navigator('/created-events')}>
                                         <i class="pl-1 ml-0  uil uil-user"></i>
                                         <p className="pt-0 mb-0">حساب کاربری</p>
                                 </div>
@@ -215,7 +215,7 @@ const Navbar = () => {
                             </li>
                         )}
                     {showDrawer && auth.token && (<li className="auth-link-li">
-                            <NavLink to="/profile" > حساب کاربری </NavLink>
+                            <NavLink to="/created-events" > حساب کاربری </NavLink>
                             </li>
                         )
                     }

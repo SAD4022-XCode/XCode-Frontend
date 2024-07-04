@@ -85,7 +85,7 @@
 }
 
 .nav-links li a .link_name{
-  font-size: 0.8rem;
+  font-size: 1rem;
   font-weight: 400;
   color: #fff;
   transition: all 0.4s ease;
@@ -221,6 +221,27 @@
 .home-section .home-content .text{
   font-size: 1rem;
   font-weight: 600;
+  
 }
+
+@media screen and (max-width: 1600px) {
+    .link_name, .logo-details .logo_name
+    {
+       display: none;
+    }
+
+    /* .sidebar */
+    
+    width: 5%;
+
+}
+
+
+}
+
+@media screen and (max-width: 1600px) {       
+    .myEventsAll .myEvent {
+        width: 95% !important;
+    }
 
 }

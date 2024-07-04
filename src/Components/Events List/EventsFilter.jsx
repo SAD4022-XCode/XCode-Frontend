@@ -255,7 +255,7 @@ const EventsFilter = ({ sendFilteredPosts }) => {
                     <>
                       <DatePicker
                         weekDays={weekDays}
-                        className="bg-dark"
+                        className="bg-light"
                         animations={[
                           transition({
                             from: 35,
@@ -297,7 +297,7 @@ const EventsFilter = ({ sendFilteredPosts }) => {
                     <>
                       <DatePicker
                         weekDays={weekDays}
-                        className="bg-dark"
+                        className="bg-light"
                         animations={[
                           transition({
                             from: 35,

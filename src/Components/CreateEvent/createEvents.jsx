@@ -54,12 +54,13 @@ const CreateEvent = () => {
     const [showError ,setShowError] = useState([true,true,true,true,true,true,true,true,true]);
     const createEventHandler =(event)=>{
         event.preventDefault()
+        console.log("ssssssssssssssssssssssssssss")
         setShowViolations(true)
         let canSubmit = true;
         if (eventType==="O"){
             if(showError[0] || showError[1] || showError[2] || showError[3] || showError[4] || showError[5] || showError[6] || startTime===null || startTime===null || endDate===null || endTime===null){
                 canSubmit=false
-                toast.warning("فیلدهای مربوطه را به درستی پر کنید")
+                toast.warning("فیلدهای مربوطه را به درستی پر کنید",{toastId:"warning 1 in create event"})
 
             }else{
                 setShowViolations(false)
@@ -67,7 +68,7 @@ const CreateEvent = () => {
         }else{
             if(showError[0] || showError[1] || showError[3] || showError[4] || showError[5] || showError[6] || showError[7] || showError[8] || startTime===null || startTime===null || endDate===null || endTime===null){
                 canSubmit=false
-                toast.warning("فیلدهای مربوطه را به درستی پر کنید")
+                toast.warning("فیلدهای مربوطه را به درستی پر کنید",{toastId:"warning 2 in create event"})
 
             }else{
                 setShowViolations(false)
@@ -134,6 +135,7 @@ const CreateEvent = () => {
                 .catch(error => {
                     console.log('Error sending data:', error);
                     console.log("status code is:",error.response.status)
+                    console.log(auth.token);
                     toast.error("خطا در ایجاد رویداد")
                     if (error.response && error.response.status === 401) {
                         console.log("Authentication failed. Please log in again.");
@@ -343,7 +345,6 @@ const CreateEvent = () => {
     return (
         <center>
             <Navbar/>
-            <ToastContainer className="toastify-container"position="top-right" toastStyle={{backgroundColor: "#2b2c38", fontFamily: "iransansweb", color: "#ffeba7",marginTop:"60px"}} pauseOnHover={false} autoClose={3000} />
             <form className="create-event">
                 <div className="container pt-2">
                 <div className="row">
@@ -503,7 +504,9 @@ const CreateEvent = () => {
                                         </div>
                                         {address==="" && showError[8] && eventType==="I" && showViolations && (<p className="mb-0 mt-2 validationMsg">آدرس را وارد کنید</p>)}
                                         {address.length>100  && showError[8] && eventType==="I" && showViolations &&(<p className="mb-0 mt-2 validationMsg">طول آدرس کمتر از 100 کاراکتر باید باشد</p>)}
-                                        <MapComponent sendDataToParent={handleMapData}/>
+                                        {/* <MapComponent sendDataToParent={handleMapData}/> */}
+                                        <MapComponent sendDataToParent={handleMapData} lati={35.6997} long={51.338} onlyShow={false}/>
+
                                         {showError[7] && eventType==="I" && showViolations && (<p className="mb-0 mt-2 mb-2 validationMsg"> محل برگزاری رویداد را بر روی نقشه مشخص کنید  </p>)}
 
                                     </div>

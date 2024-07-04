@@ -13,9 +13,14 @@ import MainComment from "./Comment/MainComment";
 import moment from 'moment-jalaali';
 import animationData from "./Animation - 1715854965467.json";
 import Lottie from "react-lottie";
+// import { Alert } from 'react-alert'
+// import { toast } from "react-toastify";
+import MapComponent from "../MapComponent/MapComponent";
+import { useAuth } from "../Authentication/authProvider";
 
 const EventDetails = () => {
     const [show, setShow] = useState(false);
+    const [canPurchase, setCanPurchase] = useState(true);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const currentUrl = window.location.href;
@@ -53,7 +58,7 @@ const EventDetails = () => {
         photo:"",
         category:"",
         organizer_photo:"",
-        organizerName:"",
+        organizer_name:"",
         organizer_phone:"09123456789",
         organizer_email:"organizer@gmail.com",
         description:"",
@@ -62,8 +67,31 @@ const EventDetails = () => {
     })
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
+    const [isBookmarked, setBookmark] = useState(false);
+    let userData = JSON.parse(localStorage.getItem("userData"));
 
+    const bookmarkToggler = () =>{
+        if (userData != null){
     
+            if (isBookmarked === false){
+                setBookmark(true);
+                // return "bi bi-bookmark-plus";
+            }
+            else{
+                setBookmark(false);
+                // return "bi bi-bookmark-plus-fill";
+            }
+            
+        }
+        else{
+            toast.error('برای افزودن به علاقه مندی ها باید وارد سیستم شوید!');
+            setTimeout(() => {
+                navigator('/login');
+            }, 2500);
+        }
+    }
+    const auth = useAuth();
+
     useEffect(() => {
         
         const fetchData = async () => {
@@ -76,7 +104,12 @@ const EventDetails = () => {
                 console.log("Console:\n",response.data)
                 setEventDetails(response.data);
             } catch (error) {
-                console.log("we have error")
+                if (error.response && error.response.status === 401) {
+                    console.log("Authentication failed. Please log in again.");
+                    auth.logOut()
+                } else {
+                    console.error("An error occurred:", error);
+                }
                 setError(true); 
                 setTimeout(() => {
                     setLoading(false);
@@ -136,7 +169,6 @@ const EventDetails = () => {
             const etime = moment(eventDetails.ends).format('HH:mm:ss');
             const eyear = moment(eventDetails.ends).format('jYYYY');
             const eday = moment(eventDetails.ends).format('jD');
-
             setEventDateTime({
                 startWeekDay: dayDict[sdayOfWeek],
                 startMonth: monthDict[moment(eventDetails.starts).locale('fa').jMonth()],
@@ -150,6 +182,20 @@ const EventDetails = () => {
                 endYear: eyear,
                 endDay: eday,
             });
+            const inputDate = moment(eventDetails.starts);
+            const inputTime = moment(moment(stime, 'HH:mm:ss').subtract(3, 'hours').subtract(30, 'minutes').format('HH:mm:ss'), 'HH:mm:ss');
+            const currentDate = moment();
+            const currentTime = moment().format('HH:mm:ss');
+            const currentTimeMoment = moment(currentTime, 'HH:mm:ss');
+            if (inputDate.isBefore(currentDate, 'day')) {
+                setCanPurchase(false);
+            }
+            if (inputDate.isSame(currentDate, 'day')) {
+                if (inputTime.isBefore(currentTimeMoment)) {
+                    setCanPurchase(false);
+                }
+               
+            }
             setTimeout(() => {
                 setLoading(false);
             }, 1000);
@@ -157,7 +203,6 @@ const EventDetails = () => {
         }
     }, [eventDetails]); 
     const copyToClipboard = () => {
-        console.log("event date & time:",eventDateTime)
         copy(currentUrl)
         .then(() => {
             console.log('آدرس کپی شد:', currentUrl);
@@ -166,6 +211,22 @@ const EventDetails = () => {
             console.error('خطا در کپی کردن آدرس:', err);
         });
     };
+
+    const copyLinkToClipboard = () => {
+        console.log("event date & time:",eventDateTime)
+        copy(eventDetails.onlineevent.url)
+        .then(() => {
+            console.log('لینک کپی شد:', eventDetails.onlineevent.url);
+        })
+        .catch(err => {
+            console.error('خطا در کپی کردن لینک برگزاری:', err);
+        });
+    };
+
+    const handleMapData = (data) =>{
+        
+        console.log("mapData")
+    }
 
     const searchTagHandler = (tag) =>{
         console.log(`selected tag: #${tag}`)
@@ -187,13 +248,13 @@ const EventDetails = () => {
         return <PageNotFound />;
     }
     
-    // if (!eventDetails) return <div>No data available</div>;
 
+    // if (!eventDetails) return <div>No data available</div>;
 
     return (
         <>
             <Navbar/>
-            <ToastContainer className="toastify-container"position="top-right" toastStyle={{backgroundColor: "#2b2c38", fontFamily: "iransansweb", color: "#ffeba7",marginTop:"60px"}} pauseOnHover={false} autoClose={3000} />
+            <ToastContainer closeOnClick  className="toastify-container"position="top-right" toastStyle={{backgroundColor: "#2b2c38", fontFamily: "iransansweb", color: "#ffeba7",marginTop:"60px"}} pauseOnHover={false} autoClose={3000} />
             
 
             <div className="event-details"> 
@@ -221,9 +282,12 @@ const EventDetails = () => {
                                         <p className="ed-message"style={{fontSize:"14px"}}>{eventDetails.category}</p>
                                     </div>
                                     <div className="row px-3 pt-4" >
-                                        <img className="mt-1" src={require("../../assets/sample-organizer.webp")} style={{height:"45px",borderRadius: "50%" }} alt="profile"/>
+                                        <img className="mt-1" 
+                                        src={(eventDetails.organizer_photo!=="" && eventDetails.organizer_photo!== null)?eventDetails.organizer_photo : require("../../assets/profile.png")}
+                                        
+                                        style={{height:"45px",borderRadius: "50%" }} alt="profile"/>
                                         <div className="col">
-                                            <p className="pt-2 px-0 text-right"> نام برگزارکننده</p>
+                                            <p className="pt-3 px-0 text-right"> {eventDetails.organizer_name} </p>
                                         </div>
                                     </div>
                                         <div className="row px-3"style={{ display: 'flex', justifyContent: 'center' }}>
@@ -264,20 +328,50 @@ const EventDetails = () => {
                                     <p className="pb-3 ed-message">پایان: {eventDateTime.endWeekDay} {eventDateTime.endDay} {eventDateTime.endMonth} {eventDateTime.endYear} ساعت {eventDateTime.endTime} </p>
 
                                 </div>
-                                <div className="row px-3 pt-1" >
-                                    <div className="col">
-                                        <p className="pt-2 px-0 text-right"> اشتراک گذاری رویداد</p>
-                                        <div className="row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                            <p className="ed-message ellipsis" style={{fontSize:"12px"}}>{window.location.href}</p>
-                                            <button className="btn  mt-1 mx-1" onClick={copyToClipboard}>
+                                {eventDetails.attendance==="I" &&<>
+                                    <div className="row px-3 pt-1" >
+                                        <div className="col">
+                                            <p className="pt-2 px-0 mb-0 text-right">آدرس برگزاری</p>
+                                            <div className="row px-3">
+                                                <p className="pb-3 ed-message">{eventDetails.inpersonevent.address}</p>
+                                            </div>
+                                        
+                                        </div>
+                                    </div>
+                                    
+                                    <MapComponent  sendDataToParent={handleMapData} lati={eventDetails.inpersonevent.location_lat} long={eventDetails.inpersonevent.location_lon} onlyShow={true} name="EventDetails"/>
+
+                                </>
+                                
+                                } 
+                                {eventDetails.attendance==="O"  && 
+                                    <div className="row px-3 pt-1" >
+                                        <div className="col">
+                                            <p className="pt-2 px-0 mb-0 text-right">لینک برگزاری</p>
+                                            <div className="row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                            <p className="ed-message ellipsis" style={{fontSize:"12px"}}>{eventDetails.onlineevent.url}</p>
+                                            <button className="btn  mt-1 mx-1" onClick={copyLinkToClipboard}>
                                                 کپی لینک  
                                             </button>
                                         </div>
-                                        
+                                        </div>
+                                    </div>
+                                }
+                                <div className="row px-3 pt-1" >
+                                    <div className="col">
+                                        <p className="pt-2 px-0 mb-0 text-right"> اشتراک گذاری رویداد</p>
+                                        <div className="row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                            <p className="ed-message ellipsis" style={{fontSize:"12px"}}>{window.location.href}</p>
+                                            <button className="btn  mt-1 mx-1" onClick={copyToClipboard}>
+                                                کپی   
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
-                                <center className="mt-2" >
-                                    <button
+                                
+                                
+                                <center className="mt-2">
+                                    {/* <button
                                         className="btn  mt-1 mx-1"
                                         onClick={handleShow}
                                         >
@@ -286,7 +380,12 @@ const EventDetails = () => {
                                              بعدا یادآوری کن
                                             
                                         </div>
-                                    </button>
+                                    </button> */}
+                                    <div className="row px-3">
+                                        <a class={isBookmarked ? 'bi bi-bookmark-plus-fill': 'bi bi-bookmark-plus'} 
+                                        onClick={bookmarkToggler}></a>
+                                        <p className="message">افزودن به علاقه مندی ها</p>
+                                    </div>
                                 </center>
                                 
                             </div>
@@ -296,12 +395,15 @@ const EventDetails = () => {
                                     <h4 className="pb-3" style={{textAlign: "center"}}>توضیحات</h4>
                                     <p className="ed-message" style={{whiteSpace:"pre-line", textAlign: "right"}}>{eventDetails.description}</p>
                                     <center>
+                                    {canPurchase && 
                                         <button
                                             className="btn  mt-1 mx-1"
-                                            onClick={(e) => navigator('/register-event')}
+                                            onClick={(e) => navigator('/register-event/'+id.toString())}
                                             >
                                             ثبت نام  
                                         </button>
+                                    }
+                                        
                                     </center>
                                     
                                     </div>
@@ -332,12 +434,14 @@ const EventDetails = () => {
                             <h4 className="pb-3">توضیحات</h4>
                             <p className="ed-message" style={{whiteSpace:"pre-line", textAlign: "right"}}>{eventDetails.description}</p>
                             <center>
-                                <button
-                                    className="btn  mt-1 mx-1"
-                                    onClick={(e) => navigator('/register-event')}
-                                    >
-                                    ثبت نام  
-                                </button>
+                                    {canPurchase && 
+                                        <button
+                                            className="btn  mt-1 mx-1"
+                                            onClick={(e) => navigator('/register-event/'+id.toString())}
+                                            >
+                                            ثبت نام  
+                                        </button>
+                                    }
                             </center>
                             </div>
                         </div>
@@ -355,20 +459,47 @@ const EventDetails = () => {
                                     <p className="pb-3 ed-message">پایان: {eventDateTime.endWeekDay} {eventDateTime.endDay} {eventDateTime.endMonth} {eventDateTime.endYear} ساعت {eventDateTime.endTime} </p>
 
                                 </div>
+                                {eventDetails.attendance==="O"  && 
+                                    <div className="row px-3 pt-1" >
+                                        <div className="col">
+                                            <p className="pt-2 px-0 mb-0 text-right">لینک برگزاری</p>
+                                            <div className="row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                            <p className="ed-message ellipsis" style={{fontSize:"12px"}}>{eventDetails.onlineevent.url}</p>
+                                            <button className="btn  mt-1 mx-1" onClick={copyLinkToClipboard}>
+                                                کپی لینک  
+                                            </button>
+                                        </div>
+                                        </div>
+                                    </div>
+                                }{eventDetails.attendance==="I" &&<>
                                 <div className="row px-3 pt-1" >
                                     <div className="col">
-                                        <p className="pt-2 px-0 text-right"> اشتراک گذاری رویداد</p>
+                                        <p className="pt-2 px-0 mb-0 text-right">آدرس برگزاری</p>
+                                        <div className="row px-3">
+                                            <p className="pb-3 ed-message">{eventDetails.inpersonevent.address}</p>
+                                        </div>
+                                    
+                                    </div>
+                                </div>
+                                <MapComponent  sendDataToParent={handleMapData} lati={eventDetails.inpersonevent.location_lat} long={eventDetails.inpersonevent.location_lon} onlyShow={true} name="EventDetails"/>
+
+                            </>
+                            
+                            } 
+                                <div className="row px-3 pt-1" >
+                                    <div className="col">
+                                        <p className="pt-2 px-0 mb-0 text-right"> اشتراک گذاری رویداد</p>
                                         <div className="row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                             <p className="ed-message ellipsis" style={{fontSize:"12px"}}>{window.location.href}</p>
                                             <button className="btn  mt-1 mx-1" onClick={copyToClipboard}>
-                                                کپی لینک  
+                                                کپی   
                                             </button>
                                         </div>
                                         
                                     </div>
                                 </div>
                                 <center className="mt-2">
-                                    <button
+                                    {/* <button
                                         className="btn  mt-1 mx-1"
                                         onClick={handleShow}
                                         >
@@ -377,7 +508,14 @@ const EventDetails = () => {
                                              بعدا یادآوری کن
                                             
                                         </div>
-                                    </button>
+                                    </button> */}
+                                    <div className="row px-3">
+                                        <a class={isBookmarked ? 'bi bi-bookmark-plus-fill': 'bi bi-bookmark-plus'} 
+                                        onClick={bookmarkToggler}>
+                                        </a>
+
+                                        <p className="message">افزودن به علاقه مندی ها</p>
+                                    </div>
                                 </center>
                                 
                             </div>
@@ -403,9 +541,11 @@ const EventDetails = () => {
                                         <p className="ed-message">{eventDetails.category}</p>
                                     </div>
                                     <div className="row px-3 pt-4" >
-                                        <img className="mt-1" src={require("../../assets/sample-organizer.webp")} style={{height:"45px",borderRadius: "50%" }} alt="profile"/>
+                                        <img className="mt-1" 
+                                        src={(eventDetails.organizer_photo!=="" && eventDetails.organizer_photo!== null)?eventDetails.organizer_photo : require("../../assets/profile.png")}
+                                        style={{height:"45px",borderRadius: "50%" }} alt="profile"/>
                                         <div className="col">
-                                            <p className="pt-2 px-0 text-right"> نام برگزارکننده</p>
+                                            <p className="pt-3 px-0 text-right"> {eventDetails.organizer_name} </p>
                                         </div>
                                     </div>
                                     <div className="row px-3" style={{ display: 'flex', justifyContent: 'center' }}>
@@ -459,9 +599,11 @@ const EventDetails = () => {
                                         <p className="ed-message">{eventDetails.category}</p>
                                     </div>
                                     <div className="row px-3 pt-4" >
-                                        <img className="mt-1" src={require("../../assets/sample-organizer.webp")} style={{height:"45px",borderRadius: "50%" }} alt="profile"/>
+                                        <img className="mt-1" 
+                                        src={(eventDetails.organizer_photo!=="" && eventDetails.organizer_photo!== null)?eventDetails.organizer_photo : require("../../assets/profile.png")}
+                                        style={{height:"45px",borderRadius: "50%" }} alt="profile"/>
                                         <div className="col">
-                                            <p className="pt-2 px-0 text-right"> نام برگزارکننده</p>
+                                            <p className="pt-3 px-0 text-right"> {eventDetails.organizer_name} </p>
                                         </div>
                                     </div>
                                     <div className="row px-3" style={{ display: 'flex', justifyContent: 'center' }}>
@@ -493,20 +635,47 @@ const EventDetails = () => {
                                     <p className="pb-3 ed-message">پایان: {eventDateTime.endWeekDay} {eventDateTime.endDay} {eventDateTime.endMonth} {eventDateTime.endYear} ساعت {eventDateTime.endTime} </p>
 
                                 </div>
+                                {eventDetails.attendance==="O"  && 
+                                    <div className="row px-3 pt-1" >
+                                        <div className="col">
+                                            <p className="pt-2 px-0 mb-0 text-right">لینک برگزاری</p>
+                                            <div className="row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                            <p className="ed-message ellipsis" style={{fontSize:"12px"}}>{eventDetails.onlineevent.url}</p>
+                                            <button className="btn  mt-1 mx-1" onClick={copyLinkToClipboard}>
+                                                کپی لینک  
+                                            </button>
+                                        </div>
+                                        </div>
+                                    </div>
+                                }{eventDetails.attendance==="I" &&<>
                                 <div className="row px-3 pt-1" >
                                     <div className="col">
-                                        <p className="pt-2 px-0  text-right"> اشتراک گذاری رویداد</p>
+                                        <p className="pt-2 px-0 mb-0 text-right">آدرس برگزاری</p>
+                                        <div className="row px-3">
+                                            <p className="pb-3 ed-message">{eventDetails.inpersonevent.address}</p>
+                                        </div>
+                                    
+                                    </div>
+                                </div>
+                                <MapComponent  sendDataToParent={handleMapData} lati={eventDetails.inpersonevent.location_lat} long={eventDetails.inpersonevent.location_lon} onlyShow={true} name="EventDetails"/>
+
+                            </>
+                            
+                            } 
+                                <div className="row px-3 pt-1" >
+                                    <div className="col">
+                                        <p className="pt-2 px-0 mb-0 text-right"> اشتراک گذاری رویداد</p>
                                         <div className="row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                             <p className="ed-message ellipsis" style={{fontSize:"12px"}}>{window.location.href}</p>
                                             <button className="btn  mt-1 mx-1" onClick={copyToClipboard}>
-                                                کپی لینک  
+                                                کپی   
                                             </button>
                                         </div>
                                         
                                     </div>
                                 </div>
                                 <center className="mt-2">
-                                    <button
+                                    {/* <button
                                         className="btn  mt-1 mx-1"
                                         onClick={handleShow}
                                         >
@@ -515,7 +684,12 @@ const EventDetails = () => {
                                              بعدا یادآوری کن
                                             
                                         </div>
-                                    </button>
+                                    </button> */}
+                                    <div className="row px-3">
+                                        <a class={isBookmarked ? 'bi bi-bookmark-plus-fill': 'bi bi-bookmark-plus'} 
+                                        onClick={bookmarkToggler}></a>
+                                        <p className="message">افزودن به علاقه مندی ها</p>
+                                    </div>
                                 </center>
                                 
                             </div>
@@ -547,7 +721,7 @@ const EventDetails = () => {
 
 
 
-                <MainComment />
+                <MainComment id={id}/>
             </div> 
             
             <OrganizerInfoModal show = {show} handleClose={handleClose} email={"aaghz1381@gmail.com"} phone={eventDetails.organizer_phone}/>
