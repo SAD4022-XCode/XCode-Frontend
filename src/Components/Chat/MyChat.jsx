@@ -10,7 +10,7 @@ import myData from "./MOCK_DATA.json";
 import Card from "../Events List/Card";
 import "./MyChat.css";
 import animationData from "../EventDetails/Animation - 1715854965467.json";
-const MyChat = ({ setShowChatBox, setUserName , setConversationId, setProfile, setUserId}) => {
+const MyChat = ({ setShowChatBox, setUserName , setConversationId, setProfile, setUserId, setMessages}) => {
   const auth = useAuth();
   const [loading, setLoading] = useState(true);
   const [contacts, setContacts] = useState([]);
@@ -143,6 +143,7 @@ const MyChat = ({ setShowChatBox, setUserName , setConversationId, setProfile, s
               <ChatList
                 className={`chat-list mt-2 col-lg-12 col-md-12 chat-list-${index}`}
                 onClick={(e) => {
+                  setMessages([])
                   setShowChatBox(true);
                   setUserName(item.username);
                   setConversationId(item.id)

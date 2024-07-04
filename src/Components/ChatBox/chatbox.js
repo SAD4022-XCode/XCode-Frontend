@@ -84,46 +84,21 @@ const ReceivedMessageBox = styled(MessageBox)`
 
 
 
-const ChatBox = ({setShowChatBox, userName, conversationId, profile, userId}) => {
+const ChatBox = ({setShowChatBox, userName, conversationId, profile, userId, messages, setMessages}) => {
   const [userData, setUserData] = useState(JSON.parse(localStorage.getItem("userData")) || "");
   const username=userData.user.username;
   const myId=userData.user.id;
   const auth = useAuth();
-  const [mockMessages, setMockMessages] = useState( [
-    {
-      sender:username,
-      receiver:userName,
-      date:"Sun Jun 02 2023 16:55:32 GMT+0330 (Iran Standard Time)",
-      text:"msg 1"
-    },
-    {
-      sender:userName,
-      receiver:username,
-      date:"Sun Jun 02 2024 18:55:32 GMT+0330 (Iran Standard Time)",
-      text:"msg 2"
-    },
-    {
-      sender:userName,
-      receiver:username,
-      date:"Sun Jun 02 2024 19:55:32 GMT+0330 (Iran Standard Time)",
-      text:"msg 3"
-    },
-    {
-      sender:username,
-      receiver:userName,
-      date:"Sun Jun 02 2024 20:55:32 GMT+0330 (Iran Standard Time)",
-      text:"msg 4"
-    },
-  ]
-  
-  );
-  const [messages, setMessages] = useState([])
+  // const [messages, setMessages] = useState([])
   
   const receiver = "ali"
   const [inputValue, setInputValue] = useState('');
   const messagesEndRef = useRef(null);
 
   const [marginRight, setMarginRight ] =useState()
+  let isSending = false
+  let profileImage = profile ??'https://chatscope.io/storybook/react/assets/joe-v8Vy3KOS.svg'
+  console.log("profile image:::",profileImage)
   const fetchMessages = async () => {
     console.log("5000 ms")
     try{
@@ -160,6 +135,7 @@ const ChatBox = ({setShowChatBox, userName, conversationId, profile, userId}) =>
 
   const handleSend = async() =>{
     if (inputValue.trim() !== '') {
+      isSending = !isSending
       const newMessage = {
         text: inputValue,
         date: new Date(),
@@ -200,7 +176,7 @@ const ChatBox = ({setShowChatBox, userName, conversationId, profile, userId}) =>
     const intervalId = setInterval(fetchMessages, 5000);
     return () => clearInterval(intervalId);
 
-  },[])
+  },[conversationId])
 
   useEffect(() => {
     const handleResize = () => {
@@ -224,9 +200,10 @@ const ChatBox = ({setShowChatBox, userName, conversationId, profile, userId}) =>
     };
   }, []);
 
+
   useEffect(() => {
     messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+  }, [isSending,]);
 
   return (
     <>
@@ -238,7 +215,7 @@ const ChatBox = ({setShowChatBox, userName, conversationId, profile, userId}) =>
           <ArrowBack />
         </BackButton>
         <Avatar
-          src={profile}
+          src={profileImage}
           alt='Profile Picture'
           size='large'
           type='circle'

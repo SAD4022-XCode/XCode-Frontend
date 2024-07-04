@@ -14,6 +14,7 @@ const MainChat = () => {
   const [conversationId, setConversationId] = useState(null);
   const [userId, setUserId] = useState(null)
   const [profile, setProfile] = useState(null)
+  const [messages, setMessages] = useState([])
   useEffect(() => {
     const handleResize = () => {
       if(window.innerWidth>767){
@@ -50,11 +51,11 @@ const MainChat = () => {
         <div className="main-chat">
           <div className="row">
             <div className="col-lg-5 col-md-6 mt-2">
-              <MyChat setShowChatBox={setShowChatBox} setUserName={setUserName} setConversationId={setConversationId} setProfile={setProfile} setUserId={setUserId}/>
+              <MyChat setShowChatBox={setShowChatBox} setUserName={setUserName} setConversationId={setConversationId} setProfile={setProfile} setUserId={setUserId} setMessages={setMessages}/>
             </div>
             {showChatBox ===true &&
               <div className="col-lg-6 col-md-6 mt-2">
-                <ChatBox setShowChatBox={setShowChatBox} userName={userName} conversationId={conversationId} profile={profile} userId={userId}/>
+                <ChatBox setShowChatBox={setShowChatBox} userName={userName} conversationId={conversationId} profile={profile} userId={userId} messages={messages} setMessages={setMessages}/>
               </div>
             }
             {/* ,marginRight:{marginRight} */}
@@ -77,12 +78,12 @@ const MainChat = () => {
           <div className="row">
             {showChatBox ===false &&
               <div className="col-lg-5 col-md-6">
-                <MyChat setShowChatBox={setShowChatBox} setUserName={setUserName} setConversationId={setConversationId} setProfile={setProfile} setUserId={setUserId}/>
+                <MyChat setShowChatBox={setShowChatBox} setUserName={setUserName} setConversationId={setConversationId} setProfile={setProfile} setUserId={setUserId} setMessages={setMessages}/>
               </div>
             }
             {showChatBox ===true &&
               <div className="col-lg-6 col-md-6">
-                <ChatBox setShowChatBox={setShowChatBox} userName={userName} conversationId={conversationId} profile={profile} userId={userId}/>
+                <ChatBox setShowChatBox={setShowChatBox} userName={userName} conversationId={conversationId} profile={profile} userId={userId} messages={messages} setMessages={setMessages}/>
               </div>
             }
           </div>
