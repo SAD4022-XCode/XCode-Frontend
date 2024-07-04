@@ -53,9 +53,13 @@
   position: absolute;
   right: 10%;
   top: 30%;
+  cursor: pointer;
 }
 .read-status-contacts{
   position: absolute;
   right: 10%;
   top: 60%;
+}
+.rce-citem-body:hover{
+  background-color: #4b4b4b6d;
 }
