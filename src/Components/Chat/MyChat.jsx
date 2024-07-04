@@ -8,7 +8,7 @@ import { useAuth } from "../Authentication/authProvider";
 import myData from "./MOCK_DATA.json";
 import Card from "../Events List/Card";
 import "./MyChat.css";
-const MyChat = ({ setShowChatBox, setUserName }) => {
+const MyChat = ({ setShowChatBox, setUserName , setConversationId, setProfile, setUserId}) => {
   const auth = useAuth();
   const [loading, setLoading] = useState(true);
   const [contacts, setContacts] = useState([]);
@@ -99,6 +99,7 @@ const MyChat = ({ setShowChatBox, setUserName }) => {
         id: conversation.id,
         profile_picture: participant.profile_picture,
         username: participant.user.username,
+        user_id : participant.user.id,
         content: conversation.last_message.content,
         is_read: conversation.last_message.is_read,
         time: conversation.last_message.timestamp,
@@ -129,7 +130,10 @@ const MyChat = ({ setShowChatBox, setUserName }) => {
                 className={`chat-list mt-2 col-lg-12 col-md-12 chat-list-${index}`}
                 onClick={(e) => {
                   setShowChatBox(true);
-                  setUserName(item.title);
+                  setUserName(item.username);
+                  setConversationId(item.id)
+                  setUserId(item.user_id)
+                  setProfile(item.profile_picture)
                 }}
                 dataSource={[
                   {

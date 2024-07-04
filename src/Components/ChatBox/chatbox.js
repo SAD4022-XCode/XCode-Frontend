@@ -7,6 +7,7 @@ import axios from 'axios';
 import ProfileSidebar from "../Profile/ProfileSidebar/profileSidebar";
 import Navbar from "../Navbar/navbar";
 import './chatbox.css'
+import { useAuth } from "../Authentication/authProvider";
 
 
 
@@ -83,10 +84,11 @@ const ReceivedMessageBox = styled(MessageBox)`
 
 
 
-const ChatBox = ({setShowChatBox, userName}) => {
+const ChatBox = ({setShowChatBox, userName, conversationId, profile, userId}) => {
   const [userData, setUserData] = useState(JSON.parse(localStorage.getItem("userData")) || "");
   const username=userData.user.username;
-
+  const myId=userData.user.id;
+  const auth = useAuth();
   const [mockMessages, setMockMessages] = useState( [
     {
       sender:username,
@@ -123,19 +125,27 @@ const ChatBox = ({setShowChatBox, userName}) => {
 
   const [marginRight, setMarginRight ] =useState()
   const fetchMessages = async () => {
+    console.log("5000 ms")
     try{
-      // let response = await axios.get("api address",{headers: {
-      //   "Content-Type": "application/json",
-      //   accept: "application/json",
-      //   // Authorization:`JWT ${auth.token}`,
-      // }})
+      let response = await axios.get(
+        `https://eventify.liara.run/conversations/${conversationId}/message_history`,
+        {
+          headers: {
+            Authorization:`JWT ${auth.token}`,
+          }
+        }
+      )
+      // console.log(auth.token)
       setMessages([])
       // console.log("mock messages:",mockMessages)
-      mockMessages.forEach((message, index) => {    
+      response.data.forEach((message, index) => {    
         message.type="text"      
-        if (message.sender===username){
+        // console.log("my message:\n",message)
+        if (message.sender===myId){
+          message.sender=username
           message.position="right"
         }else{ 
+          // console.log("username of chat:",userName)
           message.sender=userName
           message.position="left"
         }
@@ -159,24 +169,21 @@ const ChatBox = ({setShowChatBox, userName}) => {
         type:"text"
       };
       const sendingMessage = {
-        text: inputValue,
-        date: new Date(),
-        sender: username,
-        receiver:"akbar",
+        content: inputValue,
+        recipient:userId.toString(),
       }
       setMessages([...messages, newMessage]);
+
       setInputValue('');
       try {
-        let response =await axios.post('api address', sendingMessage, {
+        let response =await axios.post('https://eventify.liara.run/messages/', sendingMessage, {
           headers: {
-            "Content-Type": "application/json",
-            accept: "application/json",
-            // Authorization:`JWT ${auth.token}`,
+            Authorization:`JWT ${auth.token}`,
           }
         });
-        setMessages([...messages, newMessage]);
-        fetchMessages();
         console.log('Message sent successfully');
+        fetchMessages();
+        
       } catch (error) {
         console.error('Error sending message:', error);
       }
@@ -190,8 +197,8 @@ const ChatBox = ({setShowChatBox, userName}) => {
   };
 
   useEffect(() =>{
-    
-    fetchMessages();
+    const intervalId = setInterval(fetchMessages, 5000);
+    return () => clearInterval(intervalId);
 
   },[])
 
@@ -231,7 +238,7 @@ const ChatBox = ({setShowChatBox, userName}) => {
           <ArrowBack />
         </BackButton>
         <Avatar
-          src='https://chatscope.io/storybook/react/assets/joe-v8Vy3KOS.svg'
+          src={profile}
           alt='Profile Picture'
           size='large'
           type='circle'
@@ -249,7 +256,7 @@ const ChatBox = ({setShowChatBox, userName}) => {
           dataSource={messages.map((msg) => ({
             position: msg.position,
             type: msg.type,
-            text: msg.text,
+            text: msg.content,
             date: msg.date,
             title: msg.sender,
             className: msg.position === 'right' ? SentMessageBox : ReceivedMessageBox,
