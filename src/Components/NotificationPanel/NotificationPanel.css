@@ -6,8 +6,17 @@
   border-radius: 5px;
   direction: rtl;
   max-width: 100%;
+  justify-content: center;
+  align-items: center;
+  
 }
-
+.notification-modal {
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox */
+}
+.notification-modal::-webkit-scrollbar { 
+  display: none;  /* Safari and Chrome */
+}
 .close-section {
   background-color: #4b4b4b;
 }
@@ -80,7 +89,7 @@
 
 .notification-panel #notification-time {
   position: relative;
-  left: 0px;
+  right: 70%;
   font-size: 11px;
 }
 
