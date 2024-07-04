@@ -139,7 +139,7 @@ const UserInfo = () => {
       } catch (error) {
         // Handle errors if any of the requests fail
         //toast.error("An error occurred while updating your information.");
-        console.error("Error updating information:", error);
+        // console.error("Error updating information:", error);
       }
     },
   });
@@ -156,7 +156,7 @@ const UserInfo = () => {
     if (userData.profile_picture != null) {
       setImagePreviewUrl(userData.profile_picture);
     }
-  }, []);
+  }, [auth.token]);
 
   const ImgUpload = ({ onChange, src }) => (
     <label htmlFor="photo-upload" className="custom-file-upload fas">

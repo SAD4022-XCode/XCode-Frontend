@@ -10,6 +10,7 @@ import myData from "./MOCK_DATA.json";
 import Card from "../Events List/Card";
 import "./MyChat.css";
 import animationData from "../EventDetails/Animation - 1715854965467.json";
+import profile from "../../assets/profile.png";
 const MyChat = ({ setShowChatBox, setUserName , setConversationId, setProfile, setUserId, setMessages}) => {
   const auth = useAuth();
   const [loading, setLoading] = useState(true);
@@ -41,6 +42,7 @@ const MyChat = ({ setShowChatBox, setUserName , setConversationId, setProfile, s
       ago: "قبل",
       "a few seconds": "لحظاتی",
       days: "روز",
+      an: "یک",
       a: "یک",
       day: "روز",
       months: "ماه",
@@ -105,25 +107,29 @@ const MyChat = ({ setShowChatBox, setUserName , setConversationId, setProfile, s
           : conversation.participants[0];
       return {
         id: conversation.id,
-        profile_picture: participant.profile_picture,
+        profile_picture: participant.profile_picture != null ? participant.profile_picture : profile,
         username: participant.user.username,
         user_id : participant.user.id,
         content: conversation.last_message.content,
         is_read: conversation.last_message.is_read,
         time: conversation.last_message.timestamp,
-        sender: conversation.last_message.sender.id === currentUserData.id ? "شما" : participant.user.username
+        sender: conversation.last_message.sender === currentUserData.user.id ? "شما" : participant.user.username
       };
     });
 
-    setContacts(newContacts);
+    const sortedContacts = newContacts.sort((a, b) => new Date(b.time) - new Date(a.time));
+        
+    setContacts(sortedContacts);
     console.log(contacts)
     setLoading(false);
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 };
     fetchData();
-  }, []);
+    const intervalId = setInterval(fetchData, 5000); // Fetch every 5 seconds
+    return () => clearInterval(intervalId);
+  }, [auth.token, setShowChatBox, loading]);
   return (
     <div className="my-chats">
       <div className="container-fluid justify-content-center align-content-center pb-5 mb-5 pt-1">
@@ -149,6 +155,15 @@ const MyChat = ({ setShowChatBox, setUserName , setConversationId, setProfile, s
                   setConversationId(item.id)
                   setUserId(item.user_id)
                   setProfile(item.profile_picture)
+                  if (!item.is_read && item.sender !== "شما") {
+                    const updatedContacts = contacts.map((contact) =>
+                      contact.id === item.id ? { ...contact, is_read: true } : contact
+                    );
+                    setLoading(false)
+                    setLoading(true)
+                    setContacts(updatedContacts);
+                    console.log(contacts)
+                  }
                 }}
                 dataSource={[
                   {

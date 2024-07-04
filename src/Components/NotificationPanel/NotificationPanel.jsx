@@ -53,8 +53,18 @@ const NotificationPanel = (reload) => {
     return count;
   };
   // axios.defaults.headers.common["Authorization"] = `JWT ${auth.token}`;
+  const translateTitle = (title) => {
+    const regex = /New message from (.+)/;
+    const match = title.match(regex);
+    if (match) {
+      const user = match[1];
+      return `شما یک پیام جدید از ${user} دارید.`;
+    }
+    return title;
+  };
   useEffect(() => {
     const fetchData = async () => {
+      try{
       const response = await axios.get(
         "https://eventify.liara.run/account/inbox/",
         {
@@ -69,7 +79,11 @@ const NotificationPanel = (reload) => {
       // setNotificationsCount(updateNotificationCount(notifications));
       // },1000);
       // console.log(notificationsCount);
-      const sortedNotifications = response.data.sort((a, b) => {
+      const translatedNotifications = response.data.map((notification) => ({
+        ...notification,
+        title: translateTitle(notification.title),
+      }));
+      const sortedNotifications = translatedNotifications.sort((a, b) => {
         if (a.is_read === b.is_read) {
           return new Date(b.created_at) - new Date(a.created_at);
         }
@@ -78,11 +92,16 @@ const NotificationPanel = (reload) => {
 
       setNotifications(sortedNotifications);
       setNotificationsCount(updateNotificationCount(sortedNotifications));
-    };
+    }
+    catch (error){
+      console.log(error);
+    }
+  }
     fetchData();
   }, [reload, notificationsCount, auth.token]);
 
   const readNotification = async (id) => {
+    try{
     const baseUrl = `https://eventify.liara.run/notifications/${id}/mark_as_read/`;
     axios.defaults.headers.common["Authorization"] = `JWT ${auth.token}`;
     await axios.patch(baseUrl).then(() => {
@@ -91,6 +110,10 @@ const NotificationPanel = (reload) => {
     setTimeout(() => {
       reload = false;
     }, 400);
+  }
+  catch (error){
+    // console.log(error);
+  }
   };
   delete axios.defaults.headers.common["Authorization"];
   const [showAll, setShowAll] = useState(false);
@@ -129,6 +152,7 @@ const NotificationPanel = (reload) => {
       ago: "قبل",
       "a few seconds": "لحظاتی",
       days: "روز",
+      an: "یک",
       a: "یک",
       day: "روز",
       months: "ماه",
@@ -226,11 +250,11 @@ const NotificationPanel = (reload) => {
                             )}
                             <p id="notification-title">{notification.title}</p>
                           </div>
-                          <div className="content">
-                            <p id="notification-content">
+                          <div className="content row">
+                            <p className="col-12" id="notification-content">
                               {notification.content}
                             </p>
-                            <p id="notification-time">
+                            <p className="col-6" id="notification-time">
                               {translateTime(notification.created_at)}
                             </p>
                           </div>

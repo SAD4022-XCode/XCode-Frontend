@@ -52,26 +52,11 @@ const RegisteredEvents = () => {
   };
   useEffect(() => {
     const fetchEvents = async () => {
+      try{
       setLoading(true);
 
       const baseUrl = "https://eventify.liara.run/account/enrolled_events/";
-      //   let queryParams = [];
-      //   // console.log(data);
-      //   if (data.selectedTags.length > 0)
-      //     queryParams.push(`tags=${data.selectedTags.join(", ")}`);
-      //   if (data.eventType !== "")
-      //     queryParams.push(`attendance=${data.eventType}`);
-      //   if (data.eventPrice !== "")
-      //     queryParams.push(`is_paid=${data.eventPrice}`);
-      //   if (data.eventStartDate !== "")
-      //     queryParams.push(`starts=${data.eventStartDate}T00%3A00%3A00Z`);
-      //   if (data.eventEndDate !== "")
-      //     queryParams.push(`ends=${data.eventEndDate}T00%3A00%3A00Z`);
-
-      //   queryParams.push(`page=${currentPage}`);
-      //   const fullUrl = `${baseUrl}?${queryParams.join("&")}`;
-      //   console.log("full url:", fullUrl);
-      //   // console.log(fullUrl);
+      
       const response = await axios.get(baseUrl, {
         headers: { Authorization: `JWT ${auth.token}` },
       });
@@ -88,7 +73,12 @@ const RegisteredEvents = () => {
       }
       // console.log(response);
       setLoading(false);
-    };
+    }
+    catch (error) {
+      
+    }
+  }
+
     // })
     // .catch((error) => {
     //   console.error("Failed to send data:", error);
