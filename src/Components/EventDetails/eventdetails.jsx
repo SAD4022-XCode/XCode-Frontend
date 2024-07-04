@@ -96,13 +96,25 @@ const EventDetails = () => {
         
         const fetchData = async () => {
             try {
-                console.log("start fetching data")
-                const response = await axios.get('https://eventify.liara.run/events/'+id,{headers: {
-                    "Content-Type": "application/json",
-                    accept: "application/json",
-                  }},);
-                console.log("Console:\n",response.data)
-                setEventDetails(response.data);
+                if(auth.token!==""){
+                    console.log("start fetching data")
+                    const response = await axios.get('https://eventify.liara.run/events/'+id,{headers: {
+                        "Content-Type": "application/json",
+                        accept: "application/json",
+                        Authorization:`JWT ${auth.token}`,
+                    }},);
+                    console.log("Console:\n",response.data)
+                    setEventDetails(response.data);
+                }
+                else{
+                    console.log("start fetching data")
+                    const response = await axios.get('https://eventify.liara.run/events/'+id,{headers: {
+                        "Content-Type": "application/json",
+                        accept: "application/json",
+                    }},);
+                    console.log("Console:\n",response.data)
+                    setEventDetails(response.data);
+                }
             } catch (error) {
                 if (error.response && error.response.status === 401) {
                     console.log("Authentication failed. Please log in again.");
@@ -328,7 +340,7 @@ const EventDetails = () => {
                                     <p className="pb-3 ed-message">پایان: {eventDateTime.endWeekDay} {eventDateTime.endDay} {eventDateTime.endMonth} {eventDateTime.endYear} ساعت {eventDateTime.endTime} </p>
 
                                 </div>
-                                {eventDetails.attendance==="I" &&<>
+                                {eventDetails.attendance==="I" && auth.token!=="" && eventDetails.enrolled &&<>
                                     <div className="row px-3 pt-1" >
                                         <div className="col">
                                             <p className="pt-2 px-0 mb-0 text-right">آدرس برگزاری</p>
@@ -338,13 +350,13 @@ const EventDetails = () => {
                                         
                                         </div>
                                     </div>
+                                        <MapComponent  sendDataToParent={handleMapData} lati={eventDetails.inpersonevent.location_lat} long={eventDetails.inpersonevent.location_lon} onlyShow={true} name="EventDetails"/>
                                     
-                                    <MapComponent  sendDataToParent={handleMapData} lati={eventDetails.inpersonevent.location_lat} long={eventDetails.inpersonevent.location_lon} onlyShow={true} name="EventDetails"/>
 
                                 </>
                                 
                                 } 
-                                {eventDetails.attendance==="O"  && 
+                                {eventDetails.attendance==="O"  && auth.token!=="" && eventDetails.enrolled &&
                                     <div className="row px-3 pt-1" >
                                         <div className="col">
                                             <p className="pt-2 px-0 mb-0 text-right">لینک برگزاری</p>
@@ -459,7 +471,7 @@ const EventDetails = () => {
                                     <p className="pb-3 ed-message">پایان: {eventDateTime.endWeekDay} {eventDateTime.endDay} {eventDateTime.endMonth} {eventDateTime.endYear} ساعت {eventDateTime.endTime} </p>
 
                                 </div>
-                                {eventDetails.attendance==="O"  && 
+                                {eventDetails.attendance==="O"  && auth.token!=="" && eventDetails.enrolled &&
                                     <div className="row px-3 pt-1" >
                                         <div className="col">
                                             <p className="pt-2 px-0 mb-0 text-right">لینک برگزاری</p>
@@ -471,7 +483,7 @@ const EventDetails = () => {
                                         </div>
                                         </div>
                                     </div>
-                                }{eventDetails.attendance==="I" &&<>
+                                }{eventDetails.attendance==="I" && auth.token!=="" && eventDetails.enrolled &&<>
                                 <div className="row px-3 pt-1" >
                                     <div className="col">
                                         <p className="pt-2 px-0 mb-0 text-right">آدرس برگزاری</p>
@@ -481,8 +493,8 @@ const EventDetails = () => {
                                     
                                     </div>
                                 </div>
-                                <MapComponent  sendDataToParent={handleMapData} lati={eventDetails.inpersonevent.location_lat} long={eventDetails.inpersonevent.location_lon} onlyShow={true} name="EventDetails"/>
-
+                                        <MapComponent  sendDataToParent={handleMapData} lati={eventDetails.inpersonevent.location_lat} long={eventDetails.inpersonevent.location_lon} onlyShow={true} name="EventDetails"/>
+                                    
                             </>
                             
                             } 
@@ -635,7 +647,7 @@ const EventDetails = () => {
                                     <p className="pb-3 ed-message">پایان: {eventDateTime.endWeekDay} {eventDateTime.endDay} {eventDateTime.endMonth} {eventDateTime.endYear} ساعت {eventDateTime.endTime} </p>
 
                                 </div>
-                                {eventDetails.attendance==="O"  && 
+                                {eventDetails.attendance==="O"  && auth.token!=="" && eventDetails.enrolled &&
                                     <div className="row px-3 pt-1" >
                                         <div className="col">
                                             <p className="pt-2 px-0 mb-0 text-right">لینک برگزاری</p>
@@ -647,7 +659,8 @@ const EventDetails = () => {
                                         </div>
                                         </div>
                                     </div>
-                                }{eventDetails.attendance==="I" &&<>
+                                }{eventDetails.attendance==="I" && auth.token!=="" && eventDetails.enrolled &&
+                                <>
                                 <div className="row px-3 pt-1" >
                                     <div className="col">
                                         <p className="pt-2 px-0 mb-0 text-right">آدرس برگزاری</p>
@@ -657,8 +670,9 @@ const EventDetails = () => {
                                     
                                     </div>
                                 </div>
-                                <MapComponent  sendDataToParent={handleMapData} lati={eventDetails.inpersonevent.location_lat} long={eventDetails.inpersonevent.location_lon} onlyShow={true} name="EventDetails"/>
-
+                                
+                                        <MapComponent  sendDataToParent={handleMapData} lati={eventDetails.inpersonevent.location_lat} long={eventDetails.inpersonevent.location_lon} onlyShow={true} name="EventDetails"/>
+                                    
                             </>
                             
                             } 

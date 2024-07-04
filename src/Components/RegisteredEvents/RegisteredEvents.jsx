@@ -60,9 +60,10 @@ const RegisteredEvents = () => {
       const response = await axios.get(baseUrl, {
         headers: { Authorization: `JWT ${auth.token}` },
       });
+      console.log("my registered events are:",response.data)
       // .then((response) => {
       // console.log("Data sent successfully:", response.data);
-      let events = response.data.results;
+      let events = response.data;
       // Replace date strings with month names
       if (events) {
         events = events.map((event) => ({
