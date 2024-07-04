@@ -8,10 +8,11 @@ const EventChart = ({paidOnline,paidInperson,freeOnline,freeInperson }) => {
   useEffect(() => {
     const generateChartData = () => {
       const chartData = [
-        { name: 'حضوری', paid: paidInperson ,free:freeInperson},
-        { name: 'آنلاین', paid: paidOnline,free:freeOnline }
+        { name: 'حضوری', paid: paidInperson, free: freeInperson },
+        { name: 'آنلاین', paid: paidOnline, free: freeOnline }
       ];
       setData(chartData);
+      console.log("my bar chart data", data);
     };
 
     generateChartData();
@@ -19,7 +20,7 @@ const EventChart = ({paidOnline,paidInperson,freeOnline,freeInperson }) => {
   const COLORS = ['#0575BA','#F01993', ];
 
   return (
-    <ResponsiveContainer>
+    <ResponsiveContainer> 
       <BarChart
         data={data}
         

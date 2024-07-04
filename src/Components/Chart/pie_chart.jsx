@@ -16,8 +16,8 @@ const DoghnutChart = ({ value1, value2, legendText }) => {
       const percentage2 = calculatePercentage(totalValue, value2);
 
       const chartData = [
-        { name: 'حضوری', value: parseFloat(percentage1) },
-        { name: 'آنلاین', value: parseFloat(percentage2) }
+        { name: 'آنلاین', value: parseFloat(percentage1) },
+        { name: 'حضوری', value: parseFloat(percentage2) }
       ];
       setData(chartData);
     };
@@ -57,8 +57,8 @@ const DoghnutChart = ({ value1, value2, legendText }) => {
         /> */}
         <Legend direction="rtl"  wrapperStyle={{ direction: 'rtl' }} 
           payload={[
-            { value: ' حضوری', type: 'square', color: COLORS[0] },
-            { value: ' آنلاین', type: 'square', color: COLORS[1] }
+            { value: ' آنلاین', type: 'square', color: COLORS[0] },
+            { value: ' حضوری', type: 'square', color: COLORS[1] }
           ]}
         />
       </PieChart>
