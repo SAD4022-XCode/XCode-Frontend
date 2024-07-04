@@ -4,10 +4,12 @@ import { ChatList, MessageBox } from "react-chat-elements";
 import axios from "axios";
 import moment from "moment-timezone";
 import { useAuth } from "../Authentication/authProvider";
+import Lottie from "react-lottie";
 
 import myData from "./MOCK_DATA.json";
 import Card from "../Events List/Card";
 import "./MyChat.css";
+import animationData from "../EventDetails/Animation - 1715854965467.json";
 const MyChat = ({ setShowChatBox, setUserName , setConversationId, setProfile, setUserId}) => {
   const auth = useAuth();
   const [loading, setLoading] = useState(true);
@@ -27,6 +29,12 @@ const MyChat = ({ setShowChatBox, setUserName , setConversationId, setProfile, s
   //   setTimeout(()=>{console.log(currentUserData)},1000)
   // };
   // getUserData();
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    clickToPause: false,
+    animationData: animationData,
+  };
   const translateTime = (time) => {
     let translatedTime = moment.utc(time).local().fromNow();
     const translations = {
@@ -66,7 +74,7 @@ const MyChat = ({ setShowChatBox, setUserName , setConversationId, setProfile, s
             headers: { Authorization: `JWT ${auth.token}` },
           }
         );
-      //   console.log(response);
+        console.log(response);
       //   let needed_data = []
       //   for (let i = 0; i < response.data.length; i++){
       //   if (response.data[i].participants[0].user.username === currentUserData.user.username){
@@ -103,6 +111,7 @@ const MyChat = ({ setShowChatBox, setUserName , setConversationId, setProfile, s
         content: conversation.last_message.content,
         is_read: conversation.last_message.is_read,
         time: conversation.last_message.timestamp,
+        sender: conversation.last_message.sender.id === currentUserData.id ? "شما" : participant.user.username
       };
     });
 
@@ -124,7 +133,12 @@ const MyChat = ({ setShowChatBox, setUserName , setConversationId, setProfile, s
               <h2>Loading...</h2>
             </div>
           )} */}
-          {contacts.map((item, index) => (
+          {loading && (
+            <div className="loading">
+              <Lottie options={defaultOptions} />
+            </div>
+          )}
+          {!loading && contacts.map((item, index) => (
             <div key={item.id} className="col-lg-12">
               <ChatList
                 className={`chat-list mt-2 col-lg-12 col-md-12 chat-list-${index}`}
@@ -140,12 +154,20 @@ const MyChat = ({ setShowChatBox, setUserName , setConversationId, setProfile, s
                     avatar: item.profile_picture,
                     alt: item.alt,
                     title: item.username,
-                    subtitle: item.content,
+                    subtitle: `${item.sender}: ${item.content}`,
 
-                    unread: item.unread,
+                    unread: item.is_read,
                   },
                 ]}
               />
+              {!item.is_read && item.sender !== "شما" && (<div className="read-status-contacts">
+                <div className="rce-citem-body--bottom-status">
+                  <span></span>
+                </div>
+              </div>)}
+              <div className="contact-date">
+                <p>{translateTime(item.time)}</p>
+              </div>
             </div>
           ))}
         </div>
