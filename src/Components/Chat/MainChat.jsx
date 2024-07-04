@@ -11,6 +11,9 @@ const MainChat = () => {
   const [showChatBox,setShowChatBox] = useState(false)
   const [marginRight, setMarginRight] = useState("250px")
   const [userName, setUserName] = useState("");
+  const [conversationId, setConversationId] = useState(null);
+  const [userId, setUserId] = useState(null)
+  const [profile, setProfile] = useState(null)
   useEffect(() => {
     const handleResize = () => {
       if(window.innerWidth>767){
@@ -47,11 +50,11 @@ const MainChat = () => {
         <div className="main-chat">
           <div className="row">
             <div className="col-lg-5 col-md-6 mt-2">
-              <MyChat setShowChatBox={setShowChatBox} setUserName={setUserName} />
+              <MyChat setShowChatBox={setShowChatBox} setUserName={setUserName} setConversationId={setConversationId} setProfile={setProfile} setUserId={setUserId}/>
             </div>
             {showChatBox ===true &&
               <div className="col-lg-6 col-md-6 mt-2">
-                <ChatBox setShowChatBox={setShowChatBox} userName={userName} />
+                <ChatBox setShowChatBox={setShowChatBox} userName={userName} conversationId={conversationId} profile={profile} userId={userId}/>
               </div>
             }
             {/* ,marginRight:{marginRight} */}
@@ -74,12 +77,12 @@ const MainChat = () => {
           <div className="row">
             {showChatBox ===false &&
               <div className="col-lg-5 col-md-6">
-                <MyChat setShowChatBox={setShowChatBox} setUserName={setUserName} />
+                <MyChat setShowChatBox={setShowChatBox} setUserName={setUserName} setConversationId={setConversationId} setProfile={setProfile} setUserId={setUserId}/>
               </div>
             }
             {showChatBox ===true &&
               <div className="col-lg-6 col-md-6">
-                <ChatBox setShowChatBox={setShowChatBox} userName={userName}/>
+                <ChatBox setShowChatBox={setShowChatBox} userName={userName} conversationId={conversationId} profile={profile} userId={userId}/>
               </div>
             }
           </div>
