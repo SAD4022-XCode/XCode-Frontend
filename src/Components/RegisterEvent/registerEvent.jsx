@@ -6,14 +6,24 @@ import Navbar from "../Navbar/navbar";
 import axios from "axios";
 import Lottie from "react-lottie";
 import animationData from "./Animation - 1715854965467.json";
+import { ToastContainer, toast } from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css';
+import { useAuth } from "../Authentication/authProvider";
+
 
 const RegisterEvent = () =>{
-    const [checked, setChecked] = React.useState(false);
     const [isLoaded, setIsLoaded] = useState(false);
-    // checkbox click handler
-    function handleClick() {
-      setChecked(!checked);
-    };
+
+    const [name, setName] = useState('');
+    const [familyName, setFamilyName] = useState('');
+    const [email, setEmail] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
+    const [gender, setGender] = useState('');
+    const [acceptTerms, setAcceptTerms] = useState(false);
+    const [event_id, setEventId] = useState(0);
+
+    const auth = useAuth();
 
     const eventIdExtractor = () => {
         const url = window.location.pathname;
@@ -46,11 +56,14 @@ const RegisterEvent = () =>{
         tags:[]
 
     })
+
+
     
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const event_id = eventIdExtractor();
+                setEventId(event_id);
                 console.log("start fetching data")
                 const response = await axios.get(`https://eventify.liara.run/events/${event_id}/`);
                 setEventDetails(response.data);
@@ -71,6 +84,79 @@ const RegisterEvent = () =>{
         };
         fetchData();
     }, []);
+
+    // Send data  
+
+    const sendDataHandler=(event) =>{
+
+        let registerDetails= {
+            attendee : name,
+            attendee_name : name + " " + familyName,
+            attendee_email : email,
+            attendee_phone : phoneNumber,
+            price : eventDetails.ticket_price,
+            event : event_id,
+            }
+
+        if (handleTerms){
+        
+            console.log("sending data");
+            console.log(registerDetails);
+            axios.post(`https://eventify.liara.run/events/${event_id}/enroll/`, registerDetails,
+                {headers:{
+                    "Content-Type": 'application/json',
+                    Authorization:`JWT ${auth.token}`,
+                }}
+            )
+            .then(response => {
+                console.log('Data sent successfully:', response.data);
+                toast.success("ثبت نام با موفقیت انجام شد")
+                // setTimeout(() => {
+                //     navigator('/home');
+                // }, 7000);
+            })
+            .catch(error => {
+                console.log('Error sending data:', error);
+                console.log("status code is:",error.response.status)
+                console.log(auth.token);
+                toast.error("خطا در ثبت نام رویداد")
+                if (error.response && error.response.status === 401) {
+                    console.log("Authentication failed. Please log in again.");
+                    auth.logOut()
+                } else {
+                    console.error("An error occurred:", error);
+                }
+                
+            });
+        }
+        
+        else{
+            toast.error("لطفا قوانین و مقررات را تایید کنید")
+        }
+        
+    }  
+
+
+    const handleName=(event)=>{
+        setName(event.target.value)
+    }
+        
+    const handleFamilyName=(event)=>{
+        setFamilyName(event.target.value)
+    }
+
+    const handleEmail=(event)=>{
+        setEmail(event.target.value)
+    }
+
+    const handlePhoneNumber=(event)=>{
+        setPhoneNumber(event.target.value)
+    }
+
+    const handleTerms=(event)=>{
+        setAcceptTerms(!acceptTerms)
+    }
+
 
     if (isLoaded === false){
         return(
@@ -104,10 +190,34 @@ const RegisterEvent = () =>{
                         {eventDetails.title}
                         </h2>
                     <div className="form-group-1">
-                        <input type="text" name="title" itemID="title" placeholder="نام" required />
-                        <input type="text" name="name" itemID="name" placeholder="نام خانوادگی" required />
-                        <input type="email" name="email" itemID="email" placeholder="ایمیل" required />
-                        <input type="number" name="phone_number" itemID="phone_number" placeholder="شماره تماس" required />
+                        <input type="text" 
+                               name="title" 
+                               itemID="title" 
+                               placeholder="نام" 
+                               onChange={handleName} 
+                               required />
+                       
+                        <input type="text" 
+                               name="name" 
+                               itemID="name" 
+                               placeholder="نام خانوادگی" 
+                               onChange={handleFamilyName} 
+                               required />
+  
+                        <input type="email" 
+                               name="email" 
+                               itemID="email" 
+                               placeholder="ایمیل" 
+                               onChange={handleEmail} 
+                               required />
+
+                        <input type="number" 
+                               name="phone_number" 
+                               itemID="phone_number" 
+                               placeholder="شماره تماس" 
+                               onChange={handlePhoneNumber} 
+                               required />
+
                         {/* <input type="number" name="phone_number" itemID="phone_number" placeholder="شماره تماس" required /> */}
                         {/* <div className="select-list">
                             <select name="course_type" itemID="course_type">
@@ -127,7 +237,10 @@ const RegisterEvent = () =>{
                     </div>
                     <div className="form-check">
                         {/* <input type="checkbox" name="agree-term" itemID="agree-term" className="agree-term" /> */}
-                        <input type="checkbox" checked={checked} onChange={handleClick}/>
+                        <input type="checkbox" 
+                               checked={acceptTerms} 
+                               onChange={handleTerms}/>
+                               
                         <label for="agree-term" className="label-agree-term">
                             <span>
                             </span>
@@ -136,7 +249,11 @@ const RegisterEvent = () =>{
                     </div>
                     <h3>هزینه بلیط: {eventDetails.ticket_price}</h3>
                     <div className="form-submit">
-                        <input type="submit" name="submit" itemID="submit" className="submit" value="ثبت نام و پرداخت" />
+                        <input name="submit" 
+                               itemID="submit" 
+                               className="submit" 
+                               value="ثبت نام و پرداخت" 
+                               onClick={sendDataHandler}/>
                     </div>
                 </form>
             </div>
