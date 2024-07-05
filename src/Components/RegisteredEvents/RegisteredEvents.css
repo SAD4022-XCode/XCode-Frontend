@@ -7,8 +7,9 @@
     position: relative;
     left: -9%;
     top: -1px;
-    max-width: 1690px !important;
-    
+    /* max-width: 1690px !important; */
+    width: 90%;
+    z-index: 1;
 }
 
 .registered-events{
