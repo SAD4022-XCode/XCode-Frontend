@@ -1,7 +1,7 @@
 import * as yup from "yup";
 
 export const userInfoValidation = yup.object({
-    username: yup.string().min(3, "نام کاربری شامل 3 تا 30 کاراکتر است").max(30,"نام کاربری شامل 3 تا 30 کاراکتر است").matches(/^[a-zA-Z][a-zA-Z0-9_]{8,}$/,"نام کاربری باید با حروف انگلیسی شروع شود"),
+    username: yup.string().min(3, "نام کاربری شامل 3 تا 30 کاراکتر است").max(30,"نام کاربری شامل 3 تا 30 کاراکتر است").matches(/^[a-zA-Z][a-zA-Z0-9_]{2,}$/,"نام کاربری باید با حروف انگلیسی شروع شود"),
 })
 
 export const changePasswordValidation = yup.object({

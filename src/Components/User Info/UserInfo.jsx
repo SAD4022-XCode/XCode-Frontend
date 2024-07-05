@@ -18,6 +18,7 @@ import {useNavigate} from 'react-router-dom';
 import ProfileSidebar from "../Profile/ProfileSidebar/profileSidebar";
 const weekDays = ["ش", "ی", "د", "س", "چ", "پ", "ج"];
 const UserInfo = () => {
+  const navigator = useNavigate();
   const digits = persian_fa.digits;
   const persianNumbers = [
     /۰/g,
@@ -129,16 +130,17 @@ const UserInfo = () => {
               Authorization: `JWT ${auth.token}`,
             },
           }
-        );
+        ).then(response => {
+          toast.success("اطلاعات شما با موفقیت تغییر یافت");
+          setTimeout(() => {
+          navigator('/home');
+          }, 6500)});
 
         // If both requests succeed, show toast and reload page
-        toast.success("اطلاعات شما با موفقیت تغییر یافت");
-        setTimeout(() => {
-          window.location.reload();
-        }, 10000);
       } catch (error) {
         // Handle errors if any of the requests fail
         //toast.error("An error occurred while updating your information.");
+        toast.error("خطا در بروزرسانی اطلاعات");
         // console.error("Error updating information:", error);
       }
     },
