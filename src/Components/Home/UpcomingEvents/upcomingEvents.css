@@ -51,6 +51,10 @@
         overflow: hidden;
         object-fit: cover;
     }
+    .image:hover{
+        filter: blur(0px);
+        -webkit-filter: blur(0px);
+    }
     .bi-arrow-left-circle-fill{
         height: 1vh !important;
         width: 1vh !important;

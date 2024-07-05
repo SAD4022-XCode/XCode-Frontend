@@ -17,7 +17,7 @@ const UpcomingEvents = () => {
         "https://eventify.liara.run/events/91",
         "https://eventify.liara.run/events/92",
         "https://eventify.liara.run/events/93",
-        "https://eventify.liara.run/events/94",
+        "https://eventify.liara.run/events/90",
         "https://eventify.liara.run/events/95",
     ]);
 
