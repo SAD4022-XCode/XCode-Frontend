@@ -11,11 +11,11 @@
     
 }
 
-.registered-events{
+.bookmarked-events-container{
     background-color: #4b4b4b;
     position: relative;
     right: -3%;
 }
-.saved-events::-webkit-scrollbar {
+.bookmarked-events::-webkit-scrollbar {
     display: none;
 }
