@@ -1,9 +1,9 @@
-.saved-events{
+.bookmarked-events{
     overflow-x: hidden  ;
     overflow-y: auto;
     height: 100vh;
     background-color: #4b4b4b ;
-    
+    max-width: 1500px;
     position: relative;
     left: -9%;
     top: -1px;

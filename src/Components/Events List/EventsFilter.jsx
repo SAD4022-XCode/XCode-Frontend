@@ -264,7 +264,7 @@ const EventsFilter = ({ sendFilteredPosts }) => {
                           }),
                         ]}
                         minDate="1300/01/01"
-                        maxDate="1403/03/01"
+                        maxDate="1403/07/31"
                         value={eventStartDate || ""}
                         onChange={startDateHandler}
                         calendar={persian}

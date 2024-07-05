@@ -284,7 +284,7 @@ const UserInfo = () => {
                                               }),
                                             ]}
                                             minDate="1300/01/01"
-                                            maxDate="1403/03/31"
+                                            maxDate="1403/04/15"
                                             value={dateValue || ""}
                                             onChange={dateHandler}
                                             calendar={persian}
