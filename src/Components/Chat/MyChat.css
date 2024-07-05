@@ -63,3 +63,10 @@
 .rce-citem-body:hover{
   background-color: #4b4b4b6d;
 }
+
+.no-chats h2{
+
+  color: #ffeba7;
+  text-align: center;
+  margin-top: 20%;
+}

@@ -144,6 +144,10 @@ const MyChat = ({ setShowChatBox, setUserName , setConversationId, setProfile, s
               <Lottie options={defaultOptions} />
             </div>
           )}
+          {!loading && contacts.length === 0 && (
+            <div className="no-chats">
+              <h2>شما هنوز گفت و گویی ندارید</h2>
+            </div>)}
           {!loading && contacts.map((item, index) => (
             <div key={item.id} className="col-lg-12">
               <ChatList
@@ -155,15 +159,6 @@ const MyChat = ({ setShowChatBox, setUserName , setConversationId, setProfile, s
                   setConversationId(item.id)
                   setUserId(item.user_id)
                   setProfile(item.profile_picture)
-                  if (!item.is_read && item.sender !== "شما") {
-                    const updatedContacts = contacts.map((contact) =>
-                      contact.id === item.id ? { ...contact, is_read: true } : contact
-                    );
-                    setLoading(false)
-                    setLoading(true)
-                    setContacts(updatedContacts);
-                    console.log(contacts)
-                  }
                 }}
                 dataSource={[
                   {
