@@ -97,34 +97,34 @@
   ],
   "Testimonials": [
     {
-      "img": "img/testimonials/01.jpg",
+      "img": "https://eventify.liara.run//media/images/member-avatar-01.png",
       "text": "\"رویداد خوبی بود.\"",
-      "name": "John Doe"
+      "name": "جیسون عباسی"
     },
     {
-      "img": "img/testimonials/02.jpg",
+      "img": "https://eventify.liara.run/media/images/download.jpg",
       "text": "\"بسیار با جزئیات توضیح داده شد.\"",
-      "name": "Johnathan Doe"
+      "name": "لئو"
     },
     {
       "img": "img/testimonials/03.jpg",
       "text": "\"رزرو رویداد بسیار آسان است.\"",
-      "name": "John Doe"
+      "name": "سجاد"
     },
     {
-      "img": "img/testimonials/04.jpg",
-      "text": "\" \"",
-      "name": "Johnathan Doe"
+      "img": "img/testimonials/02.jpg",
+      "text": "\" ارتباط با برگزارکننده رویداد خیلی راحته\"",
+      "name": "علی"
     },
     {
       "img": "img/testimonials/05.jpg",
-      "text": "\" \"",
-      "name": "John Doe"
+      "text": "\" رویداد رایگان آموزش پایتون خیلی کاربردی بود.\"",
+      "name": "فرزان"
     },
     {
       "img": "img/testimonials/06.jpg",
-      "text": "\" \"",
-      "name": "Johnathan Doe"
+      "text": "\" رویدادهای مورد علاقه به راحتی ذخیره می شوند.\"",
+      "name": "سارا"
     }
   ],
   "Team": [
