@@ -12,8 +12,13 @@ import EventsFilter from "./EventsFilter";
 import animationData from "../EventDetails/Animation - 1715854965467.json";
 import Lottie from "react-lottie";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../Authentication/authProvider";
+import { ToastContainer, toast } from 'react-toastify';
+import { useParams } from 'react-router-dom';
 
 const EventsList = () => {
+  // const auth = useAuth()
+  // const [isBookmarked, setBookmark] = useState(false);
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
@@ -85,7 +90,6 @@ const EventsList = () => {
     const fetchEvents = async () => {
       try{
       setLoading(true);
-
       const baseUrl = "https://eventify.liara.run/events";
       let queryParams = [];
       if (data.selectedTags.length > 0)
@@ -110,6 +114,7 @@ const EventsList = () => {
         ...event,
         start_date: replaceMonthNames(event.start_date),
       }));
+      // console.log(response.data.results)
       setPosts(events);
       setLoading(false);
     }
@@ -128,20 +133,42 @@ const EventsList = () => {
     setLoading(true);
   };
 
-  const bookmarkToggler = (event_id) => {
-    if (userData != null) {
-      if (event_id in bookmarkedEvents) {
-        bookmarkedEvents[event_id] = !bookmarkedEvents[event_id];
-        setBookmarkedEvents({ ...bookmarkedEvents });
-      } else {
-        bookmarkedEvents[event_id] = true;
-        setBookmarkedEvents({ ...bookmarkedEvents });
-      }
-    } else {
-      alert("برای افزودن به علاقه مندی ها باید وارد سیستم شوید!");
-      navigator("/login");
-    }
-  };
+//   const bookmarkToggler = async (id) =>{
+//     if(auth.token!==""){
+//         try{
+//             const response = await axios.post('https://eventify.liara.run/events/'+id+'/bookmark/',id,{headers: {
+//                 "Content-Type": "application/json",
+//                 accept: "application/json",
+//                 Authorization:`JWT ${auth.token}`,
+//             }},);
+//             console.log(response);
+//             if (isBookmarked === false){
+//                 setBookmark(true);
+//                 toast.success('رویداد به علاقه مندی ها اضافه شد ');
+
+//             // return "bi bi-bookmark-plus";
+//             }
+//             else{
+//                 setBookmark(false);
+//                 toast.error('رویداد از علاقه مندی ها حذف شد ');
+
+//                 // return "bi bi-bookmark-plus-fill";
+//             }
+//         }catch (error) {
+
+
+//         }
+        
+//     }else{
+//         // toast.error('برای افزودن به علاقه مندی ها باید وارد سیستم شوید!');
+//     // setTimeout(() => {
+//     //     navigator('/login');
+//     // }, 2500);
+// }
+    
+   
+
+// }
 
   return (
     <Card className="events-list">
@@ -168,21 +195,22 @@ const EventsList = () => {
                         />
                       </div>
                     </Link>
-
+                  {/* { auth.token && ( */}
                     <div class="container">
                       <div class="row">
                         <hr className="custom-hr" />
-                        <a
+                        {/* <a
                           class={
                             bookmarkedEvents[event.id]
                               ? "bi bi-bookmark-plus-fill"
                               : "bi bi-bookmark-plus"
                           }
                           onClick={() => bookmarkToggler(event.id)}
-                        ></a>
+                        ></a> */}
                         <hr className="custom-hr" />
                       </div>
                     </div>
+
 
                     <Link to={`/event-details/${event.id}`}>
                       <div className="event-info">
