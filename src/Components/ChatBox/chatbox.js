@@ -213,7 +213,6 @@ const ChatBox = ({setShowChatBox, userName, conversationId, profile, userId, mes
         />
         <UserInfo>
           <UserName style={{color: "#ffeba7"}}>{userName}</UserName>
-          <UserStatus>Online</UserStatus>
         </UserInfo>
       </HeaderContainer>
       <MessagesContainer>
