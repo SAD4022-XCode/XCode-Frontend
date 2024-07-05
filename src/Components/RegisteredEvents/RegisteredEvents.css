@@ -3,10 +3,11 @@
     overflow-y: auto;
     height: 100vh;
     background-color: #4b4b4b ;
-    max-width: 1500px;
+    
     position: relative;
-    left: -3.85%;
+    left: -9%;
     top: -1px;
+    max-width: 1690px !important;
     
 }
 
