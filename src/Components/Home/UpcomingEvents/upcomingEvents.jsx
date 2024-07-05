@@ -49,61 +49,65 @@ const UpcomingEvents = () => {
         }
     ];
 
-    const getUpcomingEvents = async() => {
+    const getUpcomingEvents = async () => {
         const baseUrl = "https://eventify.liara.run/events/";
-        const response = await axios.get(baseUrl)
-        let eventsdata = response.data.results
-        let eventURLs = []
-        for (let i = 0; i < 5; i++) {
-            let URL = "https://eventify.liara.run/events/" + eventsdata[i].id.toString()
-            eventURLs.push(URL)
-            // console.log("Event IDS")
-            // console.log(URL)
+        const startDate = moment().startOf('day').toISOString(); // Get today's date in ISO format
+        console.log(startDate)
+        const response = await axios.get(`${baseUrl}?starts=${startDate}`);
+        const eventsData = response.data.results;
+
+        // Filter events that have a photo and limit to 5 events
+        const filteredEvents = eventsData.filter(event => event.photo).slice(0, 5);
+        setAllEvents(filteredEvents);
+        setEventsLoaded(true);
+        setIsLoaded(true);
+    };
+
+
+    useEffect(() => {
+        if (!eventsLoaded) {
+            getUpcomingEvents();
         }
-        setEventIds(eventURLs)
-    }
+    }, [eventsLoaded]);    
+    // useEffect((eventsLoaded) => {  
+    //     // if (eventsLoaded==true){
+    //         if (eventsLoaded == false){
+    //             // getUpcomingEvents()               --commented--
+    //             // setTimeout(() => {
+    //             setEventsLoaded(true);
+    //             // }, 2000);
+    //         }
 
-
-        
-    useEffect((eventsLoaded) => {  
-        // if (eventsLoaded==true){
-            if (eventsLoaded == false){
-                // getUpcomingEvents()               --commented--
-                // setTimeout(() => {
-                setEventsLoaded(true);
-                // }, 2000);
-            }
-
-            // console.log("All Event IDS in the loop")
-            console.log("eventIds")
-            console.log(eventIds)
-            console.log(eventsLoaded)
+    //         // console.log("All Event IDS in the loop")
+    //         console.log("eventIds")
+    //         console.log(eventIds)
+    //         console.log(eventsLoaded)
             
-            for (let i = 0; i < 5; i++){
-                let event_url = eventIds[i];
-                console.log("event url")
-                console.log(event_url)
+    //         for (let i = 0; i < 5; i++){
+    //             let event_url = eventIds[i];
+    //             console.log("event url")
+    //             console.log(event_url)
                 
-                const fetchData = async () => {
-                    try {
-                        const response = await axios.get(event_url);
-                        events[i] = response.data
-                        setIsLoaded(true);
-                    } catch (error) {
-                    console.log("we have error")
-                } finally { 
-                    // setLoading(false);
-                }
-                };
-                fetchData();
-            }
-        // }
-    // if(isLoaded){
-        setAllEvents(events);
-    // }
+    //             const fetchData = async () => {
+    //                 try {
+    //                     const response = await axios.get(event_url);
+    //                     events[i] = response.data
+    //                     setIsLoaded(true);
+    //                 } catch (error) {
+    //                 console.log("we have error")
+    //             } finally { 
+    //                 // setLoading(false);
+    //             }
+    //             };
+    //             fetchData();
+    //         }
+    //     // }
+    // // if(isLoaded){
+    //     setAllEvents(events);
+    // // }
         
-    console.log('all events: ', allEvents)
-    }, []);
+    // console.log('all events: ', allEvents)
+    // }, []);
     
     const dateConverter=(date) => {
         const jalali = moment(date).locale('fa').format('jYYYY/jMM/jDD');
@@ -114,7 +118,7 @@ const UpcomingEvents = () => {
 
 
      const [activeImageNum, setCurrent] = useState(0);
-     const length = 5;
+     const length = Math.min(allEvents.length, 5);
      const nextSlide = () => {
         setCurrent(activeImageNum === length - 1 ? 0 : activeImageNum + 1);
      };
@@ -189,7 +193,7 @@ const UpcomingEvents = () => {
                             <i className="bi bi-cash" />
                             <p className="paragraph">{currentSlide.attendance ==="I" ? "حضوری" : "مجازی"}</p>
                             <i className="bi bi-geo-alt-fill" />
-                            <p className="paragraph">{dateConverter(currentSlide.starts)}</p>
+                            <p className="paragraph">{dateConverter(currentSlide.start_date)}</p>
                             <i className="bi bi-calendar-date" />
                         </div>
                        
