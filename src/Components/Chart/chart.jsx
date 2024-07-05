@@ -12,7 +12,6 @@ const EventChart = ({paidOnline,paidInperson,freeOnline,freeInperson }) => {
         { name: 'آنلاین', paid: paidOnline, free: freeOnline }
       ];
       setData(chartData);
-      console.log("my bar chart data", data);
     };
 
     generateChartData();

@@ -98,9 +98,7 @@ const ChatBox = ({setShowChatBox, userName, conversationId, profile, userId, mes
   const [marginRight, setMarginRight ] =useState()
   let isSending = false
   let profileImage = profile ??'https://chatscope.io/storybook/react/assets/joe-v8Vy3KOS.svg'
-  console.log("profile image:::",profileImage)
   const fetchMessages = async () => {
-    console.log("5000 ms")
     try{
       let response = await axios.get(
         `https://eventify.liara.run/conversations/${conversationId}/message_history`,
@@ -110,17 +108,13 @@ const ChatBox = ({setShowChatBox, userName, conversationId, profile, userId, mes
           }
         }
       )
-      // console.log(auth.token)
       setMessages([])
-      // console.log("mock messages:",mockMessages)
       response.data.forEach((message, index) => {    
         message.type="text"      
-        // console.log("my message:\n",message)
         if (message.sender===myId){
           message.sender=username
           message.position="right"
         }else{ 
-          // console.log("username of chat:",userName)
           message.sender=userName
           message.position="left"
         }
@@ -128,7 +122,6 @@ const ChatBox = ({setShowChatBox, userName, conversationId, profile, userId, mes
       })
      
     }catch(e){
-      console.log("error in chatbox",e)
     }
   }
 
@@ -157,7 +150,6 @@ const ChatBox = ({setShowChatBox, userName, conversationId, profile, userId, mes
             Authorization:`JWT ${auth.token}`,
           }
         });
-        console.log('Message sent successfully');
         fetchMessages();
         
       } catch (error) {
@@ -169,7 +161,6 @@ const ChatBox = ({setShowChatBox, userName, conversationId, profile, userId, mes
 
   const handleBackClick = () => {
     setShowChatBox(false)
-    console.log('Back button clicked');
   };
 
   useEffect(() =>{

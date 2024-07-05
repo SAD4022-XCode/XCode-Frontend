@@ -16,7 +16,6 @@ const ProfileSidebar = () => {
         let arrow = document.querySelectorAll(".arrow");
         for (var i = 0; i < arrow.length; i++) {
             let arrowParent = e.target.parentElement.parentElement.parentElement; //selecting main parent of arrow
-            // console.log(arrowParent);
             arrowParent.classList.toggle("showMenu");
         }
     }

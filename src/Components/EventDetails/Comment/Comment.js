@@ -61,12 +61,10 @@ const Comment = ({
                         if (vote !== "upvote" && !hasLiked) {
                             updateScore(id, 'upvote');
                             setVote("upvote");
-                            console.log(score);
                         }
                         else {
                             updateScore(id, 'downvote');
                             setVote("downvote");
-                            console.log(score);
                         }
                     }}
                         />

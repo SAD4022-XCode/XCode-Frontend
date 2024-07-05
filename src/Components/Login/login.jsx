@@ -45,15 +45,11 @@ const Login = () => {
                   Authorization: `Bearer ${tokenResponse.access_token}`,
                 },}
               );
-              console.log(res);
-              console.log("-----------------------------------------");
-              toast.success("!با موفقیت وارد شدید");
-              console.log("hello world!");  
+              toast.success("!با موفقیت وارد شدید");  
               setTimeout(() => {
                 navigator('/home');
               }, 4000);
             }catch(err){
-              console.log(err);
             }
     
         },
@@ -93,12 +89,10 @@ const Login = () => {
                 setEnteredLoginPassword("");
                 toast.success("!با موفقیت وارد شدید");
                 
-              // console.log("start fetching user data");            
               // const response2 = await axios.get(`https://eventify.liara.run/account/me/`,{headers: {
               //     "Content-Type": "application/json",
               //     Authorization:`JWT ${response.data.access}`,
               // }});
-              // console.log(response2.data)
                 setTimeout(() => {
                   navigator('/home');
                 }, 4000);

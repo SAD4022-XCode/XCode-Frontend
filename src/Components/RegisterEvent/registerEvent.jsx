@@ -29,7 +29,6 @@ const RegisterEvent = () =>{
     const eventIdExtractor = () => {
         const url = window.location.pathname;
         const event_id = url.split('/').pop();
-        // console.log("event_id", event_id);
         return event_id;
     }
 
@@ -65,15 +64,12 @@ const RegisterEvent = () =>{
             try {
                 const event_id = eventIdExtractor();
                 setEventId(event_id);
-                console.log("start fetching data")
                 const response = await axios.get(`https://eventify.liara.run/events/${event_id}/`);
                 setEventDetails(response.data);
-                console.log("Console:\n", eventDetails)
                 setTimeout(() => {
                     setIsLoaded(true);
                 }, 1000);
             } catch (error) {
-                console.log("we have error")
                 // setError(true); 
                 setTimeout(() => {
                     setIsLoaded(false);
@@ -102,8 +98,6 @@ const RegisterEvent = () =>{
 
         if (handleTerms){
         
-            console.log("sending data");
-            console.log(registerDetails);
             axios.post(`https://eventify.liara.run/events/${event_id}/enroll/`, registerDetails,
                 {headers:{
                     "Content-Type": 'application/json',
@@ -111,22 +105,16 @@ const RegisterEvent = () =>{
                 }}
             )
             .then(response => {
-                console.log('Data sent successfully:', response.data);
                 toast.success("ثبت نام با موفقیت انجام شد")
                 setTimeout(() => {
                     navigator('/home');
                 }, 7000);
             })
             .catch(error => {
-                console.log('Error sending data:', error);
-                console.log("status code is:",error.response.status)
-                console.log(auth.token);
                 toast.error("خطا در ثبت نام رویداد")
                 if (error.response && error.response.status === 401) {
-                    console.log("Authentication failed. Please log in again.");
                     auth.logOut()
                 } else {
-                    console.error("An error occurred:", error);
                 }
                 
             });

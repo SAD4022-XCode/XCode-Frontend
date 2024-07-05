@@ -37,7 +37,6 @@ const ChangePassword = () => {
       new_password: values.newPassword,
       current_password: values.password,
     })
-      console.log(values);
     },
   });
   return (

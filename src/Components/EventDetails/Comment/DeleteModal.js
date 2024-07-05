@@ -12,7 +12,7 @@ const DeleteModal = ({
   axios.defaults.headers.common["Authorization"] = `JWT ${auth.token}`;
   const deleteComment = async (id) => {
     const baseUrl = `https://eventify.liara.run/comments/${id}/`;
-    console.log(auth.token);
+   
     await axios.delete(baseUrl).then(() => {
       setDeleteComment(false);
       setData(data);

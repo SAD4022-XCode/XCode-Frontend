@@ -60,9 +60,6 @@ const BookmarkedEvents = () => {
       const response = await axios.get(baseUrl, {
         headers: { Authorization: `JWT ${auth.token}` },
       });
-      console.log("my bookmarked events are:",response.data)
-      // .then((response) => {
-      // console.log("Data sent successfully:", response.data);
       let events = response.data;
       // Replace date strings with month names
       if (events) {
@@ -72,7 +69,6 @@ const BookmarkedEvents = () => {
         }));
         setPosts(events);
       }
-      // console.log(response);
       setLoading(false);
     }
     catch (error) {

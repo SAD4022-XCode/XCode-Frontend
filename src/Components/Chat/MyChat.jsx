@@ -18,7 +18,6 @@ const MyChat = ({ setShowChatBox, setUserName , setConversationId, setProfile, s
   const [currentUserData, setCurrentUserData] = useState(
     JSON.parse(localStorage.getItem("userData")) || ""
   );
-  console.log(currentUserData);
   // const getUserData = async () => {
   //   const response = await axios.get(`https://eventify.liara.run/account/me/`, {
   //     headers: {
@@ -27,7 +26,6 @@ const MyChat = ({ setShowChatBox, setUserName , setConversationId, setProfile, s
   //     },
   //   });
   //   setCurrentUserData(response.data)
-  //   setTimeout(()=>{console.log(currentUserData)},1000)
   // };
   // getUserData();
   const defaultOptions = {
@@ -76,27 +74,20 @@ const MyChat = ({ setShowChatBox, setUserName , setConversationId, setProfile, s
             headers: { Authorization: `JWT ${auth.token}` },
           }
         );
-        console.log(response);
       //   let needed_data = []
       //   for (let i = 0; i < response.data.length; i++){
       //   if (response.data[i].participants[0].user.username === currentUserData.user.username){
       //     needed_data = {id: response.data[i].id, profile_picture:response.data[i].participants[1].profile_picture, username:response.data[i].participants[1].user.username, content: response.data[i].last_message.content, is_read: response.data[i].last_message.is_read, time: response.data[i].last_message.timestamp} 
       //     setContacts(contacts => [...contacts,needed_data])
-      //     console.log(needed_data)
-      //     // console.log(response.data[i].participants[1])
       //   }
       //   else{
       //     needed_data = {id: response.data[i].id, profile_picture:response.data[i].participants[0].profile_picture, username:response.data[i].participants[0].user.username, content: response.data[i].last_message.content, is_read: response.data[i].last_message.is_read, time: response.data[i].last_message.timestamp} 
       //     setContacts(contacts => [...contacts,needed_data])
-      //     console.log(needed_data)
-      //     // console.log(response.data[i].participants[0])
       //   }
       // }
     //     setTimeout(()=>{
-    //     console.log(contacts)
     //     },1000)
     //   } catch (error) {
-    //     console.log(error);
     //   }
     // };
     const newContacts = response.data.map((conversation) => {
@@ -120,10 +111,8 @@ const MyChat = ({ setShowChatBox, setUserName , setConversationId, setProfile, s
     const sortedContacts = newContacts.sort((a, b) => new Date(b.time) - new Date(a.time));
         
     setContacts(sortedContacts);
-    console.log(contacts)
     setLoading(false);
   } catch (error) {
-    // console.log(error);
   }
 };
     fetchData();

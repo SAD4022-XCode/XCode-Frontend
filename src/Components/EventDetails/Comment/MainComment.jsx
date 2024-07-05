@@ -28,14 +28,11 @@ const MainComment = (id) => {
         axios.defaults.headers.common["Authorization"] = `JWT ${auth.token}`;
         const baseUrl = `https://eventify.liara.run/events/${id.id}/comments/`;
         const response = await axios.get(baseUrl);
-        // console.log(response)
         const comments = response.data.comments;
         initialDataLength.current = comments.length; // set initial data length
-        // console.log(comments);
         setData(comments);
         const timeZoneOffset = "+3:30"; // Change this to your timezone offset
         setInitialFetchDone(true);
-        console.log(comments);
         const translateTime = (time) => {
           let translatedTime = moment.utc(time).local().fromNow();
           const translations = {
@@ -79,7 +76,6 @@ const MainComment = (id) => {
       }
     }
     catch (error){
-      // console.log(error)
       }
     };
     fetchComments();
@@ -117,7 +113,6 @@ const MainComment = (id) => {
 
   //   addReplyToComments(temp);
   //   setData([...temp]);
-  //   console.log(data);
   // };
   const addNewCommentBack = async (newData) => {
     axios.defaults.headers.common["Authorization"] = `JWT ${auth.token}`;
@@ -226,7 +221,6 @@ const MainComment = (id) => {
       }
     }
     setData(temp);
-    console.log(temp);
   };
 
   const updateScore = (id, action) => {

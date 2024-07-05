@@ -23,7 +23,6 @@ const Noty = () => {
   const [click, setClick] = useState(0);
   const clickHandler = () => {
     setClick(click + 1);
-    console.log(click);
   };
   return (
     <>

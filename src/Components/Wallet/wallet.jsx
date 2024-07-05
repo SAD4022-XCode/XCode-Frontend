@@ -76,14 +76,12 @@ const Wallet = ({balance=0}) =>  {
   }
   const chargeWallet = (event) => {
     // toast.success("موجودی حساب شما با موفقیت افزایش پیدا کرد")
-    console.log("send request to backend")
     axios.post('https://eventify.liara.run/account/deposit/', {amount:chargeValue},
       {headers:{
           "Content-Type": "application/json",
           Authorization: `JWT ${auth.token}`,
       }})
     .then(response => {
-        console.log('wallet charged successfully:', response.data);
         setShowingBalance(showingBalance + chargeValue);
         toast.success("موجودی حساب شما با موفقیت افزایش پیدا کرد")
         async function fetchUserData() {
@@ -96,10 +94,8 @@ const Wallet = ({balance=0}) =>  {
                 });
                 
                 localStorage.setItem("userData", JSON.stringify(response.data));
-                console.log("Navbar: ",response);
             } catch (error) {
                 if (error.response && error.response.status === 401) {
-                    console.log("Authentication failed. Please log in again.");
                     auth.logOut()
                 } else {
                     console.error("An error occurred:", error);

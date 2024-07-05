@@ -32,19 +32,15 @@ const MyEvents = () => {
         
         const fetchData = async () => {
             try {
-                console.log("start fetching data")
                 const response = await axios.get('https://eventify.liara.run/account/my_events/',{headers: {
                     "Content-Type": "application/json",
                     accept: "application/json",
                     Authorization:`JWT ${auth.token}`,
                 }});
-                console.log("Console Event details response:\n",response.data)
                 setEventDetails(response.data);
-                console.log("Console Event Details state:\n", eventDetails)
                 
                 
             } catch (error) {
-                console.log("we have error")
                 
             } finally { 
             }
@@ -53,7 +49,6 @@ const MyEvents = () => {
     }, []);
 
     useEffect(() => {
-        console.log("Event Details state updated:", eventDetails);
         setTimeout(() => {
             setIsLoaded(true);
         }, 1000);
@@ -62,7 +57,6 @@ const MyEvents = () => {
     const dateConverter=(date) => {
         const jalali = moment(date).locale('fa').format('jYYYY/jMM/jDD');
         
-        console.log(jalali);
         return jalali;
     }
 

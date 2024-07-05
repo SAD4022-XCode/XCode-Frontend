@@ -40,7 +40,6 @@ const Landing = () => {
           freeOnline:response.data.free_online_events,
           paidOnline:response.data.paid_online_events
         }
-        console.log("get chart data from server:::",data)
 
   // let data = axios.get("website statistics api");
         setWebsiteStatistics(data)

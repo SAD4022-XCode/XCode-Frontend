@@ -29,7 +29,6 @@ const Navbar = () => {
                 //     }});
                 //     localStorage.setItem("userData",JSON.stringify(response.data));
                 //     setUserData(response.data);
-                //     console.log(response.data)
                 //     setIsLoggedIn(true) 
                     try {
                         const response = await axios.get(`https://eventify.liara.run/account/me/`, {
@@ -38,17 +37,13 @@ const Navbar = () => {
                                 Authorization: `JWT ${auth.token}`,
                             }
                         });
-                        console.log(auth.token)
                         localStorage.setItem("userData", JSON.stringify(response.data));
                         setUserData(response.data);
                         setIsLoggedIn(true);
-                        console.log("Navbar: ",response);
                     } catch (error) {
                         if (error.response && error.response.status === 401) {
-                            console.log("Authentication failed. Please log in again.");
                             auth.logOut()
                         } else {
-                            console.error("An error occurred:", error);
                         }
                     }
                 }
@@ -83,9 +78,7 @@ const Navbar = () => {
     }, [isOpen]);
 
     const handleshowDrawer = () => {
-        console.log("show navbar",showDrawer)
         setshowDrawer(!showDrawer) ;
-        console.log("show navbar",showDrawer)
         if(showBorder===false){
             setTimeout(() => {setShowBorder(!showBorder)}, 300);
         }else{

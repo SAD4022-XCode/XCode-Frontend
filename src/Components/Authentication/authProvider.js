@@ -23,7 +23,6 @@ const AuthProvider = ({ children }) => {
             return "password incorrect";
         }
     } catch (error) {
-        console.log("An error occurred:",error)
         return false;
     }
   };
@@ -34,7 +33,6 @@ const AuthProvider = ({ children }) => {
     setToken("");
     localStorage.removeItem("token");
     navigate("/home");
-    console.log("logout")
   };
 
   return (

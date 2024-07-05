@@ -59,7 +59,6 @@ const Register = () => {
   };
     try{
       let result = await auth.loginAction(userData);
-      console.log(auth.token)
       toast.success("!با موفقیت حساب کاربری خود را ساختید");
       setTimeout(() => {
         navigator('/home');
@@ -103,31 +102,22 @@ const Register = () => {
       email: enteredRegisterEmail,
       password: enteredRegisterPassword,
     };
-    // console.log(userData)
     if (registerUserNameValidation && registerEmailValidation && registerPasswordValidation && registerPasswordValidation2 && nameValidation) {
-      console.log("sending data to backend")
       axios.post('https://eventify.liara.run/auth/users/', userData)
         .then(response => {
           setShowViolation(false);
-          console.log('Data sent successfully:', response);
           autoLogin();
         })
         .catch(error => {
           try {
-            console.log('Error sending data:', error.response.request.responseText);
             const jsonObject = JSON.parse(error.response.request.responseText);
-            console.log(jsonObject);
             if(jsonObject.username && jsonObject.email){
-              console.log("username & email");
               toast.error("نام کاربری و ایمیل در سیستم موجود است")
             }else if(jsonObject.username){
-              console.log("username");
               toast.error("نام کاربری تکراری است")
             }else if(jsonObject.email){
-              console.log("email");
               toast.error("ایمیل تکراری است")
             }else if(jsonObject.password){
-              console.log("password");
               toast.error("رمزعبور انتخابی ضعیف است")
             }else{
               toast.error("خطا در برقراری ارتباط با سرور")

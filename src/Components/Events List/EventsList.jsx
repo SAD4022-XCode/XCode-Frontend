@@ -88,7 +88,6 @@ const EventsList = () => {
 
       const baseUrl = "https://eventify.liara.run/events";
       let queryParams = [];
-      // console.log(data);
       if (data.selectedTags.length > 0)
         queryParams.push(`tags=${data.selectedTags.join(", ")}`);
       if (data.eventType !== "")
@@ -102,11 +101,8 @@ const EventsList = () => {
 
       queryParams.push(`page=${currentPage}`);
       const fullUrl = `${baseUrl}?${queryParams.join("&")}`;
-      console.log("full url:", fullUrl);
-      // console.log(fullUrl);
       const response = await axios.get(fullUrl);
       // .then((response) => {
-      // console.log("Data sent successfully:", response.data);
       setTotalPages(response.data.count);
       let events = response.data.results;
       // Replace date strings with month names
@@ -115,11 +111,9 @@ const EventsList = () => {
         start_date: replaceMonthNames(event.start_date),
       }));
       setPosts(events);
-      // console.log(response);
       setLoading(false);
     }
     catch (error){
-      // console.log(error);
     }
   }
 

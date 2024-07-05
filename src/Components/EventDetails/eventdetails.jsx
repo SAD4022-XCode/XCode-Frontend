@@ -72,10 +72,8 @@ const EventDetails = () => {
     const auth = useAuth();
 
     const bookmarkToggler = async () =>{
-            console.log("My token:",auth.token)
             if(auth.token!==""){
                 try{
-                    console.log("asdqwe")
                     const response = await axios.post('https://eventify.liara.run/events/'+id+'/bookmark/',{},{headers: {
                         "Content-Type": "application/json",
                         accept: "application/json",
@@ -99,7 +97,6 @@ const EventDetails = () => {
                 }
                 
             }else{
-                console.log("errorrrrrrrrrr")
                 // toast.error('برای افزودن به علاقه مندی ها باید وارد سیستم شوید!');
             // setTimeout(() => {
             //     navigator('/login');
@@ -115,31 +112,25 @@ const EventDetails = () => {
         const fetchData = async () => {
             try {
                 if(auth.token!==""){
-                    console.log("start fetching data")
                     const response = await axios.get('https://eventify.liara.run/events/'+id,{headers: {
                         "Content-Type": "application/json",
                         accept: "application/json",
                         Authorization:`JWT ${auth.token}`,
                     }},);
-                    console.log("Console:\n",response.data)
                     setEventDetails(response.data);
                     setBookmark(response.data.bookmarked)
                 }
                 else{
-                    console.log("start fetching data")
                     const response = await axios.get('https://eventify.liara.run/events/'+id,{headers: {
                         "Content-Type": "application/json",
                         accept: "application/json",
                     }},);
-                    console.log("Console:\n",response.data)
                     setEventDetails(response.data);
                 }
             } catch (error) {
                 if (error.response && error.response.status === 401) {
-                    console.log("Authentication failed. Please log in again.");
                     auth.logOut()
                 } else {
-                    console.error("An error occurred:", error);
                 }
                 setError(true); 
                 setTimeout(() => {
@@ -236,18 +227,14 @@ const EventDetails = () => {
     const copyToClipboard = () => {
         copy(currentUrl)
         .then(() => {
-            console.log('آدرس کپی شد:', currentUrl);
         })
         .catch(err => {
-            console.error('خطا در کپی کردن آدرس:', err);
         });
     };
 
     const copyLinkToClipboard = () => {
-        console.log("event date & time:",eventDateTime)
         copy(eventDetails.onlineevent.url)
         .then(() => {
-            console.log('لینک کپی شد:', eventDetails.onlineevent.url);
         })
         .catch(err => {
             console.error('خطا در کپی کردن لینک برگزاری:', err);
@@ -256,11 +243,9 @@ const EventDetails = () => {
 
     const handleMapData = (data) =>{
         
-        console.log("mapData")
     }
 
     const searchTagHandler = (tag) =>{
-        console.log(`selected tag: #${tag}`)
     }
     const eventTags = eventDetails.tags.map(tag => <div className="container" onClick={() =>searchTagHandler(tag)} style={{cursor:"pointer",borderRadius:"5px",margin:"5px",paddingTop:"3px",paddingBottom:"2px",paddingLeft:"4px",paddingRight:"4px",background:"#808080",width:"fit-content",fontSize:"12px",height:"20px"}}>{tag}#</div>);
     if (loading) {

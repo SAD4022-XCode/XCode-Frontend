@@ -19,14 +19,11 @@ const Home = () => {
         document.title = "ایونتیفای";
       }, []);
     const printUserData =async()=>{
-        console.log("my data",JSON.parse(localStorage.getItem("userData")))
 
-        // console.log("my token:",auth.token);
         // const response = await axios.get(`https://eventify.liara.run/account/me/`,{headers: {
         //     "Content-Type": "application/json",
         //     Authorization:`JWT ${auth.token}`,
         // }});
-        // console.log("respone:",response.data);
     }
     return (
         <center>

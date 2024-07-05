@@ -52,7 +52,6 @@ const UpcomingEvents = () => {
     const getUpcomingEvents = async () => {
         const baseUrl = "https://eventify.liara.run/events/";
         const startDate = moment().startOf('day').toISOString(); // Get today's date in ISO format
-        console.log(startDate)
         const response = await axios.get(`${baseUrl}?starts=${startDate}`);
         const eventsData = response.data.results;
 
@@ -78,15 +77,11 @@ const UpcomingEvents = () => {
     //             // }, 2000);
     //         }
 
-    //         // console.log("All Event IDS in the loop")
-    //         console.log("eventIds")
-    //         console.log(eventIds)
-    //         console.log(eventsLoaded)
+
             
     //         for (let i = 0; i < 5; i++){
     //             let event_url = eventIds[i];
-    //             console.log("event url")
-    //             console.log(event_url)
+
                 
     //             const fetchData = async () => {
     //                 try {
@@ -94,7 +89,6 @@ const UpcomingEvents = () => {
     //                     events[i] = response.data
     //                     setIsLoaded(true);
     //                 } catch (error) {
-    //                 console.log("we have error")
     //             } finally { 
     //                 // setLoading(false);
     //             }
@@ -106,13 +100,11 @@ const UpcomingEvents = () => {
     //     setAllEvents(events);
     // // }
         
-    // console.log('all events: ', allEvents)
     // }, []);
     
     const dateConverter=(date) => {
         const jalali = moment(date).locale('fa').format('jYYYY/jMM/jDD');
         
-        // console.log(jalali);
         return jalali;
     }
 

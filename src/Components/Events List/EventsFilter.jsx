@@ -146,7 +146,6 @@ const EventsFilter = ({ sendFilteredPosts }) => {
 
     const getData = setTimeout(() => {
       sendFilteredPosts(data);
-      // console.log(data);
     }, 800);
     return () => clearTimeout(getData);
   }, [eventPrice, eventType, eventStartDate, eventEndDate, selectedTags]);
@@ -155,7 +154,6 @@ const EventsFilter = ({ sendFilteredPosts }) => {
   //     axios
   //       .post("https://api.yourbackend.com/events", data)
   //       .then((response) => {
-  //         console.log("Data sent successfully:", response.data);
   //       })
   //       .catch((error) => {
   //         console.error("Failed to send data:", error);
@@ -174,7 +172,6 @@ const EventsFilter = ({ sendFilteredPosts }) => {
   //       setLoading(false);
   //       sendFilteredPosts(filteredPosts);
   //     } catch (error) {
-  //       console.log(error);
   //     }
   //   };
   //   fetchEvents();

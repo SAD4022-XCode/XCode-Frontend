@@ -49,12 +49,10 @@ const CreateEvent = () => {
     const [endTime, setEndTime] = useState(null);
     
     const printEventData = (event)=>{
-        console.log("")
     };
     const [showError ,setShowError] = useState([true,true,true,true,true,true,true,true,true]);
     const createEventHandler =(event)=>{
         event.preventDefault()
-        console.log("ssssssssssssssssssssssssssss")
         setShowViolations(true)
         let canSubmit = true;
         if (eventType==="O"){
@@ -118,7 +116,6 @@ const CreateEvent = () => {
                 organizer_SSN:ssn,
                 
             }
-            console.log(createEventData)
             
             axios.post('https://eventify.liara.run/events/',createEventData,
                 {headers:{
@@ -126,22 +123,16 @@ const CreateEvent = () => {
                     Authorization:`JWT ${auth.token}`,
                 }})
                 .then(response => {
-                    console.log('Data sent successfully:', response.data);
                     toast.success("رویداد ایجاد شد")
                     setTimeout(() => {
                     navigator('/home');
                     }, 7000);
                 })
                 .catch(error => {
-                    console.log('Error sending data:', error);
-                    console.log("status code is:",error.response.status)
-                    console.log(auth.token);
                     toast.error("خطا در ایجاد رویداد")
                     if (error.response && error.response.status === 401) {
-                        console.log("Authentication failed. Please log in again.");
                         auth.logOut()
                     } else {
-                        console.error("An error occurred:", error);
                     }
 
                 });
@@ -185,7 +176,6 @@ const CreateEvent = () => {
         event.preventDefault();
         const reader = new FileReader();
         const file =event.target.files[0];
-        console.log("file:",file)
         reader.onloadend = () => {
             setEventPhotoFile(file);
             setEventPhoto(reader.result);
@@ -308,13 +298,11 @@ const CreateEvent = () => {
         errors[7]=false
         setShowError(errors)
         setMapData(data);
-        // console.log(mapData)
     }
 
     const handleEventType = (event) => {
         printEventData();
         setShowViolations(false)
-        console.log("change event type")
         if (eventType==="I"){
             setEventType("O");
         }

@@ -73,12 +73,10 @@ const NotificationPanel = (reload) => {
           },
         }
       );
-      console.log(response);
       // setNotifications(response.data);
       // setTimeout(()=> {
       // setNotificationsCount(updateNotificationCount(notifications));
       // },1000);
-      // console.log(notificationsCount);
       const translatedNotifications = response.data.map((notification) => ({
         ...notification,
         title: translateTitle(notification.title),
@@ -94,7 +92,6 @@ const NotificationPanel = (reload) => {
       setNotificationsCount(updateNotificationCount(sortedNotifications));
     }
     catch (error){
-      console.log(error);
     }
   }
     fetchData();
@@ -112,7 +109,6 @@ const NotificationPanel = (reload) => {
     }, 400);
   }
   catch (error){
-    // console.log(error);
   }
   };
   delete axios.defaults.headers.common["Authorization"];

@@ -46,14 +46,12 @@ const OrganizerInfoModal = ({show,handleClose,email,phone,id}) => {
         content: input,
         recipient:id.toString(),
       }
-      console.log("sending message:",sendingMessage)
       try {
         let response =await axios.post('https://eventify.liara.run/messages/', sendingMessage, {
           headers: {
             Authorization:`JWT ${auth.token}`,
           }
         });
-        console.log('Message sent successfully');
         
         toast.success('پیام شما برای برگزارکننده ارسال شد', {
           position: "top-right",

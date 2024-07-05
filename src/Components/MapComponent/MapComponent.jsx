@@ -46,7 +46,6 @@ function LocationMarker(params) {
   );
 }
 const MapComponent = ({ sendDataToParent, lati, long, onlyShow, name }) => {
-  console.log(lati, long);
   const [classes, setClasses] = useState(name);
   const [marker, setMarker] = useState([
     {
@@ -66,17 +65,13 @@ const MapComponent = ({ sendDataToParent, lati, long, onlyShow, name }) => {
     return null;
   };
   const handleMapClick = (e) => {
-    console.log("only show ", onlyShow);
-    console.log(lati, long);
     if (onlyShow === true) {
-      console.log("only show");
     } else {
       const { lat, lng } = e.latlng;
       setMarker([
         { ...marker, geocode: [lat, lng], popUp: "محل برگزاری رویداد" },
       ]);
       sendDataToParent({ lat, lng });
-      console.log(lat, lng);
     }
   };
 

@@ -5,9 +5,7 @@ import GaugeChart from 'react-gauge-chart';
 
 export const Statistics = (statistics) => {
   const handleSta = () =>{
-    console.log(statistics);
   }
-  console.log("statistics:::",statistics);
   return (
     <div id="services" className="text-center">
       <div className="container">

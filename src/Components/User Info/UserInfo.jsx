@@ -44,7 +44,6 @@ const UserInfo = () => {
 
   const handleSelectedGender = (e) => {
     setSelectedGender(e.target.value);
-    console.log(JSON.parse(localStorage.getItem("userData")));
   };
   const initialValues = {
     username: userData.user.username,
@@ -107,7 +106,6 @@ const UserInfo = () => {
       formData.append("province", selectedProvince);
       formData.append("birth_date", dateValue);
       formData.append("profile_picture", file);
-      console.log(localStorage.getItem("userData"));
       try {
         await AxiosInstance.patch(
           `https://eventify.liara.run/account/me/`,
