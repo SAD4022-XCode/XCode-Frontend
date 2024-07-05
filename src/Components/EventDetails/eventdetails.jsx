@@ -72,7 +72,7 @@ const EventDetails = () => {
     const auth = useAuth();
 
     const bookmarkToggler = async () =>{
-        if (userData != null){
+            console.log("My token:",auth.token)
             if(auth.token!==""){
                 try{
                     console.log("asdqwe")
@@ -98,16 +98,16 @@ const EventDetails = () => {
 
                 }
                 
-            }
-            
-            
+            }else{
+                console.log("errorrrrrrrrrr")
+                // toast.error('برای افزودن به علاقه مندی ها باید وارد سیستم شوید!');
+            // setTimeout(() => {
+            //     navigator('/login');
+            // }, 2500);
         }
-        else{
-            toast.error('برای افزودن به علاقه مندی ها باید وارد سیستم شوید!');
-            setTimeout(() => {
-                navigator('/login');
-            }, 2500);
-        }
+            
+           
+        
     }
 
     useEffect(() => {
