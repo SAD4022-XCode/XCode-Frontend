@@ -82,6 +82,7 @@ const RegisterEvent = () =>{
                 // setLoading(false);
             }
         };
+
         fetchData();
     }, []);
 
@@ -111,9 +112,9 @@ const RegisterEvent = () =>{
             .then(response => {
                 console.log('Data sent successfully:', response.data);
                 toast.success("ثبت نام با موفقیت انجام شد")
-                // setTimeout(() => {
-                //     navigator('/home');
-                // }, 7000);
+                setTimeout(() => {
+                    navigator('/home');
+                }, 7000);
             })
             .catch(error => {
                 console.log('Error sending data:', error);
