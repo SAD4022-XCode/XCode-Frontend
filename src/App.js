@@ -21,6 +21,7 @@ import NotificationPanel from "./Components/NotificationPanel/NotificationPanel"
 import RegisteredEvents from "./Components/RegisteredEvents/RegisteredEvents";
 import ChatBox from "./Components/ChatBox/chatbox";
 import MainChat from "./Components/Chat/MainChat";
+import BookmarkedEvents from "./Components/BookmarkedEvents/BookmarkedEvents";
 function App() {
   return (
     <Router>
@@ -38,6 +39,7 @@ function App() {
             <Route exact path="/registered-events" element={<RegisteredEvents />} />
             <Route path="chat" element={<MainChat />} />
             <Route exact path="/register-event/:id" element={<RegisterEvent />}/>
+            <Route exact path="/bookmarked-events" element={<BookmarkedEvents />} />
           </Route>
           <Route exact path="/map" element={<MapComponent />} />
           <Route path="event-details/:id" element={<EventDetails />} />

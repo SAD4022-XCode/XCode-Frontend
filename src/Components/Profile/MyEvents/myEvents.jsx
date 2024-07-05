@@ -9,6 +9,7 @@ import {useNavigate} from 'react-router-dom';
 import moment from 'moment-jalaali';
 import Lottie from "react-lottie";
 import animationData from "./Animation - 1715854965467.json";
+import { useAuth } from "../../Authentication/authProvider";
 
 const MyEvents = () => {
     const [eventName, setEventName] = useState("");
@@ -17,8 +18,7 @@ const MyEvents = () => {
     const navigator = useNavigate();
     const [jalaliDate, setJalaliDate] = useState('');
     const [isLoaded, setIsLoaded] = useState(false);
-    const [eventDetails, setEventDetails] = useState([
-        {"photo":"https://eventify.liara.run/media/events/e138ed26e7acc72a629c8fa9000e58fa.webp"}])
+    const [eventDetails, setEventDetails] = useState()
     
     const defaultOptions = {
         loop: true,
@@ -26,17 +26,23 @@ const MyEvents = () => {
         clickToPause: true,
         animationData: animationData,
       };
+    const auth = useAuth();
 
     useEffect(() => {
         
         const fetchData = async () => {
             try {
                 console.log("start fetching data")
-                const response = await axios.get('https://eventify.liara.run/events/');
+                const response = await axios.get('https://eventify.liara.run/account/my_events/',{headers: {
+                    "Content-Type": "application/json",
+                    accept: "application/json",
+                    Authorization:`JWT ${auth.token}`,
+                }});
                 console.log("Console Event details response:\n",response.data)
-                setEventDetails(response.data.results);
+                setEventDetails(response.data);
                 console.log("Console Event Details state:\n", eventDetails)
-                setIsLoaded(true);
+                
+                
             } catch (error) {
                 console.log("we have error")
                 
@@ -45,6 +51,13 @@ const MyEvents = () => {
         };
         fetchData();
     }, []);
+
+    useEffect(() => {
+        console.log("Event Details state updated:", eventDetails);
+        setTimeout(() => {
+            setIsLoaded(true);
+        }, 1000);
+      }, [eventDetails]);
 
     const dateConverter=(date) => {
         const jalali = moment(date).locale('fa').format('jYYYY/jMM/jDD');
@@ -78,7 +91,7 @@ const MyEvents = () => {
             <section id="varieties">
                 <div class="sec-content-div">
 
-                    {eventDetails.map((event) => (
+                    {eventDetails.length>0 && eventDetails.map((event) => (
                     <div className='tile' onClick={() => navigator(`/event-details/${event.id}`)}>
                     {event.photo!== null  && <img src={event.photo} alt="photo" />}
                     {event.photo=== null  && <img src={require("../../../assets/events.jpg")} alt="photo" />}
@@ -93,6 +106,9 @@ const MyEvents = () => {
                     </div>
                         
                     ))}
+                    {eventDetails.length===0 && <div className="loading">
+                        <h2 style={{marginTop:"50px",color:"#ffeba7"}}>شما تاکنون رویدادی ایجاد نکرده اید</h2>
+                    </div>}
                 </div>
             </section>
         </div>

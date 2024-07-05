@@ -7,6 +7,7 @@ import axios from "axios";
 import Lottie from "react-lottie";
 import animationData from "./Animation - 1715854965467.json";
 import { ToastContainer, toast } from 'react-toastify';
+import {useNavigate} from 'react-router-dom';
 
 import 'react-toastify/dist/ReactToastify.css';
 import { useAuth } from "../Authentication/authProvider";
@@ -14,7 +15,7 @@ import { useAuth } from "../Authentication/authProvider";
 
 const RegisterEvent = () =>{
     const [isLoaded, setIsLoaded] = useState(false);
-
+    const navigator=useNavigate();
     const [name, setName] = useState('');
     const [familyName, setFamilyName] = useState('');
     const [email, setEmail] = useState('');
