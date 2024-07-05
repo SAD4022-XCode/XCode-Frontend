@@ -7,6 +7,7 @@ import axios from 'axios';
 import ProfileSidebar from "../Profile/ProfileSidebar/profileSidebar";
 import Navbar from "../Navbar/navbar";
 import './chatbox.css'
+import { useAuth } from "../Authentication/authProvider";
 
 
 
@@ -83,59 +84,43 @@ const ReceivedMessageBox = styled(MessageBox)`
 
 
 
-const ChatBox = ({setShowChatBox, userName}) => {
+const ChatBox = ({setShowChatBox, userName, conversationId, profile, userId, messages, setMessages}) => {
   const [userData, setUserData] = useState(JSON.parse(localStorage.getItem("userData")) || "");
   const username=userData.user.username;
-
-  const [mockMessages, setMockMessages] = useState( [
-    {
-      sender:username,
-      receiver:userName,
-      date:"Sun Jun 02 2023 16:55:32 GMT+0330 (Iran Standard Time)",
-      text:"msg 1"
-    },
-    {
-      sender:userName,
-      receiver:username,
-      date:"Sun Jun 02 2024 18:55:32 GMT+0330 (Iran Standard Time)",
-      text:"msg 2"
-    },
-    {
-      sender:userName,
-      receiver:username,
-      date:"Sun Jun 02 2024 19:55:32 GMT+0330 (Iran Standard Time)",
-      text:"msg 3"
-    },
-    {
-      sender:username,
-      receiver:userName,
-      date:"Sun Jun 02 2024 20:55:32 GMT+0330 (Iran Standard Time)",
-      text:"msg 4"
-    },
-  ]
-  
-  );
-  const [messages, setMessages] = useState([])
+  const myId=userData.user.id;
+  const auth = useAuth();
+  // const [messages, setMessages] = useState([])
   
   const receiver = "ali"
   const [inputValue, setInputValue] = useState('');
   const messagesEndRef = useRef(null);
 
   const [marginRight, setMarginRight ] =useState()
+  let isSending = false
+  let profileImage = profile ??'https://chatscope.io/storybook/react/assets/joe-v8Vy3KOS.svg'
+  console.log("profile image:::",profileImage)
   const fetchMessages = async () => {
+    console.log("5000 ms")
     try{
-      // let response = await axios.get("api address",{headers: {
-      //   "Content-Type": "application/json",
-      //   accept: "application/json",
-      //   // Authorization:`JWT ${auth.token}`,
-      // }})
+      let response = await axios.get(
+        `https://eventify.liara.run/conversations/${conversationId}/message_history`,
+        {
+          headers: {
+            Authorization:`JWT ${auth.token}`,
+          }
+        }
+      )
+      // console.log(auth.token)
       setMessages([])
       // console.log("mock messages:",mockMessages)
-      mockMessages.forEach((message, index) => {    
+      response.data.forEach((message, index) => {    
         message.type="text"      
-        if (message.sender===username){
+        // console.log("my message:\n",message)
+        if (message.sender===myId){
+          message.sender=username
           message.position="right"
         }else{ 
+          // console.log("username of chat:",userName)
           message.sender=userName
           message.position="left"
         }
@@ -150,6 +135,7 @@ const ChatBox = ({setShowChatBox, userName}) => {
 
   const handleSend = async() =>{
     if (inputValue.trim() !== '') {
+      isSending = !isSending
       const newMessage = {
         text: inputValue,
         date: new Date(),
@@ -159,24 +145,21 @@ const ChatBox = ({setShowChatBox, userName}) => {
         type:"text"
       };
       const sendingMessage = {
-        text: inputValue,
-        date: new Date(),
-        sender: username,
-        receiver:"akbar",
+        content: inputValue,
+        recipient:userId.toString(),
       }
       setMessages([...messages, newMessage]);
+
       setInputValue('');
       try {
-        let response =await axios.post('api address', sendingMessage, {
+        let response =await axios.post('https://eventify.liara.run/messages/', sendingMessage, {
           headers: {
-            "Content-Type": "application/json",
-            accept: "application/json",
-            // Authorization:`JWT ${auth.token}`,
+            Authorization:`JWT ${auth.token}`,
           }
         });
-        setMessages([...messages, newMessage]);
-        fetchMessages();
         console.log('Message sent successfully');
+        fetchMessages();
+        
       } catch (error) {
         console.error('Error sending message:', error);
       }
@@ -190,10 +173,10 @@ const ChatBox = ({setShowChatBox, userName}) => {
   };
 
   useEffect(() =>{
-    
-    fetchMessages();
+    const intervalId = setInterval(fetchMessages, 5000);
+    return () => clearInterval(intervalId);
 
-  },[])
+  },[conversationId])
 
   useEffect(() => {
     const handleResize = () => {
@@ -217,9 +200,10 @@ const ChatBox = ({setShowChatBox, userName}) => {
     };
   }, []);
 
+
   useEffect(() => {
     messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+  }, [isSending,]);
 
   return (
     <>
@@ -231,7 +215,7 @@ const ChatBox = ({setShowChatBox, userName}) => {
           <ArrowBack />
         </BackButton>
         <Avatar
-          src='https://chatscope.io/storybook/react/assets/joe-v8Vy3KOS.svg'
+          src={profileImage}
           alt='Profile Picture'
           size='large'
           type='circle'
@@ -249,7 +233,7 @@ const ChatBox = ({setShowChatBox, userName}) => {
           dataSource={messages.map((msg) => ({
             position: msg.position,
             type: msg.type,
-            text: msg.text,
+            text: msg.content,
             date: msg.date,
             title: msg.sender,
             className: msg.position === 'right' ? SentMessageBox : ReceivedMessageBox,

@@ -21,26 +21,39 @@ export const scroll = new SmoothScroll('a[href*="#"]', {
 });
 const Landing = () => {
   const [landingPageData, setLandingPageData] = useState({});
-  const [websiteStatistics,setWebsiteStatistics] = useState({
-    userCount:24000,
-    satisficationPercentage:0.87,
-    freeInperson:50,
-    paidInperson:25,
-    freeOnline:100,
-    paidOnline:20
-  });
+  const [isLoading, setIsLoading] = useState(false)
+  const [websiteStatistics,setWebsiteStatistics] = useState();
   useEffect(() => {
-    setLandingPageData(JsonData);
-    let data = {
-      userCount:24000,
-      satisficationPercentage:0.87,
-      freeInperson:50,
-      paidInperson:25,
-      freeOnline:100,
-      paidOnline:20
+    async function fetchWebsiteData() {
+      try {
+        const response = await axios.get(`https://eventify.liara.run/analytics/`, {
+            headers: {
+                "Content-Type": "application/json",
+            }
+        });
+        
+        let data = {
+          userCount:response.data.registered_users,
+          satisficationPercentage:0.87,
+          freeInperson:response.data.free_inperson_events,
+          paidInperson:response.data.paid_inperson_events,
+          freeOnline:response.data.free_online_events,
+          paidOnline:response.data.paid_online_events
+        }
+        console.log("get chart data from server:::",data)
+
+  // let data = axios.get("website statistics api");
+        setWebsiteStatistics(data)
+        setIsLoading(true)
+      } catch (error) {
+          
+        console.error("An error occurred:", error);
+          
+      }
     }
-    // let data = axios.get("website statistics api");
-    setWebsiteStatistics(data)
+    fetchWebsiteData()
+    setLandingPageData(JsonData);
+    
   }, []);
 
   return (
@@ -51,8 +64,8 @@ const Landing = () => {
           <Header data={landingPageData.Header} />
           <Features data={landingPageData.Features} />
           <About data={landingPageData.About} />
-          <Statistics data={websiteStatistics} />          
-          <Gallery data={landingPageData.Gallery} />
+          {isLoading && <Statistics data={websiteStatistics} />}
+          {/* <Gallery data={landingPageData.Gallery} /> */}
           <Testimonials data={landingPageData.Testimonials} />
           {/* <Team data={landingPageData.Team} /> */}
           <Contact data={landingPageData.Contact} />

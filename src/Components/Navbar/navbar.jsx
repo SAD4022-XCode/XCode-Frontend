@@ -38,7 +38,7 @@ const Navbar = () => {
                                 Authorization: `JWT ${auth.token}`,
                             }
                         });
-                        
+                        console.log(auth.token)
                         localStorage.setItem("userData", JSON.stringify(response.data));
                         setUserData(response.data);
                         setIsLoggedIn(true);
@@ -150,9 +150,9 @@ const Navbar = () => {
                     <li>
                     <NavLink to="/home" >خانه </NavLink>
                     </li>
-                    <li>
+                    {/* <li>
                     <NavLink to="/events">رویدادها</NavLink>
-                    </li>
+                    </li> */}
                     <li>
                         <NavLink to="/create-event" > ایجاد رویداد </NavLink>
                     </li>

@@ -38,7 +38,8 @@ const UserInfo = () => {
   const [selectedProvince, setSelectedProvince] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
   const [selectedGender, setSelectedGender] = useState("");
-  let userData = JSON.parse(localStorage.getItem("userData"));
+  // let userData = JSON.parse(localStorage.getItem("userData"));
+  const [userData, setUserData] = useState(JSON.parse(localStorage.getItem("userData")) || "");
 
   const handleSelectedGender = (e) => {
     setSelectedGender(e.target.value);
@@ -138,13 +139,14 @@ const UserInfo = () => {
       } catch (error) {
         // Handle errors if any of the requests fail
         //toast.error("An error occurred while updating your information.");
-        console.error("Error updating information:", error);
+        // console.error("Error updating information:", error);
       }
     },
   });
 
   useEffect(() => {
-    userData = JSON.parse(localStorage.getItem("userData"));
+    // userData = JSON.parse(localStorage.getItem("userData"));
+    setUserData(JSON.parse(localStorage.getItem("userData")) || "");
     if (userData) {
       setSelectedGender(userData.gender);
       setValue(userData.birth_date);
@@ -154,7 +156,7 @@ const UserInfo = () => {
     if (userData.profile_picture != null) {
       setImagePreviewUrl(userData.profile_picture);
     }
-  }, []);
+  }, [auth.token]);
 
   const ImgUpload = ({ onChange, src }) => (
     <label htmlFor="photo-upload" className="custom-file-upload fas">
