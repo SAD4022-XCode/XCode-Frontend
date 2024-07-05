@@ -10,13 +10,17 @@ import Lottie from "react-lottie";
 
 const UpcomingEvents = () => {
 
-    const event_ids = [
-        "https://eventify.liara.run/events/76",
-        "https://eventify.liara.run/events/79",
-        "https://eventify.liara.run/events/78",
-        "https://eventify.liara.run/events/77",
-        "https://eventify.liara.run/events/81",
-    ]
+    const [eventsLoaded, setEventsLoaded] = useState(false);
+    const [allEvents, setAllEvents] = useState([{}]);
+    
+    const [eventIds, setEventIds] = useState([ 
+        "https://eventify.liara.run/events/91",
+        "https://eventify.liara.run/events/92",
+        "https://eventify.liara.run/events/93",
+        "https://eventify.liara.run/events/94",
+        "https://eventify.liara.run/events/95",
+    ]);
+
 
     const navigator = useNavigate();
     const [isLoaded, setIsLoaded] = useState(false);
@@ -25,7 +29,7 @@ const UpcomingEvents = () => {
         autoplay: true,
         clickToPause: true,
         animationData: animationData,
-      };
+    };
 
     const events = [ 
         {
@@ -43,31 +47,57 @@ const UpcomingEvents = () => {
         {
             url: 'https://picsum.photos/id/2/3200/900',
         }
-     ];
+    ];
 
-    const [allEvents, setAllEvents] = useState([{}]);
-
-    useEffect(() => {
-        for (let i = 0; i < 5; i++){
-            let event_url = event_ids[i];
-            
-            const fetchData = async () => {
-                try {
-                    // const event_id = eventIdExtractor();
-                    // console.log("start fetching data")
-                    const response = await axios.get(event_url);
-                    // console.log("dataaaaa: ", response.data);
-                    events[i] = response.data
-                    // console.log("Console:\n", events)
-                    setIsLoaded(true);
-            } catch (error) {
-                    console.log("we have error")
-            } finally { 
-                // setLoading(false);
-            }
-        };
-        fetchData();
+    const getUpcomingEvents = async() => {
+        const baseUrl = "https://eventify.liara.run/events/";
+        const response = await axios.get(baseUrl)
+        let eventsdata = response.data.results
+        let eventURLs = []
+        for (let i = 0; i < 5; i++) {
+            let URL = "https://eventify.liara.run/events/" + eventsdata[i].id.toString()
+            eventURLs.push(URL)
+            // console.log("Event IDS")
+            // console.log(URL)
+        }
+        setEventIds(eventURLs)
     }
+
+
+        
+    useEffect((eventsLoaded) => {  
+        // if (eventsLoaded==true){
+            if (eventsLoaded == false){
+                // getUpcomingEvents()               --commented--
+                // setTimeout(() => {
+                setEventsLoaded(true);
+                // }, 2000);
+            }
+
+            // console.log("All Event IDS in the loop")
+            console.log("eventIds")
+            console.log(eventIds)
+            console.log(eventsLoaded)
+            
+            for (let i = 0; i < 5; i++){
+                let event_url = eventIds[i];
+                console.log("event url")
+                console.log(event_url)
+                
+                const fetchData = async () => {
+                    try {
+                        const response = await axios.get(event_url);
+                        events[i] = response.data
+                        setIsLoaded(true);
+                    } catch (error) {
+                    console.log("we have error")
+                } finally { 
+                    // setLoading(false);
+                }
+                };
+                fetchData();
+            }
+        // }
     // if(isLoaded){
         setAllEvents(events);
     // }
@@ -78,10 +108,9 @@ const UpcomingEvents = () => {
     const dateConverter=(date) => {
         const jalali = moment(date).locale('fa').format('jYYYY/jMM/jDD');
         
-        console.log(jalali);
+        // console.log(jalali);
         return jalali;
     }
-
 
 
      const [activeImageNum, setCurrent] = useState(0);
