@@ -69,18 +69,37 @@ const EventDetails = () => {
     const [error, setError] = useState(false);
     const [isBookmarked, setBookmark] = useState(false);
     let userData = JSON.parse(localStorage.getItem("userData"));
+    const auth = useAuth();
 
-    const bookmarkToggler = () =>{
+    const bookmarkToggler = async () =>{
         if (userData != null){
-    
-            if (isBookmarked === false){
-                setBookmark(true);
-                // return "bi bi-bookmark-plus";
+            if(auth.token!==""){
+                try{
+                    console.log("asdqwe")
+                    const response = await axios.post('https://eventify.liara.run/events/'+id+'/bookmark/',{},{headers: {
+                        "Content-Type": "application/json",
+                        accept: "application/json",
+                        Authorization:`JWT ${auth.token}`,
+                    }},);
+                    if (isBookmarked === false){
+                        setBookmark(true);
+                        toast.success('رویداد به علاقه مندی ها اضافه شد ');
+
+                    // return "bi bi-bookmark-plus";
+                    }
+                    else{
+                        setBookmark(false);
+                        toast.error('رویداد از علاقه مندی ها حذف شد ');
+
+                        // return "bi bi-bookmark-plus-fill";
+                    }
+                }catch (error) {
+
+
+                }
+                
             }
-            else{
-                setBookmark(false);
-                // return "bi bi-bookmark-plus-fill";
-            }
+            
             
         }
         else{
@@ -90,7 +109,6 @@ const EventDetails = () => {
             }, 2500);
         }
     }
-    const auth = useAuth();
 
     useEffect(() => {
         
@@ -105,6 +123,7 @@ const EventDetails = () => {
                     }},);
                     console.log("Console:\n",response.data)
                     setEventDetails(response.data);
+                    setBookmark(response.data.bookmarked)
                 }
                 else{
                     console.log("start fetching data")
@@ -266,7 +285,7 @@ const EventDetails = () => {
     return (
         <>
             <Navbar/>
-            <ToastContainer closeOnClick  className="toastify-container"position="top-right" toastStyle={{backgroundColor: "#2b2c38", fontFamily: "iransansweb", color: "#ffeba7",marginTop:"60px"}} pauseOnHover={false} autoClose={3000} />
+            {/* <ToastContainer closeOnClick  className="toastify-container"position="top-right" toastStyle={{backgroundColor: "#2b2c38", fontFamily: "iransansweb", color: "#ffeba7",marginTop:"60px"}} pauseOnHover={false} autoClose={3000} /> */}
             
 
             <div className="event-details"> 
