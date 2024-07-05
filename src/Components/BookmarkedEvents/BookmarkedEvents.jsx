@@ -91,7 +91,7 @@ const BookmarkedEvents = () => {
       <Navbar />
       <ProfileSidebar />
       <Card className="bookmarked-events">
-        <div className="container-fluid registered-events justify-content-center align-content-center pb-5 mb-5 mr-5">
+        <div className="container-fluid bookmarked-events-container justify-content-center align-content-center pb-5 mb-5 mr-5">
           {/* {isLaptopOrDesktop && ( */}
           <div className="items pb-5 mb-5 pt-5 mr-5">
             {loading && (
